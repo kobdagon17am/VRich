@@ -1,7 +1,7 @@
 @section('css')
 <link href='https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css' rel='stylesheet'>
 @endsection
-<title>บริษัท มารวยด้วยกัน จำกัด</title>
+<title>VRich</title>
 
 @extends('layouts.frontend.app')
 @section('conten')

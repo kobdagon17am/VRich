@@ -1,6 +1,4 @@
-    <title>บริษัท มารวยด้วยกัน จำกัด</title>
-
-    @extends('layouts.frontend.app')
+    <title>ds('layouts.frontend.app')
     <link rel="stylesheet" href="{{ asset('frontend/css/inputfile.css') }}">
 
 

@@ -517,7 +517,7 @@
 {{-- หัวกระดาษ --}}
 {{-- <div class="row">
     <div class="col-3">
-        <h3>บริษัท มารวยด้วยกัน จำกัด</h3>
+        <h3>VRich</h3>
     </div>
     <div class="col-9 text-right text-content">
         <p> Lorem ipsum dolor sit amet consectetur, adipisicing

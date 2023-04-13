@@ -3,9 +3,7 @@
     <link href='https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css' rel='stylesheet'>
 @endsection
 @section('conten')
-    <title>บริษัท มารวยด้วยกัน จำกัด</title>
-
-    <div class="bg-whiteLight page-content">
+    <title>lass="bg-whiteLight page-content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">

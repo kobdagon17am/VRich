@@ -2,7 +2,7 @@
 <html lang="th">
 
 <head>
-    <title>บริษัท มารวยด้วยกัน จำกัด</title>
+    <title>VRich</title>
     {{-- css --}}
     <link rel="stylesheet" href="{{ asset('backend/dist/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/dist/css/style.css') }}">

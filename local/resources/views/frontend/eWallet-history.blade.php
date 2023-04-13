@@ -1,4 +1,4 @@
-<title>บริษัท มารวยด้วยกัน จำกัด</title>
+<title>VRich</title>
 
 
 <style>

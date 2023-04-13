@@ -2,7 +2,7 @@
 <html lang="th">
 
 <head>
-    <title>บริษัท มารวยด้วยกัน จำกัด</title>
+    <title>VRich</title>
     @include('layouts.frontend.inc_header')
     @yield('css')
     <meta name="csrf-token" content="{{ csrf_token() }}" />
