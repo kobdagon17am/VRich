@@ -68,10 +68,10 @@
                                                 class="text-danger sizebusiness_err _err">*</span></label>
                                         <select name="sizebusiness" class="form-select" id="sizebusiness">
                                             <option selected disabled>เลือกขนาดธุรกิจ</option>
-                                            <option value="MB">MB</option>
-                                            <option value="MO">MO</option>
-                                            <option value="VIP">VIP</option>
-                                            <option value="VVIP">VVIP</option>
+                                            @foreach($dataset_qualification as $postion_value)
+                                            <option value="{{$postion_value->code}}">{{$postion_value->business_qualifications}}</option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-6">
