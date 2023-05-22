@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Member;
+use Admin;
 
 class Admin
 {

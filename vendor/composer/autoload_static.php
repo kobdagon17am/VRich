@@ -57,6 +57,7 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         ),
         'C' => 
         array (
+            'Composer\\Semver\\' => 16,
             'Complex\\' => 8,
             'Carbon\\' => 7,
         ),
@@ -122,8 +123,8 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         ),
         'Illuminate\\Support\\' => 
         array (
-            0 => __DIR__ . '/..' . '/illuminate/macroable',
-            1 => __DIR__ . '/..' . '/illuminate/collections',
+            0 => __DIR__ . '/..' . '/illuminate/collections',
+            1 => __DIR__ . '/..' . '/illuminate/macroable',
             2 => __DIR__ . '/..' . '/illuminate/support',
         ),
         'Illuminate\\Contracts\\' => 
@@ -133,6 +134,10 @@ class ComposerStaticInitf665345ab27b04fef57ebf109b5a8e17
         'Doctrine\\Inflector\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
+        ),
+        'Composer\\Semver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/semver/src',
         ),
         'Complex\\' => 
         array (

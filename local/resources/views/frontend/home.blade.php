@@ -123,8 +123,8 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.Member Line') }}</h5>
-                                            <p class="fs-12 text-pink">{{ __('text.Member Line') }}</p>
+                                            <h5>แลกโปรโมชั่น</h5>
+                                            <p class="fs-12 text-pink">แลกโปรโมชั่น</p>
                                         </div>
                                     </div>
                                 </div>
@@ -144,8 +144,8 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.Recommended Line') }}</h5>
-                                            <p class="fs-12 text-primary">{{ __('text.Line Management') }}</p>
+                                            <h5>สายงานสมาชิก</h5>
+                                            <p class="fs-12 text-primary"> สายงานสมาชิก </p>
                                         </div>
                                     </div>
                                 </div>
@@ -272,9 +272,9 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3 text-end">
                                     <h4 class="mb-0 text-purple1 bg-opacity-100 fw-bold">
-                                        <?php  $pv_upgrad = 0 ;?>
-                                        {{ number_format($pv_upgrad)}}</h4>
-                                    <p class="fs-12 text-secondary mb-0">{{ __('text.Pv. Accumulated Position') }}</p>
+                                        <h5 class="mb-0"> MY STOCK </h5>
+                                        </h4>
+                                    <p class="fs-12 text-secondary mb-0"> คลังสินค้าส่วนตัว </p>
                                 </div>
                             </div>
                         </button>
@@ -292,11 +292,11 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3 text-start">
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="mb-0">{{ __('text.Pv. Use') }}</h5>
+                                        <h5 class="mb-0"> TP ที่ใช้ได้ </h5>
                                         <h5 class="text-p1 text-end mb-0 fw-bold">
                                             {{ number_format(Auth::guard('c_user')->user()->pv) }}</h5>
                                     </div>
-                                    <p class="fs-12 text-secondary mb-0">{{ __('text.Pv. Use') }}</p>
+                                    <p class="fs-12 text-secondary mb-0"> TP ที่ใช้ได้ </p>
                                 </div>
                             </div>
                         </button>
@@ -362,13 +362,13 @@
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{ route('bonus_all') }}">โบนัสรวมทั้งหมด</a>
+                            <li><a class="dropdown-item" href="{{ route('bonus_all') }}">กำไรส่วนต่าง</a>
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">โบนัส Fast Start</a></li>
-                            <li><a class="dropdown-item" href="{{ route('bonus_team') }}">โบนัสบริหารทีม</a></li>
+                            <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">กำไรส่วนต่างทั้งทีม</a></li>
+                            {{-- <li><a class="dropdown-item" href="{{ route('bonus_team') }}">โบนัสบริหารทีม</a></li>
                             <li><a class="dropdown-item" href="{{ route('bonus_discount') }}">โบนัสส่วนลด</a></li>
                             <li><a class="dropdown-item" href="{{ route('bonus_matching') }}">โบนัส Matching</a></li>
-                            <li><a class="dropdown-item" href="{{ route('bonus_history') }}">ประวัติการโอนโบนัส</a></li>
+                            <li><a class="dropdown-item" href="{{ route('bonus_history') }}">ประวัติการโอนโบนัส</a></li> --}}
                         </ul>
                     </div>
                 </div>

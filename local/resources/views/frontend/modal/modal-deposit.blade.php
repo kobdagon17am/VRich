@@ -42,7 +42,8 @@
                                     <div class="flex-grow-1 ms-3">
                                         ธนาคารกสิกรไทย (สาขา เซนทรัล เฟสติวัล หาดใหญ่)<br>
                                         035-1-66563-7<br>
-                                                         </div>
+                                        VRich
+                                    </div>
                                 </div>
                             </div>
                             <div class="row gx-3 mb-3">

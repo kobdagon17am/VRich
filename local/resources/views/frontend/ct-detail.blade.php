@@ -1,4 +1,12 @@
-   <title>extends('layouts.frontend.app')
+   <title>VRich</title>
+
+
+
+
+
+
+
+   @extends('layouts.frontend.app')
    @section('conten')
        <div class="bg-whiteLight page-content">
            <div class="container-fluid">

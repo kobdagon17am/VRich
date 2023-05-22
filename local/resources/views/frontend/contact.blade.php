@@ -1,4 +1,6 @@
-    <title>ds('layouts.frontend.app')
+    <title>VRich</title>
+
+    @extends('layouts.frontend.app')
     <link rel="stylesheet" href="{{ asset('frontend/css/inputfile.css') }}">
 
 

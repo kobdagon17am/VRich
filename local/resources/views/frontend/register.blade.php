@@ -75,7 +75,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-6">
-                                        <label for="" class="form-label">PV <span
+                                        <label for="" class="form-label">TP <span
                                                 class="text-danger pv_err _err">*</span></label>
                                         <input name="pv" readonly type="text" class="form-control" id="pv">
                                     </div>
@@ -106,12 +106,11 @@
                                             <option selected disabled>เลือกเพศ</option>
                                             <option value="ชาย">ชาย</option>
                                             <option value="หญิง">หญิง</option>
-                                            <option vlaue="ไม่ระบุ">ไม่ระบุ</option>
+                                            {{-- <option vlaue="ไม่ระบุ">ไม่ระบุ</option> --}}
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-6">
-                                        <label for="" class="form-label">ชื่อทางธุรกิจ <span
-                                                class="text-danger business_name_err _err">*</span></label>
+                                        <label for="" class="form-label">ชื่อทางธุรกิจ </label>
                                         <input name="business_name" type="text" class="form-control" id="">
                                     </div>
                                     <div class="col-md-6 col-xl-2">

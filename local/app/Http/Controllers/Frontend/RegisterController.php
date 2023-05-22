@@ -45,7 +45,7 @@ class RegisterController extends Controller
         // BEGIN  data year   ::: age_min 20 age_max >= 80
         $yeay = date('Y');
         $age_min = 17;
-        $yeay_thai = date("Y", strtotime($yeay)) + 543 - $age_min;
+        $yeay_thai = date("Y", strtotime($yeay)) - $age_min;
         $arr_year = [];
         $age_max = 61;
         for ($i = 1; $i < $age_max; $i++) {
@@ -151,7 +151,7 @@ class RegisterController extends Controller
             'name.required' => 'กรุณากรอกข้อมูล',
             'last_name.required' => 'กรุณากรอกข้อมูล',
             'gender.required' => 'กรุณากรอกข้อมูล',
-            'business_name.required' => 'กรุณากรอกข้อมูล',
+
             'id_card.required' => 'กรุณากรอกข้อมูล',
             'id_card.min' => 'กรุณากรอกให้ครบ 13 หลัก',
             'id_card.unique' => 'เลขบัตรนี้ถูกใช้งานแล้ว',
