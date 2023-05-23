@@ -764,7 +764,7 @@ class OrderController extends Controller
                     'amt' => $item['cost'],
                     'warehouse_id_fk' => $item['warehouse_id_fk'],
                     'branch_id_fk' => $item['branch_id_fk'],
-                    'action_user' => Auth::guard('member')->user()->id,
+                    'action_user' => Auth::guard('admin')->user()->id,
                     'in_out' => 2,
                 ];
                 $query_stock_movement = StockMovement::create($dataPrepare);
@@ -794,7 +794,7 @@ class OrderController extends Controller
                     'amt' => $item['stock_amt'],
                     'warehouse_id_fk' => $item['warehouse_id_fk'],
                     'branch_id_fk' => $item['branch_id_fk'],
-                    'action_user' => Auth::guard('member')->user()->id,
+                    'action_user' => Auth::guard('admin')->user()->id,
                     'in_out' => 2,
                 ];
                 $query = StockMovement::create($dataPrepare);

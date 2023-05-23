@@ -70,12 +70,12 @@ class CustomerAllController extends Controller
                 return number_format($row->pv_upgrad);
             })
 
-            ->addColumn('bonus_xvvip', function ($row) {
-                $bonus_xvvip = \App\Http\Controllers\Frontend\FC\PvUpPositionXvvipController::get_pv_upgrade($row->user_name); //โบนัสสร้างทีม XVVIP
+            // ->addColumn('bonus_xvvip', function ($row) {
+            //     $bonus_xvvip = \App\Http\Controllers\Frontend\FC\PvUpPositionXvvipController::get_pv_upgrade($row->user_name); //โบนัสสร้างทีม XVVIP
 
 
-                return number_format($bonus_xvvip);
-            })
+            //     return number_format($bonus_xvvip);
+            // })
 
 
 

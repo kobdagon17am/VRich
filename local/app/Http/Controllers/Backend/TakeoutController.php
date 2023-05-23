@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Branch;
 use App\Http\Controllers\Controller;
 use App\Matreials;
-use App\Member;
+use App\Admin;
 use App\Products;
 use App\ProductsUnit;
 use App\Stock;
@@ -239,7 +239,7 @@ class TakeoutController extends Controller
                 'amt' => $request->amt,
                 'product_unit_id_fk' => $request->product_unit_id_fk,
                 'date_in_stock' => date('Y-m-d'),
-                's_maker' => Auth::guard('member')->user()->id,
+                's_maker' => Auth::guard('admin')->user()->id,
                 'business_location_id_fk' => 1,
             ];
 
@@ -252,7 +252,7 @@ class TakeoutController extends Controller
                 'amt' => $request->amt,
                 'product_unit_id_fk' => $request->product_unit_id_fk,
                 'action_date' => date('Y-m-d'),
-                'action_user' => Auth::guard('member')->user()->id,
+                'action_user' => Auth::guard('admin')->user()->id,
                 'business_location_id_fk' => 1,
                 'doc_no' => $request->doc_no,
                 'doc_date' => $request->doc_date,
@@ -260,7 +260,7 @@ class TakeoutController extends Controller
             ];
 
 
-            // ถ้ามีสินค้าในระบบแล้วจะเป็นการ อัพเดท จำนวนทับกับตัวเก่าที่มีใน stock 
+            // ถ้ามีสินค้าในระบบแล้วจะเป็นการ อัพเดท จำนวนทับกับตัวเก่าที่มีใน stock
             // stock_movement จะเป็นการสร้างใหม่ทุกครั้ง
             $data_check = Stock::where('branch_id_fk', $request->branch_id_fk)
                 ->where('materials_id_fk', $request->materials_id_fk)

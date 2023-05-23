@@ -50,9 +50,9 @@ return [
             'driver' => 'session',
             'provider' => 'c_users',
         ],
-        'member' => [
+        'admin' => [
             'driver' => 'session',
-            'provider' => 'member',
+            'provider' => 'admin',
         ],
 
     ],
@@ -84,9 +84,9 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\CUser::class,
         ],
-        'member' => [
+        'admin' => [
             'driver' => 'eloquent',
-            'model' => App\Member::class,
+            'model' => App\Admin::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

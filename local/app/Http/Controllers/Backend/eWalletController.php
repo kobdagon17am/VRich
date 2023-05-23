@@ -7,7 +7,7 @@ use App\Customers;
 use App\CustomersBank;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\Customer;
-use App\Member;
+use App\Admin;
 use App\Exports\Export;
 use App\Imports\Import;
 use App\Exports\Exportaccounting;
@@ -129,7 +129,7 @@ class eWalletController extends Controller
             })
 
             ->editColumn('ew_mark', function ($query) {
-                $member = Member::select('name', 'last_name')->where('id', $query->ew_mark)->first();
+                $member = Admin::select('name', 'last_name')->where('id', $query->ew_mark)->first();
                 $text_member =  $member != null ? $member['name'] . ' ' . $member['last_name'] : '-';
                 return $text_member;
             })
@@ -245,7 +245,7 @@ class eWalletController extends Controller
             })
 
             ->editColumn('ew_mark', function ($query) {
-                $member = Member::select('name', 'last_name')->where('id', $query->ew_mark)->first();
+                $member = Admin::select('name', 'last_name')->where('id', $query->ew_mark)->first();
                 $text_member =  $member != null ? $member['name'] . ' ' . $member['last_name'] : '-';
                 return $text_member;
             })
@@ -350,7 +350,7 @@ class eWalletController extends Controller
             })
 
             ->editColumn('ew_mark', function ($query) {
-                $member = Member::select('name', 'last_name')->where('id', $query->ew_mark)->first();
+                $member = Admin::select('name', 'last_name')->where('id', $query->ew_mark)->first();
                 $text_member =  $member != null ? $member['name'] . ' ' . $member['last_name'] : '-';
                 return $text_member;
             })
@@ -463,7 +463,7 @@ class eWalletController extends Controller
                     'code_refer' => $request->code_refer,
                     'balance' =>  $customers->ewallet,
                     'edit_amt' => $request->edit_amt != '' ? $request->edit_amt : 0,
-                    'ew_mark' => Auth::guard('member')->user()->id,
+                    'ew_mark' => Auth::guard('admin')->user()->id,
                     'date_mark' => date('Y-m-d H:i:s'),
                     'status' => 2,
                 ];
@@ -534,7 +534,7 @@ class eWalletController extends Controller
             $dataPrepare = [
                 'type_note' => $radio,
                 'note_orther' => $request->info_other,
-                'ew_mark' => Auth::guard('member')->user()->id,
+                'ew_mark' => Auth::guard('admin')->user()->id,
                 'date_mark' => date('Y-m-d H:i:s'),
                 'status' => 3,
             ];

@@ -2,7 +2,7 @@
 
 
 Route::get('/admin', function () {
-    if (Auth::guard('member')->check()) {
+    if (Auth::guard('admin')->check()) {
         return view('backend/index');
     } else {
         return view('frontend/login_admin');

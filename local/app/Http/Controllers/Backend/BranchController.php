@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\AddressProvince;
 use App\Branch;
 use App\Http\Controllers\Controller;
-use App\Member;
+use App\Admin;
 use App\Warehouse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -79,7 +79,7 @@ class BranchController extends Controller
                 'zipcode' => $request->zipcode,
                 'tel' => $request->tel,
                 'status' => $request->status == null ? 99 : 1,
-                'b_maker' =>   Auth::guard('member')->user()->id
+                'b_maker' =>   Auth::guard('admin')->user()->id
             ];
 
             $query = Branch::create($dataPrepare);
@@ -200,7 +200,7 @@ class BranchController extends Controller
                 'zipcode' => $request->zipcode,
                 'tel' => $request->tel,
                 'status' => $request->status == null ? 99 : 1,
-                'b_maker' =>   Auth::guard('member')->user()->id
+                'b_maker' =>   Auth::guard('admin')->user()->id
             ];
 
             $query = Branch::where('id', $request->id)->update($dataPrepare);

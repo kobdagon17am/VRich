@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Member;
+use App\Admin;
 use App\Reportissue;
 use App\ReportissueDoc;
 use Illuminate\Http\Request;

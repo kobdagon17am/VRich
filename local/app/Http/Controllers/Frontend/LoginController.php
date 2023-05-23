@@ -61,7 +61,7 @@ class LoginController extends Controller
     }
 
       session()->forget('access_from_admin');
-      Auth::guard('member')->login($get_member);
+      Auth::guard('admin')->login($get_member);
 
 
 
@@ -90,7 +90,7 @@ class LoginController extends Controller
   if ($get_member) {
 
       session()->forget('access_from_admin');
-      Auth::guard('member')->login($get_member);
+      Auth::guard('admin')->login($get_member);
 
       return redirect('admin');
     } else {

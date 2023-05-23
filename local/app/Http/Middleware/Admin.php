@@ -16,7 +16,7 @@ class Admin
      */
     public function handle($request, Closure $next)
     {
-        if (Member::check() && Member::user()->isAdmin()) {
+        if (Admin::check() && Admin::user()->isAdmin()) {
             return $next($request);
         } else {
             abort(403, 'Unauthorized action.');

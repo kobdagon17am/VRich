@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Branch;
-use App\Member;
+use App\Admin;
 use App\Warehouse;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
@@ -96,7 +96,7 @@ class WarehouseController extends Controller
                 'w_name' => $request->w_name,
                 'w_details' => $request->w_details,
                 'status' => $request->status == null ? 99 : 1,
-                'w_maker' =>   Auth::guard('member')->user()->id
+                'w_maker' =>   Auth::guard('admin')->user()->id
             ];
 
 
@@ -140,7 +140,7 @@ class WarehouseController extends Controller
                 'w_name' => $request->w_name,
                 'w_details' => $request->w_details,
                 'status' => $request->status == null ? 99 : 1,
-                'w_maker' =>   Auth::guard('member')->user()->id
+                'w_maker' =>   Auth::guard('admin')->user()->id
             ];
 
 

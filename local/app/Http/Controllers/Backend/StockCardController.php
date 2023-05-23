@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Branch;
 use App\Http\Controllers\Controller;
 use App\Matreials;
-use App\Member;
+use App\Admin;
 use App\Products;
 use App\Stock;
 use App\StockMovement;

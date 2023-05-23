@@ -273,11 +273,11 @@
                             className: "w-10",
                         },
 
-                        {
-                            data: "bonus_xvvip",
-                            title: "PV สร้างทีม XVVIP",
-                            className: "w-10 text-end",
-                        },
+                        // {
+                        //     data: "bonus_xvvip",
+                        //     title: "PV สร้างทีม XVVIP",
+                        //     className: "w-10 text-end",
+                        // },
 
 
                         {
