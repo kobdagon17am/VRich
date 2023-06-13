@@ -46,6 +46,7 @@
 
                                                     <div class="row p-2" >
                                                         @foreach ($product_all['product'] as $value)
+
                                                         <div class="col-md-2 col-lg-2">
                                                             <div class="row mb-2 box-product">
                                                                 <div class="col-6 col-md-12 text-center">
@@ -54,10 +55,17 @@
                                                                 </div>
                                                                 <div class="col-12 col-md-12 text-start text-md-center">
                                                                     <h6 class="mb-0">{{ $value->product_name }}</h6>
-                                                                    <p class="mb-1"> {!! $value->icon !!}
-                                                                        {{ number_format($value->member_price, 2) }} <span
+                                                                    @if($product_all['currency']->id == 1)
+                                                                    <p class="mb-1"> {!! $product_all['currency']->icon !!}
+                                                                        {{ number_format($value->member_price_th, 2) }} <span
                                                                             style="color:#00c454">[{{ $value->pv }} PV]</span>
                                                                     </p>
+                                                                    @else
+                                                                    <p class="mb-1"> {!! $product_all['currency']->icon !!}
+                                                                        {{ number_format($value->member_price_usd, 2) }} <span
+                                                                            style="color:#00c454">[{{ $value->pv }} PV]</span>
+                                                                    </p>
+                                                                    @endif
 
                                                                     <div class="row justify-content-center">
                                                                         {{-- <div class="col-8 col-md-12">

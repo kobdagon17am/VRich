@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Customers;
-use App\AddressProvince;
+// use App\AddressProvince;
 use App\CustomersAddressCard;
 use App\CustomersAddressDelivery;
 use App\CustomersBank;
@@ -24,25 +24,7 @@ class RegisterController extends Controller
     public function index()
     {
 
-        // $data = RegisterController::check_type_register('A758052',1);
-        // $i=0;
-        // $x = 'start';
-        // while ($x == 'start') {
-        //     $i++;
-        //     if ( $data['status'] == 'fail' and $data['code'] == 'stop') {
-        //         $x = 'stop';
-        //     }elseif($data['status'] == 'fail' and $data['code'] == 'run'){
 
-        //         $data = RegisterController::check_type_register($data['arr_user_name']);
-
-        //     }else{
-        //         $x = 'stop';
-        //     }
-
-        // }
-        // dd($data,$i);
-
-        // BEGIN  data year   ::: age_min 20 age_max >= 80
         $yeay = date('Y');
         $age_min = 17;
         $yeay_thai = date("Y", strtotime($yeay)) - $age_min;
@@ -63,7 +45,22 @@ class RegisterController extends Controller
         // END Day
         rsort($arr_year);
 
-        $province = AddressProvince::orderBy('province_name', 'ASC')->get();
+        if(Auth::guard('c_user')->user()->business_location_id  == '1' || Auth::guard('c_user')->user()->business_location_id  == null ){
+            $business_location_id = 1;
+           }else{
+            $business_location_id = 3;
+
+           }
+
+
+        $province = DB::table('dataset_provinces')
+        ->select('*')
+        ->where('business_location_id',$business_location_id)
+        ->get();
+
+        // $nation_id = DB::table('db_country')
+        // ->select('*')
+        // ->get();
 
         $customers_id = Auth::guard('c_user')->user()->id;
         // $customers_up = Auth::guard('c_user')->user()->upline_id;
@@ -73,6 +70,7 @@ class RegisterController extends Controller
         $dataset_qualification = DB::table('dataset_qualification')
         // ->where('code',$code)
         ->get();
+
         return view('frontend/register')
             ->with('day', $day)
             ->with('bank', $bank)

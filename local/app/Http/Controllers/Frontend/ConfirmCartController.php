@@ -26,6 +26,19 @@ class ConfirmCartController extends Controller
 
         $business_location_id = 1;
         // $location = Location::location($business_location_id, $business_location_id);
+
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            // $dataset_currency =  1;
+            // $price = $product->member_price_th;
+            $business_location_id = 1;
+        }else{
+            // $dataset_currency =  2;
+            // $price = $product->member_price_usd;
+            $business_location_id = Auth::guard('c_user')->user()->business_location_id;
+        }
+
+
+
         $location = '';
         $cartCollection = Cart::session(1)->getContent();
         $data = $cartCollection->toArray();
@@ -194,6 +207,7 @@ class ConfirmCartController extends Controller
     }
     public function payment_submit(Request $rs)
     {
+
         $insert_db_orders = new Orders();
         $insert_order_products_list= new Order_products_list();
         $quantity = Cart::session(1)->getTotalQuantity();
@@ -207,9 +221,10 @@ class ConfirmCartController extends Controller
 
         $insert_db_orders->customers_id_fk = $customer_id;
         $insert_db_orders->tracking_type =$rs->tracking_type;
+
         $user_name = Auth::guard('c_user')->user()->user_name;
         $insert_db_orders->customers_user_name = $user_name;
-        //$business_location_id = Auth::guard('c_user')->user()->business_location_id;
+        $business_location_id = Auth::guard('c_user')->user()->business_location_id;
         $business_location_id = 1;
         $insert_db_orders->business_location_id_fk =  $business_location_id;
 

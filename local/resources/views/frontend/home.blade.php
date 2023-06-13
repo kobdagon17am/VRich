@@ -263,27 +263,42 @@
             <div class="row">
                 <div class="col-md-6 col-xl-3">
                     <div class="dropdown mb-3">
-                        <button class="card card-boxDrp" href="#">
+                        <button class="card card-boxDrp dropdown-toggle" href="#"  id="dropdownMenuLinkStock" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex w-100">
                                 <div class="flex-shrink-0">
                                     <div class="bg-purple1 bg-opacity-20 borderR8 iconFlex">
                                         <i class='bx bx-box text-purple1 bg-opacity-100'></i>
                                     </div>
                                 </div>
-                                <div class="flex-grow-1 ms-3 text-end">
+                                {{-- <div class="d-flex w-100 pe-4">
                                     <h4 class="mb-0 text-purple1 bg-opacity-100 fw-bold">
                                         <h5 class="mb-0"> MY STOCK </h5>
                                         </h4>
                                     <p class="fs-12 text-secondary mb-0"> คลังสินค้าส่วนตัว </p>
+                                </div> --}}
+
+                                <div class="flex-grow-1 ms-3 text-start">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="mb-0">  MY STOCK</h5>
+
+                                    </div>
+                                    <p class="fs-12 text-secondary mb-0">คลังสินค้าส่วนตัว</p>
                                 </div>
                             </div>
                         </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
+                            <li><a class="dropdown-item" href="{{ route('eWallet_history') }}">คลังสินค้าส่วนตัว</a></li>
+
+                            <li><a class="dropdown-item"
+                                    href="{{ route('eWallet_history') }}"> รายการเคลื่อนไหวหลังสินค้า </a></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-md-6 col-xl-3">
                     <div class="dropdown mb-3">
                         <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
-                            id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            id="dropdownMenuLinkTp" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex w-100 pe-4">
                                 <div class="flex-shrink-0">
                                     <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
@@ -301,7 +316,7 @@
                             </div>
                         </button>
 
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkTp">
                             <li><a class="dropdown-item"
                                     href="{{ route('jp_clarify') }}">{{ __('text.Clarify PV.') }}</a></li>
                             {{-- <li><a class="dropdown-item" href="{{ route('jp_transfer') }}">รับ-โอน PV.</a></li> --}}
@@ -332,8 +347,8 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <li><a onclick="resetForm()" class="dropdown-item" type="button" data-bs-toggle="modal"
                                     data-bs-target="#depositModal">{{ __('text.Depositewallet') }}</a></li>
-                            <li><a class="dropdown-item" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#transferModal">{{ __('text.Transferewallet') }}</a></li>
+                            {{-- <li><a class="dropdown-item" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#transferModal">{{ __('text.Transferewallet') }}</a></li> --}}
                             <li><a class="dropdown-item" type="button"
                                     id="withdraw">{{ __('text.Withdrawewallet') }}</a></li>
                             <li><a class="dropdown-item"

@@ -8,6 +8,7 @@ use DB;
 use Cart;
 use PhpParser\Node\Stmt\Return_;
 use Auth;
+use Mpdf\Tag\Em;
 
 class OrderController extends Controller
 {
@@ -43,6 +44,17 @@ class OrderController extends Controller
 
     public static function product_list($categories = '')
     {
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            $dataset_currency =  1;
+        }else{
+            $dataset_currency =  2;
+        }
+
+        $dataset_currency = DB::table('dataset_currency')
+        ->where('id', '=',$dataset_currency)
+        ->first();
+
+
         if(empty($categories)){
             $product = DB::table('products')
             ->select(
@@ -50,20 +62,22 @@ class OrderController extends Controller
                 'products_details.*',
                 'products_images.*',
                 'products_cost.*',
-                'dataset_currency.*',
+                // 'dataset_currency.*',
             )
             ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
             ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
             ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
+            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
             ->where('products_images.image_default', '=', 1)
             ->where('products_details.lang_id', '=', 1)
             ->where('products.status', '=', 1)
-            ->where('products_cost.business_location_id', '=', 1)
+            // ->where('products_cost.business_location_id', '=', 1)
             ->orderby('products.id')
             ->get();
-        }else{
 
+
+
+        }else{
 
             $product = DB::table('products')
             ->select(
@@ -74,17 +88,17 @@ class OrderController extends Controller
                 'products_images.image_default',
 
                 'products_cost.*',
-                'dataset_currency.*',
+                // 'dataset_currency.*',
             )
             ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
             ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
             ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
+            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
             ->where('products.category_id','=',$categories)
             ->where('products_images.image_default', '=', 1)
             ->where('products_details.lang_id', '=', 1)
             ->where('products.status', '=', 1)
-            ->where('products_cost.business_location_id', '=', 1)
+            // ->where('products_cost.business_location_id', '=', 1)
             ->orderby('products.id')
             ->get();
 
@@ -95,7 +109,8 @@ class OrderController extends Controller
         //dd($product);
 
         $data = array(
-            'product' => $product
+            'product' => $product,
+            'currency'=>$dataset_currency
         );
         return $data;
     }
@@ -107,17 +122,17 @@ class OrderController extends Controller
                 'products_details.*',
                 'products_images.*',
                 'products_cost.*',
-                'dataset_currency.*',
+                // 'dataset_currency.*',
             )
             ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
             ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
             ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
+            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
             ->where('products.id', '=', $rs->product_id)
             ->where('products_images.image_default', '=', 1)
             ->where('products_details.lang_id', '=', 1)
             ->where('products.status', '=', 1)
-            ->where('products_cost.business_location_id', '=', 1)
+            // ->where('products_cost.business_location_id', '=', 1)
             ->first();
 
         $data = array(
@@ -131,13 +146,17 @@ class OrderController extends Controller
     {
 
 
+
+
+
+
         $product = DB::table('products')
             ->select(
                 'products.id as products_id',
                 'products_details.*',
                 'products_images.*',
                 'products_cost.*',
-                'dataset_currency.*',
+                // 'dataset_currency.*',
                 'dataset_product_unit.product_unit as product_unit_name',
                 'dataset_product_unit.id as product_unit_id'
 
@@ -145,21 +164,32 @@ class OrderController extends Controller
             ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
             ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
             ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
+            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
             ->leftjoin('dataset_product_unit', 'dataset_product_unit.product_unit_id', '=', 'products.unit_id')
             ->where('products.id', '=', $rs->id)
             ->where('products_images.image_default', '=', 1)
             ->where('products_details.lang_id', '=', 1)
             ->where('products.status', '=', 1)
-            ->where('products_cost.business_location_id', '=', 1)
+            // ->where('products_cost.business_location_id', '=', 1)
             ->first();
 
+            if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+                $dataset_currency =  1;
+                $price = $product->member_price_th;
+            }else{
+                $dataset_currency =  2;
+                $price = $product->member_price_usd;
+            }
+
+            $dataset_currency = DB::table('dataset_currency')
+            ->where('id', '=',$dataset_currency)
+            ->first();
 
         if ($product) {
             Cart::session(1)->add(array(
                 'id' => $product->products_id, // inique row ID
                 'name' => $product->product_name,
-                'price' => $product->member_price,
+                'price' =>  $price,
                 'quantity' => $rs->quantity,
                 'attributes' => array(
                     'pv' => $product->pv,

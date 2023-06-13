@@ -25,6 +25,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+
         // $product = Products::all();
         $product = DB::table('products_details')
             ->join('products', 'products_details.product_id_fk', 'products.id')
@@ -74,43 +75,49 @@ class ProductController extends Controller
 
 
         $pro_id = Products::orderBy('id', 'DESC')->first();
-        $num_length = strlen((string)$pro_id->id);
+        if($pro_id){
+           $p_id =  $pro_id->id;
+        }else{
+            $p_id = 1;
+
+        }
+        $num_length = strlen((string)$p_id);
         $pro = new Products;
         switch ($num_length) {
             case ('2'):
-                $cal_len = str_pad($pro_id->id, 3, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 3, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('3'):
-                $cal_len = str_pad($pro_id->id, 4, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 4, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('4'):
-                $cal_len = str_pad($pro_id->id, 5, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 5, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('5'):
-                $cal_len = str_pad($pro_id->id, 6, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 6, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('6'):
-                $cal_len = str_pad($pro_id->id, 7, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 7, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('7'):
-                $cal_len = str_pad($pro_id->id, 8, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 8, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('8'):
-                $cal_len = str_pad($pro_id->id, 9, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 9, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('9'):
-                $cal_len = str_pad($pro_id->id, 10, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 10, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
             case ('10'):
-                $cal_len = str_pad($pro_id->id, 11, "0", STR_PAD_LEFT);
+                $cal_len = str_pad($p_id, 11, "0", STR_PAD_LEFT);
                 $pro->product_code = $cal_len + 1;
                 break;
         }
@@ -122,19 +129,24 @@ class ProductController extends Controller
         $pro->save();
 
         $pro_cost = new Product_Cost;
-        $pro_cost->product_id_fk = $pro_id->id + 1;
-        $pro_cost->business_location_id = '1';
-        $pro_cost->currency_id = '1';
-        $pro_cost->cost_price = $request->cost_price;
-        $pro_cost->selling_price = $request->selling_price;
-        $pro_cost->member_price = $request->member_price;
+        $pro_cost->product_id_fk = $pro->id;
+
+        $pro_cost->cost_price_th = $request->cost_price_th;
+        $pro_cost->selling_price_th = $request->selling_price_th;
+        $pro_cost->member_price_th = $request->member_price_th;
+
+        $pro_cost->cost_price_usd = $request->cost_price_usd;
+        $pro_cost->selling_price_usd = $request->selling_price_usd;
+        $pro_cost->member_price_usd = $request->member_price_usd;
+
+
         $pro_cost->pv = $request->product_pv;
         $pro_cost->status = $request->status;
         $pro_cost->status_shipping = $request->status_shipping;
         $pro_cost->save();
 
         $pro_det = new Product_Details();
-        $pro_det->product_id_fk = $pro_id->id + 1;
+        $pro_det->product_id_fk = $pro->id;
         $pro_det->product_name = $request->product_name;
         $pro_det->title = $request->product_title;
         $pro_det->descriptions = $request->product_descrip;
@@ -143,7 +155,7 @@ class ProductController extends Controller
         $pro_det->save();
 
         $pro_img = new Product_Images();
-        $pro_img->product_id_fk = $pro_id->id + 1;
+        $pro_img->product_id_fk = $pro->id;
         $pro_img->img_url = 'local/public/products/';
         $path = public_path() . '/products/';
         if (!empty($request->file('product_img'))) {
@@ -158,22 +170,6 @@ class ProductController extends Controller
         }
         $pro_img->image_default = '1';
         $pro_img->save();
-
-
-
-
-        foreach ($request->materials as $val) {
-
-            if ($val['id'] != null) {
-                $dataPrepare_materials = [
-                    'product_id' => $pro_id->id + 1,
-                    'matreials_id' => $val['id'],
-                    'matreials_count' => $val['count']
-                ];
-                $query_ProductMaterals = ProductMaterals::create($dataPrepare_materials);
-            }
-        }
-
 
 
 

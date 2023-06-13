@@ -56,7 +56,7 @@
                                                     </div>
                                                 </div>
                                                     </div>
-
+{{--
                                                     <div class="col-md-6">
                                                         <h4 class="card-title">เลือกจัดส่งสินค้าโดย </h4>
                                                         <div class="row g-3">
@@ -75,17 +75,17 @@
                                                                     <label class="form-check-label"
                                                                         for="option2R">Flash </label>
                                                                 </div>
-                                                                {{-- <div class="form-check form-check-inline">
+                                                                 <div class="form-check form-check-inline">
                                                                     <input class="form-check-input radio" type="radio"
                                                                         name="tracking_type" value="Ems">
                                                                     <label class="form-check-label"
                                                                         for="option2R">Ems </label>
-                                                                </div> --}}
+                                                                </div>
 
 
                                                             </div>
                                                         </div>
-                                                            </div>
+                                                            </div> --}}
 
                                             </div>
 
@@ -439,7 +439,7 @@
                                                         }
 
                                                         ?>
-                                                        <p class="mb-2">{{ number_format($pv_total) }} PV</p>
+                                                        <p class="mb-2">{{ number_format($pv_total) }} PT</p>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <p class="mb-2">ค่าส่ง</p>
