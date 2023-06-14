@@ -56,7 +56,7 @@ class AddressController extends Controller
 
         $tambon = DB::table('dataset_districts')
             ->select('*')
-            ->where('id',$request->district_id)
+            ->where('amphure_id',$request->district_id)
             ->get();
         return response()->json($tambon);
     }

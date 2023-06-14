@@ -8,13 +8,23 @@
                     <div class="card card-box borderR10 mb-2 mb-lg-0">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-4 col-xxl-3">
+                                <div class="col-4 col-xxl-3 text-center">
                                     <div class="ratio ratio-1x1">
                                         <div class="rounded-circle">
-                                            <img src="{{ asset('frontend/images/man.png') }}" class="mw-100"
+                                            @if(Auth::guard('c_user')->user()->profile_img)
+
+                                            <img src="{{asset('local/public/profile_customer/'.Auth::guard('c_user')->user()->profile_img)}}" class="mw-100"
                                                 alt="" />
+                                            @else
+                                            <img src="{{ asset('frontend/images/man.png') }}" class="mw-100"
+                                            alt="" />
+                                            @endif
+
+
                                         </div>
+
                                     </div>
+                                    <a href="{{route('editprofileimg')}}" type="button" class="btn btn-outline-primary btn-sm mt-2 rounded-pill" > แก้ไขรูปโปรไฟล์ </a>
                                 </div>
                                 <div class="col-8 col-xxl-9">
                                     <div class="row">

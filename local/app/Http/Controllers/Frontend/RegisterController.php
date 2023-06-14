@@ -68,7 +68,7 @@ class RegisterController extends Controller
 
 
         $dataset_qualification = DB::table('dataset_qualification')
-        // ->where('code',$code)
+        ->where('status',1)
         ->get();
 
         return view('frontend/register')
@@ -110,7 +110,7 @@ class RegisterController extends Controller
             'last_name' => 'required',
             'gender' => 'required',
             'business_name' => 'required',
-            'id_card' => 'required|min:13|unique:customers',
+            // 'id_card' => 'required|min:13|unique:customers',
             'phone' => 'required|numeric',
             'day' => 'required',
             'month' => 'required',
@@ -122,69 +122,73 @@ class RegisterController extends Controller
             // BEGIN ที่อยู่ตามบัตรประชาชน
             'file_card' => 'required|mimes:jpeg,jpg,png',
             'card_address' => 'required',
-            'card_moo' => 'required',
-            'card_soi' => 'required',
-            'card_road' => 'required',
+            // 'card_moo' => 'required',
+            // 'card_soi' => 'required',
+            // 'card_road' => 'required',
             'card_province' => 'required',
             'card_district' => 'required',
             'card_tambon' => 'required',
-            'card_zipcode' => 'required',
+            // 'card_zipcode' => 'required',
             // END ที่อยู่ตามบัตรประชาชน
 
             //  BEGIN ที่อยู่จัดส่ง
             'same_address' => 'required',
-            'same_moo' => 'required',
-            'same_soi' => 'required',
-            'same_road' => 'required',
+            // 'same_moo' => 'required',
+            // 'same_soi' => 'required',
+            // 'same_road' => 'required',
             'same_province' => 'required',
             'same_district' => 'required',
             'same_tambon' => 'required',
-            'same_zipcode' => 'required',
+            // 'same_zipcode' => 'required',
             // END ที่อยู่จัดส่ง
         ];
         $message_err = [
             // BEGIN ข้อมูลส่วนตัว
-            'sizebusiness.required' => 'กรุณากรอกข้อมูล',
-            'prefix_name.required' => 'กรุณากรอกข้อมูล',
-            'name.required' => 'กรุณากรอกข้อมูล',
-            'last_name.required' => 'กรุณากรอกข้อมูล',
-            'gender.required' => 'กรุณากรอกข้อมูล',
+            'sizebusiness.required' => 'Please enter the data',
+            'prefix_name.required' => 'Please enter the data',
+            'name.required' => 'Please enter the data',
+            'last_name.required' => 'Please enter the data',
+            'gender.required' => 'Please enter the data',
 
-            'id_card.required' => 'กรุณากรอกข้อมูล',
-            'id_card.min' => 'กรุณากรอกให้ครบ 13 หลัก',
-            'id_card.unique' => 'เลขบัตรนี้ถูกใช้งานแล้ว',
-            'phone.required' => 'กรุณากรอกข้อมูล',
+            'id_card.required' => 'Please enter the data',
+            // 'id_card.min' => 'กรุณากรอกให้ครบ 13 หลัก',
+            'id_card.unique' => 'This ID card number is already in use',
+            'phone.required' => 'Please enter the data',
             'phone.numeric' => 'เป็นตัวเลขเท่านั้น',
-            'day.required' => 'กรุณากรอกข้อมูล',
-            'month.required' => 'กรุณากรอกข้อมูล',
-            'year.required' => 'กรุณากรอกข้อมูล',
-            'nation_id.required' => 'กรุณากรอกข้อมูล',
-            'id_card.required' => 'กรุณากรอกข้อมูล',
-            'phone.required' => 'กรุณากรอกข้อมูล',
+            'day.required' => 'Please enter the data',
+            'month.required' => 'Please enter the data',
+            'year.required' => 'Please enter the data',
+            'nation_id.required' => 'Please enter the data',
+            'id_card.required' => 'Please enter the data',
+            'phone.required' => 'Please enter the data',
             // END ข้อมูลส่วนตัว
 
             // BEGIN ที่อยู่ตามบัตรประชาชน
-            'file_card.required' => 'กรุณากรอกข้อมูล',
-            'file_card.mimes' => 'รองรับไฟล์นามสกุล jpeg,jpg,png เท่านั้น',
-            'card_address.required' => 'กรุณากรอกข้อมูล',
-            'card_moo.required' => 'กรุณากรอกข้อมูล',
-            'card_soi.required' => 'กรุณากรอกข้อมูล',
-            'card_road.required' => 'กรุณากรอกข้อมูล',
-            'card_province.required' => 'กรุณากรอกข้อมูล',
-            'card_district.required' => 'กรุณากรอกข้อมูล',
-            'card_tambon.required' => 'กรุณากรอกข้อมูล',
-            'card_zipcode.required' => 'กรุณากรอกข้อมูล',
+            'file_card.required' => 'Please enter the data',
+            'file_card.mimes' => 'Only jpeg, jpg, png files are supported',
+            'card_address.required' => 'Please enter the data',
+            'card_moo.required' => 'Please enter the data',
+            'card_soi.required' => 'Please enter the data',
+            'card_road.required' => 'Please enter the data',
+            'card_province.required' => 'Please enter the data',
+            'card_district.required' => 'Please enter the data',
+            'card_tambon.required' => 'Please enter the data',
+            'card_zipcode.required' => 'Please enter the data',
             // END ที่อยู่ตามบัตรประชาชน
 
             // BEGIN ที่อยู่จัดส่ง
-            'same_address.required' => 'กรุณากรอกข้อมูล',
-            'same_moo.required' => 'กรุณากรอกข้อมูล',
-            'same_soi.required' => 'กรุณากรอกข้อมูล',
-            'same_road.required' => 'กรุณากรอกข้อมูล',
-            'same_province.required' => 'กรุณากรอกข้อมูล',
-            'same_district.required' => 'กรุณากรอกข้อมูล',
-            'same_tambon.required' => 'กรุณากรอกข้อมูล',
-            'same_zipcode.required' => 'กรุณากรอกข้อมูล',
+            'same_address.required' => 'Please enter the data',
+            'same_moo.required' => 'Please enter the data',
+            'same_soi.required' => 'Please enter the data',
+            'same_road.required' => 'Please enter the data',
+            'same_province.required' => 'Please enter the data',
+            'same_district.required' => 'Please enter the data',
+            'same_tambon.required' => 'Please enter the data',
+            'same_zipcode.required' => 'Please enter the data',
+            'card_phone.required' => 'Please enter the data',
+            'same_phone.required' => 'Please enter the data',
+
+
             // END ที่อยู่จัดส่ง
 
         ];
@@ -193,27 +197,27 @@ class RegisterController extends Controller
         if ($request->file_bank) {
 
             $rule['file_bank'] = 'mimes:jpeg,jpg,png';
-            $message_err['file_bank.mimes'] = 'รองรับไฟล์นามสกุล jpeg,jpg,png เท่านั้น';
+            $message_err['file_bank.mimes'] = 'Only jpeg, jpg, png files are supported';
 
             $rule['bank_name'] = 'required';
-            $message_err['bank_name.required'] = 'กรุณากรอกข้อมูล';
+            $message_err['bank_name.required'] = 'Please enter the data';
 
             $rule['bank_branch'] = 'required';
-            $message_err['bank_branch.required'] = 'กรุณากรอกข้อมูล';
+            $message_err['bank_branch.required'] = 'Please enter the data';
 
             $rule['bank_no'] = 'required|numeric';
-            $message_err['bank_no.required'] = 'กรุณากรอกข้อมูล';
-            $message_err['bank_no.numeric'] = 'ใส่เฉพาะตัวเลขเท่านั้น';
+            $message_err['bank_no.required'] = 'Please enter the data';
+            $message_err['bank_no.numeric'] = 'Enter numbers only';
 
             $rule['account_name'] = 'required';
-            $message_err['account_name.required'] = 'กรุณากรอกข้อมูล';
+            $message_err['account_name.required'] = 'Please enter the data';
         }
 
         if ($request->name_benefit) {
             $rule['last_name_benefit'] = 'required';
-            $message_err['last_name_benefit.required'] = 'กรุณากรอกข้อมูล';
+            $message_err['last_name_benefit.required'] = 'Please enter the data';
             $rule['involved'] = 'required';
-            $message_err['involved.required'] = 'กรุณากรอกข้อมูล';
+            $message_err['involved.required'] = 'Please enter the data';
         }
 
         $validator = Validator::make(
@@ -282,7 +286,7 @@ class RegisterController extends Controller
                 'id_card' => $request->id_card,
                 'phone' => $request->phone,
                 'birth_day' => $birth_day,
-                'nation_id' => 'ไทย',
+                'nation_id' => $request->nation_id,
                 'business_location_id' => $request->nation_id,
                 'qualification_id' => $request->sizebusiness,
                 'id_card' => $request->id_card,
@@ -290,8 +294,8 @@ class RegisterController extends Controller
                 'email' => $request->email,
                 'line_id' => $request->line_id,
                 'vvip_register_type' => 'register',
-
                 'facebook' => $request->facebook,
+                'telegrams' => $request->telegrams,
                 'regis_doc4_status' => 0,
                 'regis_doc1_status' => 3,
             ];
@@ -437,22 +441,21 @@ class RegisterController extends Controller
                     ];
 
 
-
-
                     DB::commit();
                     return response()->json(['status' => 'success', 'data_result' => $data_result], 200);
                 }
             } catch (Exception $e) {
                 DB::rollback();
                 // dd( $validator->errors());
-                return response()->json(['status' => 'fail', 'ms' => 'ลงทะเบียนไม่สำเร็จกรุณาลงทะเบียนไหม่']);
+                return response()->json(['status' => 'fail', 'ms' => '
+                Registration unsuccessful. Please try registering again.']);
             }
         }
 
         //return  redirect('register')->withError('ลงทะเบียนไม่สำเร็จ');
         // dd($validator->errors());
 
-        return response()->json(['ms' => 'กรุณากรอกข้อมูให้ครบถ้วนก่อนลงทะเบียน', 'error' => $validator->errors()]);
+        return response()->json(['ms' => 'Please fill in all the required information before registering', 'error' => $validator->errors()]);
     }
 
 

@@ -22,8 +22,8 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">สมัครสมาชิก</li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Register</li>
                         </ol>
                     </nav>
                 </div>
@@ -34,122 +34,120 @@
                         @csrf
                         <div class="card card-box borderR10 mb-2 mb-md-0">
                             <div class="card-body">
-                                <h4 class="card-title">สมัครสมาชิก</h4>
+                                <h4 class="card-title">Membership Registration</h4>
                                 <hr>
 
-                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ข้อมูลส่วนตัว</div>
+                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Personal Information</div>
+
                                 <div class="row g-3">
-                                    <div class="col-md-6 col-lg-4 col-xxl-3">
-                                        <label for="" class="form-label">รหัสผู้แนะนำ <span
+                                    <div class="col-md-4 col-lg-4 col-xxl-3">
+                                        <label for="" class="form-label">Sponsor Code<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="sponser"
-                                            value="{{ Auth::guard('c_user')->user()->user_name }}" disabled>
-                                            <input type="hidden" class="form-control"   name="sponser"
-                                            value="{{ Auth::guard('c_user')->user()->user_name }}" id="">
+                                        <input type="text" class="form-control"  name="sponsor"  id="sponsor"
+                                            value="{{ Auth::guard('c_user')->user()->user_name }}">
+                                        {{-- <input type="hidden" class="form-control" name="sponsor" value="{{ Auth::guard('c_user')->user()->user_name }}" id=""> --}}
                                     </div>
-                                    <div class="col-md-6 col-lg-2 col-xxl-1">
-                                        <label for="" class="form-label d-none d-md-block">&nbsp;</label>
-                                        {{-- <button class="btn btn-p1 rounded-pill">ตรวจ</button> --}}
-                                        {{-- <a class="btn btn-outline-dark rounded-circle btn-icon" onclick="clear_sponser()"><i
-                                                class="bx bx-x"></i></a> --}}
-                                    </div>
-                                    <div class="col-md-6 col-lg-6 col-xxl-8 mb-3">
-                                        <label for="" class="form-label">ชื่อผู้แนะนำ <span
+
+                                    <div class="col-md-4 col-lg-4 col-xxl-3 mb-3">
+                                        <label for="" class="form-label">Sponsor Name<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="sponser_name"
+                                        <input type="text" class="form-control" id="sponsor_name"
                                             value="{{ Auth::guard('c_user')->user()->name }} {{ Auth::guard('c_user')->user()->last_name }}"
                                             disabled>
                                     </div>
-                                </div>
-                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ข้อมูลส่วนตัว</div>
-                                <div class="row g-3">
-                                    <div class="col-md-6 col-xl-6">
-                                        <label for="" class="form-label">ขนาดธุรกิจ <span
+
+                                    <div class="col-md-4 col-xl-4">
+                                        <label for="" class="form-label">Business Size<span
                                                 class="text-danger sizebusiness_err _err">*</span></label>
                                         <select name="sizebusiness" class="form-select" id="sizebusiness">
-                                            <option selected disabled>เลือกขนาดธุรกิจ</option>
-                                            @foreach($dataset_qualification as $postion_value)
-                                            <option value="{{$postion_value->code}}">{{$postion_value->business_qualifications}}</option>
+                                            {{-- <option selected disabled>Select business size</option> --}}
+                                            @foreach ($dataset_qualification as $postion_value)
+                                                <option value="{{ $postion_value->code }}">
+                                                    {{ $postion_value->business_qualifications }}</option>
                                             @endforeach
-
                                         </select>
                                     </div>
-                                    <div class="col-md-6 col-xl-6">
+                                </div>
+                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Personal Information</div>
+                                <div class="row g-3">
+
+                                    {{-- <div class="col-md-6 col-xl-6">
                                         <label for="" class="form-label">TP <span
                                                 class="text-danger pv_err _err">*</span></label>
                                         <input name="pv" readonly type="text" class="form-control" id="pv">
-                                    </div>
+                                    </div> --}}
+                                    <input name="pv" readonly type="hidden" class="form-control" value="0">
                                     <div class="col-md-6 col-xl-3">
-                                        <label for="" class="form-label">คำนำหน้า <span
+                                        <label for="" class="form-label">Title <span
                                                 class="text-danger prefix_name_err _err">*</span></label>
                                         <select name="prefix_name" class="form-select" id="">
-                                            <option selected disabled>เลือกคำนำหน้า</option>
-                                            <option value="นาย">นาย</option>
-                                            <option value="นาง">นาง</option>
-                                            <option value="นางสาว">นางสาว</option>
+                                            <option selected disabled>Select title</option>
+                                            <option value="Mr">Mr</option>
+                                            <option value="Mrs">Mrs</option>
+                                            <option value="Miss">Miss</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-xl-3">
-                                        <label for="" class="form-label">ชื่อ <span
+                                        <label for="" class="form-label">First Name <span
                                                 class="text-danger name_err _err">*</span></label>
                                         <input name="name" type="text" class="form-control" id="">
                                     </div>
                                     <div class="col-md-3 col-xl-3">
-                                        <label for="" class="form-label">นามสกุล <span
+                                        <label for="" class="form-label">Last Name <span
                                                 class="text-danger last_name_err _err">*</span></label>
                                         <input name="last_name" type="text" class="form-control" id="">
                                     </div>
                                     <div class="col-md-6 col-xl-3">
-                                        <label for="" class="form-label">เพศ <span
+                                        <label for="" class="form-label">Gender <span
                                                 class="text-danger gender_err _err">*</span></label>
                                         <select name="gender" class="form-select" id="">
-                                            <option selected disabled>เลือกเพศ</option>
-                                            <option value="ชาย">ชาย</option>
-                                            <option value="หญิง">หญิง</option>
-                                            {{-- <option vlaue="ไม่ระบุ">ไม่ระบุ</option> --}}
+                                            <option selected disabled>Select gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            {{-- <option value="ไม่ระบุ">ไม่ระบุ</option> --}}
                                         </select>
                                     </div>
+
                                     <div class="col-md-6 col-xl-6">
-                                        <label for="" class="form-label">ชื่อทางธุรกิจ </label>
+                                        <label for="" class="form-label">Business Name</label>
                                         <input name="business_name" type="text" class="form-control" id="">
                                     </div>
                                     <div class="col-md-6 col-xl-2">
-                                        <label for="" class="form-label">วันเกิด <span
+                                        <label for="" class="form-label">Date of Birth <span
                                                 class="text-danger day_err _err">*</span></label>
                                         <select name="day" class="form-select" id="">
-                                            <option selected disabled>วัน</option>
-
+                                            <option selected disabled>Day</option>
                                             @foreach ($day as $val)
-                                                <option val="{{ $val }}">{{ $val }}</option>
+                                                <option value="{{ $val }}">{{ $val }}</option>
                                             @endforeach
-
                                         </select>
                                     </div>
+
                                     <div class="col-md-6 col-xl-2">
-
                                         <label for=""
-                                            class=" text-danger form-label d-none d-md-block month_err _err">&nbsp;</label>
+                                            class="text-danger form-label d-none d-md-block month_err _err">&nbsp;</label>
                                         <select name="month" class="form-select" id="">
-                                            <option selected disabled>เดือน</option>
-                                            <option value="01">มกราคม</option>
-                                            <option value="02">กุมภาพันธ์</option>
-                                            <option value="03">มีนาคม</option>
-                                            <option value="04">เมษายน</option>
-                                            <option value="05">พฤษภาคม</option>
-                                            <option value="06">มิถุนายน</option>
-                                            <option value="07">กรกฎาคม</option>
-                                            <option value="08">สิงหาคม</option>
-                                            <option value="09">กันยายน</option>
-                                            <option value="10">ตุลาคม</option>
-                                            <option value="11">พฤศจิกายน</option>
-                                            <option value="12">ธันวาคม</option>
+                                            <option selected disabled>Month</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
                                         </select>
                                     </div>
+
                                     <div class="col-md-6 col-xl-2">
                                         <label for=""
                                             class="text-danger form-label d-none d-md-block year_err _err">&nbsp;</label>
                                         <select class="form-select" id="" name="year">
-                                            <option selected disabled>ปี</option>
+                                            <option selected disabled>Year</option>
                                             @foreach ($arr_year as $val)
                                                 <option val="{{ $val }}">{{ $val }}</option>
                                             @endforeach
@@ -158,222 +156,213 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-2">
-                                        <label for="" class="form-label">สัญชาติ <span
+                                        <label for="" class="form-label">Nationality <span
                                                 class="text-danger nation_id_err _err">*</span></label>
                                         <select class="form-select" name="nation_id" id="nation_id">
-                                            {{-- <option selected disabled>เลือกสัญชาติ</option> --}}
+                                            {{-- <option selected disabled>Select nationality</option> --}}
                                             @php $region = DB::table('dataset_business_location')->get(); @endphp
                                             @foreach (@$region as $r)
-                                                <option value="{{ @$r->id }}">{{ @$r->name }}</option>
+                                                <option value="{{ @$r->id }}">{{ @$r->txt_desc }}</option>
                                             @endforeach
-
                                         </select>
                                     </div>
+
                                     <div class="col-md-6 col-xl-5">
-                                        <label for="" class="form-label">เลขบัตรประชาชน <span
+                                        <label for="" class="form-label">National ID Card Number <span
                                                 class="text-danger id_card_err _err">*</span></label>
                                         <input name="id_card" type="text" class="form-control" maxlength="13"
-                                            id="id_card" >
-                                            <span class="error text-danger"></span>
+                                            id="id_card">
+                                        <span class="error text-danger"></span>
                                     </div>
                                     <div class="col-md-6 col-xl-5">
-                                        <label for="" class="form-label">โทรศัพท์ <span
+                                        <label for="" class="form-label">Phone Number <span
                                                 class="text-danger phone_err _err">*</span></label>
-                                        <input name="phone" type="text" class="form-control" id="" maxlength="10" minlength="10" onkeyup="isThaichar(this.value,this)">
+                                        <input name="phone" type="text" class="form-control" id=""
+                                            maxlength="10" minlength="10" onkeyup="isThaichar(this.value,this)">
                                     </div>
-                                    <div class="col-md-6 col-xl-4">
+
+                                    <div class="col-md-3 col-xl-3">
                                         <label for="" class="form-label">E-mail <span
                                                 class="text-danger email_err _err"></span></label>
                                         <input name="email" type="text" class="form-control" id="">
                                     </div>
-                                    <div class="col-md-6 col-xl-4">
+                                    <div class="col-md-3 col-xl-3">
                                         <label for="" class="form-label">Line ID</label>
                                         <input name="line_id" type="text" class="form-control" id="">
                                     </div>
-                                    <div class="col-md-6 col-xl-4 mb-3">
+                                    <div class="col-md-3 col-xl-3 mb-3">
                                         <label for="" class="form-label">Facebook</label>
                                         <input name="fackbook" type="text" class="form-control" id="">
                                     </div>
+
+                                    <div class="col-md-6 col-xl-3 mb-3">
+                                        <label for="" class="form-label">Telegrams</label>
+                                        <input name="telegrams" type="text" class="form-control" id="">
+                                    </div>
                                 </div>
-                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ที่อยู่ตามบัตรประชาชน
-                                </div>
+                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Address Information</div>
                                 <div class="row g-3">
                                     <div class="col-md-4">
                                         <div class="col-md-12 text-center">
                                             <div class="file-upload">
                                                 <span class="text-danger file_card_err _err"></span>
                                                 <label for="file_card" class="file-upload__label"><i
-                                                        class='bx bx-upload'></i>
-                                                    อัพโหลดเอกสาร</label>
+                                                        class='bx bx-upload'></i> Upload Document</label>
                                                 <input id="file_card" class="file-upload__input" type="file"
                                                     accept="image/*" name="file_card">
                                             </div>
-
-
                                         </div>
                                         <div class="mt-1 mb-2 d-flex justify-content-center">
                                             <img width="250" height="300" id="img_card"
                                                 src="https://via.placeholder.com/250x300.png?text=card" />
                                         </div>
-
                                     </div>
                                     <div class="col-md-8 my-auto">
-                                        <div id="group_data_card_address" class="row ">
-
-                                            <div class="col-md-6 col-xl-5 ">
-                                                <label for="" class="form-label">ที่อยู่ <span
+                                        <div id="group_data_card_address" class="row">
+                                            <div class="col-md-6 col-xl-5">
+                                                <label for="" class="form-label">Address <span
                                                         class="text-danger card_address_err _err">*</span></label>
                                                 <input type="text" name="card_address" value=""
                                                     class="form-control card_address" id="">
                                             </div>
                                             <div class="col-md-6 col-xl-3">
-                                                <label for="" class="form-label">หมู่ที่ <span
-                                                        class="text-danger card_moo_err _err">*</span></label>
+                                                <label for="" class="form-label">Moo  </label>
                                                 <input type="text" name="card_moo" class="form-control card_address"
                                                     id="">
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">ซอย <span
-                                                        class="text-danger card_soi_err _err">*</span></label>
+                                                <label for="" class="form-label">Soi  </label>
                                                 <input type="text" name="card_soi" class="form-control card_address"
                                                     id="">
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">ถนน <span
-                                                        class="text-danger card_road_err _err">*</span></label>
+                                                <label for="" class="form-label">Road </label>
                                                 <input type="text" name="card_road" class="form-control card_address"
                                                     id="">
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="province" class="form-label">จังหวัด</label>
+                                                <label for="province" class="form-label">Province</label>
                                                 <label class="form-label text-danger card_province_err _err"></label>
                                                 <select class="form-select card_address" name="card_province"
                                                     id="province">
-                                                    <option value="">--กรุณาเลือก--</option>
+                                                    <option value="">--Please Select--</option>
                                                     @foreach ($province as $item)
-                                                        <option value="{{ $item->id }}">
-                                                            {{ $item->name_th }}</option>
+                                                        <option value="{{ $item->id }}">{{ $item->name_th }}</option>
                                                     @endforeach
                                                 </select>
-
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-
-                                                <label for="district" class="form-label">อำเภอ/เขต</label>
+                                                <label for="district" class="form-label">District</label>
                                                 <label class="form-label text-danger card_district_err _err"></label>
                                                 <select class="form-select card_address" name="card_district"
                                                     id="district" disabled>
-                                                    <option value="">--กรุณาเลือก--</option>
+                                                    <option value="">--Please Select--</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="tambon" class="form-label">ตำบล</label>
+                                                <label for="tambon" class="form-label">Sub-district</label>
                                                 <label class="form-label text-danger tambon_err _err"></label>
                                                 <select class="form-select card_address" name="card_tambon"
                                                     id="tambon" disabled>
-                                                    <option value="">--กรุณาเลือก--</option>
+                                                    <option value="">--Please Select--</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">รหัสไปรษณีย์ <span
-                                                        class="text-danger card_zipcode_err _err">*</span></label>
+                                                <label for="" class="form-label">Postal Code </label>
                                                 <input id="zipcode" name="card_zipcode" type="text"
                                                     class="form-control card_address" id="">
                                             </div>
                                             <div class="col-md-6 col-xl-4 mb-3">
-                                                <label for="" class="form-label">เบอร์มือถือ</label>
-                                                <input type="text" name="card_phone" maxlength="10" class="form-control card_address"
-                                                    id="">
+                                                <label for="" class="form-label">Mobile Number <span
+                                                    class="text-danger card_phone _err">*</span></label>
+                                                <input type="text" name="card_phone" maxlength="10"
+                                                    class="form-control card_address" id="" required>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
+
                                 <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">
-                                    ที่อยู่จัดส่ง
+                                    Delivery Address
                                     <div class="form-check form-check-inline h6 fw-normal">
                                         <input class="form-check-input" id="status_address" type="checkbox"
                                             name="status_address" value="1" id="flexCheckDefault">
                                         <label class="form-check-label" for="status_address">
-                                            ใช้ที่อยู่เดียวกันบัตรประชาชน
+                                            Use the same address as ID card
                                         </label>
                                     </div>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-md-6 col-xl-5">
-                                        <label for="" class="form-label">ที่อยู่ <span
+                                        <label for="" class="form-label">Address <span
                                                 class="text-danger same_address_err _err">*</span></label>
                                         <input type="text" name="same_address" class="form-control address_same_card"
                                             id="">
                                     </div>
                                     <div class="col-md-6 col-xl-3">
-                                        <label for="" class="form-label">หมู่ที่ <span
-                                                class="text-danger same_moo_err _err">*</span></label>
+                                        <label for="" class="form-label">Moo  </label>
                                         <input type="text" name="same_moo" class="form-control address_same_card"
                                             id="">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">ซอย <span
-                                                class="text-danger same_soi_err _err">*</span></label>
+                                        <label for="" class="form-label">Soi  </label>
                                         <input type="text" name="same_soi" class="form-control address_same_card"
                                             id="">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">ถนน <span
-                                                class="text-danger same_road_err _err">*</span></label>
+                                        <label for="" class="form-label">Road </label>
                                         <input type="text" name="same_road" class="form-control address_same_card"
                                             id="">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="province" class="form-label">จังหวัด</label>
+                                        <label for="province" class="form-label">Province</label>
                                         <label class="form-label text-danger same_province_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_province"
                                             id="same_province">
-                                            <option value="">--กรุณาเลือก--</option>
+                                            <option value="">--Please Select--</option>
                                             @foreach ($province as $item)
-                                                <option value="{{ $item->id }}">
-                                                    {{ $item->name_th }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->name_th }}</option>
                                             @endforeach
                                         </select>
-
-
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-
-                                        <label for="district" class="form-label">อำเภอ/เขต</label>
+                                        <label for="district" class="form-label">District</label>
                                         <label class="form-label text-danger same_district_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_district"
                                             id="same_district" disabled readonly>
-                                            <option value="">--กรุณาเลือก--</option>
+                                            <option value="">--Please Select--</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="tambon" class="form-label">ตำบล</label>
+                                        <label for="tambon" class="form-label">Sub-district</label>
                                         <label class="form-label text-danger same_tambon_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_tambon"
                                             id="same_tambon" disabled readonly>
-                                            <option value="">--กรุณาเลือก--</option>
+                                            <option value="">--Please Select--</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">รหัสไปรษณีย์ <span
-                                                class="text-danger same_zipcode_err _err ">*</span></label>
+                                        <label for="" class="form-label">Postal Code </label>
                                         <input id="same_zipcode" name="same_zipcode" type="text"
                                             class="form-control address_same_card" id="">
                                     </div>
                                     <div class="col-md-6 col-xl-4 mb-3">
-                                        <label for="" class="form-label">เบอร์มือถือ</label>
+                                        <label for="" class="form-label">Mobile Number <span
+                                            class="text-danger same_phone _err">*</span></label>
                                         <input type="text" name="same_phone" class="form-control address_same_card"
-                                            id="" maxlength="10">
+                                            id="" maxlength="10" required>
                                     </div>
                                 </div>
+
                                 <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">
-                                    ข้อมูลบัญชีธนาคารเพื่อรับรายได้</div>
+                                    Bank Account Information for Income</div>
                                 <div class="row g-3">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <i class='bx bxs-error me-2'></i>
                                         <div>
-                                            สมาชิกจะใส่หรือไม่ใส่ก็ได้ หากไม่ได้ใส่จะมีผลกับการโอนเงินให้สมาชิก
+                                            Members can choose to provide or not provide this information. If not provided,
+                                            it will affect the
+                                            transfer of funds to the member.
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -382,13 +371,13 @@
                                             <div class="file-upload">
                                                 <label for="file_bank" class="file-upload__label"><i
                                                         class='bx bx-upload'></i>
-                                                    อัพโหลดเอกสาร</label>
+                                                    Upload Document</label>
                                                 <input id="file_bank" class="file-upload__input" type="file"
                                                     name="file_bank">
                                             </div>
                                         </div>
                                         <div class=" mt-1 mb-1 d-flex justify-content-center">
-                                            <img width="250" height="300" id="img_bank"accept="image/*"
+                                            <img width="250" height="300" id="img_bank" accept="image/*"
                                                 src="https://via.placeholder.com/250x300.png?text=Bank" />
                                         </div>
 
@@ -396,77 +385,74 @@
                                     <div class="col-md-8">
                                         <div class="row">
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">ธนาคาร <span
+                                                <label for="" class="form-label">Bank <span
                                                         class="text-danger bank_name_err _err "></span></label>
                                                 <select name="bank_name" class="form-select" id="">
-                                                    <option selected disabled>เลือกธนาคาร</option>
+                                                    <option selected disabled>Select Bank</option>
 
                                                     @foreach ($bank as $value_bank)
-                                                        <option value="{{ $value_bank->id }}">
-                                                            {{ $value_bank->name }}</option>
+                                                        <option value="{{ $value_bank->id }}">{{ $value_bank->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">สาขา <span
+                                                <label for="" class="form-label">Branch <span
                                                         class="text-danger bank_branch_err _err "></span></label>
                                                 <input type="text" name="bank_branch" class="form-control"
                                                     id="">
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">เลขที่บัญชี <span
+                                                <label for="" class="form-label">Account Number <span
                                                         class="text-danger small bank_no_err _err">*
-                                                        (ใส่เฉพาะตัวเลขเท่านั้น)</span></label>
+                                                        (Only enter numbers)</span></label>
                                                 <input type="text" name="bank_no" minlength="10" maxlength="12"
                                                     class="form-control" id="">
                                             </div>
                                             <div class="col-md-6 col-xl-12 mb-3">
-                                                <label for="" class="form-label">ชื่อบัญชี <span
+                                                <label for="" class="form-label">Account Name <span
                                                         class="text-danger account_name_err _err "></span></label>
                                                 <input type="text" name="account_name" class="form-control"
                                                     id="">
                                             </div>
                                         </div>
-
                                     </div>
-
-
-
                                 </div>
-                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ผู้รับผลประโยชน์</div>
+
+                                <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Beneficiary</div>
                                 <div class="row g-3">
                                     <div class="col-md-12">
                                         <div class="alert alert-danger d-flex align-items-center mb-0" role="alert">
                                             <i class='bx bxs-error me-2'></i>
                                             <div>
-                                                ถ้าไม่กรอกถือว่าผู้รับผลประโยชน์จะเป็นผู้รับผลประโยชน์ตามกฎหมาย
+                                                If not filled, the beneficiary will be considered as the legal beneficiary.
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">ชื่อ <span
+                                        <label for="" class="form-label">First Name <span
                                                 class="text-danger name_benefit_err _err "></span></label>
                                         <input type="text" name="name_benefit" class="form-control" id="">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">นามสกุล <span
+                                        <label for="" class="form-label">Last Name <span
                                                 class="text-danger last_name_benefit_err _err "></span></label>
                                         <input type="text" name="last_name_benefit" class="form-control"
                                             id="">
                                     </div>
                                     <div class="col-md-6 col-xl-4 mb-3">
-                                        <label for="" class="form-label">เกี่ยวข้องเป็น <span
+                                        <label for="" class="form-label">Relationship <span
                                                 class="text-danger involved_err _err "></span></label>
                                         <input type="text" name="involved" class="form-control" id="">
                                     </div>
                                 </div>
                                 <div class="row g-3">
-                                    <div  class="col-md-12 text-center">
-
+                                    <div class="col-md-12 text-center">
                                         <hr>
-                                        <p onclick="alert_summit()" class="btn btn-success rounded-pill">บันทึกข้อมูล</p>
+                                        <p onclick="alert_summit()" class="btn btn-success rounded-pill">Register</p>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </form>
@@ -493,24 +479,24 @@
         $('#linkMenuTop .nav-item').eq(0).addClass('active');
     </script>
     <script>
-        function isThaichar(str,obj){
-                var orgi_text="1234567890";
-                var str_length=str.length;
-                var str_length_end=str_length-1;
-                var isThai=true;
-                var Char_At="";
-                for(i=0;i<str_length;i++){
-                    Char_At=str.charAt(i);
-                    if(orgi_text.indexOf(Char_At)==-1){
-                        isThai=false;
-                    }
-                }
-                if(str_length>=1){
-                    if(isThai==false){
-                        obj.value=str.substr(0,str_length_end);
-                    }
+        function isThaichar(str, obj) {
+            var orgi_text = "1234567890";
+            var str_length = str.length;
+            var str_length_end = str_length - 1;
+            var isThai = true;
+            var Char_At = "";
+            for (i = 0; i < str_length; i++) {
+                Char_At = str.charAt(i);
+                if (orgi_text.indexOf(Char_At) == -1) {
+                    isThai = false;
                 }
             }
+            if (str_length >= 1) {
+                if (isThai == false) {
+                    obj.value = str.substr(0, str_length_end);
+                }
+            }
+        }
     </script>
 
 
@@ -739,12 +725,12 @@
         //BEGIN form_register
         $('#form_register').submit(function(e) {
             Swal.fire({
-            title: 'รอสักครู่...',
-            html: 'ระบบกำลังทำรายการกรุณาอย่าปิดหน้านี้จนกว่าระบบจะทำรายการเสร็จ...',
-            didOpen: () => {
-                Swal.showLoading()
-            },
-        })
+                title: 'รอสักครู่...',
+                html: 'ระบบกำลังทำรายการกรุณาอย่าปิดหน้านี้จนกว่าระบบจะทำรายการเสร็จ...',
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+            })
 
             e.preventDefault();
             var formData = new FormData($(this)[0]);
@@ -770,7 +756,7 @@
                         alert_result(data.data_result);
                     }
 
-                    if(data.ms){
+                    if (data.ms) {
 
                         Swal.fire({
                             icon: 'warning',
@@ -793,7 +779,7 @@
                     val: val
                 },
                 success: function(data) {
-                    $('#pv').val(data)
+                    // $('#pv').val(data)
                 }
             });
         })
@@ -1038,6 +1024,7 @@
 
     <script>
         $('#nation_id').change(function() {
+            $('span.error').removeClass('true').text('');
             value = $(this).val();
             if (value != "1") {
                 $('#id_card').attr('maxlength', '15');
@@ -1049,44 +1036,45 @@
         })
 
 
-$(document).ready(function(){
+        $(document).ready(function() {
 
 
-  $('#id_card').on('keyup',function(){
-    nation_id = $('#nation_id').val();
-    if(nation_id == 1){
-        if($.trim($(this).val()) != '' && $(this).val().length == 13){
-      id = $(this).val().replace(/-/g,"");
-      var result = Script_checkID(id);
-      if(result === false){
-         id_card = $('#id_card').val();
-        $('span.error').removeClass('true').text('เลขบัตร'+id_card+' ไม่ถูกต้อง');
-        $('#id_card').val('');
-      }else{
-        // $('span.error').addClass('true').text('เลขบัตรถูกต้อง');
-      }
-    }else{
-      $('span.error').removeClass('true').text('');
+            $('#id_card').on('keyup', function() {
+                nation_id = $('#nation_id').val();
+                if (nation_id == 1) {
+                    if ($.trim($(this).val()) != '' && $(this).val().length == 13) {
+                        id = $(this).val().replace(/-/g, "");
+                        var result = Script_checkID(id);
+                        if (result === false) {
+                            id_card = $('#id_card').val();
+                            $('span.error').removeClass('true').text('เลขบัตร' + id_card + ' ไม่ถูกต้อง');
+                            $('#id_card').val('');
+                        } else {
+                            // $('span.error').addClass('true').text('เลขบัตรถูกต้อง');
+                        }
+                    } else {
+                        $('span.error').removeClass('true').text('');
 
-    }
+                    }
 
-    }
+                }
 
-  })
-});
+            })
+        });
 
-function Script_checkID(id){
-    if(! IsNumeric(id)) return false;
-    if(id.substring(0,1)== 0) return false;
-    if(id.length != 13) return false;
-    for(i=0, sum=0; i < 12; i++)
-        sum += parseFloat(id.charAt(i))*(13-i);
-    if((11-sum%11)%10!=parseFloat(id.charAt(12))) return false;
-    return true;
-}
-function IsNumeric(input){
-    var RE = /^-?(0|INF|(0[1-7][0-7]*)|(0x[0-9a-fA-F]+)|((0|[1-9][0-9]*|(?=[\.,]))([\.,][0-9]+)?([eE]-?\d+)?))$/;
-    return (RE.test(input));
-}
+        function Script_checkID(id) {
+            if (!IsNumeric(id)) return false;
+            if (id.substring(0, 1) == 0) return false;
+            if (id.length != 13) return false;
+            for (i = 0, sum = 0; i < 12; i++)
+                sum += parseFloat(id.charAt(i)) * (13 - i);
+            if ((11 - sum % 11) % 10 != parseFloat(id.charAt(12))) return false;
+            return true;
+        }
+
+        function IsNumeric(input) {
+            var RE = /^-?(0|INF|(0[1-7][0-7]*)|(0x[0-9a-fA-F]+)|((0|[1-9][0-9]*|(?=[\.,]))([\.,][0-9]+)?([eE]-?\d+)?))$/;
+            return (RE.test(input));
+        }
     </script>
 @endsection
