@@ -25,6 +25,7 @@ class RegisterController extends Controller
     {
 
 
+
         $yeay = date('Y');
         $age_min = 17;
         $yeay_thai = date("Y", strtotime($yeay)) - $age_min;
