@@ -43,7 +43,7 @@
                                     <div class="col-md-4 col-lg-4 col-xxl-3">
                                         <label for="" class="form-label">Sponsor Code<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" class="form-control"  name="sponsor"  id="sponsor"
+                                        <input type="text" class="form-control" name="sponsor"  id="sponsor"
                                             value="{{ Auth::guard('c_user')->user()->user_name }}">
                                         {{-- <input type="hidden" class="form-control" name="sponsor" value="{{ Auth::guard('c_user')->user()->user_name }}" id=""> --}}
                                     </div>

@@ -240,27 +240,7 @@ class RegisterController extends Controller
             // END วันเกิด
             $password = substr($request->id_card, -4);
 
-            // BEGIN generatorusername เอา 7 หลัก
-            // $user_name = Auth::guard('c_user')->user()->count();
-            $user_name = self::gencode_customer();
-            $customer_username = DB::table('customers')
-                ->where('user_name', $user_name)
-                ->count();
 
-            if ($customer_username > 0) {
-                $x = 'start';
-                $i = 0;
-                while ($x == 'start') {
-                    $customer_username = DB::table('customers')
-                        ->where('user_name', $user_name)
-                        ->count();
-                    if ($customer_username == 0) {
-                        $x = 'stop';
-                    } else {
-                        $user_name = self::gencode_customer();
-                    }
-                }
-            }
 
             // END generatorusername เอา 7 หลัก
 
@@ -270,41 +250,39 @@ class RegisterController extends Controller
             $mt_mount_new = strtotime("+33 Day", strtotime($start_month));
 
 
-
-            $customer = [
-                'user_name' => $user_name,
-                'expire_date' => date('Y-m-d', $mt_mount_new),
-                'password' => md5($password),
-
-                'pv_upgrad' =>$request->pv,
-                'introduce_id' => $request->sponser,
-                'prefix_name' => $request->prefix_name,
-                'name' => $request->name,
-                'last_name' => $request->last_name,
-                'gender' => $request->gender,
-                'business_name' => $request->business_name,
-                'id_card' => $request->id_card,
-                'phone' => $request->phone,
-                'birth_day' => $birth_day,
-                'nation_id' => $request->nation_id,
-                'business_location_id' => $request->nation_id,
-                'qualification_id' => $request->sizebusiness,
-                'id_card' => $request->id_card,
-                'phone' => $request->phone,
-                'email' => $request->email,
-                'line_id' => $request->line_id,
-                'vvip_register_type' => 'register',
-                'facebook' => $request->facebook,
-                'telegrams' => $request->telegrams,
-                'regis_doc4_status' => 0,
-                'regis_doc1_status' => 3,
-            ];
-
-
-
-
             try {
                 DB::BeginTransaction();
+
+                $user_name = \App\Http\Controllers\Frontend\RegisterController::gencode_customer();
+
+                $customer = [
+                    'user_name' => $user_name,
+                    'expire_date' => date('Y-m-d', $mt_mount_new),
+                    'password' => md5($password),
+
+                    'pv_upgrad' =>$request->pv,
+                    'introduce_id' => $request->sponsor,
+                    'prefix_name' => $request->prefix_name,
+                    'name' => $request->name,
+                    'last_name' => $request->last_name,
+                    'gender' => $request->gender,
+                    'business_name' => $request->business_name,
+                    'id_card' => $request->id_card,
+                    'phone' => $request->phone,
+                    'birth_day' => $birth_day,
+                    'nation_id' => $request->nation_id,
+                    'business_location_id' => $request->nation_id,
+                    'qualification_id' => $request->sizebusiness,
+                    'id_card' => $request->id_card,
+                    'phone' => $request->phone,
+                    'email' => $request->email,
+                    'line_id' => $request->line_id,
+                    'vvip_register_type' => 'register',
+                    'facebook' => $request->facebook,
+                    'telegrams' => $request->telegrams,
+                    'regis_doc4_status' => 0,
+                    'regis_doc1_status' => 3,
+                ];
 
 
 
@@ -312,6 +290,8 @@ class RegisterController extends Controller
                 // หัก PV Sponser
                 $sponser = Customers::where('user_name', $request->sponser)->first();
                 // End PV Sponser
+
+
 
                 $insert_customer = Customers::create($customer);
 
@@ -461,16 +441,34 @@ class RegisterController extends Controller
 
     public static function gencode_customer()
     {
-        $alphabet = '0123456789';
-        $user = array(); //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
-        for ($i = 0; $i < 6; $i++) {
-            $n = rand(0, $alphaLength);
-            $user[] = $alphabet[$n];
-        }
-        $user = implode($user);
-        $user = 'A' . $user;
-        return $user;
+
+        $y = date('Y');
+        $y = substr($y, -2);
+        $code =  IdGenerator::generate([
+            'table' => 'customer_code',
+            'field' => 'code',
+            'length' => 9,
+            'prefix' => 'VR'.$y,
+            'reset_on_prefix_change' => true
+        ]);
+
+          $ck_code = DB::table('customer_code')
+          ->where('code','=',$code)
+          ->first();
+
+          if(empty($ck_code)){
+              $rs_code_order = DB::table('customer_code')
+              ->Insert(['code' => $code]);
+              if ($rs_code_order == true) {
+                  return  $code;
+                } else {
+                  \App\Http\Controllers\Frontend\RegisterController::gencode_customer();
+                }
+
+          }else{
+            \App\Http\Controllers\Frontend\RegisterController::gencode_customer();
+          }
+
     }
 
 
