@@ -9,7 +9,7 @@
 
         {{-- BEGIN ระบบสมาชิก --}}
         <li>
-            <a href="javascript:;.html" class="side-menu ">
+            <a href="javascript:;" class="side-menu ">
                 <div class="side-menu__icon"> <i data-lucide="users" class="menu__sub-icon"></i> </div>
                 <div class="side-menu__title">
                     Customer Service
@@ -29,29 +29,29 @@
                         <div class="side-menu__title"> ตรวจเอกสาร </div>
                     </a>
                 </li>
-                {{-- <li>
+                <li>
                     <a href="{{ route('Issue') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="mail" class="menu__sub-icon "></i> </div>
                         <div class="side-menu__title"> แจ้งปัญหา
-
+                            {{-- <small class="text-xs px-1  rounded-full bg-danger text-white ml-1">{{ App\Reportissue::where('status', 1)->count() }}</small> --}}
                         </div>
                     </a>
-                </li> --}}
-                {{-- <li>
+                </li>
+                <li>
                     <a href="{{ route('promotion_help') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="heart" class="menu__sub-icon "></i> </div>
                         <div class="side-menu__title">โปรโมชั่นเพื่อนช่วยเพื่อน <small
                                 class="text-xs px-1  rounded-full bg-danger text-white ml-1"></small>
                         </div>
                     </a>
-                </li> --}}
+                </li>
             </ul>
         </li>
         {{-- END ระบบสมาชิก --}}
         <li class="side-nav__devider my-6"></li>
         {{-- BEGIN จัดการสินค้า --}}
         <li>
-            <a href="javascript:;.html" class="side-menu ">
+            <a href="javascript:;" class="side-menu ">
                 <div class="side-menu__icon"> <i data-lucide="box" class="menu__sub-icon"></i> </div>
                 <div class="side-menu__title">
                     จัดการสินค้า
@@ -59,12 +59,12 @@
                 </div>
             </a>
             <ul class="side-menu__sub-icon ml-4">
-                <li>
+                {{-- <li>
                     <a href="" class="side-menu ">
                         <div class="side-menu__icon"> <i data-lucide="activity" class="menu__sub-icon "></i> </div>
                         <div class="side-menu__title"> กลุ่มสินค้า </div>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <a href="{{ route('product') }}" class="side-menu">
                         <div class="side-menu__icon"> <i data-lucide="activity" class="menu__sub-icon "></i> </div>
@@ -95,12 +95,12 @@
                         <div class="side-menu__title"> วัตถุดิบ </div>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="" class="side-menu ">
                         <div class="side-menu__icon"> <i data-lucide="activity" class="menu__sub-icon "></i> </div>
                         <div class="side-menu__title"> สินค้าโปรโมชั่น </div>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
         {{-- END จัดการสินค้า --}}
@@ -241,7 +241,7 @@
 
         {{-- BEGIN ระบบสมาชิก --}}
         <li>
-            <a href="javascript:;.html" class="side-menu ">
+            <a href="javascript:;" class="side-menu ">
                 <div class="side-menu__icon"> <i data-lucide="user" class="menu__sub-icon"></i> </div>
                 <div class="side-menu__title">
                     ระบบสมาชิก
@@ -270,7 +270,7 @@
             </ul>
         </li>
         <li>
-            <a href="javascript:;.html" class="side-menu ">
+            <a href="javascript:;" class="side-menu ">
                 <div class="side-menu__icon"> <i data-lucide="sliders" class="menu__sub-icon"></i> </div>
                 <div class="side-menu__title">
                     ตั่งค่าระบบ
@@ -304,7 +304,7 @@
 
         {{-- BEGIN ตั้งค่าเว็บไซต์ --}}
         <li>
-            <a href="javascript:;.html" class="side-menu ">
+            <a href="javascript:;" class="side-menu ">
                 <div class="side-menu__icon"> <i data-lucide="file-text" class="menu__sub-icon"></i> </div>
                 <div class="side-menu__title">
                     รวมรายงาน
@@ -339,7 +339,7 @@
                     <a href="{{ route('bonus_active_report') }}" class="side-menu ">
                         <div class="side-menu__icon"> <i data-lucide="credit-card" class="menu__sub-icon "></i>
                         </div>
-                        <div class="side-menu__title"> โบนัสบริหารทีมลูกค้าประจำ </div>
+                        <div class="side-menu__title"> โบนัสบริหาร team สายชั้น </div>
                     </a>
                 </li>
 
@@ -375,12 +375,28 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="{{ route('report_active') }}" class="side-menu ">
+                        <div class="side-menu__icon"> <i data-lucide="credit-card" class="menu__sub-icon "></i>
+                        </div>
+                        <div class="side-menu__title"> รายงานแจ้งลูกค้าประจำ 10 ชั้น </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('report_register') }}" class="side-menu ">
+                        <div class="side-menu__icon"> <i data-lucide="credit-card" class="menu__sub-icon "></i>
+                        </div>
+                        <div class="side-menu__title"> รายงานโบนัสสมัครสมาชิก </div>
+                    </a>
+                </li>
+
 
             </ul>
         </li>
 
         <li>
-            <a href="javascript:;.html" class="side-menu ">
+            <a href="javascript:;" class="side-menu ">
                 <div class="side-menu__icon"> <i data-lucide="file-text" class="menu__sub-icon"></i> </div>
                 <div class="side-menu__title">
                     รายงานโบนัสตามรอบ
@@ -396,6 +412,15 @@
                         <div class="side-menu__title"> Easy Bonus Report </div>
                     </a>
                 </li>
+
+                <li>
+                    <a href="{{ route('easy_report_new') }}" class="side-menu ">
+                        <div class="side-menu__icon"> <i data-lucide="credit-card" class="menu__sub-icon "></i>
+                        </div>
+                        <div class="side-menu__title"> Easy Bonus Report (New) </div>
+                    </a>
+                </li>
+
                 <li>
                     <a href="{{ route('allsale_report') }}" class="side-menu ">
                         <div class="side-menu__icon"> <i data-lucide="credit-card" class="menu__sub-icon "></i>
@@ -429,7 +454,7 @@
 
         {{-- BEGIN ตั้งค่าเว็บไซต์ --}}
         <li>
-            <a href="javascript:;.html" class="side-menu ">
+            <a href="javascript:;" class="side-menu ">
                 <div class="side-menu__icon"> <i data-lucide="book-open" class="menu__sub-icon"></i> </div>
                 <div class="side-menu__title">
                     การเรียนรู้

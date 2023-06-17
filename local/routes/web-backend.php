@@ -229,8 +229,17 @@ Route::prefix('admin')->group(function () {
     Route::get('report_warning_copyright', 'Backend\ReportWarningCopyrightController@index')->name('report_warning_copyright');
     Route::get('report_warning_copyright_datable', 'Backend\ReportWarningCopyrightController@report_warning_copyright_datable')->name('report_warning_copyright_datable');
 
+    Route::get('report_active', 'Backend\ReportActiveController@index')->name('report_active');
+    Route::get('report_active_datable', 'Backend\ReportActiveController@report_active_datable')->name('report_active_datable');
+
     Route::get('report_copyright', 'Backend\ReportCopyrightController@index')->name('report_copyright');
     Route::get('report_copyright_datable', 'Backend\ReportCopyrightController@report_copyright_datable')->name('report_copyright_datable');
+
+
+    Route::get('report_register', 'Backend\ReportRegisterController@index')->name('report_register');
+    Route::get('report_register_datable', 'Backend\ReportRegisterController@report_register_datable')->name('report_register_datable');
+
+
 
 
 
@@ -240,6 +249,10 @@ Route::prefix('admin')->group(function () {
 
     Route::get('easy_report', 'Backend\EasyReportReportController@index')->name('easy_report');
     Route::get('easy_report_datable', 'Backend\EasyReportReportController@easy_report_datable')->name('easy_report_datable');
+
+
+    Route::get('easy_report_new', 'Backend\EasyReportReportController@index_new')->name('easy_report_new');
+    Route::get('easy_report_datable_new', 'Backend\EasyReportReportController@easy_report_datable_new')->name('easy_report_datable_new');
 
     Route::get('allsale_report', 'Backend\AllsaleReportControlle@index')->name('allsale_report');
     Route::get('allsale_report_datable', 'Backend\AllsaleReportControlle@allsale_report_datable')->name('allsale_report_datable');

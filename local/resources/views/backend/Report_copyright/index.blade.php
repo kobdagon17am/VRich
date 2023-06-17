@@ -1,4 +1,4 @@
-@extends('layouts.backend.app')
+@extends('layouts.backend.app_new')
 
 
 
@@ -7,22 +7,20 @@
 @endsection
 
 @section('css')
-    <link href='https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css' rel='stylesheet'>
-    <link href='https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css' rel='stylesheet'>
+
 @endsection
 
-@section('conten')
-    @include('backend.navbar.navbar_mobile')
-    <div class="flex overflow-hidden">
+@section('head_text')
+<nav aria-label="breadcrumb" class="-intro-x mr-auto hidden sm:flex">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">รายงาน</a></li>
+        <li class="breadcrumb-item active" aria-current="page">   รายงานโบนัสลิขสิทธิ์</li>
+    </ol>
+</nav>
+@endsection
 
-        @include('backend.navbar.navbar')
-        <div class="content">
-            @include('backend.navbar.top_bar')
-            <div class="intro-y flex items-center mt-8">
-                <h2 class="text-lg font-medium mr-auto">
-                    รายงานโบนัสลิขสิทธิ์
-                </h2>
-            </div>
+@section('content')
+
 
 
             <div class="intro-y box p-5 mt-5">
@@ -158,13 +156,13 @@
 
                 </table> --}}
             </div>
-        </div>
+
     @endsection
 
     @section('script')
 
 
-        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -218,7 +216,7 @@
                         'processing': "กำลังโหลดข้อมูล",
                     },
                     ajax: {
-                        url: '{{ route('report_xvvip_report_datable') }}',
+                        url: '{{ route('report_copyright_datable') }}',
                         data: function(d) {
                         d.user_name = $('#user_name').val();
                         d.s_date = $('#s_date').val();
@@ -242,88 +240,59 @@
                             className: "w-10",
                         },
                         {
-                            data: "user_name",
+                            data: "customer_user",
                             title: "รหัสสมาชิก",
                             className: "w-10",
                         },
 
                         {
-                            data: "introduce_name",
-                            title: "รหัสผู้แนะนำ",
+                            data: "name",
+                            title: "ชื่อ",
                             className: "w-10",
                         },
 
                         {
-                            data: "regis_user_name",
-                            title: "รหัสที่ทำรายการ",
+                            data: "tax_percen",
+                            title: "tax_percen",
                             className: "w-10",
                         },
 
 
 
                         {
-                            data: "old_position",
-                            title: "ตำแหน่งเดิม",
-                            className: "w-10",
-
-                        },
-
-                        {
-                            data: "new_position",
-                            title: "ตำแหน่งไหม่",
+                            data: "tax_total",
+                            title: "tax_total",
                             className: "w-10",
 
                         },
 
                         {
-                            data: "user_name_vvip_1",
-                            title: "จับคู่ VVIP 1",
-                            className: "w-10",
-
-                        },
-                        {
-                            data: "pv_vvip_1",
-                            title: "PV 1",
+                            data: "bonus_full",
+                            title: "bonus_full",
                             className: "w-10",
 
                         },
 
                         {
-                            data: "pv_vvip_2",
-                            title: "PV 2",
+                            data: "total_bonus",
+                            title: "total_bonus",
+                            className: "w-10",
+
+                        },
+                        {
+                            data: "date_active",
+                            title: "วันที่ได้รับโบนัส",
                             className: "w-10",
 
                         },
 
                         {
-                            data: "user_name_vvip_2",
-                            title: "จับคู่ VVIP 2",
+                            data: "status",
+                            title: "status",
                             className: "w-10",
 
                         },
 
-
-                        {
-                            data: "bonus",
-                            title: "โบนัสที่ได้รับ",
-                            className: "w-10",
-                        },
-
-
-                        {
-                            data: "type",
-                            title: "ประเภท",
-                            className: "w-10",
-                        },
-
-
-                        // {
-                        //     data: "note",
-                        //     title: "รายละเอียด",
-                        //     className: "w-10",
-
-                        //     // className: "table-report__action w-10 text-center",
-                        // },
 
 
                     ],

@@ -1,30 +1,13 @@
-@extends('layouts.backend.app')
-
-
-
-@section('head')
-<meta charset="UTF-8">
+@extends('layouts.backend.app_new')
+@section('head_text')
+<nav aria-label="breadcrumb" class="-intro-x mr-auto hidden sm:flex">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Customer Service</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ระบบบริการสมาชิก</li>
+    </ol>
+</nav>
 @endsection
-
-@section('css')
-    <link href='https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css' rel='stylesheet'>
-    <link href='https://cdn.datatables.net/buttons/2.3.2/css/buttons.dataTables.min.css' rel='stylesheet'>
-@endsection
-
-@section('conten')
-    @include('backend.navbar.navbar_mobile')
-    <div class="flex overflow-hidden">
-
-        @include('backend.navbar.navbar')
-        <div class="content">
-            @include('backend.navbar.top_bar')
-            <div class="intro-y flex items-center mt-8">
-                <h2 class="text-lg font-medium mr-auto">
-                    ระบบบริการสมาชิก
-                </h2>
-            </div>
-
-
+@section('content')
             <div class="intro-y box p-5 mt-5">
                 <div class="flex flex-col sm:flex-row sm:items-end xl:items-start mb-2">
                     <form id="tabulator-html-filter-form" class="xl:flex sm:mr-auto">
@@ -126,39 +109,49 @@
 
                 </table> --}}
             </div>
-        </div>
 
 
- <!-- BEGIN: Modal Content -->
+
+
  <div id="edit_position" class="modal" tabindex="-1" aria-hidden="true">
-     <div class="modal-dialog">
-         <div class="modal-content"> <form action="{{ route('add_shipping_location') }}" method="POST">
-            <input type="hidden" id="user_name" value="">
-             <div class="modal-body p-10 text-center" id="full_name">  </div>
-             <div class="col-md-12 col-xl-12">
-                <label for="province" class="form-label"><b>ตำแหน่ง</b></label>
-                <label
-                    class="form-label text-danger same_province_err _err"></label>
-                <select class="form-select address_same_card select_same"
-                    name="position"  required>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('update_position') }}" method="POST">
+                @csrf
+            <!-- BEGIN: Modal Header -->
+            <div class="modal-header">
+                <h2 class="font-medium text-base mr-auto">ปรับตำแหน่ง</h2>
+                <div class="dropdown sm:hidden"> <a class="dropdown-toggle w-5 h-5 block" href="javascript:;" aria-expanded="false" data-tw-toggle="dropdown"> <i data-lucide="more-horizontal" class="w-5 h-5 text-slate-500"></i> </a>
 
-                    @foreach ($position as $item)
-                    <option value="{{$item->code}}">{{$item->code}}</option>
-                    @endforeach
-                </select>
+                </div>
+            </div> <!-- END: Modal Header -->
+            <!-- BEGIN: Modal Body -->
+            <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
+                <div class="col-span-12 sm:col-span-12">
+                    <h3 id="full_name">  </h3>
+                </div>
+                <input type="hidden" name="user_name_upgrad" id="user_name_upgrad">
 
-                <div class="row">
-                    <div class="text-end mt-2">
-                        <button type="submit" class="btn btn-primary w-full sm:w-16">เพิ่ม</button>
-                    </div>
+                <div class="col-span-12 sm:col-span-12"> <label for="modal-form-6" class="form-label">ปรับ PV อัพตำแหน่ง</label>
+                    <input  type="number" class="form-control" name="pv" placeholder="Pv Upgrad" value="0">
+                </div>
+                <div class="col-span-12 sm:col-span-12"> <label for="modal-form-6" class="form-label">ตำแหน่ง</label>
+                    <select id="modal-form-6" class="form-select"  name="position" required>
+                        @foreach ($position as $item)
+                        <option value="{{$item->code}}">{{$item->code}}</option>
+                        @endforeach
+                    </select>
                 </div>
 
-
-            </div>
+            </div> <!-- END: Modal Body -->
+            <!-- BEGIN: Modal Footer -->
+            <div class="modal-footer"> <button type="button" data-twPerro-dismiss="modal" class="btn btn-outline-secondary w-20 mr-1">ยกเลิก</button>
+                 <button type="submit" class="btn btn-primary w-20">ยืนยัน</button> </div> <!-- END: Modal Footer -->
             </form>
-         </div>
-     </div>
- </div> <!-- END: Modal Content -->
+        </div>
+    </div>
+</div> <!-- END: Modal Content -->
+
     @endsection
 
     @section('script')
@@ -247,6 +240,12 @@
                         },
 
                         {
+                            data: "id_card",
+                            title: "ชื่อนามสกุล",
+                            className: "w-10",
+                        },
+
+                        {
                             data: "qualification_id",
                             title: "ตำแหน่ง",
                             className: "w-10",
@@ -268,16 +267,22 @@
                         },
 
                         {
+                            data: "pv_upgrad",
+                            title: "PV อัพตำแหน่ง",
+                            className: "w-10",
+                        },
+
+                        {
                             data: "bonus_total",
                             title: "โบนัสสะสม",
                             className: "w-10",
                         },
 
-                        // {
-                        //     data: "bonus_xvvip",
-                        //     title: "PV สร้างทีม XVVIP",
-                        //     className: "w-10 text-end",
-                        // },
+                        {
+                            data: "bonus_xvvip",
+                            title: "PV สร้างทีม XVVIP",
+                            className: "w-10 text-end",
+                        },
 
 
                         {
@@ -303,10 +308,12 @@
 
 
             function modal_logtranfer(user_name,full_name) {
-                $('#user_name').val(user_name);
+                $('#user_name_upgrad').val(user_name);
                 $('#full_name').html(full_name);
-                $('#edit_position').modal('show');
-                }
+
+                // $('#edit_position').modal('show');
+
+            }
 
         </script>
     @endsection
