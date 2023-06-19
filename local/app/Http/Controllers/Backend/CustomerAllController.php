@@ -24,10 +24,11 @@ class CustomerAllController extends Controller
         $business_location_id = 1;
         $jang_pv = DB::table('customers')
             ->select('customers.*','dataset_qualification.business_qualifications')
-            ->leftjoin('dataset_qualification', 'dataset_qualification.id', '=', 'customers.qualification_id')
+            ->leftjoin('dataset_qualification', 'customers.qualification_id', '=', 'dataset_qualification.id')
             ->whereRaw(("case WHEN  '{$request->user_name}' != ''  THEN  customers.user_name = '{$request->user_name}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->position}' != ''  THEN  customers.qualification_id = '{$request->position}' else 1 END"))
-            ->orderby('id', 'DESC')->get();
+            ->orderby('id', 'DESC');
+            // dd($jang_pv);
 
 
         $sQuery = Datatables::of($jang_pv);

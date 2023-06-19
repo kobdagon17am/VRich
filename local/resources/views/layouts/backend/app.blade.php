@@ -2,7 +2,7 @@
 <html lang="th">
 
 <head>
-    <title>บริษัท มารวยด้วยกัน จำกัด</title>
+    <title>VRich</title>
     {{-- css --}}
     <link rel="stylesheet" href="{{ asset('backend/dist/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/dist/css/style.css') }}">
@@ -17,10 +17,6 @@
 
 <body class="">
     @yield('conten')
-
-
-
-
 
 
     {{-- css tailwindcss ถ้าไม่ใส่จะใช้ css tailwindcss ได้ไม่ครบทุกอัน ได้แค่ของ template --}}
