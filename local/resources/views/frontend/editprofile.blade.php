@@ -270,7 +270,7 @@
                                                 <select
                                                     class="form-select card_address @if ($address_card != null) disabled_select @endif "
                                                     name="card_province" id="province">
-                                                    <option value="">--กรุณาเลือก--</option>
+                                                    <option value="">--please select--</option>
                                                     @foreach ($province as $item)
                                                         <option
                                                             {{ @$address_card->province == $item->id ? 'selected' : '' }}
@@ -287,7 +287,7 @@
                                                 <select
                                                     class="form-select card_address @if ($address_card != null) disabled_select @endif"
                                                     name="card_district" id="district" disabled>
-                                                    <option value="">--กรุณาเลือก--</option>
+                                                    <option value="">--please select--</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
@@ -296,7 +296,7 @@
                                                 <select
                                                     class="form-select card_address @if ($address_card != null) disabled_select @endif"
                                                     name="card_tambon" id="tambon" disabled>
-                                                    <option value="">--กรุณาเลือก--</option>
+                                                    <option value="">--please select--</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
@@ -373,7 +373,7 @@
                                         <label class="form-label text-danger same_province_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_province"
                                             id="same_province">
-                                            <option selected disabled value="">--กรุณาเลือก--</option>
+                                            <option selected disabled value="">--please select--</option>
                                             @foreach ($province as $item)
                                                 <option
                                                     {{ @$address_delivery->province == $item->id ? 'selected' : '' }}
@@ -390,7 +390,7 @@
                                         <label class="form-label text-danger same_district_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_district"
                                             id="same_district" disabled readonly>
-                                            <option value="">--กรุณาเลือก--</option>
+                                            <option value="">--please select--</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
@@ -398,7 +398,7 @@
                                         <label class="form-label text-danger same_tambon_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_tambon"
                                             id="same_tambon" disabled readonly>
-                                            <option value="">--กรุณาเลือก--</option>
+                                            <option value="">--please select--</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
@@ -807,8 +807,8 @@
                 success: function(data) {
                     $("#district").children().remove();
                     $("#tambon").children().remove();
-                    $("#district").append(` <option value="">--กรุณาเลือก--</option>`);
-                    $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#district").append(` <option value="">--please select--</option>`);
+                    $("#tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#district").append(
@@ -839,7 +839,7 @@
                 },
                 success: function(data) {
                     $("#tambon").children().remove();
-                    $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#tambon").append(
@@ -893,8 +893,8 @@
                     let district = ` {{ @$address_delivery->district }}`;
                     $("#same_district").children().remove();
                     $("#same_tambon").children().remove();
-                    $("#same_district").append(` <option value="">--กรุณาเลือก--</option>`);
-                    $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#same_district").append(` <option value="">--please select--</option>`);
+                    $("#same_tambon").append(` <option value="">--please select--</option>`);
                     $("#same_zipcode").val("");
                     data.forEach((item) => {
                         $("#same_district").append(
@@ -924,7 +924,7 @@
                 success: function(data) {
 
                     $("#same_tambon").children().remove();
-                    $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#same_tambon").append(` <option value="">--please select--</option>`);
                     $("#same_zipcode").val("");
                     let tambon = ` {{ @$address_delivery->tambon }}`;
                     data.forEach((item) => {

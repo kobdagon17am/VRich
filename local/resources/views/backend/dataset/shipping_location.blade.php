@@ -59,7 +59,7 @@
                                                             class="form-label text-danger same_province_err _err"></label>
                                                         <select class="form-select address_same_card select_same"
                                                             name="same_province" id="same_province" required>
-                                                            <option value="">--กรุณาเลือก--</option>
+                                                            <option value="">--please select--</option>
                                                             @foreach ($province as $item)
                                                                 <option value="{{ $item->province_id }}">
                                                                     {{ $item->province_name }}</option>
@@ -76,7 +76,7 @@
                                                         <select class="form-select address_same_card select_same"
                                                             name="same_district" id="same_district" disabled readonly
                                                             required>
-                                                            <option value="">--กรุณาเลือก--</option>
+                                                            <option value="">--please select--</option>
                                                         </select>
                                                     </div>
                                                     <div class="text-end mt-2">
@@ -221,8 +221,8 @@
                     success: function(data) {
                         $("#same_district").children().remove();
                         $("#same_tambon").children().remove();
-                        $("#same_district").append(` <option value="">--กรุณาเลือก--</option>`);
-                        $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                        $("#same_district").append(` <option value="">--please select--</option>`);
+                        $("#same_tambon").append(` <option value="">--please select--</option>`);
                         $("#same_zipcode").val("");
                         data.forEach((item) => {
                             $("#same_district").append(

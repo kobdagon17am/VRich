@@ -318,7 +318,7 @@
                                                             <label class="form-label text-danger same_province_err _err"></label>
                                                             <select class="form-select address_same_card select_same" name="same_province"
                                                                 id="same_province">
-                                                                <option value="">--กรุณาเลือก--</option>
+                                                                <option value="">--please select--</option>
                                                                 @foreach ($province as $item)
                                                                     <option value="{{ $item->id }}">
                                                                         {{ $item->name_th }}</option>
@@ -333,7 +333,7 @@
                                                             <label class="form-label text-danger same_district_err _err"></label>
                                                             <select class="form-select address_same_card select_same" name="same_district"
                                                                 id="same_district" disabled readonly>
-                                                                <option value="">--กรุณาเลือก--</option>
+                                                                <option value="">--please select--</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
@@ -341,7 +341,7 @@
                                                             <label class="form-label text-danger same_tambon_err _err"></label>
                                                             <select class="form-select address_same_card select_same" name="same_tambon"
                                                                 id="same_tambon" disabled readonly>
-                                                                <option value="">--กรุณาเลือก--</option>
+                                                                <option value="">--please select--</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
@@ -752,8 +752,8 @@
             success: function(data) {
                 $("#same_district").children().remove();
                 $("#same_tambon").children().remove();
-                $("#same_district").append(` <option value="">--กรุณาเลือก--</option>`);
-                $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                $("#same_district").append(` <option value="">--please select--</option>`);
+                $("#same_tambon").append(` <option value="">--please select--</option>`);
                 $("#same_zipcode").val("");
                 data.forEach((item) => {
                     $("#same_district").append(
@@ -783,7 +783,7 @@
             success: function(data) {
 
                 $("#same_tambon").children().remove();
-                $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                $("#same_tambon").append(` <option value="">--please select--</option>`);
                 $("#same_zipcode").val("");
                 data.forEach((item) => {
                     $("#same_tambon").append(

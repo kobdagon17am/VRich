@@ -121,7 +121,7 @@
                             <label for="province" class="form-label">จังหวัด</label>
                             <span class="form-label text-danger province_err _err"></span>
                             <select class="form-select " name="province" id="province">
-                                <option value="">--กรุณาเลือก--</option>
+                                <option value="">--please select--</option>
                                 @foreach ($province as $item)
                                     <option value="{{ $item->province_id }}">
                                         {{ $item->province_name }}</option>
@@ -133,14 +133,14 @@
                             <label for="district" class="form-label">อำเภอ/เขต</label>
                             <span class="form-label text-danger district_err _err"></span>
                             <select class="form-select  " name="district" id="district" disabled>
-                                <option value="">--กรุณาเลือก--</option>
+                                <option value="">--please select--</option>
                             </select>
                         </div>
                         <div class="col-span-4">
                             <label for="tambon" class="form-label">ตำบล</label>
                             <span class="form-label text-danger tambon_err _err"></span>
                             <select class="form-select  " name="tambon" id="tambon" disabled>
-                                <option value="">--กรุณาเลือก--</option>
+                                <option value="">--please select--</option>
                             </select>
                         </div>
                         <div class="col-span-4">
@@ -238,7 +238,7 @@
                             <label for="province" class="form-label">จังหวัด</label>
                             <span class="form-label text-danger province_err _err"></span>
                             <select class="form-select " name="province" id="edit_province">
-                                <option value="">--กรุณาเลือก--</option>
+                                <option value="">--please select--</option>
                                 @foreach ($province as $item)
                                     <option value="{{ $item->province_id }}">
                                         {{ $item->province_name }}</option>
@@ -250,14 +250,14 @@
                             <label for="district" class="form-label">อำเภอ/เขต</label>
                             <span class="form-label text-danger district_err _err"></span>
                             <select class="form-select  " name="district" id="edit_district" disabled>
-                                <option value="">--กรุณาเลือก--</option>
+                                <option value="">--please select--</option>
                             </select>
                         </div>
                         <div class="col-span-4">
                             <label for="tambon" class="form-label">ตำบล</label>
                             <span class="form-label text-danger tambon_err _err"></span>
                             <select class="form-select  " name="tambon" id="edit_tambon" disabled>
-                                <option value="">--กรุณาเลือก--</option>
+                                <option value="">--please select--</option>
                             </select>
                         </div>
                         <div class="col-span-4">
@@ -312,8 +312,8 @@
 
                     $("#district").children().remove();
                     $("#tambon").children().remove();
-                    $("#district").append(` <option value="">--กรุณาเลือก--</option>`);
-                    $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#district").append(` <option value="">--please select--</option>`);
+                    $("#tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#district").append(
@@ -343,7 +343,7 @@
                 },
                 success: function(data) {
                     $("#tambon").children().remove();
-                    $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#tambon").append(
@@ -396,8 +396,8 @@
                 success: function(data) {
                     $("#edit_district").children().remove();
                     $("#edit_tambon").children().remove();
-                    $("#edit_district").append(` <option value="">--กรุณาเลือก--</option>`);
-                    $("#edit_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#edit_district").append(` <option value="">--please select--</option>`);
+                    $("#edit_tambon").append(` <option value="">--please select--</option>`);
                     $("#edit_zipcode").val("");
                     data.forEach((item) => {
                         $("#edit_district").append(
@@ -425,7 +425,7 @@
                 },
                 success: function(data) {
                     $("#edit_tambon").children().remove();
-                    $("#edit_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#edit_tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#edit_tambon").append(

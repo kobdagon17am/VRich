@@ -662,16 +662,16 @@
                 var html = `
             <div class="overflow-hidden " >
             <div class="row">
-                <div class="col-12 text-right">ชื่อ-สกุล : ${data.prefix_name}${data.name} ${data.last_name}</div>
-                <div class="col-12 text-right">ชื่อทางธุรกิจ : ${data.business_name} </div>
+                <div class="col-12 text-right">Name: ${data.prefix_name}${data.name} ${data.last_name}</div>
+                <div class="col-12 text-right">Business Name: ${data.business_name}</div>
                 <hr class="mt-3">
-                <div class="col-12 text-right">UserName : ${data.user_name} </div>
-                <div class="col-12 text-right">password : ${data.password}</div>
+                <div class="col-12 text-right">Username: ${data.user_name}</div>
+                <div class="col-12 text-right">Password: ${data.password}</div>
             </div>
         </div>
             `
                 Swal.fire({
-                    title: 'สมัครมาชิกสำเร็จ',
+                    title: 'Membership registration successful',
                     html: html,
                     icon: 'success',
                     showCancelButton: false,
@@ -744,8 +744,8 @@
                 success: function(data) {
                     $("#district").children().remove();
                     $("#tambon").children().remove();
-                    $("#district").append(` <option value="">--กรุณาเลือก--</option>`);
-                    $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#district").append(` <option value="">--please select--</option>`);
+                    $("#tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#district").append(
@@ -776,7 +776,7 @@
                 },
                 success: function(data) {
                     $("#tambon").children().remove();
-                    $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#tambon").append(
@@ -828,8 +828,8 @@
                 success: function(data) {
                     $("#same_district").children().remove();
                     $("#same_tambon").children().remove();
-                    $("#same_district").append(` <option value="">--กรุณาเลือก--</option>`);
-                    $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#same_district").append(` <option value="">--please select--</option>`);
+                    $("#same_tambon").append(` <option value="">--please select--</option>`);
                     $("#same_zipcode").val("");
                     data.forEach((item) => {
                         $("#same_district").append(
@@ -857,7 +857,7 @@
                 },
                 success: function(data) {
                     $("#same_tambon").children().remove();
-                    $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                    $("#same_tambon").append(` <option value="">--please select--</option>`);
                     $("#same_zipcode").val("");
                     data.forEach((item) => {
                         $("#same_tambon").append(

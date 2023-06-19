@@ -249,7 +249,7 @@
                                 <label for="province" class="form-label">จังหวัด</label>
                                 <label class="form-label text-danger card_province_err _err"></label>
                                 <select class="form-select card_address province  " name="card_province" id="province">
-                                    <option value="">--กรุณาเลือก--</option>
+                                    <option value="">--please select--</option>
                                     @foreach ($province as $item)
                                         <option {{ @$address_card->province == $item->province_id ? 'selected' : '' }}
                                             value="{{ $item->province_id }}">
@@ -262,14 +262,14 @@
                                 <label for="district" class="form-label">อำเภอ/เขต</label>
                                 <label class="form-label text-danger card_district_err _err"></label>
                                 <select class="form-select card_address district " name="card_district" id="district">
-                                    <option value="">--กรุณาเลือก--</option>
+                                    <option value="">--please select--</option>
                                 </select>
                             </div>
                             <div class="col-span-4">
                                 <label for="tambon" class="form-label">ตำบล</label>
                                 <label class="form-label text-danger tambon_err _err"></label>
                                 <select class="form-select card_address  tambon" name="card_tambon" id="tambon">
-                                    <option value="">--กรุณาเลือก--</option>
+                                    <option value="">--please select--</option>
                                 </select>
                             </div>
                             <div class="col-span-4">
@@ -341,7 +341,7 @@
                         <label for="province" class="form-label">จังหวัด</label>
                         <label class="form-label text-danger same_province_err _err"></label>
                         <select class="form-select address_same_card" name="same_province" id="same_province">
-                            <option selected disabled value="">--กรุณาเลือก--</option>
+                            <option selected disabled value="">--please select--</option>
                             @foreach ($province as $item)
                                 <option {{ @$address_delivery->province == $item->province_id ? 'selected' : '' }}
                                     value="{{ $item->province_id }}">
@@ -354,14 +354,14 @@
                         <label for="district" class="form-label">อำเภอ/เขต</label>
                         <label class="form-label text-danger same_district_err _err"></label>
                         <select class="form-select address_same_card " name="same_district" id="same_district" disabled>
-                            <option value="">--กรุณาเลือก--</option>
+                            <option value="">--please select--</option>
                         </select>
                     </div>
                     <div class="col-span-4">
                         <label for="tambon" class="form-label">ตำบล</label>
                         <label class="form-label text-danger same_tambon_err _err"></label>
                         <select class="form-select address_same_card " name="same_tambon" id="same_tambon" disabled>
-                            <option value="">--กรุณาเลือก--</option>
+                            <option value="">--please select--</option>
                         </select>
                     </div>
                     <div class="col-span-4">
@@ -538,8 +538,8 @@
 
                         $(".district").children().remove();
                         $(".tambon").children().remove();
-                        $(".district").append(` <option value="">--กรุณาเลือก--</option>`);
-                        $(".tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                        $(".district").append(` <option value="">--please select--</option>`);
+                        $(".tambon").append(` <option value="">--please select--</option>`);
                         $(".zipcode").val("");
                         data.forEach((item) => {
                             $(".district").append(
@@ -566,7 +566,7 @@
                     },
                     success: function(data) {
                         $(".tambon").children().remove();
-                        $(".tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                        $(".tambon").append(` <option value="">--please select--</option>`);
                         $(".zipcode").val("");
                         data.forEach((item) => {
                             $(".tambon").append(
@@ -652,8 +652,8 @@
                         let district = ` {{ @$address_delivery->district }}`;
                         $("#same_district").children().remove();
                         $("#same_tambon").children().remove();
-                        $("#same_district").append(` <option value="">--กรุณาเลือก--</option>`);
-                        $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                        $("#same_district").append(` <option value="">--please select--</option>`);
+                        $("#same_tambon").append(` <option value="">--please select--</option>`);
                         $("#same_zipcode").val("");
                         data.forEach((item) => {
                             $("#same_district").append(
@@ -684,7 +684,7 @@
                     success: function(data) {
 
                         $("#same_tambon").children().remove();
-                        $("#same_tambon").append(` <option value="">--กรุณาเลือก--</option>`);
+                        $("#same_tambon").append(` <option value="">--please select--</option>`);
                         $("#same_zipcode").val("");
                         let tambon = ` {{ @$address_delivery->tambon }}`;
                         data.forEach((item) => {
