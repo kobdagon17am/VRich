@@ -4,6 +4,14 @@
     {{-- select2 --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
+@section('head_text')
+<nav aria-label="breadcrumb" class="-intro-x mr-auto hidden sm:flex">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">จัดการสินค้า</a></li>
+        <li class="breadcrumb-item active" aria-current="page">เพิ่มสินค้า</li>
+    </ol>
+</nav>
+@endsection
 
 @section('css')
     <!-- dropify -->
@@ -42,14 +50,6 @@
     </style>
 @endsection
 
-@section('head_text')
-<nav aria-label="breadcrumb" class="-intro-x mr-auto hidden sm:flex">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">จัดการสินค้า</a></li>
-        <li class="breadcrumb-item active" aria-current="page">เพิ่มสินค้า</li>
-    </ol>
-</nav>
-@endsection
 @section('content')
 
 
@@ -124,6 +124,8 @@
             </div>
             {{-- <table id="table_product" class="table table-report">
             </table> --}}
+            {{-- END TABLE --}}
+        </div>
 
 
     <!-- BEGIN: Modal Content -->
@@ -188,37 +190,68 @@
 
                     <div class="col-span-4">
                         <div>
-                            <label for="regular-form-1" class="form-label">Product Cost-Price :
+                            <label for="regular-form-1" class="form-label">Product Cost-Price BAT:
                                 <span class="text-danger name_err _err"></span>
                             </label>
-                            <input id="regular-form-1" name="cost_price" id="cost_price" type="number" step='0.01'
+                            <input id="regular-form-1" name="cost_price_th" id="cost_price_th" type="number" step='1'
                                 placeholder='0.00' class="form-control">
                         </div>
                     </div>
 
                     <div class="col-span-4">
                         <div>
-                            <label for="regular-form-1" class="form-label">Product Selling-Price :
+                            <label for="regular-form-1" class="form-label">Product Selling-Price BAT:
                                 <span class="text-danger name_err _err"></span>
                             </label>
-                            <input id="regular-form-1" name="selling_price" id="selling_price" type="number"
-                                step='0.01' placeholder='0.00' class="form-control">
+                            <input id="regular-form-1" name="selling_price_th" id="selling_price_th" type="number"
+                                step='1.00' placeholder='0.00' class="form-control">
                         </div>
                     </div>
 
                     <div class="col-span-4">
                         <div>
-                            <label for="regular-form-1" class="form-label">Product Member-Price :
+                            <label for="regular-form-1" class="form-label">Product Member-Price BAT:
                                 <span class="text-danger name_err _err"></span>
                             </label>
-                            <input id="regular-form-1" name="member_price" id="member_price" type="number"
-                                step='0.01' placeholder='0.00' class="form-control">
+                            <input id="regular-form-1" name="member_price_th" id="member_price_th" type="number"
+                                step='1.00' placeholder='0.00' class="form-control">
+                        </div>
+                    </div>
+
+
+                          <div class="col-span-4">
+                        <div>
+                            <label for="regular-form-1" class="form-label">Product Cost-Price USD:
+                                <span class="text-danger name_err _err"></span>
+                            </label>
+                            <input id="regular-form-1" name="cost_price_usd" id="cost_price_usd" type="number" step='1.00'
+                                placeholder='0.00' class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-span-4">
+                        <div>
+                            <label for="regular-form-1" class="form-label">Product Selling-Price USD:
+                                <span class="text-danger name_err _err"></span>
+                            </label>
+                            <input id="regular-form-1" name="selling_price_usd" id="selling_price_usd" type="number"
+                                step='1.00' placeholder='0.00' class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-span-4">
+                        <div>
+                            <label for="regular-form-1" class="form-label">Product Member-Price USD:
+                                <span class="text-danger name_err _err"></span>
+                            </label>
+                            <input id="regular-form-1" name="member_price_usd" id="member_price_usd" type="number"
+                                step='1.00' placeholder='0.00' class="form-control">
                         </div>
                     </div>
 
                     <div class="col-span-6">
                         <div>
-                            <label for="regular-form-1" class="form-label">Product PV :
+                            <label for="regular-form-1" class="form-label">Product TP :
                                 <span class="text-danger name_err _err"></span>
                             </label>
                             <input id="regular-form-1" name="product_pv" id="product_pv" type="number" placeholder='0'
@@ -232,7 +265,7 @@
                             </label>
                             <select type="text" class="rounded" name="status_shipping" id="status_shipping"
                                 style="width:100%; padding: 4px; font-size:14px;">
-                                <option value="" selected>เลือกสถานะ</option>
+                                {{-- <option value="" selected>เลือกสถานะ</option> --}}
                                 <option value="Y"> คิดค่าส่ง </option>
                                 <option value="N"> ไม่คิดค่าส่ง </option>
                             </select>
@@ -243,7 +276,7 @@
                         <div>
                             <select type="text" class="rounded" name="select_category" id="select_category"
                                 style="width:100%; padding: 4px; font-size:14px;">
-                                <option value="" selected>กรุณาเลือกหมวดหมู่สินค้า</option>
+                                {{-- <option value="" selected>กรุณาเลือกหมวดหมู่สินค้า</option> --}}
                                 @if (isset($Product_cate))
                                     @foreach ($Product_cate as $item => $value)
                                         <option value="{{ $value->id }}">{{ $value->category_name }}</option>
@@ -285,16 +318,16 @@
 
                     </div>
 
-                    <div class="col-span-6">
+                    {{-- <div class="col-span-6">
                         <div>
                             <select type="text" class="rounded" name="select_product_lang" id="select_product_lang"
                                 style="width:100%; padding: 4px; font-size:14px;">
-                                {{-- <option value="" selected>เลือกภาษา</option>
-                                <option value="0">EN</option> --}}
+                                <option value="" selected>เลือกภาษา</option>
+                                <option value="0">EN</option>
                                 <option value="1" selected>TH</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-span-6">
                         <div>
@@ -307,15 +340,15 @@
                         </div>
                     </div>
 
-
+{{--
                     <div class="col-span-12 mt-3">
                         <div class="w-full flex justify-center border-t border-slate-200/60 dark:border-darkmode-400 mt-2">
                             <div class="bg-white dark:bg-darkmode-600 px-5 -mt-3 text-slate-500">วัตถุดิบ</div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
-                    <div class="col-span-4">
+                    {{-- <div class="col-span-4">
                         <div>
                             <label for="">วัตถุดิ</label>
                             <select type="text" class="rounded " name="materials[1][id]"
@@ -328,14 +361,14 @@
 
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="col-span-4">
+                    {{-- <div class="col-span-4">
                         <label for="">จำนวน</label>
                         <input type="number" name="materials[1][count]" class="form-control">
-                    </div>
+                    </div> --}}
 
-                    <div class="col-span-4 my-auto ">
+                    {{-- <div class="col-span-4 my-auto ">
                         <p class="btn btn-success btn-sm mt-4 add_materials">+</p>
                     </div>
 
@@ -343,7 +376,7 @@
                         <div class="box_materials">
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div> <!-- END: Modal Body -->
 
                 <!-- BEGIN: Modal Footer -->
@@ -414,7 +447,6 @@
 
     {{-- select2 --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 
     {{-- BEGIN DataTable --}}
     <script>
@@ -721,3 +753,4 @@
         }
     </script>
 @endsection
+

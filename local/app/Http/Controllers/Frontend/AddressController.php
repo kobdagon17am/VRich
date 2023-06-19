@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 // use App\AddressDistrict;
 // use App\AddressProvince;
-// use App\AddressTambon;
+use App\AddressTambon;
 use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -63,9 +63,12 @@ class AddressController extends Controller
 
     function getZipcode(Request $request)
     {
-        $tambon = AddressTambon::where('tambon_id', $request->tambon_id)
-            ->orderBy('tambon_name', 'ASC')
-            ->first();
+
+
+            $tambon = DB::table('dataset_districts')
+            ->select('*')
+            ->where('amphure_id',$request->id)
+            ->firts();
         return response()->json($tambon);
     }
 }

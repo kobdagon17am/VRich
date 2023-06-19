@@ -41,7 +41,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="learning.php">MDK. Learning</a>
+                    <a class="nav-link" href="learning.php">Sale Page</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.php">ติดต่อบริษัท</a>
