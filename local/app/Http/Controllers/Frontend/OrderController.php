@@ -352,19 +352,20 @@ class OrderController extends Controller
                     'moo',
                     'soi',
                     'road',
-                    'district_name as district',
-                    'province_name as province',
-                    'tambon_name as tambon',
+                    'dataset_districts.name_th as district',
+                    'dataset_provinces.name_th as province',
+                    'dataset_amphures.name_th as tambon',
                     'db_orders.zipcode',
-                    'email',
                     'tel',
                 )
-                ->leftjoin('address_districts', 'address_districts.district_id', 'db_orders.district_id')
-                ->leftjoin('address_provinces', 'address_provinces.province_id', 'db_orders.province_id')
-                ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'db_orders.tambon_id')
+                ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
+                ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
+                ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
                 ->GroupBy('house_no')
                 ->where('code_order', $code_order)
                 ->get();
+
+
             return $item;
         })
 

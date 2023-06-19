@@ -24,17 +24,19 @@ class ReportOrdersController extends Controller
         $business_location_id = 1;
 
 
+
         $orders = DB::table('db_orders')
         ->select('db_orders.*','db_order_products_list.product_name','db_order_products_list.product_name','db_order_products_list.amt',
         'db_order_products_list.total_pv','db_order_products_list.total_price','customers.id_card','customers_address_card.address','customers_address_card.moo'
-        ,'customers_address_card.soi','customers_address_card.road','district_name as district','province_name as province',
-        'tambon_name as tambon','customers_address_card.zipcode','customers.name as c_name','customers.last_name')
+        ,'customers_address_card.soi','customers_address_card.road','dataset_districts.name_th as district','dataset_provinces.name_th as province',
+        'dataset_amphures.name_th as tambon','customers_address_card.zipcode','customers.name as c_name','customers.last_name')
         ->leftjoin('db_order_products_list', 'db_order_products_list.code_order', '=', 'db_orders.code_order')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
         ->leftjoin('customers_address_card', 'db_orders.customers_user_name', '=', 'customers_address_card.user_name')
-        ->leftjoin('address_districts', 'address_districts.district_id', 'customers_address_card.district')
-        ->leftjoin('address_provinces', 'address_provinces.province_id', 'customers_address_card.province')
-        ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'customers_address_card.tambon')
+        ->leftjoin('dataset_districts', 'dataset_districts.id', 'customers_address_card.district')
+        ->leftjoin('dataset_provinces', 'dataset_provinces.id', 'customers_address_card.province')
+        ->leftjoin('dataset_amphures', 'dataset_amphures.id', 'customers_address_card.tambon')
+
 
         ->whereRaw(("case WHEN '{$request->s_date}' != '' and '{$request->e_date}' = ''  THEN  date(db_orders.created_at) = '{$request->s_date}' else 1 END"))
         ->whereRaw(("case WHEN '{$request->s_date}' != '' and '{$request->e_date}' != ''  THEN  date(db_orders.created_at) >= '{$request->s_date}' and date(db_orders.created_at) <= '{$request->e_date}'else 1 END"))

@@ -95,12 +95,14 @@ class ConfirmCartController extends Controller
         // }
 
         $address = DB::table('customers_address_delivery')
-        ->select('customers_address_delivery.*', 'address_provinces.province_id', 'address_provinces.province_name', 'address_tambons.tambon_name', 'address_tambons.tambon_id', 'address_districts.district_id', 'address_districts.district_name')
-        ->leftjoin('address_provinces', 'address_provinces.province_id', '=', 'customers_address_delivery.province')
-        ->leftjoin('address_districts', 'address_districts.district_id', '=', 'customers_address_delivery.district')
-        ->leftjoin('address_tambons', 'address_tambons.tambon_id', '=', 'customers_address_delivery.tambon')
+        ->select('customers_address_delivery.*', 'dataset_provinces.id as province_id', 'dataset_provinces.name_th as province_name', 'dataset_amphures.name_th as tambon_name', 'dataset_amphures.id as tambon_id', 'dataset_districts.id as district_id', 'dataset_districts.name_th as district_name')
+        ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'customers_address_delivery.province')
+        ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'customers_address_delivery.tambon')
+        ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'customers_address_delivery.district')
         ->where('user_name', '=', $user_name)
         ->first();
+
+
 
         $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
 
@@ -162,7 +164,7 @@ class ConfirmCartController extends Controller
             ->first();
 
 
-        $province = DB::table('address_provinces')
+        $province = DB::table('dataset_provinces')
             ->select('*')
             ->get();
         return view('frontend/confirm_cart', compact('customer', 'address', 'location', 'province', 'bill','shipping_zipcode'));

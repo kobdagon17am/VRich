@@ -273,9 +273,9 @@
                                                     <option value="">--กรุณาเลือก--</option>
                                                     @foreach ($province as $item)
                                                         <option
-                                                            {{ @$address_card->province == $item->province_id ? 'selected' : '' }}
-                                                            value="{{ $item->province_id }}">
-                                                            {{ $item->province_name }}</option>
+                                                            {{ @$address_card->province == $item->id ? 'selected' : '' }}
+                                                            value="{{ $item->id }}">
+                                                            {{ $item->name_th }}</option>
                                                     @endforeach
                                                 </select>
 
@@ -376,9 +376,9 @@
                                             <option selected disabled value="">--กรุณาเลือก--</option>
                                             @foreach ($province as $item)
                                                 <option
-                                                    {{ @$address_delivery->province == $item->province_id ? 'selected' : '' }}
-                                                    value="{{ $item->province_id }}">
-                                                    {{ $item->province_name }}</option>
+                                                    {{ @$address_delivery->province == $item->id ? 'selected' : '' }}
+                                                    value="{{ $item->id }}">
+                                                    {{ $item->name_th }}</option>
                                             @endforeach
                                         </select>
 
@@ -794,15 +794,13 @@
             }
         });
 
+
         $("#province").change(function() {
-
             let province_id = $(this).val();
-
             $.ajax({
                 url: '{{ route('getDistrict') }}',
                 type: 'GET',
                 dataType: 'json',
-                async: false,
                 data: {
                     province_id: province_id,
                 },
@@ -812,19 +810,16 @@
                     $("#district").append(` <option value="">--กรุณาเลือก--</option>`);
                     $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
                     $("#zipcode").val("");
-
-                    let district = ` {{ @$address_card->district }}`;
                     data.forEach((item) => {
                         $("#district").append(
-                            `<option  ${district == item.district_id ? 'selected' : ''} value="${item.district_id}">${item.district_name}</option>`
+                            `<option value="${item.id}">${item.name_th}</option>`
                         );
                         $("#same_district").append(
-                            `<option value="${item.district_id}">${item.district_name}</option>`
+                            `<option value="${item.id}">${item.name_th}</option>`
                         );
                     });
                     $("#district").attr('disabled', false);
                     $("#tambon").attr('disabled', true);
-
                 },
                 error: function() {}
             })
@@ -834,11 +829,11 @@
         // BEGIN district
         $("#district").change(function() {
             let district_id = $(this).val();
+
             $.ajax({
                 url: '{{ route('getTambon') }}',
                 type: 'GET',
                 dataType: 'json',
-                async: false,
                 data: {
                     district_id: district_id,
                 },
@@ -846,14 +841,12 @@
                     $("#tambon").children().remove();
                     $("#tambon").append(` <option value="">--กรุณาเลือก--</option>`);
                     $("#zipcode").val("");
-
-                    let tambon = ` {{ @$address_card->tambon }}`;
                     data.forEach((item) => {
                         $("#tambon").append(
-                            `<option ${tambon == item.tambon_id ? 'selected' : ''} value="${item.tambon_id}">${item.tambon_name}</option>`
+                            `<option value="${item.id}">${item.name_th}</option>`
                         );
                         $("#same_tambon").append(
-                            `<option value="${item.tambon_id}">${item.tambon_name}</option>`
+                            `<option value="${item.id}">${item.name_th}</option>`
                         );
                     });
                     $("#tambon").attr('disabled', false);
@@ -870,7 +863,6 @@
                 url: '{{ route('getZipcode') }}',
                 type: 'GET',
                 dataType: 'json',
-                async: false,
                 data: {
                     tambon_id: tambon_id,
                 },

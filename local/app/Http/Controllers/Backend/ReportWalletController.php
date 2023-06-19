@@ -27,19 +27,18 @@ class ReportWalletController extends Controller
 
     public function wallet_report_datable(Request $request)
     {
-        $business_location_id = 1;
 
 
         $ewallet = DB::table('ewallet')
         ->select('ewallet.*','customers.id_card','customers_address_card.address','customers_address_card.moo'
-        ,'customers_address_card.soi','customers_address_card.road','district_name as district','province_name as province',
-        'tambon_name as tambon','customers_address_card.zipcode','customers.name as c_name','customers.last_name','customers.qualification_id')
+        ,'customers_address_card.soi','customers_address_card.road','dataset_districts.name_th as district','dataset_provinces.name_th as province',
+        'dataset_amphures.name_th as tambon','customers_address_card.zipcode','customers.name as c_name','customers.last_name','customers.qualification_id')
 
         ->leftjoin('customers', 'ewallet.customer_username', '=', 'customers.user_name')
         ->leftjoin('customers_address_card', 'ewallet.customer_username', '=', 'customers_address_card.user_name')
-        ->leftjoin('address_districts', 'address_districts.district_id', 'customers_address_card.district')
-        ->leftjoin('address_provinces', 'address_provinces.province_id', 'customers_address_card.province')
-        ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'customers_address_card.tambon')
+        ->leftjoin('dataset_districts', 'dataset_districts.id', 'customers_address_card.district')
+        ->leftjoin('dataset_provinces', 'dataset_provinces.id', 'customers_address_card.province')
+        ->leftjoin('dataset_amphures', 'dataset_amphures.id', 'customers_address_card.tambon')
         ->where('ewallet.type','=',1)
         ->where('ewallet.status','=',2)
         ->whereRaw(("case WHEN '{$request->s_date}' != '' and '{$request->e_date}' = ''  THEN  date(ewallet.date_mark) = '{$request->s_date}' else 1 END"))

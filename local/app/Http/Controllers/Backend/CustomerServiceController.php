@@ -130,16 +130,18 @@ class CustomerServiceController extends Controller
         $user_name = $request->user_name;
         $data = CustomersAddressCard::select(
             'customers_address_card.*',
-            'district_name as district',
-            'province_name as province',
-            'tambon_name as tambon',
+            'dataset_districts.name_th as district',
+            'dataset_provinces.name_th as province',
+            'dataset_amphures.name_th as tambon',
             'regis_doc1_status',
         )
             ->leftjoin('customers', 'customers.user_name', 'customers_address_card.user_name')
-            ->leftjoin('address_districts', 'address_districts.district_id', 'customers_address_card.district')
-            ->leftjoin('address_provinces', 'address_provinces.province_id', 'customers_address_card.province')
-            ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'customers_address_card.tambon')
+            ->leftjoin('dataset_districts', 'dataset_districts.id', 'customers_address_card.district')
+            ->leftjoin('dataset_provinces', 'dataset_provinces.id', 'customers_address_card.province')
+            ->leftjoin('dataset_amphures', 'dataset_amphures.id', 'customers_address_card.tambon')
             ->where('customers_address_card.user_name', $user_name)->first();
+
+
 
         return response()->json($data);
     }

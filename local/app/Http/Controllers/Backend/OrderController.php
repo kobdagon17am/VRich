@@ -192,16 +192,19 @@ class OrderController extends Controller
                         'moo',
                         'soi',
                         'road',
-                        'district_name as district',
-                        'province_name as province',
-                        'tambon_name as tambon',
+                        'dataset_districts.name_th as district',
+                        'dataset_provinces.name_th as province',
+                        'dataset_amphures.name_th as tambon',
                         'db_orders.zipcode',
                         'email',
                         'tel',
                     )
-                    ->leftjoin('address_districts', 'address_districts.district_id', 'db_orders.district_id')
-                    ->leftjoin('address_provinces', 'address_provinces.province_id', 'db_orders.province_id')
-                    ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'db_orders.tambon_id')
+
+                    ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
+                    ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
+                    ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
+
+
                     ->GroupBy('house_no')
                     ->where('code_order', $code_order)
                     ->get();
@@ -236,19 +239,24 @@ class OrderController extends Controller
 
     public function report_order_pdf($type, $date_start, $date_end)
     {
+
+
+
+
         $orders_detail = DB::table('db_orders')
             ->select(
                 'db_orders.*',
-                'district_name as district',
-                'province_name as province',
-                'tambon_name as tambon',
+                'dataset_districts.name_th as district',
+                'dataset_provinces.name_th as province',
+                'dataset_amphures.name_th as tambon',
                 'customers.name as customers_name',
                 'customers.last_name as customers_last_name',
             )
             ->leftjoin('customers', 'customers.id', 'db_orders.customers_id_fk')
-            ->leftjoin('address_districts', 'address_districts.district_id', 'db_orders.district_id')
-            ->leftjoin('address_provinces', 'address_provinces.province_id', 'db_orders.province_id')
-            ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'db_orders.tambon_id')
+            ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
+            ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
+            ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
+
             ->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)))
             ->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)))
             ->where('db_orders.order_status_id_fk', '=', '5')
@@ -515,17 +523,19 @@ class OrderController extends Controller
                             'moo',
                             'soi',
                             'road',
-                            'district_name as district',
-                            'province_name as province',
-                            'tambon_name as tambon',
+                            'dataset_districts.name_th as district',
+                            'dataset_provinces.name_th as province',
+                            'dataset_amphures.name_th as tambon',
                             'db_orders.zipcode',
                             'tel',
                         )
-                        ->leftjoin('address_districts', 'address_districts.district_id', 'db_orders.district_id')
-                        ->leftjoin('address_provinces', 'address_provinces.province_id', 'db_orders.province_id')
-                        ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'db_orders.tambon_id')
+                        ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
+                        ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
+                        ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
                         ->where('code_order', $item->code_order)
                         ->get();
+
+
                     return $item;
                 })
 

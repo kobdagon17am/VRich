@@ -29,7 +29,17 @@ class ProfileController extends Controller
     public function edit_profile()
     {
 
-        $province = AddressProvince::orderBy('province_name', 'ASC')->get();
+        if(Auth::guard('c_user')->user()->business_location_id  == '1' || Auth::guard('c_user')->user()->business_location_id  == null ){
+            $business_location_id = 1;
+           }else{
+            $business_location_id = 3;
+
+           }
+
+        $province = DB::table('dataset_provinces')
+        ->select('*')
+        ->where('business_location_id',$business_location_id)
+        ->get();
 
         //BEGIN ข้อมูลส่วนตัวของ customers
         $customers_id = Auth::guard('c_user')->user()->id;

@@ -320,8 +320,8 @@
                                                                 id="same_province">
                                                                 <option value="">--กรุณาเลือก--</option>
                                                                 @foreach ($province as $item)
-                                                                    <option value="{{ $item->province_id }}">
-                                                                        {{ $item->province_name }}</option>
+                                                                    <option value="{{ $item->id }}">
+                                                                        {{ $item->name_th }}</option>
                                                                 @endforeach
                                                             </select>
 
@@ -757,7 +757,7 @@
                 $("#same_zipcode").val("");
                 data.forEach((item) => {
                     $("#same_district").append(
-                        `<option value="${item.district_id}">${item.district_name}</option>`
+                        `<option value="${item.id}">${item.name_th}</option>`
                     );
                 });
                 $("#same_district").attr('disabled', false);
@@ -787,7 +787,7 @@
                 $("#same_zipcode").val("");
                 data.forEach((item) => {
                     $("#same_tambon").append(
-                        `<option value="${item.tambon_id}">${item.tambon_name}</option>`
+                        `<option value="${item.id}">${item.name_th}</option>`
                     );
                 });
                 $("#same_tambon").attr('disabled', false);
@@ -795,6 +795,7 @@
             error: function() {}
         })
     });
+
     // BEGIN district
 
     //  BEGIN tambon
