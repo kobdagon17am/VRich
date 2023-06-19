@@ -14,7 +14,7 @@ class ShippingLocationtControlle extends Controller
 
     public function index()
     {
-        $province = DB::table('address_provinces')
+        $province = DB::table('dataset_provinces')
         ->select('*')
         ->get();
     return view('backend/dataset/shipping_location', compact('province'));
@@ -46,7 +46,7 @@ class ShippingLocationtControlle extends Controller
     public function shipping_location_datable(Request $request)
     {
         $business_location_id = 1;
-
+        dd('dddd');
 
         $vicinity = DB::table('dataset_shipping_vicinity')
         ->select('*');
@@ -55,8 +55,8 @@ class ShippingLocationtControlle extends Controller
         return $sQuery
             ->addIndexColumn()
             ->addColumn('province_id_fk', function ($row) {
-                $address_provinces = DB::table('address_provinces')
-                ->where('province_id','=',$row->province_id_fk)
+                $address_provinces = DB::table('dataset_provinces')
+                ->where('id','=',$row->province_id_fk)
                 ->first();
                 return  @$address_provinces->province_name;
             })

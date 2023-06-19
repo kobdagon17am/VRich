@@ -132,9 +132,9 @@
                 </div>
                 <input type="hidden" name="user_name_upgrad" id="user_name_upgrad">
 
-                <div class="col-span-12 sm:col-span-12"> <label for="modal-form-6" class="form-label">ปรับ PV อัพตำแหน่ง</label>
+                {{-- <div class="col-span-12 sm:col-span-12"> <label for="modal-form-6" class="form-label">ปรับ PV อัพตำแหน่ง</label>
                     <input  type="number" class="form-control" name="pv" placeholder="Pv Upgrad" value="0">
-                </div>
+                </div> --}}
                 <div class="col-span-12 sm:col-span-12"> <label for="modal-form-6" class="form-label">ตำแหน่ง</label>
                     <select id="modal-form-6" class="form-select"  name="position" required>
                         @foreach ($position as $item)
@@ -241,12 +241,12 @@
 
                         {
                             data: "id_card",
-                            title: "ชื่อนามสกุล",
+                            title: "ID CARD",
                             className: "w-10",
                         },
 
                         {
-                            data: "qualification_id",
+                            data: "business_qualifications",
                             title: "ตำแหน่ง",
                             className: "w-10",
 
@@ -278,11 +278,11 @@
                             className: "w-10",
                         },
 
-                        {
-                            data: "bonus_xvvip",
-                            title: "PV สร้างทีม XVVIP",
-                            className: "w-10 text-end",
-                        },
+                        // {
+                        //     data: "bonus_xvvip",
+                        //     title: "PV สร้างทีม XVVIP",
+                        //     className: "w-10 text-end",
+                        // },
 
 
                         {

@@ -21,6 +21,9 @@ Route::prefix('admin')->group(function () {
 
 
 
+
+
+
     Route::get('check_doc', 'Backend\CustomerServiceController@index')->name('check_doc');
     Route::get('get_check_doc', 'Backend\CustomerServiceController@get_check_doc')->name('get_check_doc');
     Route::post('admin_get_info_card', 'Backend\CustomerServiceController@admin_get_info_card')->name('admin_get_info_card');

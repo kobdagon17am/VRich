@@ -224,7 +224,11 @@ class CustomerServiceController extends Controller
 
     {
         $customers_id = $id;
-        $province = AddressProvince::orderBy('province_name', 'ASC')->get();
+        // $province = AddressProvince::orderBy('province_name', 'ASC')->get();
+
+        $province = DB::table('dataset_provinces')
+        ->select('*')
+        ->get();
 
         //BEGIN ข้อมูลส่วนตัวของ customers
         $customers_info = Customers::where('id', $customers_id)->first();

@@ -23,11 +23,12 @@ class CustomerAllController extends Controller
     {
         $business_location_id = 1;
         $jang_pv = DB::table('customers')
-            // ->select('jang_pv.*','jang_type.type as type_name')
-            // ->leftjoin('jang_type', 'jang_pv.type', '=', 'jang_type.id')
+            ->select('customers.*','dataset_qualification.business_qualifications')
+            ->leftjoin('dataset_qualification', 'dataset_qualification.id', '=', 'customers.qualification_id')
             ->whereRaw(("case WHEN  '{$request->user_name}' != ''  THEN  customers.user_name = '{$request->user_name}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->position}' != ''  THEN  customers.qualification_id = '{$request->position}' else 1 END"))
-            ->orderby('id', 'DESC');
+            ->orderby('id', 'DESC')->get();
+
 
         $sQuery = Datatables::of($jang_pv);
         return $sQuery
@@ -92,7 +93,7 @@ class CustomerAllController extends Controller
                                 <ul class="dropdown-content">
                                     <li>
 
-                                        <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#basic-modal-preview"  onclick="modal_logtranfer(\'' . $row->user_name . '\', \'' . $name . '\')" class="dropdown-item">
+                                        <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#edit_position"  onclick="modal_logtranfer(\'' . $row->user_name . '\', \'' . $name . '\')" class="dropdown-item">
                                             ปรับตำแหน่ง
                                         </a>
                                     </li>
@@ -131,12 +132,12 @@ class CustomerAllController extends Controller
 
             DB::table('log_up_vl')->insert([
                 'user_name' => $user_action->user_name,'introduce_id' => $user_action->introduce_id,
-                'old_lavel' => $user_action->qualification_id, 'new_lavel' =>$request->position,'pv_upgrad'=>$request->pv, 'status' => 'success', 'type' => 'jangpv','note'=>'ปรับตำแหน่งโดย Admin'
+                'old_lavel' => $user_action->qualification_id, 'new_lavel' =>$request->position,'pv_upgrad'=>0, 'status' => 'success', 'type' => 'jangpv','note'=>'ปรับตำแหน่งโดย Admin'
             ]);
 
             DB::table('customers')
             ->where('user_name', $user_action->user_name)
-            ->update(['qualification_id' => $request->position, 'pv_upgrad' => $request->pv]);
+            ->update(['qualification_id' => $request->position, 'pv_upgrad' => 0]);
             DB::commit();
 
             return redirect('admin/CustomerAll')->withSuccess('ปรับตำแหน่งสำเร็จ');

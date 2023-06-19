@@ -260,9 +260,9 @@
                                 <select class="form-select card_address province  " name="card_province" id="province">
                                     <option value="">--กรุณาเลือก--</option>
                                     @foreach ($province as $item)
-                                        <option {{ @$address_card->province == $item->province_id ? 'selected' : '' }}
-                                            value="{{ $item->province_id }}">
-                                            {{ $item->province_name }}</option>
+                                        <option {{ @$address_card->province == $item->id ? 'selected' : '' }}
+                                            value="{{ $item->id }}">
+                                            {{ $item->name_th }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -352,9 +352,9 @@
                         <select class="form-select address_same_card" name="same_province" id="same_province">
                             <option selected disabled value="">--กรุณาเลือก--</option>
                             @foreach ($province as $item)
-                                <option {{ @$address_delivery->province == $item->province_id ? 'selected' : '' }}
-                                    value="{{ $item->province_id }}">
-                                    {{ $item->province_name }}</option>
+                                <option {{ @$address_delivery->province == $item->id ? 'selected' : '' }}
+                                    value="{{ $item->id }}">
+                                    {{ $item->name_th }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -553,7 +553,7 @@
                         $(".zipcode").val("");
                         data.forEach((item) => {
                             $(".district").append(
-                                `<option value="${item.district_id}">${item.district_name}</option>`
+                                `<option value="${item.id}">${item.name_th}</option>`
                             );
                         });
                         $(".district").attr('disabled', false);
@@ -580,7 +580,7 @@
                         $(".zipcode").val("");
                         data.forEach((item) => {
                             $(".tambon").append(
-                                `<option value="${item.tambon_id}">${item.tambon_name}</option>`
+                                `<option value="${item.id}">${item.name_th}</option>`
                             );
                         });
                         $(".tambon").attr('disabled', false);
@@ -667,7 +667,7 @@
                         $("#same_zipcode").val("");
                         data.forEach((item) => {
                             $("#same_district").append(
-                                `<option ${district == item.district_id ? 'selected' : ''}   value="${item.district_id}">${item.district_name}</option>`
+                                `<option ${district == item.id ? 'selected' : ''}   value="${item.id}">${item.name_th}</option>`
                             );
                         });
                         $("#same_district").attr('disabled', false);
@@ -699,7 +699,7 @@
                         let tambon = ` {{ @$address_delivery->tambon }}`;
                         data.forEach((item) => {
                             $("#same_tambon").append(
-                                `<option ${tambon == item.tambon_id ? 'selected' : ''}  value="${item.tambon_id}">${item.tambon_name}</option>`
+                                `<option ${tambon == item.id ? 'selected' : ''}  value="${item.id}">${item.name_th}</option>`
                             );
                         });
                         $("#same_tambon").attr('disabled', false);
