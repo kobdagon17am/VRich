@@ -67,11 +67,12 @@
                         <table id="table_product" style="width:100%;" class="table table-striped table-bordered nowrap">
                             <thead class="thead_txt_center">
                                 <tr style="width:100%;">
-                                    <th style="width: 15%; text-align:center;">#</th>
+                                    <th style="width: 5%; text-align:center;">#</th>
+                                    <th style="width: 10%; text-align:center;">img</th>
                                     <th style="width: 55%; text-align:center;">Title</th>
-                                    <th>Slide No.</th>
-                                    <th style="width: 15%; text-align:center;">Status</th>
-                                    <th style="width: 15%;">Action</th>
+                                    <th style="width: 10%; text-align:center;">Slide No.</th>
+                                    <th style="width: 10%; text-align:center;">Status</th>
+                                    <th style="width: 5%;">Action</th>
                                 </tr>
                             </thead>
                             <tbody class="tbody_txt_center">
@@ -79,14 +80,16 @@
                                     @foreach ($Product as $item => $value)
                                         <tr>
                                             <td style="text-align:center;">{{ $item + 1 }}</td>
+                                            <td  class="text-center">
+                                                <img src="{{ asset($value->img_url.''.$value->product_img) }}" class="w-20">
+                                            </td>
                                             <td style="text-align:center;">
                                                 <p> {{ isset($value) ? $value->product_name : '' }}</p>
                                             </td>
-                                            <td>Slide No.
-                                                {{ isset($value->orderby) ? $value->orderby : '' }}
+                                            <td>  No.{{ isset($value->orderby) ? $value->orderby : '' }}
                                                 <br> <button onclick="slide_no({{ $value->id }})" data-tw-toggle="modal"
-                                                    data-tw-target="#slideModal" class="btn btn-primary btn-round btn-mini">
-                                                    แก้ไขลำดับสไลด์</button>
+                                                    data-tw-target="#slideModal" class="btn mtn-sm btn-primary btn-round btn-mini">
+                                                    ลำดับ</button>
                                             </td>
                                             <td style="text-align:center;">
                                                 @if (isset($value->status))
@@ -245,6 +248,24 @@
                                 <span class="text-danger name_err _err"></span>
                             </label>
                             <input id="regular-form-1" name="member_price_usd" id="member_price_usd" type="number"
+                                step='1.00' placeholder='0.00' class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-span-4">
+                        <div>
+                            <label for="regular-form-1" class="form-label">Product Shipping-Price TH:
+                                <span class="text-danger name_err _err"></span>
+                            </label>
+                            <input id="regular-form-1" name="shipping_th" id="shipping_th" type="number"
+                                step='1.00' placeholder='0.00' class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-span-4">
+                        <div>
+                            <label for="regular-form-1" class="form-label">Product Shipping-Price USD:
+                                <span class="text-danger name_err _err"></span>
+                            </label>
+                            <input id="regular-form-1" name="shipping_usd" id="shipping_usd" type="number"
                                 step='1.00' placeholder='0.00' class="form-control">
                         </div>
                     </div>

@@ -28,7 +28,9 @@ class ProductController extends Controller
 
         // $product = Products::all();
         $product = DB::table('products_details')
+
             ->join('products', 'products_details.product_id_fk', 'products.id')
+            ->join('products_images', 'products_images.product_id_fk', 'products.id')
             ->select(
                 'products.id',
                 'products_details.product_name',
@@ -36,6 +38,8 @@ class ProductController extends Controller
                 'products_details.descriptions',
                 'products_details.products_details',
                 'products.status',
+                'products.orderby',
+                'products_images.img_url','products_images.product_img'
             )->where('products_details.lang_id', '=', '1')
             ->get();
 
@@ -138,6 +142,9 @@ class ProductController extends Controller
         $pro_cost->cost_price_usd = $request->cost_price_usd;
         $pro_cost->selling_price_usd = $request->selling_price_usd;
         $pro_cost->member_price_usd = $request->member_price_usd;
+
+        $pro_cost->shipping_th = $request->shipping_th;
+        $pro_cost->shipping_usd = $request->shipping_usd;
 
 
         $pro_cost->pv = $request->product_pv;
@@ -303,6 +310,7 @@ class ProductController extends Controller
         $pro_cost->cost_price = $request->cost_price_update;
         $pro_cost->selling_price = $request->selling_price_update;
         $pro_cost->member_price = $request->member_price_update;
+
         $pro_cost->pv = $request->product_pv_update;
         $pro_cost->status = $request->status_update;
         $pro_cost->status_shipping = $request->status_shipping_update;
