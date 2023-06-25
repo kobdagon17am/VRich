@@ -222,7 +222,7 @@
                     </div>
 
 
-                          <div class="col-span-4">
+                    <div class="col-span-4">
                         <div>
                             <label for="regular-form-1" class="form-label">Product Cost-Price USD:
                                 <span class="text-danger name_err _err"></span>
