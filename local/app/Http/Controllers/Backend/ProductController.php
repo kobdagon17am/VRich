@@ -186,36 +186,48 @@ class ProductController extends Controller
     public function Pulldata(Request $request)
     {
 
+
         $id_pro = $request->id;
 
         $sql_product = DB::table('products')
+        ->select(
+
+            'dataset_categories.category_name',
+            'dataset_product_unit.product_unit',
+            'dataset_size.size',
+            'products.id',
+            'products.category_id',
+            'products.unit_id',
+            'products.size_id',
+            'products.status',
+            'products_details.product_name',
+            'products_details.title',
+            'products_details.descriptions',
+            'products_details.products_details',
+            'products_details.lang_id',
+
+            'products_cost.cost_price_th',
+            'products_cost.selling_price_th',
+            'products_cost.member_price_th',
+
+            'products_cost.cost_price_usd',
+            'products_cost.selling_price_usd',
+            'products_cost.member_price_usd',
+
+            'products_cost.shipping_th',
+            'products_cost.shipping_usd',
+
+            'products_cost.pv',
+            'products_cost.status_shipping',
+            'products_images.product_img',
+        )
             ->leftjoin('products_details', 'products.id', 'products_details.product_id_fk')
             ->leftjoin('products_cost', 'products.id', 'products_cost.product_id_fk')
             ->leftjoin('products_images', 'products.id', 'products_images.product_id_fk')
             ->leftjoin('dataset_categories', 'products.category_id', 'dataset_categories.id')
             ->leftjoin('dataset_product_unit', 'products.unit_id', 'dataset_product_unit.id')
             ->leftjoin('dataset_size', 'products.size_id', 'dataset_size.id')
-            ->select(
-                'products.id',
-                'products.category_id',
-                'products.unit_id',
-                'products.size_id',
-                'products.status',
-                'products_details.product_name',
-                'products_details.title',
-                'products_details.descriptions',
-                'products_details.products_details',
-                'products_details.lang_id',
-                'dataset_categories.category_name',
-                'dataset_product_unit.product_unit',
-                'dataset_size.size',
-                'products_cost.cost_price',
-                'products_cost.selling_price',
-                'products_cost.member_price',
-                'products_cost.pv',
-                'products_cost.status_shipping',
-                'products_images.product_img',
-            )->where('products.id', $id_pro)
+            ->where('products.id', $id_pro)
             ->where('products_details.lang_id', '=', '1')
             // ->where('products.status', '=', '1')
             // ->where('products_cost.status', '=', '1')
@@ -226,14 +238,12 @@ class ProductController extends Controller
             ->first();
 
             // dd($sql_product);
+        // $materials = ProductMaterals::where('product_id', $id_pro)
+        //     ->join('matreials', 'matreials.id', 'matreials_id')
+        //     ->get();
 
 
-        $materials = ProductMaterals::where('product_id', $id_pro)
-            ->join('matreials', 'matreials.id', 'matreials_id')
-            ->get();
-
-
-        return response()->json(['sql_product' => $sql_product, 'materials' => $materials], 200);
+        return response()->json(['sql_product' => $sql_product], 200);
     }
 
     /**
@@ -305,11 +315,27 @@ class ProductController extends Controller
 
         $pro_cost = Product_Cost::find($request->id);
         $pro_cost->product_id_fk = $pro->id;
-        $pro_cost->business_location_id = '1';
-        $pro_cost->currency_id = '1';
-        $pro_cost->cost_price = $request->cost_price_update;
-        $pro_cost->selling_price = $request->selling_price_update;
-        $pro_cost->member_price = $request->member_price_update;
+        // $pro_cost->business_location_id = '1';
+        // $pro_cost->currency_id = '1';
+
+
+        // $pro_cost->cost_price = $request->cost_price_update;
+        // $pro_cost->selling_price = $request->selling_price_update;
+        // $pro_cost->member_price = $request->member_price_update;
+
+
+        $pro_cost->cost_price_th = $request->cost_price_th_update;
+        $pro_cost->selling_price_th = $request->selling_price_th_update;
+        $pro_cost->member_price_th = $request->member_price_th_update;
+
+
+
+        $pro_cost->cost_price_usd = $request->cost_price_usd_update;
+        $pro_cost->selling_price_usd = $request->selling_price_usd_update;
+        $pro_cost->member_price_usd = $request->member_price_usd_update;
+
+        $pro_cost->shipping_th = $request->shipping_th_update;
+        $pro_cost->shipping_usd = $request->shipping_usd_update;
 
         $pro_cost->pv = $request->product_pv_update;
         $pro_cost->status = $request->status_update;
@@ -341,22 +367,22 @@ class ProductController extends Controller
         }
         $pro_img->image_default = '1';
         $pro_img->update();
-        $query_del_materials = ProductMaterals::where('product_id', $pro->id)->delete();
+        // $query_del_materials = ProductMaterals::where('product_id', $pro->id)->delete();
 
 
 
-        foreach ($request->materials as $val) {
-            if ($val['id'] != null) {
-                $dataPrepare_materials = [
-                    'product_id' => $pro->id,
-                    'matreials_id' => $val['id'],
-                    'matreials_count' => $val['count']
-                ];
-                $query_ProductMaterals = ProductMaterals::create($dataPrepare_materials);
-            }
-        }
+        // foreach ($request->materials as $val) {
+        //     if ($val['id'] != null) {
+        //         $dataPrepare_materials = [
+        //             'product_id' => $pro->id,
+        //             'matreials_id' => $val['id'],
+        //             'matreials_count' => $val['count']
+        //         ];
+        //         $query_ProductMaterals = ProductMaterals::create($dataPrepare_materials);
+        //     }
+        // }
 
-        return redirect('admin/product');
+        return redirect('admin/product')->withSuccess('success');
     }
 
     /**

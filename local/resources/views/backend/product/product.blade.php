@@ -354,7 +354,7 @@
                         <div>
                             <select type="text" class="rounded" name="status" id="status"
                                 style="width:100%; padding: 4px; font-size:14px;">
-                                <option value="" selected>เลือกสถานะ</option>
+                                {{-- <option value="" selected>เลือกสถานะ</option> --}}
                                 <option value="0">ปิดการใช้งาน</option>
                                 <option value="1">เปิดการใช้งาน</option>
                             </select>
@@ -515,9 +515,20 @@
                     $('input[name^=product_title_update').val(result['title'])
                     $('#product_descrip_update').summernote('code', result['descriptions']);
                     $('#products_details_update').summernote('code', result['products_details']);
-                    $('input[name^=cost_price_update').val(result['cost_price'])
-                    $('input[name^=selling_price_update').val(result['selling_price'])
-                    $('input[name^=member_price_update').val(result['member_price'])
+
+
+                    $('input[name^=cost_price_th_update').val(result['cost_price_th'])
+                    $('input[name^=selling_price_th_update').val(result['selling_price_th'])
+                    $('input[name^=member_price_th_update').val(result['member_price_th'])
+
+                    $('input[name^=cost_price_usd_update').val(result['cost_price_usd'])
+                    $('input[name^=selling_price_usd_update').val(result['selling_price_usd'])
+                    $('input[name^=member_price_usd_update').val(result['member_price_usd'])
+
+                    $('input[name^=shipping_th_update').val(result['shipping_th'])
+                    $('input[name^=shipping_usd_update').val(result['shipping_usd'])
+
+
                     $('input[name^=product_pv_update').val(result['pv'])
                     $('#select_category_update').val(result['category_id'])
                     $('#select_unit_update').val(result['unit_id'])

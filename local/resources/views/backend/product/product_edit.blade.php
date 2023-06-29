@@ -61,37 +61,87 @@
 
                 <div class="col-span-4">
                     <div>
-                        <label for="regular-form-1" class="form-label">Product Cost-Price :
+                        <label for="regular-form-1" class="form-label">Product Cost-Price BAT:
                             <span class="text-danger name_err _err"></span>
                         </label>
-                        <input id="regular-form-1" name="cost_price_update" id="cost_price_update" type="number"
-                            step='0.01' placeholder='0.00' class="form-control" value="">
+                        <input id="regular-form-1" name="cost_price_th_update" id="cost_price_th_update" type="number" step='1'
+                            placeholder='0.00' class="form-control">
                     </div>
                 </div>
 
                 <div class="col-span-4">
                     <div>
-                        <label for="regular-form-1" class="form-label">Product Selling-Price :
+                        <label for="regular-form-1" class="form-label">Product Selling-Price BAT:
                             <span class="text-danger name_err _err"></span>
                         </label>
-                        <input id="regular-form-1" name="selling_price_update" id="selling_price_update" type="number"
-                            step='0.01' placeholder='0.00' class="form-control" value="">
+                        <input id="regular-form-1" name="selling_price_th_update" id="selling_price_th_update" type="number"
+                            step='1.00' placeholder='0.00' class="form-control">
                     </div>
                 </div>
 
                 <div class="col-span-4">
                     <div>
-                        <label for="regular-form-1" class="form-label">Product Member-Price :
+                        <label for="regular-form-1" class="form-label">Product Member-Price BAT:
                             <span class="text-danger name_err _err"></span>
                         </label>
-                        <input id="regular-form-1" name="member_price_update" id="member_price_update" type="number"
-                            step='0.01' placeholder='0.00' class="form-control" value="">
+                        <input id="regular-form-1" name="member_price_th_update" id="member_price_th_update" type="number"
+                            step='1.00' placeholder='0.00' class="form-control">
                     </div>
                 </div>
+
+
+                <div class="col-span-4">
+                    <div>
+                        <label for="regular-form-1" class="form-label">Product Cost-Price USD:
+                            <span class="text-danger name_err _err"></span>
+                        </label>
+                        <input id="regular-form-1" name="cost_price_usd_update" id="cost_price_usd_update" type="number" step='1.00'
+                            placeholder='0.00' class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-span-4">
+                    <div>
+                        <label for="regular-form-1" class="form-label">Product Selling-Price USD:
+                            <span class="text-danger name_err _err"></span>
+                        </label>
+                        <input id="regular-form-1" name="selling_price_usd_update" id="selling_price_usd_update" type="number"
+                            step='1.00' placeholder='0.00' class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-span-4">
+                    <div>
+                        <label for="regular-form-1" class="form-label">Product Member-Price USD:
+                            <span class="text-danger name_err _err"></span>
+                        </label>
+                        <input id="regular-form-1" name="member_price_usd_update" id="member_price_usd_update" type="number"
+                            step='1.00' placeholder='0.00' class="form-control">
+                    </div>
+                </div>
+                <div class="col-span-4">
+                    <div>
+                        <label for="regular-form-1" class="form-label">Product Shipping-Price TH:
+                            <span class="text-danger name_err _err"></span>
+                        </label>
+                        <input id="regular-form-1" name="shipping_th_update" id="shipping_th_update" type="number"
+                            step='1.00' placeholder='0.00' class="form-control">
+                    </div>
+                </div>
+                <div class="col-span-4">
+                    <div>
+                        <label for="regular-form-1" class="form-label">Product Shipping-Price USD:
+                            <span class="text-danger name_err _err"></span>
+                        </label>
+                        <input id="regular-form-1" name="shipping_usd_update" id="shipping_usd_update" type="number"
+                            step='1.00' placeholder='0.00' class="form-control">
+                    </div>
+                </div>
+
 
                 <div class="col-span-6">
                     <div>
-                        <label for="regular-form-1" class="form-label">Product PV :
+                        <label for="regular-form-1" class="form-label">Product PT :
                             <span class="text-danger name_err _err"></span>
                         </label>
                         <input id="regular-form-1" name="product_pv_update" id="product_pv_update" type="number"
@@ -106,7 +156,7 @@
                         </label>
                         <select type="text" class="rounded" name="status_shipping_update" id="status_shipping_update"
                             style="width:100%; padding: 4px; font-size:14px;">
-                            <option value="" selected>เลือกสถานะ</option>
+                            {{-- <option value="" selected>เลือกสถานะ</option> --}}
                             <option value="Y"> คิดค่าส่ง </option>
                             <option value="N" > ไม่คิดค่าส่ง </option>
                         </select>
@@ -173,36 +223,13 @@
                     <div>
                         <select type="text" class="rounded" name="status_update" id="status_update"
                             style="width:100%; padding: 4px; font-size:14px;">
-                            <option value="" selected>เลือกสถานะ</option>
+                            {{-- <option value="" selected>เลือกสถานะ</option> --}}
                             <option value="0">ปิดการใช้งาน</option>
                             <option value="1">เปิดการใช้งาน</option>
                         </select>
                     </div>
                 </div>
 
-
-
-                <div class="col-span-12 mt-3">
-                    <div class="w-full flex justify-center border-t border-slate-200/60 dark:border-darkmode-400 mt-2">
-                        <div class="bg-white dark:bg-darkmode-600 px-5 -mt-3 text-slate-500">วัตถุดิบ</div>
-                    </div>
-                </div>
-
-
-                <div class="col-span-4 materials_null">
-                    <div>
-                        <label for="">วัตถุดิ</label>
-                        <select type="text" class="rounded " name="materials[1][id]"
-                            style="width:100%; padding: 4px; font-size:14px;">
-                            <option value="" selected>เลือกวัตถุดิบ</option>
-
-                            @foreach ($materials as $key => $item)
-                                <option value="{{ $item->id }}">{{ $item->materials_name }}</option>
-                            @endforeach
-
-                        </select>
-                    </div>
-                </div>
 
                 <div class="col-span-4 materials_null">
                     <label for="">จำนวน</label>
