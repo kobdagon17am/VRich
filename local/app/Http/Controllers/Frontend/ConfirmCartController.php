@@ -237,8 +237,16 @@ class ConfirmCartController extends Controller
 
         $user_name = Auth::guard('c_user')->user()->user_name;
         $insert_db_orders->customers_user_name = $user_name;
-        $business_location_id = Auth::guard('c_user')->user()->business_location_id;
-        $business_location_id = 1;
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            $dataset_currency =  1;
+            $business_location_id = 1;
+
+        }else{
+            $dataset_currency =  2;
+            $business_location_id =Auth::guard('c_user')->user()->business_location_id;
+
+        }
+
         $insert_db_orders->business_location_id_fk =  $business_location_id;
 
         if($insert_db_orders->sent_type_to_customer =='sent_type_other'){
@@ -332,18 +340,31 @@ class ConfirmCartController extends Controller
                 ->where('product_id_fk',$value['id'])
                 ->where('status_shipping','Y')
                 ->first();
+
+
                 if($product_shipping){
                     //$pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
-                    $pv_shipping_arr[] = $value['quantity'] * 20;
+
+
+                    $product_shipping_th = $product_shipping->shipping_th  ?? '0';
+                    $product_shipping_usd = $product_shipping->shipping_usd  ?? '0';
+
+
+                   $shipping_arr_th[] =  $product_shipping_th * $value['quantity'] ;
+                   $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'] ;
                 }else{
-                    $pv_shipping_arr[] = 0;
+                    $shipping_arr_th[] = 0;
+                    $shipping_arr_th[] = 0;
                 }
 
             }
-            $pv_shipping = array_sum($pv_shipping_arr);
+            $shipping_th = array_sum($shipping_arr_th);
+            $shipping_usd = array_sum($shipping_arr_usd);
             $pv_total = array_sum($pv);
+
         } else {
-            $pv_shipping = 0;
+            $shipping_th = 0;
+            $shipping_usd = 0;
             $pv_total = 0;
 
         }
@@ -353,45 +374,28 @@ class ConfirmCartController extends Controller
         //ราคาสินค้า
         $price = Cart::session(1)->getTotal();
 
-        $vat = DB::table('dataset_vat')
-        ->where('business_location_id_fk', '=', $business_location_id)
-        ->first();
-
-       $vat = $vat->vat;
-       //vatใน 7%
-       $p_vat = $price * ($vat / (100 + $vat));
-        //มูลค่าสินค้า
-        $price_vat = $price - $p_vat;
-        $insert_db_orders->product_value = $price_vat ;
-
-        $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
-        $shipping_zipcode = \App\Http\Controllers\Frontend\ShippingController::fc_shipping_zip_code($insert_db_orders->zipcode);
-        $shipping_total = $shipping+$shipping_zipcode['price'];
+        // $vat = DB::table('dataset_vat')
+        // ->where('business_location_id_fk', '=', $business_location_id)
+        // ->first();
 
 
 
-        if($shipping_total == 0){
-            $insert_db_orders->shipping_free = 1;//ส่งฟรี
-            $insert_db_orders->shipping_cost_id_fk = 1;
-            $shipping_cost_name = DB::table('dataset_shipping_cost')
-            ->where('id',1)
-            ->first();
 
+        $insert_db_orders->product_value = $price ;
+
+        if( $dataset_currency ==  1){
+            $shipping_total = $shipping_th;
 
         }else{
-            if( $shipping_zipcode['status'] == 'success'){
-                $insert_db_orders->shipping_cost_id_fk = 3;
-                $shipping_cost_name = DB::table('dataset_shipping_cost')
-                ->where('id',3)
-                ->first();
-            }else{
-                $insert_db_orders->shipping_cost_id_fk = 2;
-                $shipping_cost_name = DB::table('dataset_shipping_cost')
-                ->where('id',2)
-                ->first();
-            }
+            $shipping_total = $shipping_usd;
+
         }
-        $insert_db_orders->shipping_cost_name = $shipping_cost_name->shipping_name;
+
+
+
+
+
+        $insert_db_orders->shipping_cost_name = '';
 
         $insert_db_orders->sum_price = $price;
 
@@ -415,18 +419,23 @@ class ConfirmCartController extends Controller
         $insert_db_orders->shipping_price = $shipping_total;
         $insert_db_orders->total_price = $total_price;
         $insert_db_orders->pv_total = $pv_total;
-        $insert_db_orders->tax = $vat;
-        $insert_db_orders->tax_total = $p_vat;
+        $insert_db_orders->tax = 0;
+        $insert_db_orders->tax_total = 0;
         $insert_db_orders->order_status_id_fk = 2;
         $insert_db_orders->quantity = $quantity ;
         $insert_db_orders->code_order = $code_order;
+
+
 
         try {
             DB::BeginTransaction();
 
         $insert_db_orders->save();
+
         $insert_order_products_list::insert($insert_db_products_list);
+
          $run_payment = ConfirmCartController::run_payment($code_order);
+
 
          Cart::session(1)->clear();
 
@@ -455,6 +464,7 @@ class ConfirmCartController extends Controller
         ->where('code_order', '=',$code_order)
         ->where('order_status_id_fk', '=',2)
         ->first();
+
 
         if($order){
 
@@ -517,31 +527,9 @@ class ConfirmCartController extends Controller
             $order_update->ewallet_banlance = $ewallet;
             $order_update->order_status_id_fk = 5;
 
-            $jang_pv = new Jang_pv();
-
-            $code = \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_pv();
-
-
-            $jang_pv->code = $code;
-            $jang_pv->code_order =  $order->code_order;
-            $jang_pv->customer_username = $order->customers_user_name;
-            // $jang_pv->to_customer_username = $data_user->user_name;
-            $jang_pv->position = $order->position;
-            $jang_pv->bonus_percen = $order->bonus_percent;
-            $jang_pv->pv_old = $pv_old;
-            $jang_pv->pv = $order->pv_total;
-            $jang_pv->pv_balance =  $pv_balance;
-            // $jang_pv->date_active =  date('Y-m-d',$mt_mount_new);
-            // $pv_to_price =  $data_user->pv_active;//ได้รับ 100%
-            $jang_pv->wallet =   $order->total_price;
-            $jang_pv->old_wallet = $ewallet_old;
-            $jang_pv->wallet_balance = $ewallet;
-            $jang_pv->type =  '5';
-            $jang_pv->status =  'Success';
-
 
             $resule = ['status' => 'success', 'message' => 'สั่งซื้อสินค้าสำเร็จ'];
-            $jang_pv->save();
+
             $order_update->save();
             $customer_update->save();
 
