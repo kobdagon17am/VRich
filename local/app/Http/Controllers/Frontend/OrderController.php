@@ -18,6 +18,16 @@ class OrderController extends Controller
     }
     public function index()
     {
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            $dataset_currency =  1;
+        }else{
+            $dataset_currency =  2;
+        }
+
+        $dataset_currency = DB::table('dataset_currency')
+        ->where('id', '=',$dataset_currency)
+        ->first();
+
 
         // Cart::session(1)->clear();
 
@@ -29,7 +39,7 @@ class OrderController extends Controller
         $product_all = OrderController::product_list();
 
 
-        return view('frontend/order', compact('product_all', 'categories'));
+        return view('frontend/order', compact('product_all', 'categories','dataset_currency'));
     }
 
 
@@ -116,6 +126,13 @@ class OrderController extends Controller
     }
     public static function get_product(Request $rs)
     {
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            $dataset_currency =  1;
+        }else{
+            $dataset_currency =  2;
+        }
+
+
         $product = DB::table('products')
             ->select(
                 'products.id as products_id',
@@ -135,8 +152,15 @@ class OrderController extends Controller
             // ->where('products_cost.business_location_id', '=', 1)
             ->first();
 
+            $dataset_currency = DB::table('dataset_currency')
+            ->where('id', '=',$dataset_currency)
+            ->first();
+
+
+
         $data = array(
-            'product' => $product
+            'product' => $product,
+            'dataset_currency' =>  $dataset_currency,
         );
         return $data;
     }
@@ -173,12 +197,16 @@ class OrderController extends Controller
             // ->where('products_cost.business_location_id', '=', 1)
             ->first();
 
+
+
             if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
                 $dataset_currency =  1;
                 $price = $product->member_price_th;
+                $shipping = $product->shipping_th  ?? '0';
             }else{
                 $dataset_currency =  2;
                 $price = $product->member_price_usd;
+                $shipping = $product->shipping_usd  ?? '0';
             }
 
             $dataset_currency = DB::table('dataset_currency')
@@ -192,6 +220,7 @@ class OrderController extends Controller
                 'price' =>  $price,
                 'quantity' => $rs->quantity,
                 'attributes' => array(
+                    'shipping' => $shipping,
                     'pv' => $product->pv,
                     'img' => asset($product->img_url . '' . $product->product_img),
                     'product_unit_id'=>$product->product_unit_id,
@@ -228,6 +257,9 @@ class OrderController extends Controller
         if($quantity  == 0){
             return redirect('Order')->withWarning('ไม่มีสินค้าในตะกร้าสินค้า กรุณาเลือกสินค้า');
         }
+
+
+
         if ($data) {
             foreach ($data as $value) {
                 $pv[] = $value['quantity'] * $value['attributes']['pv'];
@@ -240,19 +272,32 @@ class OrderController extends Controller
 
                 if($product_shipping){
                     //$pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
-                    $pv_shipping_arr[] = $value['quantity'] * 20;
+                     $product_shipping_th = $product_shipping->shipping_th  ?? '0';
+                     $product_shipping_usd = $product_shipping->shipping_usd  ?? '0';
+
+
+                    $shipping_arr_th[] =  $product_shipping_th * $value['quantity'] ;
+                    $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'] ;
                 }else{
-                    $pv_shipping_arr[] = 0;
+                    $shipping_arr_th[] = 0;
+                    $shipping_arr_th[] = 0;
                 }
 
             }
 
 
-            $pv_shipping = array_sum($pv_shipping_arr);
+
+
+            $shipping_th = array_sum($shipping_arr_th);
+            $shipping_usd = array_sum($shipping_arr_usd);
             $pv_total = array_sum($pv);
+
         } else {
             $pv_total = 0;
-            $pv_shipping = 0;
+            $shipping_th = 0;
+            $shipping_usd = 0;
+
+
         }
 
 
@@ -263,21 +308,29 @@ class OrderController extends Controller
         ->where('user_name','=',Auth::guard('c_user')->user()->user_name)
         ->first();
 
-
-
         $price = Cart::session(1)->getTotal();
-        $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
-        $price_total = number_format($price+$shipping, 2);
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            $dataset_currency =  1;
+            $price_total = number_format($price+$shipping_th, 2);
+        }else{
+            $dataset_currency =  2;
+            $price_total = number_format($price+$shipping_usd, 2);
+        }
 
-        $discount = floor($pv_total * $data_user->bonus/100);
+
+        // $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
+
+
+        // $discount = floor($pv_total * $data_user->bonus/100);
 
         $bill = array(
             'price_total' => $price_total,
-            'shipping'=>$shipping,
+            'shipping_th'=>$shipping_th,
+            'shipping_usd'=>$shipping_usd,
             'pv_total' => $pv_total,
             'data' => $data,
             'bonus'=>$data_user->bonus,
-            'discount'=>$discount,
+            // 'discount'=>$discount,
             'position'=>$data_user->qualification_name,
             'quantity' => $quantity,
             'status' => 'success',
@@ -285,7 +338,13 @@ class OrderController extends Controller
         );
 
 
-        return view('frontend/cart', compact('bill'));
+
+        $dataset_currency = DB::table('dataset_currency')
+        ->where('id', '=',$dataset_currency)
+        ->first();
+
+
+        return view('frontend/cart', compact('bill','dataset_currency'));
     }
 
     public function cart_delete(Request $request)

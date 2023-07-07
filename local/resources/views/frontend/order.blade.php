@@ -56,12 +56,12 @@
                                                                 <div class="col-12 col-md-12 text-start text-md-center">
                                                                     <h6 class="mb-0">{{ $value->product_name }}</h6>
                                                                     @if($product_all['currency']->id == 1)
-                                                                    <p class="mb-1"> {!! $product_all['currency']->icon !!}
-                                                                        {{ number_format($value->member_price_th, 2) }} <span
+                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
+                                                                        {{ number_format($value->member_price_th, 2) }} BAT<span
                                                                             style="color:#00c454">[{{ $value->pv }} PV]</span>
                                                                     </p>
                                                                     @else
-                                                                    <p class="mb-1"> {!! $product_all['currency']->icon !!}
+                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
                                                                         {{ number_format($value->member_price_usd, 2) }} <span
                                                                             style="color:#00c454">[{{ $value->pv }} PV]</span>
                                                                     </p>
@@ -368,7 +368,12 @@
                         // $('#modal_tree').html(data);
                         $('#ProductDetailLabel').html(data['product']['product_name']);
                         $('#descriptions').html(data['product']['descriptions']);
-                        $('#member_price').html(data['product']['member_price'] + ' ' + data['product']['icon']);
+                        if(data['dataset_currency'] == 1){
+                            $('#member_price').html(data['product']['member_price_th']+' BAT');
+                        }else{
+                            $('#member_price').html(data['product']['member_price_usd']+' USD');
+                        }
+
                         $('#pv').html(data['product']['pv'] + ' PV');
                         $('#product_id').val(product_id);
                         uel_link= url_asset+''+data['product']['img_url']+''+data['product']['product_img'];

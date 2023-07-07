@@ -42,8 +42,8 @@
                                                                 <h6 class="mb-0">{{ $value['name'] }}</h6>
                                                                 {!! $value['attributes']['descriptions'] !!}
 
+                                                                    <p class="mb-0">{!!$dataset_currency->icon!!} {{ number_format($value['price'],2) }} </p>
 
-                                                                    <p class="mb-0"> {{ number_format($value['price'],2) }} บาท</p>
                                                                     <p class="mb-0"> {{ number_format($value['attributes']['pv'],2) }} PV</p>
 
                                                             </div>
@@ -53,7 +53,7 @@
                                                                     <button type="button" class="btn btn-outline-secondary px-2 py-1"
                                                                      onclick="quantity_change({{$value['id']}},{{$value['quantity']}})">จำนวน {{ $value['quantity'] }} ชิ้น</button>
                                                                         <button type="button" class="btn btn-p2 rounded-pill mb-1" onclick="cart_delete('{{ $value['id'] }}')"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
-                                                                    <p class="mb-0">รวม {{ number_format($value['quantity']*$value['price'],2) }} บาท</p>
+                                                                    <p class="mb-0">รวม {{ number_format($value['quantity']*$value['price'],2) }} {!!$dataset_currency->icon!!}</p>
                                                                     <p class="mb-0">รวม {{ number_format($value['quantity']*$value['attributes']['pv'],2) }} PV</p>
                                                                 </div>
                                                             </div>
@@ -75,24 +75,11 @@
                                                             <p class="mb-2">มูลค่าสินค้า ({{Cart::session(1)->getTotalQuantity()}}) ชิ้น</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
-                                                            <p class="mb-2">{{ number_format(Cart::session(1)->getTotal()/1.07,2) }} บาท</p>
+                                                            <p class="mb-2">{{ number_format(Cart::session(1)->getTotal(),2) }} {!!$dataset_currency->icon!!}</p>
                                                         </div>
 
 
 
-
-                                                        <div class="col-md-6">
-                                                            <p class="mb-2">Vat 7%</p>
-                                                        </div>
-                                                        <div class="col-md-6 text-md-end">
-                                                            <p class="mb-2">{{ number_format(Cart::session(1)->getTotal() - Cart::session(1)->getTotal()/1.07,2) }} บาท</p>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p class="mb-2">มูลค่าสินค้า + Vat</p>
-                                                        </div>
-                                                        <div class="col-md-6 text-md-end">
-                                                            <p class="mb-2">{{ number_format(Cart::session(1)->getTotal()) }} บาท</p>
-                                                        </div>
                                                         <div class="col-md-6">
                                                             <p class="mb-2">PV รวม</p>
                                                         </div>
@@ -100,6 +87,7 @@
                                                             <?php
                                                             $cartCollection = Cart::session(1)->getContent();
                                                             $data = $cartCollection->toArray();
+
                                                             if ($data) {
                                                                 foreach ($data as $value) {
                                                                     $pv[] = $value['quantity'] * $value['attributes']['pv'];
@@ -116,14 +104,18 @@
                                                             <p class="mb-2">ค่าส่ง</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
-                                                            <p class="mb-2">{{$bill['shipping']}}  บาท</p>
+                                                            @if($dataset_currency->id == 1)
+                                                            <p class="mb-2">{{$bill['shipping_th']}}  {!!$dataset_currency->icon!!}</p>
+                                                            @else
+                                                            <p class="mb-2">{{$bill['shipping_usd']}}  {!!$dataset_currency->icon!!}</p>
+                                                            @endif
                                                         </div>
 
                                                         {{-- <div class="col-md-6">
                                                             <p class="mb-2">ส่วนลดประจำตำแหน่ง( {{$bill['position']}} {{$bill['bonus']}} %)</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
-                                                            <p class="mb-2">{{number_format($bill['discount'])}} บาท</p>
+                                                            <p class="mb-2">{{number_format($bill['discount'])}} {!!$dataset_currency->icon!!}</p>
                                                         </div> --}}
                                                     </div>
                                                     <hr>
@@ -132,7 +124,13 @@
                                                             <p class="mb-2">ราคาสุทธิ</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
-                                                            <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session(1)->getTotal()+$bill['shipping']) }}</span> บาท</p>
+
+                                                            @if($dataset_currency->id == 1)
+                                                            <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session(1)->getTotal()+$bill['shipping_th']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                            @else
+                                                            <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session(1)->getTotal()+$bill['shipping_usd']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                            @endif
+
                                                         </div>
                                                     </div>
                                                     <div class="text-center">

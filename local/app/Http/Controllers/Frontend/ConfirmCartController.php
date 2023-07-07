@@ -24,20 +24,6 @@ class ConfirmCartController extends Controller
     public function index()
     {
 
-        $business_location_id = 1;
-        // $location = Location::location($business_location_id, $business_location_id);
-
-        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
-            // $dataset_currency =  1;
-            // $price = $product->member_price_th;
-            $business_location_id = 1;
-        }else{
-            // $dataset_currency =  2;
-            // $price = $product->member_price_usd;
-            $business_location_id = Auth::guard('c_user')->user()->business_location_id;
-        }
-
-
 
         $location = '';
         $cartCollection = Cart::session(1)->getContent();
@@ -47,7 +33,7 @@ class ConfirmCartController extends Controller
         $user_name = Auth::guard('c_user')->user()->user_name;
 
         if($quantity  == 0){
-            return redirect('Order')->withWarning('ไม่มีสินค้าในตะกร้าสินค้า กรุณาเลือกสินค้า');
+            return redirect('Order')->withWarning('There are no products in the shopping cart. Please select a product');
         }
 
         if ($data) {
@@ -58,20 +44,32 @@ class ConfirmCartController extends Controller
                 ->where('product_id_fk',$value['id'])
                 ->where('status_shipping','Y')
                 ->first();
+
+
+
                 if($product_shipping){
-                    // $pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
-                    $pv_shipping_arr[] = $value['quantity'] * 20;
+                    //$pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
+                     $product_shipping_th = $product_shipping->shipping_th  ?? '0';
+                     $product_shipping_usd = $product_shipping->shipping_usd  ?? '0';
+
+
+                    $shipping_arr_th[] =  $product_shipping_th * $value['quantity'] ;
+                    $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'] ;
                 }else{
-                    $pv_shipping_arr[] = 0;
+                    $shipping_arr_th[] = 0;
+                    $shipping_arr_th[] = 0;
                 }
 
             }
-            $pv_shipping = array_sum($pv_shipping_arr);
+            $shipping_th = array_sum($shipping_arr_th);
+            $shipping_usd = array_sum($shipping_arr_usd);
             $pv_total = array_sum($pv);
 
         } else {
-            $pv_shipping = 0;
+
             $pv_total = 0;
+            $shipping_th = 0;
+            $shipping_usd = 0;
 
         }
 
@@ -104,31 +102,31 @@ class ConfirmCartController extends Controller
 
 
 
-        $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
+    //     $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
 
-    if($address){
-        $shipping_zipcode = \App\Http\Controllers\Frontend\ShippingController::fc_shipping_zip_code($address->zipcode);
-    }else{
-        $shipping_zipcode = ['status'=>'fail','price'=>0,'ms'=>''];
-    }
-
-
+    // if($address){
+    //     $shipping_zipcode = \App\Http\Controllers\Frontend\ShippingController::fc_shipping_zip_code($address->zipcode);
+    // }else{
+    //     $shipping_zipcode = ['status'=>'fail','price'=>0,'ms'=>''];
+    // }
 
 
 
 
-        $vat = DB::table('dataset_vat')
-            ->where('business_location_id_fk', '=', $business_location_id)
-            ->first();
 
-        $vat = $vat->vat;
+
+        // $vat = DB::table('dataset_vat')
+        //     ->where('business_location_id_fk', '=', $business_location_id)
+        //     ->first();
+
+        // $vat = $vat->vat;
 
 
         //vatใน 7%
-        $p_vat = $price * ($vat / (100 + $vat));
+        // $p_vat = $price * ($vat / (100 + $vat));
 
         //มูลค่าสินค้า
-        $price_vat = $price - $p_vat;
+        $price_vat = $price;
 
 
         $data_user =  DB::table('customers')
@@ -138,18 +136,30 @@ class ConfirmCartController extends Controller
         ->first();
         //$discount = floor($pv_total * $data_user->bonus/100);
 
-        $price_total = $price + ($shipping+$shipping_zipcode['price']);
+
+
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            $dataset_currency =  1;
+            $business_location_id = 1;
+            $price_total = number_format($price+$shipping_th, 2);
+        }else{
+            $dataset_currency =  2;
+            $business_location_id =Auth::guard('c_user')->user()->business_location_id;
+            $price_total = number_format($price+$shipping_usd, 2);
+        }
+
+        $dataset_currency = DB::table('dataset_currency')
+        ->where('id', '=',$dataset_currency)
+        ->first();
 
         $bill = array(
-            'vat' => $vat,
-            'shipping' => $shipping+$shipping_zipcode['price'],
-            'price' => $price,
-            'p_vat' => $p_vat,
-            'price_vat' => $price_vat,
             'price_total' => $price_total,
+            'shipping_th'=>$shipping_th,
+            'shipping_usd'=>$shipping_usd,
+            'price' => $price,
+            'price_vat' => $price_vat,
             'pv_total' => $pv_total,
             'data' => $data,
-            'price_shipping_pv'=>$shipping,
             'bonus'=>$data_user->bonus,
             'price_discount' => $price,
             // 'discount'=>$discount,
@@ -163,11 +173,12 @@ class ConfirmCartController extends Controller
             ->where('id', '=', Auth::guard('c_user')->user()->id)
             ->first();
 
-
-        $province = DB::table('dataset_provinces')
+            $province = DB::table('dataset_provinces')
             ->select('*')
+            ->where('business_location_id',$business_location_id)
             ->get();
-        return view('frontend/confirm_cart', compact('customer', 'address', 'location', 'province', 'bill','shipping_zipcode'));
+
+        return view('frontend/confirm_cart', compact('customer', 'address', 'location', 'province', 'bill','dataset_currency'));
     }
 
     public static function check_custome_unline(Request $rs){
@@ -200,7 +211,7 @@ class ConfirmCartController extends Controller
         if ($data_user) {
           $data = array('status' => 'success', 'data' => $data_user);
         } else {
-          $data = array('status' => 'fail', 'data' => '','ms'=>'ไม่มีข้อมูลรหัส '.$sent_user_name);
+          $data = array('status' => 'fail', 'data' => '','ms'=>'No Username:'.$sent_user_name);
         }
 
 
