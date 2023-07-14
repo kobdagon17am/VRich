@@ -10,8 +10,10 @@ use DataTables;
 
 class CustomerAllController extends Controller
 {
-
-
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
     public function index()
     {
         $position = DB::table('dataset_qualification')

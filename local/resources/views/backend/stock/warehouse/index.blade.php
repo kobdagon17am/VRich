@@ -8,14 +8,17 @@
 @section('css')
 @endsection
 
+
+@section('head_text')
+<nav aria-label="breadcrumb" class="-intro-x mr-auto hidden sm:flex">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">คลังสินค้า</a></li>
+        <li class="breadcrumb-item active" aria-current="page">จัดการคลัง สาขา {{ $branch[0]['b_code'] }} :
+            {{ $branch[0]['b_name'] }}</li>
+    </ol>
+</nav>
+@endsection
 @section('content')
-
-            @include('backend.navbar.top_bar')
-            <h2 class="text-lg font-medium mr-auto mt-2">จัดการคลัง สาขา {{ $branch[0]['b_code'] }} :
-                {{ $branch[0]['b_name'] }}
-            </h2>
-
-
 
             <div class="box p-2 mt-2">
                 <form id="form_warehoues" method="post">

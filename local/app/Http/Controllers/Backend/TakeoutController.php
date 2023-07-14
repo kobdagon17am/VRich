@@ -15,9 +15,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
+use DB;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 
 class TakeoutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
 
 
     public function index(Request $request)
@@ -26,14 +32,26 @@ class TakeoutController extends Controller
         // สาขา
         $branch = Branch::where('status', 1)->get();
 
-
-
-
-
-
+        $product = DB::table('products')
+        ->select(
+            'products.id',
+            'products_details.product_name',
+        )
+            ->leftjoin('products_details', 'products.id', 'products_details.product_id_fk')
+            ->get();
+            $y = date('Y');
+            $code =  IdGenerator::generate([
+                'table' => 'db_stock_movement',
+                'field' => 'doc_no',
+                'length' => 12,
+                'prefix' => 'WHO'.$y.''.date("m"),
+                'reset_on_prefix_change' => true
+            ]);
 
 
         return view('backend/stock/takeout/index')
+        ->with('product', $product)
+        ->with('code', $code)
             ->with('branch', $branch); //สาขา
 
     }
@@ -80,9 +98,22 @@ class TakeoutController extends Controller
 
             // ดึงข้อมูล สินค้า จาก id
 
-            ->editColumn('materials_id_fk', function ($query) {
-                $materials = Matreials::where('id', $query->materials_id_fk)->first();
-                return $materials->materials_name;
+            ->editColumn('product_id_fk', function ($query) {
+                $product = DB::table('products_details')
+                ->select(
+                    'products_details.product_name',
+                )
+                ->where('product_id_fk',$query->product_id_fk)
+                ->first();
+                if($product){
+                    return $product->product_name;
+                }else{
+                    return '';
+                }
+
+
+
+
             })
 
             // ดึงข้อมูล หน่วยนับของสินค้า
@@ -113,7 +144,9 @@ class TakeoutController extends Controller
 
             // ดึงข้อมูล member จาก id
             ->editColumn('action_user', function ($query) {
-                $member = Member::where('id', $query->action_user)->select('name')->first();
+                $member = Admin::where('id', $query->action_user)->select('name')->first();
+
+
                 return   $member['name'];
             })
             ->make(true);
@@ -130,13 +163,15 @@ class TakeoutController extends Controller
 
     public function get_data_matereials(Request $request)
     {
+
         // สินค้า
-        $matereials = Stock::select('matreials.id', 'matreials.materials_name', 'db_stocks.amt')
-            ->where('amt', '>', 0)
-            ->where('warehouse_id_fk', $request->warehouse_id_fk)
-            ->join('matreials', 'matreials.id', 'db_stocks.materials_id_fk')
-            ->GroupBy('id')
+        $matereials = Stock::select('db_stocks.id','products_details.product_id_fk', 'products_details.product_name', 'db_stocks.amt')
+            ->where('db_stocks.amt', '>', 0)
+            ->where('db_stocks.warehouse_id_fk', $request->warehouse_id_fk)
+            ->Leftjoin('products_details', 'products_details.product_id_fk', 'db_stocks.product_id_fk')
             ->get();
+
+
         return response()->json($matereials);
     }
 
@@ -145,10 +180,10 @@ class TakeoutController extends Controller
     {
         $id =  $request->id;
 
-        $product = Stock::select('matreials.id', 'matreials.materials_name')
-            ->join('matreials', 'matreials.id', 'db_stocks.materials_id_fk')
+        $product = Stock::select('db_stocks.product_id_fk', 'products_details.product_name')
+            ->leftjoin('products_details', 'products_details.product_id_fk', 'db_stocks.product_id_fk')
             ->where('warehouse_id_fk', $id)
-            ->GroupBy('matreials.id')
+            // ->GroupBy('db_stocks.id')
             ->get();
 
 
@@ -157,21 +192,24 @@ class TakeoutController extends Controller
 
     public function get_lot_number_takeout(Request $request)
     {
-
-        $query = Stock::select('lot_number')->where('materials_id_fk', $request->materials_id)
-            ->groupBy('lot_number')
+        // dd($request->all());
+        $query = Stock::select('lot_number')
+        ->where('product_id_fk', $request->product_id_fk)
+        ->where('warehouse_id_fk', $request->warehouse_id_fk)
+            // ->groupBy('lot_number')
             ->get();
         return response()->json($query);
     }
 
     public function get_lot_expired_date(Request $request)
     {
-        $query = Stock::select('lot_expired_date')->where('lot_number', $request->lot_number)->get();
+        $query = Stock::select('lot_expired_date','id')->where('lot_number', $request->lot_number)->get();
         $arr_query = [];
 
         foreach ($query as $val) {
             $arr_query[] = [
-                'lot_expired_date' => date('d-m-Y', strtotime($val['lot_expired_date']))
+                'lot_expired_date' => date('d-m-Y', strtotime($val['lot_expired_date'])),
+                'id' => $val->id
             ];
         }
 
@@ -181,18 +219,10 @@ class TakeoutController extends Controller
     public function get_max_input_atm_takeout(Request $request)
     {
 
-        $materials_id = $request->materials_id;
-        $lot_number = $request->lot_number;
-        $lot_expired_date =  date('Y-m-d', strtotime($request->lot_expired_date));
 
+        $max_atm = Stock::where('id', $request->stock_id_fk)->first();
 
-        $max_atm = Stock::select('amt')
-            ->where('materials_id_fk', $materials_id)
-            ->where('lot_number', $lot_number)
-            ->whereDate('lot_expired_date', $lot_expired_date)
-            ->first();
-
-        return  $max_atm;
+        return  response()->json($max_atm);
     }
 
 
@@ -204,7 +234,7 @@ class TakeoutController extends Controller
             [
                 'branch_id_fk' => 'required',
                 'warehouse_id_fk' => 'required',
-                'materials_id_fk' => 'required',
+                'product_id_fk' => 'required',
                 'lot_number' => 'required',
                 'lot_expired_date' => 'required',
                 'amt' => 'required',
@@ -232,7 +262,7 @@ class TakeoutController extends Controller
 
             $dataPrepareStock = [
                 'branch_id_fk' => $request->branch_id_fk,
-                'materials_id_fk' => $request->materials_id_fk,
+                'product_id_fk' => $request->product_id_fk,
                 'lot_number' => $request->lot_number,
                 'lot_expired_date' =>  date('Y-m-d', strtotime($request->lot_expired_date)),
                 'warehouse_id_fk' => $request->warehouse_id_fk,
@@ -245,7 +275,7 @@ class TakeoutController extends Controller
 
             $dataPrepareStockMovement = [
                 'branch_id_fk' => $request->branch_id_fk,
-                'materials_id_fk' => $request->materials_id_fk,
+                'product_id_fk' => $request->product_id_fk,
                 'lot_number' => $request->lot_number,
                 'lot_expired_date' =>  date('Y-m-d', strtotime($request->lot_expired_date)),
                 'warehouse_id_fk' => $request->warehouse_id_fk,
@@ -263,7 +293,7 @@ class TakeoutController extends Controller
             // ถ้ามีสินค้าในระบบแล้วจะเป็นการ อัพเดท จำนวนทับกับตัวเก่าที่มีใน stock
             // stock_movement จะเป็นการสร้างใหม่ทุกครั้ง
             $data_check = Stock::where('branch_id_fk', $request->branch_id_fk)
-                ->where('materials_id_fk', $request->materials_id_fk)
+                ->where('product_id_fk', $request->product_id_fk)
                 ->where('warehouse_id_fk', $request->warehouse_id_fk)
                 ->where('lot_number', $request->lot_number)
                 ->where('lot_expired_date',  date('Y-m-d', strtotime($request->lot_expired_date)))

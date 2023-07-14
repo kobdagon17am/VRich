@@ -32,7 +32,7 @@
                         </div>
                         <div class="">
                             <div class="form-inline ">
-                                <label for="" class="mr-1 ml- text-slate-500 ">คลัง : </label>
+                                <label for="" class="mr-1 ml- text-slate-500 ">สาขา  : </label>
 
                                 <select id="branch_select_filter" class="js-example-basic-single w-56 branch_select myWhere"
                                     name="branch_id_fk">
@@ -42,7 +42,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <label for="" class="mr-1 ml-2 text-slate-500 ">สาขา : </label>
+                                <label for="" class="mr-1 ml-2 text-slate-500 ">คลัง : </label>
 
                                 <select id="warehouse_select_filter"
                                     class="js-example-basic-single w-56 warehouse_select myWhere" name="warehouse_id_fk"
@@ -107,15 +107,15 @@
                             <div class="mt-2">
                                 <label for="">คลัง</label>
                                 <span class="form-label text-danger warehouse_id_fk_err _err"></span>
-                                <select class="js-example-basic-single w-full warehouse_select" name="warehouse_id_fk"
+                                <select class="js-example-basic-single w-full warehouse_select" id="warehouse_id_fk" name="warehouse_id_fk"
                                     disabled>
                                     <option selected disabled>==== เลือกคลัง ====</option>
                                 </select>
                             </div>
                             <div class="mt-2">
                                 <label for="">สินค้า</label>
-                                <span class="form-label text-danger materials_id_fk_err _err"></span>
-                                <select id="product_select" class="js-example-basic-single w-full" name="materials_id_fk"
+                                <span class="form-label text-danger product_id_fk_err _err"></span>
+                                <select id="product_select" class="js-example-basic-single w-full" name="product_id_fk"
                                     disabled>
                                     <option selected disabled>==== เลือกสินค้า ====</option>
                                 </select>
@@ -126,13 +126,13 @@
                                     <div class=" col-span-6">
                                         <label for="doc_no" class="form-label">เลขที่เอกสาร</label>
                                         <span class="form-label text-danger doc_no_err _err"></span>
-                                        <input id="doc_no" type="text" class="form-control " name="doc_no"
+                                        <input id="doc_no" type="text" class="form-control " name="doc_no" value="{{$code}}"
                                             placeholder="เลขที่เอกสาร">
                                     </div>
                                     <div class=" col-span-4">
                                         <label for="doc_date" class="form-label">วันที่เอกสาร</label>
                                         <span class="form-label text-danger doc_date_err _err"></span>
-                                        <input id="doc_date" type="date" class="form-control " name="doc_date"
+                                        <input id="doc_date" type="date" class="form-control " value="{{date('Y-m-d')}}" name="doc_date"
                                             placeholder="วันที่เอกสาร">
                                     </div>
                                     <div class=" col-span-6">
@@ -268,7 +268,7 @@
                     )
                     data.forEach((val, key) => {
                         $('#product_select').append(
-                            `<option data-amt="${val.amt}" value='${val.id}'>${val.materials_name}</option>`
+                            `<option data-amt="${val.amt}" value='${val.product_id_fk}'>${val.product_name}</option>`
                         )
                     });
                     // $('#product_unit_id_fk').val(data.id);
@@ -280,14 +280,17 @@
 
         $('#product_select').change(function() {
 
-            let materials_id = $('#product_select').val();
+            let product_id_fk = $('#product_select').val();
+
+            let warehouse_id_fk = $('#warehouse_id_fk').val();
             $.ajax({
                 url: '{{ route('get_lot_number_takeout') }}',
                 type: 'post',
                 dataType: 'json',
                 data: {
                     '_token': '{{ csrf_token() }}',
-                    'materials_id': materials_id
+                    'product_id_fk': product_id_fk,
+                    'warehouse_id_fk': warehouse_id_fk
                 },
                 success: function(data) {
                     $('#lot_number').append(`
@@ -323,7 +326,7 @@
                     `);
                     data.forEach((val, key) => {
                         $('#lot_expired_date').append(`
-                    <option value='${val.lot_expired_date}'>${val.lot_expired_date}</option>
+                    <option value='${val.id}'>${val.lot_expired_date}</option>
                     `);
                     });
                 }
@@ -337,8 +340,8 @@
         $('#lot_number,#lot_expired_date').change(function() {
 
             let lot_number = $('#lot_number').val();
-            let lot_expired_date = $('#lot_expired_date').val();
-            let materials_id = $('#product_select').val();
+            //let lot_expired_date = $('#lot_expired_date').val();
+            let stock_id_fk = $('#lot_expired_date').val();
 
 
 
@@ -350,11 +353,12 @@
                     data: {
                         '_token': '{{ csrf_token() }}',
                         'lot_number': lot_number,
-                        'lot_expired_date': lot_expired_date,
-                        'materials_id': materials_id
+                        'stock_id_fk': stock_id_fk
                     },
                     success: function(data) {
                         $("#amt").attr("max", data.amt);
+                        // console.log(data);
+                        $("#amt").val(data.amt);
                     }
 
                 });

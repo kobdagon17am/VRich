@@ -11,16 +11,30 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
+use DB;
 
 class BranchController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     public function index(Request $request)
     {
 
-        $province = AddressProvince::orderBy('province_name', 'ASC')->get();
+        // $province = AddressProvince::orderBy('province_name', 'ASC')->get();
+
+        $province = DB::table('dataset_provinces')
+        ->select('*')
+        //->where('business_location_id',$business_location_id)
+        ->get();
         return view('backend.stock.branch.index')
             ->with('province', $province);
+
+
+
     }
 
     public function store_branch(Request $request)
@@ -122,7 +136,7 @@ class BranchController extends Controller
                 return   $time;
             })
             ->editColumn('b_maker', function ($query) {
-                $member = Member::where('id', $query->b_maker)->select('name')->first();
+                $member = Admin::where('id', $query->b_maker)->select('name')->first();
                 return   $member['name'];
             })
             ->addColumn('warehouse', function ($query) {

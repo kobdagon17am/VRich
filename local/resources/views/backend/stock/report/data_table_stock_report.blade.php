@@ -61,7 +61,7 @@
                     className: "table-report__action w-10 text-center",
                 },
                 {
-                    data: "materials_id_fk",
+                    data: "product_id_fk",
                     title: "สินค้า",
                     className: "table-report__action",
                 },

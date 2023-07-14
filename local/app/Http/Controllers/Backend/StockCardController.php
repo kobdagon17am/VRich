@@ -147,7 +147,7 @@ class StockCardController extends Controller
             })
             // ดึงข้อมูล member จาก id
             ->editColumn('action_user', function ($query) {
-                $member = Member::where('id', $query->action_user)->select('name')->first();
+                $member = Admin::where('id', $query->action_user)->select('name')->first();
                 return   $member['name'];
             })
             // วันที่ หมดอายุ date_in_stock แปลงเป็น d-m-y

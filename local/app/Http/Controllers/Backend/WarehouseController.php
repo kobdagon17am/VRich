@@ -61,7 +61,7 @@ class WarehouseController extends Controller
                 return   $time;
             })
             ->editColumn('w_maker', function ($query) {
-                $member = Member::where('id', $query->w_maker)->select('name')->first();
+                $member = Admin::where('id', $query->w_maker)->select('name')->first();
                 return   $member['name'];
             })
             ->make(true);

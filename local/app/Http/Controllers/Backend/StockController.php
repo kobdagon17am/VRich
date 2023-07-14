@@ -32,7 +32,7 @@ class StockController extends Controller
             'id',
             'business_location_id_fk',
             'branch_id_fk',
-            'materials_id_fk',
+            'product_id_fk',
             'lot_number',
             'lot_expired_date',
             'amt',
@@ -59,7 +59,7 @@ class StockController extends Controller
                     }
                 }
             })
-            ->GroupBY('materials_id_fk')
+            ->GroupBY('product_id_fk')
             ->OrderBy('updated_at', 'DESC')
             ->get();
 
@@ -68,18 +68,27 @@ class StockController extends Controller
             ->setRowClass('intro-x py-4 h-24 zoom-in')
 
 
-            ->editColumn('materials_id_fk', function ($query) {
-                $materials = Matreials::where('id', $query->materials_id_fk)->first();
-                return $materials->materials_name;
+            ->editColumn('product_id_fk', function ($query) {
+                $product = DB::table('products_details')
+                ->select(
+                    'products_details.product_name',
+                )
+                ->where('product_id_fk',$query->product_id_fk)
+                ->first();
+                if($product){
+                    return $product->product_name;
+                }else{
+                    return '';
+                }
             })
 
 
-            // ดึงข้อมูล lot_number 
+            // ดึงข้อมูล lot_number
             ->editColumn('lot_number', function ($query) {
                 $lot_number = Stock::select(
                     'lot_number',
                 )
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->get();
 
                 $lot_number_arr = [];
@@ -88,12 +97,12 @@ class StockController extends Controller
                 }
                 return $lot_number_arr;
             })
-            // ดึงข้อมูล lot_expired_date วันหมดอายุ 
+            // ดึงข้อมูล lot_expired_date วันหมดอายุ
             ->editColumn('lot_expired_date', function ($query) {
                 $lot_expired_date = Stock::select(
                     'lot_expired_date',
                 )
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->get();
                 $lot_expired_date_arr = [];
                 foreach ($lot_expired_date as $val) {
@@ -101,20 +110,20 @@ class StockController extends Controller
                 }
                 return $lot_expired_date_arr;
             })
-            // ดึงข้อมูล amt จำนวนของสินค้า 
+            // ดึงข้อมูล amt จำนวนของสินค้า
             ->editColumn('amt', function ($query) {
                 $amt = Stock::select(
                     'db_stocks.amt',
                     // 'dataset_product_unit.product_unit',
                     'db_stocks.business_location_id_fk',
                     'db_stocks.branch_id_fk',
-                    'db_stocks.materials_id_fk',
+                    'db_stocks.product_id_fk',
                     'db_stocks.lot_number',
                     // 'db_stocks.product_unit_id_fk',
                     'db_stocks.warehouse_id_fk',
                     'db_stocks.lot_expired_date'
                 )
-                    ->where('db_stocks.materials_id_fk', $query->materials_id_fk)
+                    ->where('db_stocks.product_id_fk', $query->product_id_fk)
                     ->get();
                 $amt_arr = [];
                 foreach ($amt as $val) {
@@ -137,14 +146,14 @@ class StockController extends Controller
                 // dd($amt_arr);
                 return $amt_arr;
             })
-            // ดึงข้อมูล สาขา คลัง วันหมดอายุ 
+            // ดึงข้อมูล สาขา คลัง วันหมดอายุ
             ->editColumn('branch_id_fk', function ($query) {
                 $branch = Stock::select(
                     'b_code',
                     'b_name',
                 )
                     ->join('branchs', 'branchs.id', 'db_stocks.branch_id_fk')
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->where('branchs.id', $query->branch_id_fk)
                     ->where('branchs.status', 1)
 
@@ -155,13 +164,13 @@ class StockController extends Controller
                 }
                 return $branch_arr;
             })
-            // // ดึงข้อมูล สาขา คลัง วันหมดอายุ 
+            // // ดึงข้อมูล สาขา คลัง วันหมดอายุ
             ->editColumn('warehouse_id_fk', function ($query) {
                 $warehouse_id_fk = Stock::select(
                     'db_stocks.warehouse_id_fk',
                 )
                     ->join('branchs', 'branchs.id', 'db_stocks.branch_id_fk')
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->where('branchs.id', $query->branch_id_fk)
                     ->where('branchs.status', 1)
                     ->get();
@@ -181,7 +190,7 @@ class StockController extends Controller
                 $btn_info = Stock::select(
                     'lot_number',
                 )
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->get();
 
                 $btn_info_arr = [];
@@ -192,7 +201,7 @@ class StockController extends Controller
             })
 
             ->addColumn('card_product_id', function ($query) {
-                return  $query->materials_id_fk;
+                return  $query->product_id_fk;
             })
             ->addColumn('card_branch_id_fk', function ($query) {
                 return  $query->branch_id_fk;
@@ -202,7 +211,7 @@ class StockController extends Controller
                     'db_stocks.warehouse_id_fk',
                 )
                     ->join('branchs', 'branchs.id', 'db_stocks.branch_id_fk')
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->where('branchs.id', $query->branch_id_fk)
                     ->where('branchs.status', 1)
                     ->get();

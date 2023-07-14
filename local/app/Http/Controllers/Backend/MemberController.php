@@ -109,7 +109,7 @@ class MemberController extends Controller
 
         $id = $request->id;
 
-        $query = Member::where('id', $id)->first();
+        $query = Admin::where('id', $id)->first();
 
         return response()->json($query);
     }
@@ -142,7 +142,7 @@ class MemberController extends Controller
 
             $id = $request->id;
 
-            $Member = Member::where('id', $id)->first();
+            $Member = Admin::where('id', $id)->first();
 
             // Check รหัสผ่านเดิมที่กรอกมาตรงกันของเดิมหรือไม่
             if (($password == $Member->password)) {
@@ -164,7 +164,7 @@ class MemberController extends Controller
     {
         $id = $request->id;
         $status = $request->status;
-        $Member = Member::where('id', $id)->first();
+        $Member = Admin::where('id', $id)->first();
         $Member->update(['status' => $status]);
     }
 }

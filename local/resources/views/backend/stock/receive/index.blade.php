@@ -86,7 +86,7 @@
                     @csrf
                     <!-- BEGIN: Modal Header -->
                     <div class="modal-header">
-                        <h2 class="font-medium text-base mr-auto">เพิ่มสาขา</h2>
+                        <h2 class="font-medium text-base mr-auto">รับเข้าสินค้า</h2>
                         <a data-tw-dismiss="modal" href="javascript:;"> <i data-lucide="x"
                                 class="w-8 h-8 text-slate-400"></i>
                         </a>
@@ -116,13 +116,14 @@
 
                             <div class="mt-2">
                                 <label for="">สินค้า</label>
-                                <span class="form-label text-danger materials_id_fk_err _err"></span>
-                                <select id="product_select" class="js-example-basic-single w-full" name="materials_id_fk"
+                                <span class="form-label text-danger product_id_fk_err _err"></span>
+                                <select id="product_select" class="js-example-basic-single w-full" name="product_id_fk"
                                     disabled>
+
                                     <option selected disabled>==== เลือกสินค้า ====</option>
-                                    @foreach ($matereials as $key => $val)
+                                    @foreach ($product as $key => $val)
                                         <option value="{{ $val->id }}">{{ $key + 1 }} .
-                                            {{ $val->materials_name }}
+                                            {{ $val->product_name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -132,14 +133,14 @@
                                 <div class="grid grid-cols-12 gap-5">
                                     <div class=" col-span-6">
                                         <label for="doc_no" class="form-label">เลขที่เอกสาร</label>
-                                        <span class="form-label text-danger doc_no_err _err"></span>
+                                        <span class="form-label text-danger doc_noe_rr _err"></span>
                                         <input id="doc_no" type="text" class="form-control " name="doc_no"
-                                            placeholder="เลขที่เอกสาร">
+                                            placeholder="เลขที่เอกสาร" value="{{$code}}">
                                     </div>
                                     <div class=" col-span-4">
                                         <label for="doc_date" class="form-label">วันที่เอกสาร</label>
                                         <span class="form-label text-danger doc_date_err _err"></span>
-                                        <input id="doc_date" type="date" class="form-control " name="doc_date"
+                                        <input id="doc_date" type="date" class="form-control " value="{{date('Y-m-d')}}" name="doc_date"
                                             placeholder="วันที่เอกสาร">
                                     </div>
                                     <div class=" col-span-6">

@@ -10,7 +10,10 @@ use DataTables;
 
 class AllsaleReportControlle extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
 
     public function index()
     {
@@ -22,15 +25,15 @@ class AllsaleReportControlle extends Controller
 
     public function run_report_allsale()
     {
-        $y = '2023'; 
+        $y = '2023';
         $m = '03';
-        $e_date = date('2023-03-01'); 
+        $e_date = date('2023-03-01');
 
         $customers = DB::table('customers')
         ->wherein('customers.qualification_id',['XVVIP','SVVIP','MG','MR','ME','MD'])
         ->wheredate('customers.expire_date','>=',$e_date)
         ->get();
-       
+
 
         foreach($customers as $value){
 

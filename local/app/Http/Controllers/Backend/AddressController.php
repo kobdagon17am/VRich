@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-
-
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
 
     function getProvince(Request $request)
     {
@@ -35,6 +37,7 @@ class AddressController extends Controller
         ->select('*')
         ->where('province_id',$request->province_id)
         ->get();
+
         return response()->json($district);
     }
     function getTambon(Request $request)
