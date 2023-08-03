@@ -53,6 +53,16 @@ Route::get('RunError', 'Frontend\FC\RunErrorController@index')->name('RunError')
 Route::get('home', 'Frontend\HomeController@index')->name('home');
 // BEGIN หน้า Regisert
 Route::get('register', 'Frontend\RegisterController@index')->name('register');
+
+
+
+
+Route::get('RegisterUrlSetting', 'Frontend\RegisterUrlController@index')->name('RegisterUrlSetting');
+Route::get('RegisterUrl/{user_name?}', 'Frontend\RegisterUrlController@register_url')->name('RegisterUrl');
+Route::post('url_store_register', 'Frontend\RegisterUrlController@store_register')->name('url_store_register');
+
+
+
 Route::get('check_sponser', 'Frontend\RegisterController@check_sponser')->name('check_sponser');
 
 Route::post('store_register', 'Frontend\RegisterController@store_register')->name('store_register');

@@ -147,9 +147,20 @@ Route::prefix('admin')->group(function () {
     Route::get('receive', 'Backend\ReceiveController@index')->name('receive');
     Route::get('receive/get_data_warehouse_select', 'Backend\ReceiveController@get_data_warehouse_select')->name('get_data_warehouse_select');
     Route::get('receive/get_data_product_select', 'Backend\ReceiveController@get_data_product_select')->name('get_data_product_select');
-    Route::post('receive/store_product', 'Backend\ReceiveController@store_product')->name('store_product');
+    Route::post('receive/store_product', 'Backend\ReceiveController@store_product')->name('receive/store_product');
+
+    Route::get('receive/view_confirm_add_stock', 'Backend\ReceiveController@view_confirm_add_stock')->name('view_confirm_add_stock');
+
+
+
+    Route::post('receive/form_add_product_confirm', 'Backend\ReceiveController@form_add_product_confirm')->name('receive/form_add_product_confirm');
+
+
     Route::get('receive/get_data_receive', 'Backend\ReceiveController@get_data_receive')->name('get_data_receive');
+    Route::get('receive/get_data_receive_confirm', 'Backend\ReceiveController@get_data_receive_confirm')->name('get_data_receive_confirm');
     Route::get('receive/get_data_product_unit', 'Backend\ReceiveController@get_data_product_unit')->name('get_data_product_unit');
+
+
     // END receive
 
     // BEGIN receive
@@ -276,4 +287,6 @@ Route::prefix('admin')->group(function () {
     Route::post('materials/store_materials', 'Backend\MatreialsController@store_materials')->name('store_materials');
     Route::post('materials/get_materials', 'Backend\MatreialsController@get_materials')->name('get_materials');
     Route::post('materials/update_materials', 'Backend\MatreialsController@update_materials')->name('update_materials');
+
+
 });

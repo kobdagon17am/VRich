@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+
 use App\Customers;
 // use App\AddressProvince;
 use App\CustomersAddressCard;
@@ -19,15 +20,34 @@ use Illuminate\Support\Facades\Schema;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use DB;
 
-class RegisterController extends Controller
+class RegisterUrlController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('customer');
-    }
 
     public function index()
     {
+        return view('frontend/RegisterUrlSetting');
+    }
+
+    public function register_url($uername)
+    {
+
+
+
+        $customer = DB::table('customers')
+        ->select('*')
+        ->where('user_name','=',$uername)
+        ->limit(1)
+        ->first();
+
+
+
+        if(empty($customer)){
+            return view('frontend/alert/Error');
+        }
+
+
+
+
         $yeay = date('Y');
         $age_min = 17;
         $yeay_thai = date("Y", strtotime($yeay)) - $age_min;
@@ -48,7 +68,7 @@ class RegisterController extends Controller
         // END Day
         rsort($arr_year);
 
-        if(Auth::guard('c_user')->user()->business_location_id  == '1' || Auth::guard('c_user')->user()->business_location_id  == null ){
+        if($customer->business_location_id  == '1' || $customer->business_location_id  == null ){
             $business_location_id = 1;
            }else{
             $business_location_id = 3;
@@ -65,8 +85,8 @@ class RegisterController extends Controller
         // ->select('*')
         // ->get();
 
-        $customers_id = Auth::guard('c_user')->user()->id;
-        // $customers_up = Auth::guard('c_user')->user()->upline_id;
+        $customers_id = $customer->id;
+        // $customers_up = $customer->upline_id;
         // $customers_data = Auth::guard('c_user')->user()->where('user_name', $customers_up)->first();
 
 
@@ -74,18 +94,13 @@ class RegisterController extends Controller
         ->where('status',1)
         ->get();
 
-        return view('frontend/register')
+        return view('frontend/RegisterUrl')
             ->with('day', $day)
             ->with('bank', $bank)
             ->with('arr_year', $arr_year)
+            ->with('user_name_sponser', $customer)
             ->with('dataset_qualification',$dataset_qualification)
             ->with('province', $province);
-    }
-
-    public function pv(Request $request)
-    {
-        $result = DB::table('dataset_qualification')->where('code', $request->val)->first();
-        return $result->pv;
     }
 
 
@@ -473,7 +488,6 @@ class RegisterController extends Controller
           }
 
     }
-
 
 
 }

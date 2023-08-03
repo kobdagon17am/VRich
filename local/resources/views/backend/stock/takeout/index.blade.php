@@ -81,7 +81,7 @@
     <div id="add_product" class="modal" data-tw-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
-                <form id="form_add_product" method="post">
+                <form id="form_add_product" method="post"  enctype="multipart/form-data">
                     @csrf
                     <!-- BEGIN: Modal Header -->
                     <div class="modal-header">
@@ -93,10 +93,11 @@
                     <!-- BEGIN: Modal Body -->
                     <div class="modal-body grid grid-cols-12 gap-4 gap-y-3 bg-slate-100/50">
                         <div class="col-span-12 ">
-                            <div class="">
-                                <label for="">สาขา</label>
+                            <div class="grid grid-cols-12 gap-5">
+                                <div class="col-span-6 col-md-6 col-lg-6 ">
+                                <label for="">สาขาที่นำออก</label>
                                 <span class="form-label text-danger branch_id_fk_err _err"></span>
-                                <select class="js-example-basic-single w-full branch_select" name="branch_id_fk">
+                                <select class="js-example-basic-single branch_select form-control" name="branch_id_fk">
                                     <option selected disabled>==== เลือกสาขา ====</option>
                                     @foreach ($branch as $val)
                                         <option value="{{ $val->id }}">{{ $val->b_code }}::{{ $val->b_name }}
@@ -104,22 +105,50 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="mt-2">
-                                <label for="">คลัง</label>
+
+                            <div class="col-span-6 col-md-6 col-lg-6 ">
+                                <label for="">สาขาที่รับเข้า</label>
+                                <span class="form-label text-danger branch_id_fk_err _err"></span>
+                                <select class="js-example-basic-single to_branch_select form-control" name="to_branch_id_fk">
+                                    <option selected disabled>==== เลือกสาขา ====</option>
+                                    @foreach ($branch as $val)
+                                        <option value="{{ $val->id }}">{{ $val->b_code }}::{{ $val->b_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+
+                            <div class="col-span-6 col-md-6 col-lg-6 ">
+                                <label for="">คลังที่นำออก</label>
                                 <span class="form-label text-danger warehouse_id_fk_err _err"></span>
-                                <select class="js-example-basic-single w-full warehouse_select" id="warehouse_id_fk" name="warehouse_id_fk"
+                                <select class="js-example-basic-single warehouse_select form-control" id="warehouse_id_fk" name="warehouse_id_fk"
                                     disabled>
                                     <option selected disabled>==== เลือกคลัง ====</option>
                                 </select>
                             </div>
-                            <div class="mt-2">
+
+                            <div class="col-span-6 col-md-6 col-lg-6 ">
+                                <label for="">คลังที่รับเข้า</label>
+                                <span class="form-label text-danger warehouse_id_fk_err _err"></span>
+                                <select class="js-example-basic-single to_warehouse_select form-control" id="to_warehouse_id_fk" name="to_warehouse_id_fk"
+                                    disabled>
+                                    <option selected disabled>==== เลือกคลัง ====</option>
+                                </select>
+                            </div>
+
+
+                            <div class="col-span-6 col-md-6 col-lg-6 ">
                                 <label for="">สินค้า</label>
                                 <span class="form-label text-danger product_id_fk_err _err"></span>
-                                <select id="product_select" class="js-example-basic-single w-full" name="product_id_fk"
+                                <select id="product_select" class="js-example-basic-single form-control" name="product_id_fk"
                                     disabled>
                                     <option selected disabled>==== เลือกสินค้า ====</option>
                                 </select>
                             </div>
+                            </div>
+
+
 
                             <div class="mt-4">
                                 <div class="grid grid-cols-12 gap-5">
@@ -145,15 +174,7 @@
 
                                         </select>
                                     </div>
-                                    <div class=" col-span-6">
-                                        <label for="lot_expired_date" class="form-label">วันหมดอายุ</label>
-                                        <span class="form-label text-danger lot_expired_date_err _err"></span>
 
-                                        <select id="lot_expired_date" name="lot_expired_date"
-                                            class="form-select mt-2 sm:mr-2" aria-label="Default select example">
-                                            <option disabled selected>==== เลือกวันหมดอายุ ==== </option>
-                                        </select>
-                                    </div>
                                     <div class="col-span-6">
                                         <label for="amt" class="form-label">จำนวน</label>
                                         <span class="form-label text-danger amt_err _err"></span>
@@ -236,9 +257,42 @@
             });
         });
 
+
+        $('.to_branch_select').change(function() {
+            $('.to_warehouse_select').prop('disabled', false);
+
+            const id = $(this).val();
+            $.ajax({
+                url: '{{ route('get_data_warehouse_select') }}',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                data: {
+                    id: id,
+                },
+                success: function(data) {
+                    to_append_warehouse_select(data);
+                },
+            });
+        });
+
         function append_warehouse_select(data) {
             $('.warehouse_select').empty();
             $('.warehouse_select').append(`
+                <option disabled selected value="">==== เลือกสาขา ====</option>
+                `);
+            data.forEach((val, key) => {
+                $('.warehouse_select').append(`
+                <option value="${val.id}">${val.w_code}::${val.w_name}</option>
+                `);
+            });
+        }
+
+
+
+        function to_append_warehouse_select(data) {
+            $('.to_warehouse_select').empty();
+            $('.to_warehouse_select').append(`
                 <option disabled selected value="">==== เลือกสาขา ====</option>
                 `);
             data.forEach((val, key) => {
@@ -262,7 +316,6 @@
                 },
                 success: function(data) {
                     $('#product_select').empty();
-
                     $('#product_select').append(
                         ` <option selected disabled>==== เลือกสินค้า ====</option>`
                     )
@@ -293,6 +346,7 @@
                     'warehouse_id_fk': warehouse_id_fk
                 },
                 success: function(data) {
+                    $('#lot_number').empty();
                     $('#lot_number').append(`
                     <option disabled selected>==== เลือกล็อตสินค้า ==== </option>
                         `);
@@ -309,7 +363,7 @@
 
 
         $('#lot_number').change(function() {
-            $('#lot_expired_date').empty();
+
             let lot_number = $('#lot_number').val();
 
             $.ajax({
@@ -337,15 +391,15 @@
 
         });
 
-        $('#lot_number,#lot_expired_date').change(function() {
+        $('#lot_number').change(function() {
 
             let lot_number = $('#lot_number').val();
             //let lot_expired_date = $('#lot_expired_date').val();
-            let stock_id_fk = $('#lot_expired_date').val();
 
 
 
-            if (lot_number != '' && lot_expired_date != null) {
+
+
                 $.ajax({
                     url: '{{ route('get_max_input_atm_takeout') }}',
                     type: 'post',
@@ -362,7 +416,7 @@
                     }
 
                 });
-            }
+
 
 
         });

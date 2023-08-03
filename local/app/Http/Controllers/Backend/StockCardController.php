@@ -34,7 +34,7 @@ class StockCardController extends Controller
         )
             ->join('branchs', 'branchs.id', 'db_stock_movement.branch_id_fk')
             ->join('warehouse', 'warehouse.branch_id_fk', 'branchs.id')
-            ->where('db_stock_movement.materials_id_fk', $materials_id_fk)
+            ->where('db_stock_movement.product_id_fk', $materials_id_fk)
             ->where('db_stock_movement.branch_id_fk',  $branch_id_fk)
             ->where('db_stock_movement.warehouse_id_fk',  $warehouse_id_fk)
             // ->GroupBy('db_stock_movement.lot_number')
@@ -42,7 +42,7 @@ class StockCardController extends Controller
 
 
         $max_amt = Stock::select('amt')
-            ->where('materials_id_fk', $materials_id_fk)
+            ->where('product_id_fk', $materials_id_fk)
             ->where('lot_number', $lot_number)
             ->whereDate('lot_expired_date', date('Y-m-d', strtotime($lot_expired_date)))
             ->first();
@@ -68,7 +68,7 @@ class StockCardController extends Controller
 
         $data = StockMovement::select(
             // 'dataset_product_unit.product_unit',
-            'db_stock_movement.materials_id_fk',
+            'db_stock_movement.product_id_fk',
             'db_stock_movement.lot_number',
             'db_stock_movement.lot_expired_date',
             'db_stock_movement.in_out',
@@ -79,7 +79,7 @@ class StockCardController extends Controller
             'db_stock_movement.doc_date',
             'db_stock_movement.created_at',
         )
-            ->where('db_stock_movement.materials_id_fk',  $request->materials_id_fk)
+            ->where('db_stock_movement.product_id_fk',  $request->materials_id_fk)
             ->where('db_stock_movement.branch_id_fk',  $request->branch_id_fk)
             ->where('db_stock_movement.warehouse_id_fk',  $request->warehouse_id_fk)
             ->where('db_stock_movement.lot_number',  $request->lot_number)
@@ -116,13 +116,24 @@ class StockCardController extends Controller
             ->setRowClass('intro-x py-4 h-20 zoom-in box')
 
             ->editColumn('materials_id_fk', function ($query) {
-                $materials = Matreials::where('id', $query->materials_id_fk)->first();
-                return $materials->materials_name;
+                // $materials = Products::where('id', $query->product_id_fk)->first();
+                // return $materials->materials_name;
+
+                $products_details = DB::table('products_details')
+                ->where('product_id_fk', $query->product_id_fk)->first();
+
+              if($products_details){
+                return $products_details->product_name;
+              }else{
+                return '';
+
+              }
+
             })
             // ดึงข้อมูล amt_in
             ->editColumn('amt_in', function ($query) {
                 $amt =  StockMovement::select('amt')
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->where('lot_number', $query->lot_number)
                     ->where('in_out', 1)
                     ->get()->sum('amt');
@@ -131,7 +142,7 @@ class StockCardController extends Controller
             // ดึงข้อมูล amt_out
             ->editColumn('amt_out', function ($query) {
                 $amt =  StockMovement::select('amt')
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->where('lot_number', $query->lot_number)
                     ->where('in_out', 2)
                     ->get()->sum('amt');
@@ -140,7 +151,7 @@ class StockCardController extends Controller
             // ดึงข้อมูล amt_stock
             ->editColumn('amt_stock', function ($query) {
                 $amt =  Stock::select('amt')
-                    ->where('materials_id_fk', $query->materials_id_fk)
+                    ->where('product_id_fk', $query->product_id_fk)
                     ->where('lot_number', $query->lot_number)
                     ->get()->sum('amt');
                 return  $amt;
