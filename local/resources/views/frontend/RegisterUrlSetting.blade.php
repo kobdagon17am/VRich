@@ -30,8 +30,14 @@
                                                 <div class="ratio ratio-1x1">
                                                     <div class="rounded-circle">
 
-                                                        <img src="http://localhost/vrich/local/public/profile_customer/202308/20230803102455_1.jpg"
-                                                            class="mw-100" alt="">
+                                                        @if(Auth::guard('c_user')->user()->profile_img)
+
+                                                        <img src="{{asset('local/public/profile_customer/'.Auth::guard('c_user')->user()->profile_img)}}" class="mw-100"
+                                                            alt="" />
+                                                        @else
+                                                        <img src="{{ asset('frontend/images/man.png') }}" class="mw-100"
+                                                        alt="" />
+                                                        @endif
 
                                                     </div>
 
@@ -60,14 +66,19 @@
                                                 </div>
 
 
-                                                <h5>รหัสสมาชิก :
-                                                    vrich
-                                                    (FOUDER CROWN)</h5>
-                                                <h5> Admin
-                                                    vrich</h5>
+                                                <h5>{{ __('text.MemberID') }} :
+                                                    {{ Auth::guard('c_user')->user()->user_name }}
+                                                    <?php
+                                                     $position = \App\Http\Controllers\Frontend\FC\AllFunctionController::position(Auth::guard('c_user')->user()->qualification_id);
+                                                    ?>
+                                                    ({{ $position }})</h5>
+                                                <h5> {{ Auth::guard('c_user')->user()->name }}
+                                                    {{ Auth::guard('c_user')->user()->last_name }}</h5>
+                                                    <hr>
 
 
                                                 <div class="row">
+                                                    <h5> Register Url</h5>
                                                     <?php $url_registers = Auth::guard('c_user')->user()->user_name; ?>
                                                     <div class="col-sm-12">
                                                         <div class="input-group input-group-button">
