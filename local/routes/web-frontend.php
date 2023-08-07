@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/config-cache', function () {
+Route::get('/c', function () {
   $exitCode = Artisan::call('cache:clear');
   $exitCode = Artisan::call('config:clear');
   $exitCode = Artisan::call('view:clear');

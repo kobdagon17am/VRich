@@ -149,7 +149,7 @@ Route::prefix('admin')->group(function () {
     Route::get('receive/get_data_product_select', 'Backend\ReceiveController@get_data_product_select')->name('get_data_product_select');
     Route::post('receive/store_product', 'Backend\ReceiveController@store_product')->name('receive/store_product');
 
-    Route::get('receive/view_confirm_add_stock', 'Backend\ReceiveController@view_confirm_add_stock')->name('view_confirm_add_stock');
+    Route::get('receive/view_confirm_add_stock', 'Backend\ReceiveController@view_confirm_add_stock')->name('receive/view_confirm_add_stock');
 
 
 

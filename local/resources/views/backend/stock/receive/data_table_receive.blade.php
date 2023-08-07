@@ -1,6 +1,6 @@
 <script>
     $(function() {
-        table_receive = $('#table_receive_confirm').DataTable({
+        table_receive = $('#table_receive').DataTable({
             searching: false,
             ordering: false,
             lengthChange: false,
@@ -136,7 +136,7 @@
 
 <script>
     $(function() {
-        table_receive_confirm = $('#table_receive').DataTable({
+        table_receive_confirm = $('#table_receive_confirm').DataTable({
             searching: false,
             ordering: false,
             lengthChange: false,
@@ -246,7 +246,7 @@
             rowCallback: function(nRow, aData, dataIndex) {
 
                 //คำนวนลำดับของ รายการที่แสดง
-                var info = table_receive.page.info();
+                var info = table_receive_confirm.page.info();
                 var page = info.page;
                 var length = info.length;
                 var index = (page * length + (dataIndex + 1));
@@ -257,7 +257,7 @@
             },
         });
         $('.myWhere,.myLike,.datepicker,.iSort,.myCustom').on('change', function(e) {
-            table_receive.draw();
+            table_receive_confirm.draw();
         });
     });
 </script>

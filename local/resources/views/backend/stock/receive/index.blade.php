@@ -66,14 +66,24 @@
                 </div>
             </div>
 
-            <h2 class="text-lg font-medium mr-auto mt-2">อนมัติรับสินค้าเข้า</h2>
-            <table id="table_receive_confirm" class="table table-report">
-            </table>
+
+            <h2 class="text-lg font-medium mr-auto mt-2">อนุมัติรับสินค้าเข้า</h2>
+
+            <div class="table-responsive">
+
+                <table id="table_receive" class="table table-report">
+                </table>
+
+            </div>
+
 
             <hr>
+            <div class="table-responsive">
+
             <h2 class="text-lg font-medium mr-auto mt-2">รายการรับเข้าสินค้า</h2>
-            <table id="table_receive" class="table table-report">
+            <table id="table_receive_confirm" class="table table-report">
             </table>
+            </div>
 
 
         </div>
@@ -374,10 +384,13 @@
 
 @section('script')
     {{-- select2 --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.html5.min.js"></script>
 
     <script>
         $(document).ready(function() {

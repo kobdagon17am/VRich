@@ -177,6 +177,7 @@ class ReceiveController extends Controller
 
     public function view_confirm_add_stock(Request $request)
     {
+        dd($request->all());
     }
 
     public function get_data_receive_confirm(Request $request)
