@@ -7,7 +7,7 @@
     <title>Vrich (Admin)</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('backend/assets/img/favicon.ico') }}"/>
     <!-- Common Styles Starts -->
-    <link href="{{ asset('frontend/assets/css/style.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('backend/assets/css/style.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/css/main.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('backend/assets/css/structure.css') }}" rel="stylesheet" type="text/css" />

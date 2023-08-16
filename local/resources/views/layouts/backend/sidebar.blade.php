@@ -32,9 +32,7 @@
                     <li>
                         <a href="{{ route('admin/HistoryDocument') }}"> ประวัติการตรวจสอบเอกสาร </a>
                     </li>
-                    <li>
-                        <a href="#"> ผังรวมองค์กร </a>
-                    </li>
+
                 </ul>
             </li>
 
@@ -62,9 +60,9 @@
                     <li>
                         <a href="#"> สินค้าโปรโมชั่น </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="#"> คูปองโปรโมชั่น </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <li class="menu main-single-menu">
@@ -121,41 +119,10 @@
                     <li>
                         <a href="{{ route('admin/Stock_report') }}"> รายงานคลังสินค้า </a>
                     </li>
-                    
+
                 </ul>
             </li>
-            <li class="menu main-single-menu">
-                <a href="#a5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                    <div class="">
-                        <i class="las la-boxes"></i>
-                        <span> ระบบคลังปุ๋ย </span>
-                    </div>
-                    <div>
-                        <i class="las la-angle-right sidemenu-right-icon"></i>
-                    </div>
-                </a>
-                <ul class="collapse submenu list-unstyled" id="a3" data-parent="#accordionExample">
-                    <li>
-                        <a href="#"> สินค้ารอจัดส่ง </a>
-                    </li>
-                    <li>
-                        <a href="#"> สถานะสินค้าจัดส่ง </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin/Warehouse') }}"> ข้อมูลคลังสินค้า </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin/Stock_in') }}"> รับเข้าสินค้า </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin/Stock_out') }}"> โอนย้ายสินค้า </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('admin/Stock_report') }}"> รายงานคลังสินค้า </a>
-                    </li>
-                    
-                </ul>
-            </li>
+
             <li class="menu main-single-menu">
                 <a href="#a6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
@@ -173,9 +140,9 @@
                     <li>
                         <a href="#"> รายงานรายเดือน </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="#"> อัปโหลดใบทวิ 50 </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <li class="menu main-single-menu">

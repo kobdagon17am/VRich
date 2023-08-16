@@ -179,9 +179,7 @@
                                                             <button type="submit" class="btn btn-info btn-rounded"
                                                                 name="stock_in_add" value="success">
                                                                 <i class="las la-plus-circle"></i> รับเข้าสินค้า</button>
-
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </form>
@@ -396,7 +394,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <h6>รายการรับเข้าสินค้าอนุมัติแล้ว</h6>
         <hr>
         <div class="row">
@@ -523,7 +521,7 @@
                     url: '{{ route('admin/view_stock_in') }}',
                     type: 'GET',
                     data: {
-                        id
+                        id:id
                     }
                 })
                 .done(function(data) {
@@ -601,7 +599,7 @@
                         d.s_branch_id_fk = $('#s_branch_id_fk').val();
                         d.s_warehouse_id_fk = $('#s_warehouse_id_fk').val();
                         d.s_product_name = $('#s_product_name').val();
- 
+
                         // d.position = $('#type').val();
                         // d.id_card = $('#id_card').val();
 

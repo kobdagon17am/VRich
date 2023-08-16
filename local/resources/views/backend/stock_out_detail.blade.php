@@ -31,6 +31,8 @@
                         <div class="w-100">
                             <div class="form-group row">
                                 <input type="hidden" name="transaction_stock" value="{{ $code }}">
+                                <input type="hidden" name="stock_id_fk" value="{{ $get_stock->id }}">
+
                                 <div class="col-lg-4  mt-2 text-left">
                                     <label><b>สาขาต้นทาง:</b></label>
                                     <span class="form-label text-danger branch_id_fk_err _err"></span>
@@ -55,8 +57,8 @@
                                 <div class="col-lg-4  mt-2 text-left">
                                     <label><b>สาขาปลายทาง:</b></label>
                                     <span class="form-label text-danger branch_out_id_fk_err _err"></span>
-                                    <select class="form-control branch_out_select" name="branch_out_id_fk">
-                                        <option selected disabled> เลือกสาขาปลายทาง
+                                    <select class="form-control branch_out_select" name="branch_out_id_fk"  required>
+                                        <option selected disabled value=""> เลือกสาขาปลายทาง
                                         </option>
                                         @foreach ($get_branch as $val)
                                             <option value="{{ $val->id }}">
@@ -69,8 +71,8 @@
                                 <div class="col-lg-4  mt-2 text-left">
                                     <label><b>คลังสินค้าปลายทาง:</b></label>
                                     <span class="form-label text-danger warehouse_out_id_fk_err _err"></span>
-                                    <select class="form-control warehouse_out_select" name="warehouse_out_id_fk" disabled>
-                                        <option selected disabled> เลือกคลังปลายทาง
+                                    <select class="form-control warehouse_out_select" name="warehouse_out_id_fk" disabled required>
+                                        <option selected disabled value=""> เลือกคลังปลายทาง
                                         </option>
                                     </select>
                                 </div>
@@ -92,7 +94,7 @@
                                 <tr>
                                     <th>ลำดับ</th>
                                     <th>หมายเลขล๊อต</th>
-                                    <th>วันที่รับเข้า</th>
+                                    {{-- <th>วันที่รับเข้า</th> --}}
                                     <th>วันที่หมดอายุ</th>
                                     <th>จำนวนสินค้าคงเหลือ</th>
                                     <th>จำนวนสินค้าโอนย้าย</th>
@@ -104,15 +106,15 @@
                                     <tr>
                                         <td>{{ $i++ }}</td>
                                         <td>{{ $value->lot_number }}
-                                            <input name="lot_number[{{ $value->id }}]"
+                                            <input name="lot_number[{{$i}}]"
                                                 value="{{ $value->lot_number }}" type="hidden">
                                         </td>
-                                        <td>{{ $value->date_in_stock }}</td>
+
                                         <td>{{ $value->lot_expired_date }}</td>
                                         <td>{{ $value->lot_balance }}</td>
                                         <td>
                                             <input type="number" max="{{ $value->lot_balance }}" min="0"
-                                                name="amt[{{ $value->id }}]" class="amt_input form-control"
+                                                name="amt[{{$i}}]" class="amt_input form-control"
                                                 style="max-width: 100px; max-height: 40px; border-radius: 5px;"
                                                 value="0">
                                         </td>
@@ -121,7 +123,7 @@
 
                                 <!-- เพิ่มแถวสุดท้ายเพื่อแสดงผลรวมจำนวนสินค้าจำนวนที่โอนย้ายสินค้า -->
                                 <tr>
-                                    <td colspan="4"></td>
+                                    <td colspan="3"></td>
                                     <td class="text-left"><b>รวมจำนวนสินค้าโอนย้ายทั้งหมด</b></td>
                                     <td>
                                         <h6><b><span class="total_amt_out"></span></b></h6>
@@ -130,10 +132,12 @@
                             </tbody>
                         </table>
                     </div>
+                    @if(count($get_stock_lot) > 0)
                     <div class="info-area col-md-12 text-center mt-2 mb-4">
                         <button type="submit" class="btn btn-info btn-rounded" name="stock_out_add" value="success">
                             <i class="las la-plus-circle"></i> โอนย้ายสินค้า</button>
                     </div>
+                    @endif
                 </div>
             </div>
         </form>
@@ -156,6 +160,7 @@
                                         <form method="post" action="{{ route('admin/update_stock_out') }}"
                                             enctype="multipart/form-data" id="msform">
                                             @csrf
+                                            <input type="hidden" name="stock_id_fk" value="{{ $get_stock->id }}">
                                             <div class="row">
                                                 <div class="col-md-12 mx-0">
                                                     <div class="form-card">
@@ -167,33 +172,33 @@
                                                                 <div class="col-lg-4  mt-2 text-left">
                                                                     <label><b>สาขาต้นทาง:</b></label>
                                                                     <input type="text" class="form-control"
-                                                                        id="branch_id_fk" name="branch_id_fk"
+                                                                        id="branch_name" name="branch_name"
                                                                         placeholder="สาขาต้นทาง" disabled>
                                                                 </div>
                                                                 <div class="col-lg-4  mt-2 text-left">
                                                                     <label><b>คลังสินค้าต้นทาง:</b></label>
                                                                     <input type="text" class="form-control"
-                                                                        id="warehouse_id_fk" name="warehouse_id_fk"
+                                                                        id="warehouse_name" name="warehouse_name"
                                                                         placeholder="คลังสินค้าต้นทาง" disabled>
                                                                 </div>
                                                                 <div class="col-lg-4  mt-2 text-left">
                                                                     <label><b>สินค้าต้นทาง:</b></label>
                                                                     <input type="text" class="form-control"
-                                                                        id="product_id_fk" name="product_id_fk"
+                                                                        id="product_name" name="product_name"
                                                                         placeholder="สินค้าต้นทาง" disabled>
                                                                 </div>
 
                                                                 <div class="col-lg-4  mt-2 text-left">
                                                                     <label><b>สาขาปลายทาง:</b></label>
                                                                     <input type="text" class="form-control"
-                                                                        id="branch_out_id_fk" name="branch_out_id_fk"
+                                                                        id="branch_name_out" name="branch_name_out"
                                                                         placeholder="สาขาปลายทาง" disabled>
                                                                 </div>
                                                                 <div class="col-lg-4  mt-2 text-left">
                                                                     <label><b>คลังสินค้าปลายทาง:</b></label>
                                                                     <input type="text" class="form-control"
-                                                                        id="warehouse_out_id_fk"
-                                                                        name="warehouse_out_id_fk"
+                                                                        id="warehouse_name_out"
+                                                                        name="warehouse_name_out"
                                                                         placeholder="คลังสินค้าปลายทาง" disabled>
                                                                 </div>
                                                                 <div class="col-lg-4  mt-2 text-left">
@@ -245,7 +250,6 @@
             <table id="ordertable" class="table table-hover table-sm" style="width:100%">
                 <thead>
                     <tr>
-                        <th>ลำดับ</th>
                         <th>สาขาต้นทาง</th>
                         <th>คลังต้นทาง</th>
                         <th>สาขาปลายทาง</th>
@@ -266,11 +270,10 @@
                     @foreach ($get_stock_out as $value)
                         @if ($value->stock_status != 'confirm')
                             <tr>
-                                <td>{{ $i++ }}</td>
-                                <td>{{ $value->branch_id_fk }}</td>
-                                <td>{{ $value->warehouse_id_fk }}</td>
-                                <td>{{ $value->branch_out_id_fk }}</td>
-                                <td>{{ $value->warehouse_out_id_fk }}</td>
+                                <td>{{ $value->branch_name }}</td>
+                                <td>{{ $value->warehouse_name }}</td>
+                                <td>{{ $value->branch_name_out }}</td>
+                                <td>{{ $value->warehouse_name_out }}</td>
                                 <td>{{ $value->product_name }}</td>
                                 <td>{{ $value->total_amt_out }}</td>
                                 <td>{{ $value->product_unit_name }}</td>
@@ -412,11 +415,11 @@
                     // console.log(data);
                     $("#edit").modal();
                     $("#id").val(data['data']['id']);
-                    $("#branch_id_fk").val(data['data']['branch_id_fk']);
-                    $("#warehouse_id_fk").val(data['data']['warehouse_id_fk']);
-                    $("#branch_out_id_fk").val(data['data']['branch_out_id_fk']);
-                    $("#warehouse_out_id_fk").val(data['data']['warehouse_out_id_fk']);
-                    $("#product_id_fk").val(data['data']['product_id_fk']);
+                    $("#branch_name").val(data['data']['branch_name']);
+                    $("#warehouse_name").val(data['data']['warehouse_name']);
+                    $("#branch_name_out").val(data['data']['branch_name_out']);
+                    $("#warehouse_name_out").val(data['data']['warehouse_name_out']);
+                    $("#product_name").val(data['data']['product_name']);
                     $("#product_unit_id_fk").val(data['data']['product_unit_id_fk']);
                     $("#total_amt_out").val(data['data']['total_amt_out']);
                     $("#stock_out_remark").val(data['data']['stock_out_remark']);

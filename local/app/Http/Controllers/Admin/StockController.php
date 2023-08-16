@@ -38,8 +38,9 @@ class StockController extends Controller
       ->select('db_stock_lot.*', 'products.product_name', 'products.product_unit_name', 'db_warehouse.branch_name', 'db_warehouse.warehouse_name')
       ->leftJoin('products', 'products.id', '=', 'db_stock_lot.product_id_fk')
       ->leftJoin('db_warehouse', 'db_warehouse.id', '=', 'db_stock_lot.warehouse_id_fk')
+
       ->get();
-    //  dd($get_stock_in->all());
+
 
     $get_branch = DB::table('branch')
       ->where('status', 1)
@@ -326,22 +327,25 @@ class StockController extends Controller
   public function Stock_in_confirm_datatable(Request $rs)
   {
 
- 
+
     $db_stock_lot = DB::table('db_stock_lot')
       ->select('db_stock_lot.*', 'products.product_name', 'products.product_unit_name', 'db_warehouse.branch_name', 'db_warehouse.warehouse_name')
       ->leftJoin('products', 'products.id', '=', 'db_stock_lot.product_id_fk')
       ->leftJoin('db_warehouse', 'db_warehouse.id', '=', 'db_stock_lot.warehouse_id_fk')
+      ->where('db_stock_lot.stock_type','=','in')
+      ->orwhere('db_stock_lot.stock_type','=','in_transfer')
       ->where('db_stock_lot.stock_status','=','confirm')
- 
+
 
       ->whereRaw(("case WHEN  '{$rs->s_branch_id_fk}' != ''  THEN  db_stock_lot.branch_id_fk = '{$rs->s_branch_id_fk}' else 1 END"))
       ->whereRaw(("case WHEN  '{$rs->s_warehouse_id_fk}' != ''  THEN  db_stock_lot.warehouse_id_fk = '{$rs->s_warehouse_id_fk}' else 1 END"))
-      ->whereRaw(("case WHEN  '{$rs->s_product_name}' != ''  THEN  db_stock_lot.product_id_fk = '{$rs->s_product_name}' else 1 END"));
+      ->whereRaw(("case WHEN  '{$rs->s_product_name}' != ''  THEN  db_stock_lot.product_id_fk = '{$rs->s_product_name}' else 1 END"))
+      ->orderByDesc('id');
 
 
       // ->whereRaw(("case WHEN  '{$rs->position}' != ''  THEN  customers.qualification_id = '{$rs->position}' else 1 END"))
       // ->whereRaw(("case WHEN  '{$rs->id_card}' != ''  THEN  customers.id_card = '{$rs->id_card}' else 1 END"))
-  
+
 
       //$query->orderBy($request->input('order.0.column'), $request->input('order.0.dir'))
 
@@ -361,7 +365,7 @@ class StockController extends Controller
         return $row->product_name;
       })
 
-      
+
       ->addColumn('amt', function ($row) {
         return $row->amt;
       })
@@ -412,7 +416,7 @@ class StockController extends Controller
           return '';
         }
       })
- 
+
       ->addColumn('stock_status', function ($row) {
 
         if ($row->stock_status == 'pending') {
@@ -437,11 +441,11 @@ class StockController extends Controller
         return $html;
       })
 
- 
+
       ->rawColumns(['stock_status', 'action'])
 
       ->make(true);
   }
 
-  
+
 }

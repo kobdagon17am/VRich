@@ -15,186 +15,142 @@
     </nav>
 @endsection
 @section('content')
-    <div class="widget-content widget-content-area br-6">
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group row">
-                    <label class="col-form-label text-left col-lg-12 col-sm-12"><b>รหัสสมาชิก</b></label>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <select class="form-control dynamic-data">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group row">
-                    <label class="col-form-label text-left col-lg-12 col-sm-12"><b>ชื่อสมาชิก</b></label>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <select class="form-control dynamic-data">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group row">
-                    <label class="col-form-label text-left col-lg-12 col-sm-12"><b>รหัสผู้แนะนำ</b></label>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <select class="form-control dynamic-data">
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group row">
-                    <label class="col-form-label text-left col-lg-12 col-sm-12"><b>หมายเลขบัตรประชาชน</b></label>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <select class="form-control dynamic-data">
-                        </select>
-                    </div>
-                </div>
+    <div class="col-lg-12 layout-spacing">
+        <div class="statbox widget box box-shadow mb-4 mt-4">
+            <div class="table-responsive mt-2 mb-2">
+                <h6>รายงานสมาชิก</h6>
+                <table id="basic-dt" class="table table-hover" style="width:100%">
+
+                </table>
             </div>
 
-            <div class="col-md-2 text-center">
-                <button type="button" class="btn btn-outline-primary btn-rounded mt-4"><i class="las la-search"></i>
-                    สืบค้น</button>
-            </div>
+
         </div>
-        <br>
-        <div class="table-responsive mb-4">
-            <table id="ordertable" class="table table-hover table-sm" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>รหัสสมาชิก</th>
-                        <th>ชื่อสมาชิก</th>
-                        <th>คะแนน PV</th>
-                        <th>รหัสผู้แนะนำ</th>
-                        {{-- <th>สถานะการสมัคร</th> --}}
-                        <th>วันที่อนุมัติ</th>
-                        <th>รายละเอียด</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>A001</td>
-                        <td>Vrich</td>
-                        <td>200</td>
-                        <td>A000</td>
-                        {{-- <td>
-                            <i class="las la-id-card font-35 text-success"></i>
-                            <i class="las la-portrait font-35 text-success"></i>
-                            <i class="las la-id-card-alt font-35 text-info"></i>
-                            <i class="las la-money-check font-35 text-info"></i>
-                        </td> --}}
-                        <td>06/09/2023</td>
-                        <td>
-                            <a href="#!" class="p-2">
-                                <i class="las la-sign-in-alt font-25 text-success"></i></a>
-                            <a href="{{route('admin/EditProfile')}}" class="p-2">
-                                <i class="las la-user-edit font-25 text-info"></i></a>
-
-                            <a href="#!" class="p-2" id="btnGroupDrop1" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="lab la-whmcs font-25 text-warning"></i></a>
-
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="#">เปลี่ยนแปลงรหัสผ่าน</a>
-                                <a class="dropdown-item" href="#">ยกเลิกรหัสสมาชิก</a>
-                            </div>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>A001</td>
-                        <td>Vrich</td>
-                        <td>200</td>
-                        <td>A000</td>
-                        {{-- <td>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <i class="las la-id-card font-35"></i>
-                                    <i class="las la-portrait font-35 text-danger"></i>
-                                    <i class="las la-id-card-alt font-35 text-danger"></i>
-                                    <i class="las la-money-check font-35 text-info"></i>
-                                </div>
-                            </div>
-                        </td> --}}
-                        <td>06/09/2023</td>
-                        <td>
-                            <a href="#!" class="p-2">
-                                <i class="las la-sign-in-alt font-25 text-success"></i></a>
-                            <a href="{{route('admin/EditProfile')}}" class="p-2">
-                                <i class="las la-user-edit font-25 text-info"></i></a>
-
-                            <a href="#!" class="p-2" id="btnGroupDrop1" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <i class="lab la-whmcs font-25 text-warning"></i></a>
-
-                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                <a class="dropdown-item" href="#">เปลี่ยนแปลงรหัสผ่าน</a>
-                                <a class="dropdown-item" href="#">ยกเลิกรหัสสมาชิก</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        {{-- <div class="pagination p1">
-            <ul class="mx-auto">
-                <a href="previous">
-                    <li><i class="las la-angle-left"></i></li>
-                </a>
-                <a class="is-active" href="page">
-                    <li>1</li>
-                </a>
-                <a href="page2">
-                    <li>2</li>
-                </a>
-                <a href="page2">
-                    <li>3</li>
-                </a>
-                <a href="next">
-                    <li><i class="las la-angle-right"></i></li>
-                </a>
-            </ul>
-        </div> --}}
-        {{-- <div class="row ml-4">
-            <label class="text-left"><b>*หมายเหตุ :</b></label>
-            <label class="text-left ml-2">สีดำ = ยังไม่ส่ง,</label>
-            <label class="text-left text-info ml-2">สีน้ำเงิน = รอตรวจสอบ,</label>
-            <label class="text-left text-success ml-2">สีเขียว = ผ่าน,</label>
-            <label class="text-left text-danger ml-2">สีแดง = ไม่ผ่าน</label>
-        </div>
-        <div class="row">
-
-            <div class="col-md-12">
-
-                <li class="las la-id-card font-25 ml-4"></li>
-                <label class="text-left"><b>: ภาพถ่ายหน้าบัตรประชาชน</b></label>
-            </div>
-
-            <div class="col-md-12">
-
-                <i class="las la-portrait font-25 ml-4"></i>
-                <label class="text-left"><b>: ภาพถ่ายหน้าตรง</b></label>
-            </div>
-
-            <div class="col-md-12">
-
-                <i class="las la-id-card-alt font-25 ml-4"></i>
-                <label class="text-left"><b>: ภาพหน้าตรงพร้อมบัตรประชาชน</b></label>
-            </div>
-
-            <div class="col-md-12">
-
-                <i class="las la-money-check font-25 ml-4"></i>
-                <label class="text-left"><b>: ภาพถ่ายหน้าบัญชีธนาคาร</b></label>
-            </div>
-        </div> --}}
-
-
     </div>
 @endsection
 @section('js')
-    <script src="{{ asset('backend/plugins/select2/select2.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/forms/custom-select2.js') }}"></script>
+    <script src="{{ asset('backend/plugins/table/datatable/datatables.js') }}"></script>
+    <!--  The following JS library files are loaded to use Copy CSV Excel Print Options-->
+    <script src="{{ asset('backend/plugins/table/datatable/button-ext/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/table/datatable/button-ext/jszip.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/table/datatable/button-ext/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/table/datatable/button-ext/buttons.print.min.js') }}"></script>
+    <!-- The following JS library files are loaded to use PDF Options-->
+    <script src="{{ asset('backend/plugins/table/datatable/button-ext/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('backend/plugins/table/datatable/button-ext/vfs_fonts.js') }}"></script>
+    <script>
+        $(function() {
+            table_order = $('#basic-dt').DataTable({
+                // dom: 'Bfrtip',
+                // buttons: ['excel'],
+                searching: false,
+                ordering: true,
+                lengthChange: false,
+                responsive: true,
+                // paging: true,
+                pageLength: 20,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    "lengthMenu": "แสดง _MENU_ แถว",
+                    "zeroRecords": "ไม่พบข้อมูล",
+                    "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                    "search": "ค้นหา",
+                    "infoEmpty": "",
+                    "infoFiltered": "",
+                    "paginate": {
+                        "first": "หน้าแรก",
+                        "previous": "ย้อนกลับ",
+                        "next": "ถัดไป",
+                        "last": "หน้าสุดท้าย"
+                    },
+                    'processing': "กำลังโหลดข้อมูล",
+                },
+                ajax: {
+                    url: '{{ route('admin/MemberRegister_datatable') }}',
+                    data: function(d) {
+                        // d.s_branch_id_fk = $('#s_branch_id_fk').val();
+                        // d.s_warehouse_id_fk = $('#s_warehouse_id_fk').val();
+                        // d.s_product_name = $('#s_product_name').val();
+                        // d.s_lot_number = $('#s_lot_number').val();
+
+                        // d.position = $('#type').val();
+                        // d.id_card = $('#id_card').val();
+
+                    },
+                },
+
+
+                columns: [
+                    // {
+                    //     data: "id",
+                    //     title: "ลำดับ",
+                    //     className: "w-10 text-center",
+                    // },
+
+
+                    {
+                        data: "username",
+                        title: "รหัสสมาชิก",
+                        className: "w-10 ",
+                    },
+
+                    {
+                        data: "first_name",
+                        title: "ชื่อ",
+                        className: "w-10",
+                    },
+
+                    {
+                        data: "last_name",
+                        title: "นามสกุล",
+                        className: "w-10",
+                    },
+
+                    {
+                        data: "upline_id",
+                        title: "ผู้เเนะนำ",
+                        className: "w-10",
+                    },
+
+                    {
+                        data: "pv_all",
+                        title: "คะแนน PV",
+                        className: "w-10",
+                    },
+
+                    {
+                        data: "regis_date_doc",
+                        title: "วันที่อนุมัติสมาชิก",
+                        className: "w-10",
+
+                    },
+
+                    {
+                        data: "regis_doc_status",
+                        title: "สถานะสมาชิก",
+                        className: "w-10",
+
+                    },
+
+                    {
+                        data: "action",
+                        title: "Action",
+                        className: "w-10",
+                    },
+
+
+
+                ],
+
+
+
+            });
+            $('#search-form').on('click', function(e) {
+                table_order.draw();
+                e.preventDefault();
+            });
+
+        });
+    </script>
 @endsection
