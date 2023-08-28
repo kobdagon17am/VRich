@@ -38,7 +38,7 @@ class ProductsController extends Controller
   }
   public function insert(Request $rs)
   {
-    // dd($rs->all());
+    //  dd($rs->all());
 
     $get_categories = DB::table('categories')
       ->where('id', '=', $rs->product_category_name)
@@ -53,28 +53,29 @@ class ProductsController extends Controller
       'product_code' => $rs->product_code,
       'product_name' => $rs->product_name,
 
-
       'product_category_name' => $get_categories->category_name,
       'product_category_id_fk' => $get_categories->id,
       'product_category_en_name' => $get_categories->category_en_name,
-
       'product_vat' => $rs->product_vat,
 
       'product_unit_name' => $get_unit->product_unit_th,
       'product_unit_id_fk' => $get_unit->id,
       'product_unit_en_name' => $get_unit->product_unit_en,
 
+      'product_cost_th' => $rs->product_cost_th,
+      'product_cost_usd' => $rs->product_cost_usd,
 
-      'product_cost' => $rs->product_cost,
-      'product_price_retail' => $rs->product_price_retail,
-      'product_price_member' => $rs->product_price_member,
-      'product_discount_percent' => $rs->product_discount_percent,
-      'product_discount' => $rs->product_discount_percent,
+      'shipping_th' => $rs->shipping_th,
+      'shipping_usd' => $rs->shipping_usd,
+
+      'product_price_retail_th' => $rs->product_price_retail_th,
+      'product_price_retail_usd' => $rs->product_price_retail_usd,
+      'product_price_member_th' => $rs->product_price_member_th,
+      'product_price_member_usd' => $rs->product_price_member_usd,
+
       'product_pv' => $rs->product_pv,
       'status' => $rs->product_status,
       'product_detail' => $rs->product_detail,
-      'product_url1' => $rs->product_url1,
-      'product_url2' => $rs->product_url2,
     ];
 
     try {
@@ -184,31 +185,33 @@ class ProductsController extends Controller
       ->first();
 
 
-    $dataPrepare = [
-      'product_code' => $rs->product_code,
-      'product_name' => $rs->product_name,
+      $dataPrepare = [
+        'product_code' => $rs->product_code,
+        'product_name' => $rs->product_name,
 
-      'product_category_name' => $get_categories->category_name,
-      'product_category_id_fk' => $get_categories->id,
-      'product_category_en_name' => $get_categories->category_en_name,
+        'product_category_name' => $get_categories->category_name,
+        'product_category_id_fk' => $get_categories->id,
+        'product_category_en_name' => $get_categories->category_en_name,
+        'product_vat' => $rs->product_vat,
 
-      'product_vat' => $rs->product_vat,
+        'product_unit_name' => $get_unit->product_unit_th,
+        'product_unit_id_fk' => $get_unit->id,
+        'product_unit_en_name' => $get_unit->product_unit_en,
 
-      'product_unit_name' => $get_unit->product_unit_th,
-      'product_unit_id_fk' => $get_unit->id,
-      'product_unit_en_name' => $get_unit->product_unit_en,
+        'product_cost_th' => $rs->product_cost_th,
+        'product_cost_usd' => $rs->product_cost_usd,
+        'shipping_th' => $rs->shipping_th,
+        'shipping_usd' => $rs->shipping_usd,
 
-      'product_cost' => $rs->product_cost,
-      'product_price_retail' => $rs->product_price_retail,
-      'product_price_member' => $rs->product_price_member,
-      'product_discount_percent' => $rs->product_discount_percent,
-      'product_discount' => $rs->product_discount_percent,
-      'product_pv' => $rs->product_pv,
-      'status' => $rs->product_status,
-      'product_detail' => $rs->product_detail,
-      'product_url1' => $rs->product_url1,
-      'product_url2' => $rs->product_url2,
-    ];
+        'product_price_retail_th' => $rs->product_price_retail_th,
+        'product_price_retail_usd' => $rs->product_price_retail_usd,
+        'product_price_member_th' => $rs->product_price_member_th,
+        'product_price_member_usd' => $rs->product_price_member_usd,
+
+        'product_pv' => $rs->product_pv,
+        'status' => $rs->product_status,
+        'product_detail' => $rs->product_detail,
+      ];
 
 
     try {

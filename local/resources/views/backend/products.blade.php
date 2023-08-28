@@ -37,9 +37,9 @@
                         เพิ่มสินค้า</button>
                 </div>
             </div>
-            <div class="modal fade bd-example-modal-lg" id="add" tabindex="-1" role="dialog"
+            <div class="modal fade bd-example-modal-xl" id="add" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content">
                         <div class="modal-header ml-4">
                             <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มสินค้า</b></h5>
@@ -95,7 +95,7 @@
                                                                                 name="product_category_name">
                                                                                 @foreach ($get_categories as $item)
                                                                                     <option value="{{ $item->id }}">
-                                                                                        {{ $item->category_name }}</option>
+                                                                                        {{ $item->category_en_name }}</option>
                                                                                 @endforeach
 
                                                                             </select>
@@ -121,42 +121,87 @@
                                                                                 </option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ราคาต้นทุน (บาท):</b></label>
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาต้นทุน (Bat):</b></label>
                                                                             <input type="number" step="any"
-                                                                                class="form-control" name="product_cost"
-                                                                                placeholder="ราคาต้นทุน">
+                                                                                class="form-control" name="product_cost_th"
+                                                                                placeholder="ราคาต้นทุน (บาท)">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ราคาขายปลีก (บาท):</b></label>
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาต้นทุน (USD):</b></label>
+                                                                            <input type="number" step="any"
+                                                                                class="form-control" name="product_cost_usd"
+                                                                                placeholder="ราคาต้นทุน (USD)">
+                                                                        </div>
+
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายปลีก (Bat):</b></label>
                                                                             <input type="number" class="form-control"
-                                                                                name="product_price_retail"
+                                                                                name="product_price_retail_th"
                                                                                 placeholder="ราคาขายปลีก (บาท)">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ราคาขายสมาชิก (บาท):</b></label>
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายปลีก (USD):</b></label>
+                                                                            <input type="number" class="form-control"
+                                                                                name="product_price_retail_usd"
+                                                                                placeholder="รราคาขายปลีก (USD)">
+                                                                        </div>
+
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายสมาชิก (Bat):</b></label>
                                                                             <input type="number" step="any"
                                                                                 class="form-control"
-                                                                                name="product_price_member"
+                                                                                name="product_price_member_th"
                                                                                 placeholder="ราคาขายสมาชิก">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ส่วนลด (%):</b></label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="product_discount_percent"
-                                                                                placeholder="ส่วนลด (%)">
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายสมาชิก (USD):</b></label>
+                                                                            <input type="number" step="any"
+                                                                                class="form-control"
+                                                                                name="product_price_member_usd"
+                                                                                placeholder="ราคาขายสมาชิก">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ส่วนลด (บาท):</b></label>
+
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b> Shipping-Price TH</b></label>
                                                                             <input type="text" class="form-control"
-                                                                                name="product_discount"
-                                                                                placeholder="ส่วนลด (บาท)">
+                                                                                name="shipping_th"
+                                                                                placeholder=" Shipping-Price TH" >
                                                                         </div>
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b> Shipping-Price USD</b></label>
+                                                                            <input type="text" class="form-control"
+                                                                                name="shipping_usd"
+                                                                                placeholder="Shipping-Price USD" >
+                                                                        </div>
+
+
+
                                                                         <div class="col-lg-6  mt-2">
-                                                                            <label><b>คะแนน PV:</b></label>
+                                                                            <label><b>คะแนน PT:</b></label>
                                                                             <input type="number" class="form-control"
-                                                                                name="product_pv" placeholder="คะแนน PV">
+                                                                                name="product_pv" placeholder="คะแนน PT">
                                                                         </div>
+
+
+                                                                        <div class="col-lg-6 mt-2">
+                                                                            <label><b>ค่าขนส่ง:</b></label>
+                                                                            <select class="form-control"
+                                                                                name="status_shipping">
+                                                                                <option value="Y">คิดค่าส่ง
+                                                                                </option>
+                                                                                <option value="N">ไม่คิดค่าส่ง
+                                                                                </option>
+                                                                            </select>
+                                                                        </div>
+
                                                                         <div class="col-lg-6 mt-2">
                                                                             <label><b>สถานะสินค้า:</b></label>
                                                                             <select class="form-control"
@@ -167,20 +212,21 @@
                                                                                 </option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-lg-6 mt-2">
+
+                                                                        {{-- <div class="col-lg-6 mt-2">
                                                                             <label><b>YOUTUBE Link 1:</b></label>
                                                                             <input type="text" class="form-control" name="product_url1" placeholder="ใส่ URL ของวิดีโอจาก YouTube">
                                                                         </div>
                                                                         <div class="col-lg-6 mt-2">
                                                                             <label><b>YOUTUBE Link 2:</b></label>
                                                                             <input type="text" class="form-control" name="product_url2" placeholder="ใส่ URL ของวิดีโอจาก YouTube">
-                                                                        </div>
+                                                                        </div> --}}
                                                                         <div class="col-lg-12  mt-2">
                                                                             <label><b>รายละเอียดสินค้า:</b></label>
                                                                             <textarea class="form-control" name="product_detail" placeholder="รายละเอียดสินค้า"></textarea>
                                                                         </div>
-                                                                      
-                                                                        
+
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -256,7 +302,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header ml-4">
-                            <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มสินค้า</b></h5>
+                            <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขสินค้า</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <i class="las la-times"></i>
                             </button>
@@ -338,44 +384,72 @@
                                                                                 </option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ราคาต้นทุน (บาท):</b></label>
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาต้นทุน (Bat):</b></label>
                                                                             <input type="number" step="any"
-                                                                                class="form-control" id="product_cost"
-                                                                                name="product_cost"
-                                                                                placeholder="ราคาต้นทุน">
+                                                                                class="form-control" id="product_cost_th" name="product_cost_th"
+                                                                                placeholder="ราคาต้นทุน (บาท)">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ราคาขายปลีก (บาท):</b></label>
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาต้นทุน (USD):</b></label>
+                                                                            <input type="number" step="any"
+                                                                                class="form-control" id="product_cost_usd" name="product_cost_usd"
+                                                                                placeholder="ราคาต้นทุน (USD)">
+                                                                        </div>
+
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายปลีก (Bat):</b></label>
                                                                             <input type="number" class="form-control"
-                                                                                id="product_price_retail"
-                                                                                name="product_price_retail"
+                                                                                name="product_price_retail_th" id="product_price_retail_th"
                                                                                 placeholder="ราคาขายปลีก (บาท)">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ราคาขายสมาชิก (บาท):</b></label>
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายปลีก (USD):</b></label>
+                                                                            <input type="number" class="form-control"
+                                                                                name="product_price_retail_usd" id="product_price_retail_usd"
+                                                                                placeholder="รราคาขายปลีก (USD)">
+                                                                        </div>
+
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายสมาชิก (Bat):</b></label>
                                                                             <input type="number" step="any"
                                                                                 class="form-control"
-                                                                                id="product_price_member"
-                                                                                name="product_price_member"
+                                                                                name="product_price_member_th" id="product_price_member_th"
                                                                                 placeholder="ราคาขายสมาชิก">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ส่วนลด (%):</b></label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="product_discount_percent"
-                                                                                name="product_discount_percent"
-                                                                                placeholder="ส่วนลด (%)">
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b>ราคาขายสมาชิก (USD):</b></label>
+                                                                            <input type="number" step="any"
+                                                                                class="form-control"
+                                                                                name="product_price_member_usd" id="product_price_member_usd"
+                                                                                placeholder="ราคาขายสมาชิก">
                                                                         </div>
-                                                                        <div class="col-lg-6  mt-2">
-                                                                            <label><b>ส่วนลด (บาท):</b></label>
+
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b> Shipping-Price TH</b></label>
                                                                             <input type="text" class="form-control"
-                                                                                id="product_discount"
-                                                                                name="product_discount"
-                                                                                placeholder="ส่วนลด (บาท)">
+                                                                                id="shipping_th" name="shipping_th"
+                                                                                placeholder=" Shipping-Price TH" >
                                                                         </div>
+
+                                                                        <div class="col-lg-3  mt-2">
+                                                                            <label><b> Shipping-Price USD</b></label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="shipping_usd" name="shipping_usd"
+                                                                                placeholder="Shipping-Price USD" >
+                                                                        </div>
+
+
+
                                                                         <div class="col-lg-6  mt-2">
-                                                                            <label><b>คะแนน PV:</b></label>
+                                                                            <label><b>คะแนน PT:</b></label>
                                                                             <input type="number" class="form-control"
                                                                                 id="product_pv" name="product_pv"
                                                                                 placeholder="คะแนน PV">
@@ -390,14 +464,14 @@
                                                                                 </option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-lg-6 mt-2">
+                                                                        {{-- <div class="col-lg-6 mt-2">
                                                                             <label><b>YOUTUBE Link 1:</b></label>
                                                                             <input type="text" class="form-control" name="product_url1" id="product_url1" placeholder="ใส่ URL ของวิดีโอจาก YouTube">
                                                                         </div>
                                                                         <div class="col-lg-6 mt-2">
                                                                             <label><b>YOUTUBE Link 2:</b></label>
                                                                             <input type="text" class="form-control" name="product_url2" id="product_url2" placeholder="ใส่ URL ของวิดีโอจาก YouTube">
-                                                                        </div>
+                                                                        </div> --}}
                                                                         <div class="col-lg-12  mt-2">
                                                                             <label><b>รายละเอียดสินค้า:</b></label>
                                                                             <textarea class="form-control" id="product_detail" name="product_detail" placeholder="รายละเอียดสินค้า"></textarea>
@@ -489,10 +563,11 @@
                         <th>หมวดสินค้า</th>
                         <th>หน่วย</th>
                         <th>ประเภทสินค้า</th>
-                        <th>ราคาต้นทุน (บาท)</th>
-                        <th>ราคาขายปลีก (บาท)</th>
-                        <th>ราคาขายสมาชิก (บาท)</th>
-                        <th>PV</th>
+                        <th>ราคาต้นทุน (TH/USD)</th>
+                        <th>ราคาขายปลีก (TH/USD)</th>
+                        <th>ราคาขายสมาชิก(TH/USD)</th>
+                        <th>ค่าขนส่ง(TH/USD)</th>
+                        <th>PT</th>
                         <th>สถานะ</th>
                         <th>แก้ไข</th>
                     </tr>
@@ -508,12 +583,13 @@
                                     alt="contact-img" title="contact-img" class="rounded-circle mr-3" height="60"
                                     width="60" style="object-fit: cover;"></td>
                             <td>{{ $value->product_name }}</td>
-                            <td>{{ $value->product_category_name }}</td>     
+                            <td>{{ $value->product_category_name }}</td>
                             <td>{{ $value->product_unit_name }}</td>
                             <td>{{ $value->product_vat }}</td>
-                            <td>{{ $value->product_cost }}</td>
-                            <td>{{ $value->product_price_retail }}</td>
-                            <td>{{ $value->product_price_member }}</td>
+                            <td>{{ $value->product_cost_th }}฿/{{ $value->product_cost_usd }}$</td>
+                            <td>{{ $value->product_price_retail_th }}฿/{{ $value->product_price_retail_usd }}$</td>
+                            <td>{{ $value->product_price_member_th }}฿/{{ $value->product_price_member_usd }}$</td>
+                            <td>{{ $value->shipping_th }}฿/{{ $value->shipping_usd }}$</td>
                             <td>{{ $value->product_pv }}</td>
                             <td>
                                 @if ($value->status == '1')
@@ -581,16 +657,19 @@
                     $("#product_category_name").val(data['data']['product_category_id_fk']);
                     $("#product_vat").val(data['data']['product_vat']);
                     $("#product_unit_name").val(data['data']['product_unit_id_fk']);
-                    $("#product_cost").val(data['data']['product_cost']);
-                    $("#product_price_retail").val(data['data']['product_price_retail']);
-                    $("#product_price_member").val(data['data']['product_price_member']);
-                    $("#product_discount_percent").val(data['data']['product_discount_percent']);
-                    $("#product_discount").val(data['data']['product_discount']);
+                    $("#product_cost_th").val(data['data']['product_cost_th']);
+                    $("#product_cost_usd").val(data['data']['product_cost_usd']);
+                    $("#product_price_retail_th").val(data['data']['product_price_retail_th']);
+                    $("#product_price_retail_usd").val(data['data']['product_price_retail_usd']);
+                    $("#product_price_member_th").val(data['data']['product_price_member_th']);
+                    $("#product_price_member_usd").val(data['data']['product_price_member_usd']);
+                    $("#shipping_th").val(data['data']['shipping_th']);
+                    $("#shipping_usd").val(data['data']['shipping_usd']);
+
                     $("#product_pv").val(data['data']['product_pv']);
                     $("#product_status").val(data['data']['status']);
                     $("#product_detail").val(data['data']['product_detail']);
-                    $("#product_url1").val(data['data']['product_url1']);
-                    $("#product_url2").val(data['data']['product_url2']);
+
 
                     $.each(data['img'], function(index, value) {
                         if (value['product_image_orderby'] == 1) {
