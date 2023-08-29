@@ -30,6 +30,7 @@ class BranchController extends Controller
         ->select('*')
         //->where('business_location_id',$business_location_id)
         ->get();
+
         return view('backend.stock.branch.index')
             ->with('province', $province);
 

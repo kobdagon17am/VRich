@@ -21,20 +21,45 @@ class BranchController extends Controller
       // ->where('password','=',md5($req->password))
       // ->first();
       ->get();
-    return view('backend/branch', compact('get_branch'));
+      $province = DB::table('dataset_provinces')
+      ->select('*')
+      //->where('business_location_id',$business_location_id)
+      ->get();
+    return view('backend/branch', compact('get_branch','province'));
   }
   public function insert(Request $rs)
   {
-    // dd($rs->all());
+
+    $province = DB::table('dataset_provinces')
+    ->where('id',$rs->card_changwat)
+    ->first();
+
+    $amphures = DB::table('dataset_amphures')
+    ->select('*')
+    ->where('province_id',$rs->card_amphur)
+    ->first();
+
+
+
+    $tambon = DB::table('dataset_districts')
+    ->select('*')
+    ->where('id',$rs->card_tambon)
+    ->first();
 
     $dataPrepare = [
       'branch_code' => $rs->branch_code,
       'branch_name' => $rs->branch_name,
-      'branch_en_name' => $rs->branch_en_name,
-      'province' => $rs->province,
+      'changwat_id' => $rs->card_changwat,
+      'changwat' => $province->name_th,
+
+      'amphur_id' => $rs->card_amphur,
+      'amphur' => $amphures->name_th,
+      'tambon' => $tambon->name_th,
+      'zipcode' => $rs->card_zipcode,
       'phone' => $rs->phone,
       'status' => $rs->branch_status,
     ];
+
 
     try {
       DB::BeginTransaction();

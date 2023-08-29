@@ -112,7 +112,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header ml-4">
-                            <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มคลังสินค้า</b></h5>
+                            <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขคลังสินค้า</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <i class="las la-times"></i>
                             </button>
@@ -172,7 +172,7 @@
                                                         </div>
                                                         <div class="info-area col-md-12 text-center mt-4 ">
                                                             <button type="submit" class="btn btn-info btn-rounded">
-                                                                <i class="las la-save"></i> เพิ่มคลังสินค้า</button>
+                                                                <i class="las la-save"></i> แก้ไขคลังสินค้า</button>
                                                         </div>
 
                                                     </div>

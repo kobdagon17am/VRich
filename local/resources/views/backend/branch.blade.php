@@ -25,6 +25,7 @@
                     <button class="btn btn-success btn-rounded " data-toggle="modal" data-target="#add" type="button"><i
                             class="las la-plus-circle font-20"></i>
                         เพิ่มสาขาบริษัท</button>
+
                 </div>
             </div>
             <div class="modal fade bd-example-modal-lg" id="add" tabindex="-1" role="dialog"
@@ -61,16 +62,65 @@
                                                                             class="form-control" placeholder="ชื่อสาขา">
                                                                     </div>
                                                                     <div class="col-lg-6  mt-2">
-                                                                        <label><b>ชื่อสาขา (ภาษาอังกฤษ):</b></label>
-                                                                        <input type="text" name="branch_en_name"
-                                                                            class="form-control"
-                                                                            placeholder="ชื่อสาขา (ภาษาอังกฤษ)">
+                                                                        <div class="form-group">
+                                                                            <label for="card_changwat">จังหวัด
+                                                                                <span
+                                                                                    class="text-danger">*</span></label>
+
+                                                                        <select name="card_changwat" class="form-control " id="card_changwat" required>
+                                                                            <option value="">เลือกจังหวัด</option>
+
+                                                                            @foreach ($province as $value_provinces)
+                                                                                <option value="{{ $value_provinces->id }}"
+                                                                                    @if ($value_provinces->id == old('card_province')) selected @endif>
+                                                                                    {{ $value_provinces->name_th }}</option>
+                                                                            @endforeach
+                                                                        </select>
+
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-6  mt-2">
-                                                                        <label><b>จังหวัด:</b></label>
-                                                                        <input type="text" name="province"
-                                                                            class="form-control" placeholder="จังหวัด">
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="card_amphur">เขต/อำเภอ
+                                                                                <span
+                                                                                    class="text-danger">*</span></label>
+                                                                            <select name="card_amphur" class="form-control"
+                                                                                id="card_amphur" disabled required>
+                                                                                <option value="">เลือกเขต/อำเภอ</option>
+
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="card_tambon">แขวง/ตำบล
+                                                                                <span
+                                                                                    class="text-danger">*</span></label>
+                                                                            <select name="card_tambon" class="form-control"
+                                                                                id="card_tambon" disabled required>
+                                                                                <option value="">เลือกแขวง/ตำบล</option>
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="card_zipcode">รหัสไปรษณีย์
+                                                                                <span class="text-danger card_zipcode_err _err">*
+                                                                                </span></label>
+                                                                                <input type="text"
+                                                                                class="form-control @error('card_zipcode') is-invalid @enderror"
+                                                                                name="card_zipcode" placeholder="รหัสไปรษณีย์" id="card_zipcode"
+                                                                                value="{{ old('card_zipcode') }}" >
+                                                                            @error('card_zipcode')
+                                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+
                                                                     <div class="col-lg-6  mt-2">
                                                                         <label><b>เบอร์ติดต่อ:</b></label>
                                                                         <input type="number" name="phone"
@@ -112,7 +162,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header ml-4">
-                            <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มสาขาบริษัท</b></h5>
+                            <h5 class="modal-title" id="myLargeModalLabel"><b>เเก้ไขสาขาบริษัท</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <i class="las la-times"></i>
                             </button>
@@ -132,7 +182,7 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-lg-6  mt-2">
                                                                         <label><b>รหัสสาขา:</b></label>
-                                                                        <input type="text" name="branch_code"  id="branch_code" 
+                                                                        <input type="text" name="branch_code"  id="branch_code"
                                                                             class="form-control" placeholder="รหัสสาขา">
                                                                     </div>
                                                                     <div class="col-lg-6  mt-2">
@@ -143,17 +193,66 @@
                                                                             id="branch_name" class="form-control"
                                                                             placeholder="ชื่อสาขา">
                                                                     </div>
+
                                                                     <div class="col-lg-6  mt-2">
-                                                                        <label><b>ชื่อสาขา (ภาษาอังกฤษ):</b></label>
-                                                                        <input type="text" name="branch_en_name"
-                                                                            id="branch_en_name" class="form-control"
-                                                                            placeholder="ชื่อสาขา (ภาษาอังกฤษ)">
+                                                                        <div class="form-group">
+                                                                            <label for="card_changwat">จังหวัด
+                                                                                <span
+                                                                                    class="text-danger">*</span></label>
+
+                                                                            <select name="card_changwat" class="form-control basic" id="e_card_changwat" required>
+                                                                            <option value="">เลือกจังหวัด</option>
+                                                                            @foreach ($province as $value_provinces)
+                                                                                <option value="{{ $value_provinces->id }}"
+                                                                                    @if ($value_provinces->id == old('card_province')) selected @endif>
+                                                                                    {{ $value_provinces->name_th }}</option>
+                                                                            @endforeach
+                                                                        </select>
+
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-lg-6  mt-2">
-                                                                        <label><b>จังหวัด:</b></label>
-                                                                        <input type="text" name="province" id="province"
-                                                                            class="form-control" placeholder="จังหวัด">
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="card_amphur">เขต/อำเภอ
+                                                                                <span
+                                                                                    class="text-danger">*</span></label>
+                                                                            <select name="card_amphur" class="form-control"
+                                                                                id="e_card_amphur" disabled required>
+                                                                                <option value="">เลือกเขต/อำเภอ</option>
+
+                                                                            </select>
+                                                                        </div>
                                                                     </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="card_tambon">แขวง/ตำบล
+                                                                                <span
+                                                                                    class="text-danger">*</span></label>
+                                                                            <select name="card_tambon" class="form-control"
+                                                                                id="e_card_tambon" disabled required>
+                                                                                <option value="">เลือกแขวง/ตำบล</option>
+
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <label for="card_zipcode">รหัสไปรษณีย์
+                                                                                <span class="text-danger card_zipcode_err _err">*
+                                                                                </span></label>
+                                                                                <input type="text"
+                                                                                class="form-control @error('card_zipcode') is-invalid @enderror"
+                                                                                name="card_zipcode" placeholder="รหัสไปรษณีย์" id="e_card_zipcode"
+                                                                                value="{{ old('card_zipcode') }}" >
+                                                                            @error('card_zipcode')
+                                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
+
                                                                     <div class="col-lg-6  mt-2">
                                                                         <label><b>เบอร์ติดต่อ:</b></label>
                                                                         <input type="number" name="phone" id="phone"
@@ -162,7 +261,7 @@
                                                                     </div>
                                                                     <div class="col-lg-6 mt-2">
                                                                         <label><b>สถานะ:</b></label>
-                                                                        <select class="form-control" name="branch_status" 
+                                                                        <select class="form-control" name="branch_status"
                                                                             id="branch_status">
                                                                             <option value="1">เปิดใช้งาน</option>
                                                                             <option value="0">ปิดใช้งาน</option>
@@ -201,7 +300,10 @@
                         <th>รหัสสาขา</th>
                         <th>ชื่อสาขา</th>
                         <th>ชื่อสาขา (ภาษาอังกฤษ)</th>
+                        <th>ตำบล</th>
+                        <th>อำเภอ</th>
                         <th>จังหวัด</th>
+                        <th>รหัสไปรษณีย์</th>
                         <th>เบอร์ติดต่อ</th>
                         <th>สถานะ</th>
                         <th>แก้ไข</th>
@@ -209,13 +311,18 @@
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
+
                     @foreach ($get_branch as $value)
+
                         <tr>
                             <td>{{ $i++ }}</td>
                             <td>{{ $value->branch_code }}</td>
                             <td>{{ $value->branch_name }}</td>
                             <td>{{ $value->branch_en_name }}</td>
-                            <td>{{ $value->province }}</td>
+                            <td>{{ $value->tambon }}</td>
+                            <td>{{ $value->amphur }}</td>
+                            <td>{{ $value->changwat }}</td>
+                            <td>{{ $value->zipcode }}</td>
                             <td>{{ $value->phone }}</td>
                             <td>
                                 @if ($value->status == '1')
@@ -253,10 +360,8 @@
 @section('js')
     <script src="{{ asset('backend/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('backend/assets/js/forms/custom-select2.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/custom.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/forms/multiple-step.js') }}"></script>
-    <script src="{{ asset('backend/plugins/dropify/dropify.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/pages/profile_edit.js') }}"></script>
+
+
     <script>
         function edit(id) {
             $.ajax({
@@ -274,14 +379,93 @@
                     $("#branch_code").val(data['data']['branch_code']);
                     $("#branch_name").val(data['data']['branch_name']);
                     $("#branch_en_name").val(data['data']['branch_en_name']);
-                    $("#province").val(data['data']['province']);
+                    $("#tambon").val(data['data']['tambon']);
+                    $("#amphur").val(data['data']['amphur']);
+                    $("#changwat").val(data['data']['changwat']);
+                    $("#zipcode").val(data['data']['zipcode']);
                     $("#phone").val(data['data']['phone']);
-                    $("#branch_status").val(data['data']['status']); 
+                    $("#branch_status").val(data['data']['status']);
 
-                }) 
+                })
                 .fail(function() {
                     console.log("error");
                 })
         }
     </script>
+
+<script>
+
+    $("#card_changwat").change(function() {
+            let province_id = $(this).val();
+            $.ajax({
+                url: '{{ route('getDistrict') }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    province_id: province_id,
+                },
+                success: function(data) {
+                    $("#card_amphur").children().remove();
+                    $("#card_tambon").children().remove();
+                    $("#card_amphur").append(` <option value=""> เลือกอำเภอ </option>`);
+                    $("#card_tambon").append(` <option value=""> เลือกตำบล </option>`);
+                    $("#card_zipcode").val("");
+                    data.forEach((item) => {
+                        $("#card_amphur").append(
+                            `<option value="${item.id}">${item.name_th}</option>`
+                        );
+
+                    });
+                    $("#card_amphur").attr('disabled', false);
+                    $("#card_tambon").attr('disabled', true);
+                },
+                error: function() {}
+            })
+        });
+
+
+        $("#card_amphur").change(function() {
+            let district_id = $(this).val();
+            $.ajax({
+                url: '{{ route('getTambon') }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    district_id: district_id,
+                },
+                success: function(data) {
+                    $("#card_tambon").children().remove();
+                    $("#card_tambon").append(` <option value=""> เลือกตำบล </option>`);
+                    $("#card_zipcode").val("");
+                    data.forEach((item) => {
+                        $("#card_tambon").append(
+                            `<option value="${item.id}">${item.name_th}</option>`
+                        );
+                    });
+                    $("#card_tambon").attr('disabled', false);
+                },
+                error: function() {}
+            })
+        });
+        // BEGIN district
+
+        $("#card_tambon").change(function() {
+            let tambon_id = $('#card_tambon').val();
+            console.log(tambon_id);
+            $.ajax({
+                url: '{{ route('getZipcode') }}',
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    tambon_id: tambon_id,
+                },
+                success: function(data) {
+                    // console.log(data);
+                    $("#card_zipcode").attr('disabled', false);
+                    $("#card_zipcode").val(data.zip_code);
+                },
+                error: function() {}
+            })
+        });
+</script>
 @endsection

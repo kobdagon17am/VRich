@@ -27,7 +27,7 @@
                         <a href="{{ route('admin/MemberRegister') }}"> ระบบบริการสมาชิก </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin/MemberDocument') }}"> ระบบตรวจสอบเอกสาร </a>
+                        <a href="{{ route('admin/MemberDoc') }}"> ระบบตรวจสอบเอกสาร </a>
                     </li>
                     <li>
                         <a href="{{ route('admin/HistoryDocument') }}"> ประวัติการตรวจสอบเอกสาร </a>
@@ -57,12 +57,27 @@
                     <li>
                         <a href="{{ route('admin/Unit') }}"> หน่วยสินค้า </a>
                     </li>
-                    {{-- <li>
-                        <a href="#"> สินค้าโปรโมชั่น </a>
-                    </li> --}}
-                    {{-- <li>
-                        <a href="#"> คูปองโปรโมชั่น </a>
-                    </li> --}}
+
+                </ul>
+            </li>
+            <li class="menu main-single-menu">
+                <a href="#a5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-hand-holding-usd"></i>
+                        <span> eWallet </span>
+                    </div>
+                    <div>
+                        <i class="las la-angle-right sidemenu-right-icon"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled" id="a3" data-parent="#accordionExample">
+                    <li>
+                        <a href="#"> รายการ ฝากเงิน </a>
+                    </li>
+                    <li>
+                        <a href="#"> รายการ ถอนเงิน </a>
+                    </li>
+
                 </ul>
             </li>
             <li class="menu main-single-menu">
@@ -101,12 +116,12 @@
                     </div>
                 </a>
                 <ul class="collapse submenu list-unstyled" id="a3" data-parent="#accordionExample">
-                    <li>
+                    {{-- <li>
                         <a href="#"> สินค้ารอจัดส่ง </a>
                     </li>
                     <li>
                         <a href="#"> สถานะสินค้าจัดส่ง </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ route('admin/Warehouse') }}"> ข้อมูลคลังสินค้า </a>
                     </li>
@@ -140,9 +155,9 @@
                     <li>
                         <a href="#"> รายงานรายเดือน </a>
                     </li>
-                    {{-- <li>
+                    <li>
                         <a href="#"> อัปโหลดใบทวิ 50 </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </li>
             <li class="menu main-single-menu">

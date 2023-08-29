@@ -63,12 +63,10 @@ class AddressController extends Controller
 
     function getZipcode(Request $request)
     {
-
-
             $tambon = DB::table('dataset_districts')
             ->select('*')
-            ->where('amphure_id',$request->id)
-            ->firts();
+            ->where('id',$request->tambon_id)
+            ->first();
         return response()->json($tambon);
     }
 }

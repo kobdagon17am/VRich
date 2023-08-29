@@ -34,9 +34,9 @@ class MemberDocController extends Controller
 
   public function Member_Doc_datatable(Request $rs)
   {
- 
+
     $get_member_doc = DB::table('customers')
-      ->whereRaw('(regis_doc1_status != 2 or regis_doc2_status != 2 or regis_doc3_status != 2)') 
+      ->whereRaw('(regis_doc1_status != 2 or regis_doc2_status != 2 or regis_doc3_status != 2)')
       ->orderBy('order_regis_file_date');
 
 
@@ -44,7 +44,7 @@ class MemberDocController extends Controller
     // ->whereRaw(("case WHEN  '{$rs->s_warehouse_id_fk}' != ''  THEN  db_stock_lot.warehouse_id_fk = '{$rs->s_warehouse_id_fk}' else 1 END"))
     // ->whereRaw(("case WHEN  '{$rs->s_product_name}' != ''  THEN  db_stock_lot.product_id_fk = '{$rs->s_product_name}' else 1 END"))
     // ->whereRaw(("case WHEN  '{$rs->s_lot_number}' != ''  THEN  db_stock_lot.lot_number = '{$rs->s_lot_number}' else 1 END"))
-    // ->orderBy('id','desc'); 
+    // ->orderBy('id','desc');
 
 
     // ->whereRaw(("case WHEN  '{$rs->s_lot_number}' != ''  THEN  db_stock_lot.lot_number = '{$rs->s_lot_number}' else 1 END"))->get();
@@ -62,11 +62,11 @@ class MemberDocController extends Controller
 
 
       ->addColumn('username', function ($row) {
-        return $row->username;
+        return $row->user_name;
       })
 
       ->addColumn('first_name', function ($row) {
-        return $row->first_name;
+        return $row->name;
       })
 
       ->addColumn('last_name', function ($row) {
@@ -286,7 +286,7 @@ class MemberDocController extends Controller
     // dd($rs->all());
 
     $get_member_doc = DB::table('register_files')
-      ->select('register_files.*', 'customers.first_name', 'customers.last_name', 'customers.id_card')
+      ->select('register_files.*', 'customers.name', 'customers.last_name', 'customers.id_card')
       ->leftJoin('customers', 'customers.id', '=', 'register_files.customer_id')
       ->where('register_files.customer_id', '=', $rs->id)
       ->where('register_files.type', '=', $rs->type)

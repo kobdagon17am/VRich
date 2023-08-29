@@ -45,7 +45,7 @@ class DocHistoryController extends Controller
       })
 
       ->addColumn('first_name', function ($row) {
-        return $row->first_name;
+        return $row->name;
       })
 
       ->addColumn('last_name', function ($row) {
@@ -145,7 +145,7 @@ class DocHistoryController extends Controller
     // dd($rs->all());
 
     $get_member_doc = DB::table('register_files')
-      ->select('register_files.*', 'customers.first_name', 'customers.last_name', 'customers.id_card',)
+      ->select('register_files.*', 'customers.name', 'customers.last_name', 'customers.id_card',)
       ->leftJoin('customers', 'customers.id', '=', 'register_files.customer_id')
       ->where('register_files.customer_id', '=', $rs->id)
       ->where('register_files.type', '=', $rs->type)

@@ -267,6 +267,7 @@
                     }
                 })
                 .done(function(data) {
+                    if(data['data']){
                     $("#id").val(data['data']['id']);
                     $("#username").val(data['data']['username']);
                     $("#first_name").val(data['data']['first_name']);
@@ -306,6 +307,15 @@
                         remark.disabled = false;
                         // console.log(data['data']['regis_doc_status']);
                     }
+                }else{
+                    swal.fire({
+                            icon: 'error',
+                            title:'Error !',
+                            text:"ไม่พบข้อมูล",
+                            // timer:4000,
+                            type:'error'
+                        })
+                }
 
 
                 })
@@ -324,6 +334,7 @@
                     }
                 })
                 .done(function(data) {
+                    if(data['data']){
                     $("#id").val(data['data']['id']);
                     $("#username").val(data['data']['username']);
                     $("#first_name").val(data['data']['first_name']);
@@ -349,6 +360,15 @@
                         stock_button.style.display = "block";
                         // console.log(data['data']['regis_doc_status']);
                     }
+                }else{
+                    swal.fire({
+                            icon: 'error',
+                            title:'Error !',
+                            text:"ไม่พบข้อมูล",
+                            // timer:4000,
+                            type:'error'
+                        })
+                }
 
 
                 })
@@ -367,7 +387,8 @@
                     }
                 })
                 .done(function(data) {
-                    $("#id1").val(data['data']['id']);
+                    if(data['data']){
+                        $("#id1").val(data['data']['id']);
                     $("#account_name").val(data['data']['account_name']);
                     $("#account_no").val(data['data']['account_no']);
                     $("#bank_name").val(data['data']['bank_name']);
@@ -403,6 +424,18 @@
                         remark1.disabled = false;
                         // console.log(data['data']['regis_doc_status']);
                     }
+
+                    }else{
+                        swal.fire({
+                            icon: 'error',
+                            title:'Error !',
+                            text:"ไม่พบข้อมูล",
+                            // timer:4000,
+                            type:'error'
+                        })
+
+                    }
+
 
 
                 })

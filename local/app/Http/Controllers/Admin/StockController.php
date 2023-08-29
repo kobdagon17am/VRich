@@ -202,7 +202,7 @@ class StockController extends Controller
         ->orderByDesc('id')
         ->first();
 
-      if ($query1 === null) {
+      if ($query1 == null) {
         // กรณี $query เป็น null
         $lot_balance = $get_stock_data->amt;
       } else {
