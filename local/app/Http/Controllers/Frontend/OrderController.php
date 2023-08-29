@@ -31,8 +31,8 @@ class OrderController extends Controller
 
         // Cart::session(1)->clear();
 
-        $categories = DB::table('dataset_categories')
-            ->where('lang_id', '=', 1)
+        $categories = DB::table('categories')
+            // ->where('lang_id', '=', 1)
             ->where('status', '=', 1)
             ->get();
 
@@ -64,59 +64,49 @@ class OrderController extends Controller
         ->where('id', '=',$dataset_currency)
         ->first();
 
-
         if(empty($categories)){
             $product = DB::table('products')
             ->select(
                 'products.id as products_id',
-                'products_details.*',
-                'products_images.*',
-                'products_cost.*',
+                'products_images.img_url',
+                'products_images.product_img',
+                'products_images.image_default',
+
+
                 // 'dataset_currency.*',
             )
-            ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
             ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
-            ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
-            ->where('products_images.image_default', '=', 1)
-            ->where('products_details.lang_id', '=', 1)
             ->where('products.status', '=', 1)
             // ->where('products_cost.business_location_id', '=', 1)
-            ->orderby('products.id')
+            ->groupby('products.id')
+            ->orderby('products.product_price_member_usd')
             ->get();
-
-
 
         }else{
 
             $product = DB::table('products')
             ->select(
                 'products.id as products_id',
-                'products_details.*',
                 'products_images.img_url',
                 'products_images.product_img',
                 'products_images.image_default',
 
-                'products_cost.*',
+
                 // 'dataset_currency.*',
             )
-            ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
             ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
-            ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
-            ->where('products.category_id','=',$categories)
-            ->where('products_images.image_default', '=', 1)
-            ->where('products_details.lang_id', '=', 1)
             ->where('products.status', '=', 1)
+            ->where('products.category_id','=',$categories)
+
             // ->where('products_cost.business_location_id', '=', 1)
-            ->orderby('products.id')
+            ->groupby('products.id')
+            ->orderby('products.product_price_member_usd')
             ->get();
+
 
         }
 
-
         //->Paginate(4);
-        //dd($product);
 
         $data = array(
             'product' => $product,

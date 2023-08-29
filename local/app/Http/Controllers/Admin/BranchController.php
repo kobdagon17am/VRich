@@ -34,11 +34,12 @@ class BranchController extends Controller
     ->where('id',$rs->card_changwat)
     ->first();
 
+
+
     $amphures = DB::table('dataset_amphures')
     ->select('*')
-    ->where('province_id',$rs->card_amphur)
+    ->where('id',$rs->card_amphur)
     ->first();
-
 
 
     $tambon = DB::table('dataset_districts')

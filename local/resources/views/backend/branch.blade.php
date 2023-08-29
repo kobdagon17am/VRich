@@ -203,10 +203,7 @@
                                                                             <select name="card_changwat" class="form-control basic" id="e_card_changwat" required>
                                                                             <option value="">เลือกจังหวัด</option>
 
-                                                                                <option value="{{ $value_provinces->id }}"
-                                                                                    @if ($value_provinces->id == old('card_province')) selected @endif>
-                                                                                    {{ $value_provinces->name_th }}</option>
-                                                                            @endforeach
+
                                                                         </select>
 
                                                                         </div>
