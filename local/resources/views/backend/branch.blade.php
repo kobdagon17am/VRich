@@ -202,7 +202,7 @@
 
                                                                             <select name="card_changwat" class="form-control basic" id="e_card_changwat" required>
                                                                             <option value="">เลือกจังหวัด</option>
-                                                                            @foreach ($province as $value_provinces)
+
                                                                                 <option value="{{ $value_provinces->id }}"
                                                                                     @if ($value_provinces->id == old('card_province')) selected @endif>
                                                                                     {{ $value_provinces->name_th }}</option>
@@ -299,7 +299,7 @@
                         <th>ลำดับ</th>
                         <th>รหัสสาขา</th>
                         <th>ชื่อสาขา</th>
-                        <th>ชื่อสาขา (ภาษาอังกฤษ)</th>
+                        {{-- <th>ชื่อสาขา (ภาษาอังกฤษ)</th> --}}
                         <th>ตำบล</th>
                         <th>อำเภอ</th>
                         <th>จังหวัด</th>
@@ -318,7 +318,7 @@
                             <td>{{ $i++ }}</td>
                             <td>{{ $value->branch_code }}</td>
                             <td>{{ $value->branch_name }}</td>
-                            <td>{{ $value->branch_en_name }}</td>
+                            {{-- <td>{{ $value->branch_en_name }}</td> --}}
                             <td>{{ $value->tambon }}</td>
                             <td>{{ $value->amphur }}</td>
                             <td>{{ $value->changwat }}</td>
