@@ -67,36 +67,38 @@ class OrderController extends Controller
         if(empty($categories)){
             $product = DB::table('products')
             ->select(
+                'products.*',
                 'products.id as products_id',
-                'products_images.img_url',
-                'products_images.product_img',
-                'products_images.image_default',
+                'product_images.product_image_url',
+                'product_images.product_image_name',
+
 
 
                 // 'dataset_currency.*',
             )
-            ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
+            ->leftjoin('product_images', 'products.id', '=', 'product_images.product_id_fk')
             ->where('products.status', '=', 1)
             // ->where('products_cost.business_location_id', '=', 1)
             ->groupby('products.id')
             ->orderby('products.product_price_member_usd')
             ->get();
 
+
         }else{
 
             $product = DB::table('products')
             ->select(
+                'products.*',
                 'products.id as products_id',
-                'products_images.img_url',
-                'products_images.product_img',
-                'products_images.image_default',
+                'product_images.product_image_url',
+                'product_images.product_image_name',
 
 
                 // 'dataset_currency.*',
             )
-            ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
+            ->leftjoin('product_images', 'products.id', '=', 'product_images.product_id_fk')
             ->where('products.status', '=', 1)
-            ->where('products.category_id','=',$categories)
+            ->where('products.product_category_id_fk','=',$categories)
 
             // ->where('products_cost.business_location_id', '=', 1)
             ->groupby('products.id')
@@ -123,30 +125,27 @@ class OrderController extends Controller
         }
 
 
-        $product = DB::table('products')
+            $product = DB::table('products')
             ->select(
+                'products.*',
                 'products.id as products_id',
-                'products_details.*',
-                'products_images.*',
-                'products_cost.*',
+                'products.product_pv as pv',
+                'product_images.product_image_url',
+                'product_images.product_image_name',
+
                 // 'dataset_currency.*',
             )
-            ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
-            ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
-            ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
-            ->where('products.id', '=', $rs->product_id)
-            ->where('products_images.image_default', '=', 1)
-            ->where('products_details.lang_id', '=', 1)
-            ->where('products.status', '=', 1)
+            ->leftjoin('product_images', 'products.id', '=', 'product_images.product_id_fk')
             // ->where('products_cost.business_location_id', '=', 1)
+            ->where('products.id', '=', $rs->product_id)
+            ->groupby('products.id')
             ->first();
+
+
 
             $dataset_currency = DB::table('dataset_currency')
             ->where('id', '=',$dataset_currency)
             ->first();
-
-
 
         $data = array(
             'product' => $product,
@@ -160,42 +159,31 @@ class OrderController extends Controller
     {
 
 
-
-
-
-
         $product = DB::table('products')
-            ->select(
-                'products.id as products_id',
-                'products_details.*',
-                'products_images.*',
-                'products_cost.*',
-                // 'dataset_currency.*',
-                'dataset_product_unit.product_unit as product_unit_name',
-                'dataset_product_unit.id as product_unit_id'
+        ->select(
+            'products.*',
+            'products.id as products_id',
+            'products.product_pv as pv',
+            'product_images.product_image_url',
+            'product_images.product_image_name',
 
-            )
-            ->leftjoin('products_details', 'products.id', '=', 'products_details.product_id_fk')
-            ->leftjoin('products_images', 'products.id', '=', 'products_images.product_id_fk')
-            ->leftjoin('products_cost', 'products.id', '=', 'products_cost.product_id_fk')
-            // ->leftjoin('dataset_currency', 'dataset_currency.id', '=', 'products_cost.currency_id')
-            ->leftjoin('dataset_product_unit', 'dataset_product_unit.product_unit_id', '=', 'products.unit_id')
-            ->where('products.id', '=', $rs->id)
-            ->where('products_images.image_default', '=', 1)
-            ->where('products_details.lang_id', '=', 1)
-            ->where('products.status', '=', 1)
-            // ->where('products_cost.business_location_id', '=', 1)
-            ->first();
+            // 'dataset_currency.*',
+        )
+        ->leftjoin('product_images', 'products.id', '=', 'product_images.product_id_fk')
+        // ->where('products_cost.business_location_id', '=', 1)
+        ->where('products.id', '=', $rs->id)
+        ->groupby('products.id')
+        ->first();
 
 
 
             if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
                 $dataset_currency =  1;
-                $price = $product->member_price_th;
+                $price = $product->product_price_member_th;
                 $shipping = $product->shipping_th  ?? '0';
             }else{
                 $dataset_currency =  2;
-                $price = $product->member_price_usd;
+                $price = $product->product_price_member_usd;
                 $shipping = $product->shipping_usd  ?? '0';
             }
 
@@ -212,10 +200,10 @@ class OrderController extends Controller
                 'attributes' => array(
                     'shipping' => $shipping,
                     'pv' => $product->pv,
-                    'img' => asset($product->img_url . '' . $product->product_img),
-                    'product_unit_id'=>$product->product_unit_id,
+                    'img' => asset($product->product_image_url . '' . $product->product_image_name),
+                    'product_unit_id'=>$product->product_unit_id_fk,
                     'product_unit_name' => $product->product_unit_name,
-                    'descriptions' => $product->descriptions,
+                    'descriptions' => $product->product_detail,
                     // 'promotion_id' => $rs->id,
                     'detail' => '',
                     // 'category_id' => $product->category_id,
@@ -254,11 +242,10 @@ class OrderController extends Controller
             foreach ($data as $value) {
                 $pv[] = $value['quantity'] * $value['attributes']['pv'];
 
-                $product_shipping = DB::table('products_cost')
-                ->where('product_id_fk',$value['id'])
+                $product_shipping = DB::table('products')
+                ->where('id',$value['id'])
                 ->where('status_shipping','Y')
                 ->first();
-
 
                 if($product_shipping){
                     //$pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
@@ -378,6 +365,7 @@ class OrderController extends Controller
     public function order_detail($code_order)
     {
 
+
         $orders_detail = DB::table('db_orders')
         ->select(
 
@@ -387,6 +375,7 @@ class OrderController extends Controller
             'dataset_order_status.detail',
             'dataset_order_status.css_class',
             'db_orders.*',
+
         )
         ->leftjoin('customers', 'customers.id','db_orders.customers_id_fk')
         ->leftjoin('dataset_order_status', 'dataset_order_status.orderstatus_id','db_orders.order_status_id_fk')
@@ -421,11 +410,9 @@ class OrderController extends Controller
         // เอาข้อมูลสินค้าที่อยู่ในรายการ order
         ->map(function ($item) use ($code_order) {
             $item->product_detail = DB::table('db_order_products_list')
-                ->leftjoin('products_details', 'products_details.product_id_fk', 'db_order_products_list.product_id_fk')
-                ->leftjoin('products_images', 'products_images.product_id_fk', 'db_order_products_list.product_id_fk')
-                ->where('products_details.lang_id', 1)
+                ->leftjoin('product_images', 'product_images.product_id_fk', 'db_order_products_list.product_id_fk')
                 ->where('code_order', $code_order)
-                ->GroupBy('products_details.product_name')
+                ->GroupBy('product_images.product_id_fk')
                 ->get();
             return $item;
         });

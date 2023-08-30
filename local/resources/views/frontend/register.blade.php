@@ -213,8 +213,8 @@
                                             </div>
                                         </div>
                                         <div class="mt-1 mb-2 d-flex justify-content-center">
-                                            <img width="250" height="300" id="img_card"
-                                                src="https://via.placeholder.com/250x300.png?text=card" />
+                                            <img width="250" height="300" id="img_bank" accept="image/*"
+                                                src="{{ asset('frontend/images/250x300.png') }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-8 my-auto">
@@ -378,7 +378,7 @@
                                         </div>
                                         <div class=" mt-1 mb-1 d-flex justify-content-center">
                                             <img width="250" height="300" id="img_bank" accept="image/*"
-                                                src="https://via.placeholder.com/250x300.png?text=Bank" />
+                                                src="{{ asset('frontend/images/250x300.png') }}" />
                                         </div>
 
                                     </div>
@@ -391,7 +391,7 @@
                                                     <option selected disabled>Select Bank</option>
 
                                                     @foreach ($bank as $value_bank)
-                                                        <option value="{{ $value_bank->id }}">{{ $value_bank->name }}
+                                                        <option value="{{ $value_bank->id }}">{{ $value_bank->bank_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>

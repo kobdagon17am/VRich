@@ -81,11 +81,11 @@
 
                                 <div class="row">
                                     <div class="col-3 col-lg-2">
-                                            <img src="{{ asset($value->img_url.''.$value->product_img) }}" class="mw-100 mb-2">
+                                            <img src="{{ asset($value->product_image_url.''.$value->product_image_name) }}" class="mw-100 mb-2">
                                         </div>
                                         <div class="col-9 col-lg-10">
                                             <h6>{{$value->product_name}}</h6>
-                                            <p class="fs-12 text-muted mb-0">{{$value->title}}</p>
+                                            <p class="fs-12 text-muted mb-0">{{$orders_detail[0]->detail}}</p>
                                             <div class="text-end">
                                                 <button type="button" class="btn btn-outline-secondary px-2 py-1">{{$value->amt}}</button>
                                                 <p class="mb-0">{{$value->pv}} PV</p>

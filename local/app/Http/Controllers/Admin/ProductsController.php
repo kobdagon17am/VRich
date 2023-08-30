@@ -72,6 +72,8 @@ class ProductsController extends Controller
       'product_price_retail_usd' => $rs->product_price_retail_usd,
       'product_price_member_th' => $rs->product_price_member_th,
       'product_price_member_usd' => $rs->product_price_member_usd,
+      'status_shipping' => $rs->status_shipping,
+
 
       'product_pv' => $rs->product_pv,
       'status' => $rs->product_status,
@@ -207,6 +209,7 @@ class ProductsController extends Controller
         'product_price_retail_usd' => $rs->product_price_retail_usd,
         'product_price_member_th' => $rs->product_price_member_th,
         'product_price_member_usd' => $rs->product_price_member_usd,
+        'status_shipping' => $rs->status_shipping,
 
         'product_pv' => $rs->product_pv,
         'status' => $rs->product_status,

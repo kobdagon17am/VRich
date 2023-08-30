@@ -30,7 +30,7 @@
                                                 <li class="nav-item" role="presentation">
                                                   <button class="nav-link active" id="all" data-bs-toggle="tab" data-bs-target="#all-pane" type="button" role="tab" aria-controls="all-pane" aria-selected="true">ทังหมด</button>
                                                 </li>
-                                                <li class="nav-item" role="presentation">
+                                                {{-- <li class="nav-item" role="presentation">
                                                   <button class="nav-link" id="one-tab" data-bs-toggle="tab" data-bs-target="#one-tab-pane" type="button" role="tab" aria-controls="one-tab-pane" aria-selected="false">สินค้าแยกชิ้น</button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
@@ -38,7 +38,7 @@
                                                 </li>
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link" id="promotion-tab" data-bs-toggle="tab" data-bs-target="#promotion-tab-pane" type="button" role="tab" aria-controls="promotion-tab-pane" aria-selected="false">Promotion</button>
-                                                  </li>
+                                                  </li> --}}
 
                                               </ul>
                                               <div class="tab-content" id="myTabContent">
@@ -48,22 +48,22 @@
                                                         @foreach ($product_all['product'] as $value)
 
                                                         <div class="col-md-2 col-lg-2">
-                                                            <div class="row mb-2 box-product">
-                                                                <div class="col-6 col-md-12 text-center">
-                                                                    <img src="{{ asset($value->img_url . '' . $value->product_img) }}"
+                                                            <div class="row mb-2 box-product text-center">
+                                                                <div class="col-12 col-md-12 ">
+                                                                    <img src="{{ asset($value->product_image_url . '' . $value->product_image_name) }}"
                                                                         class="mw-100 mb-2">
                                                                 </div>
-                                                                <div class="col-12 col-md-12 text-start text-md-center">
+                                                                <div class="col-12 col-md-12  text-md-center">
                                                                     <h6 class="mb-0">{{ $value->product_name }}</h6>
                                                                     @if($product_all['currency']->id == 1)
                                                                     <p class="mb-1"> {!! $dataset_currency->icon !!}
-                                                                        {{ number_format($value->member_price_th, 2) }} BAT<span
-                                                                            style="color:#00c454">[{{ $value->pv }} PV]</span>
+                                                                        {{ number_format($value->product_price_member_th, 2) }} <span
+                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
                                                                     </p>
                                                                     @else
                                                                     <p class="mb-1"> {!! $dataset_currency->icon !!}
-                                                                        {{ number_format($value->member_price_usd, 2) }} <span
-                                                                            style="color:#00c454">[{{ $value->pv }} PV]</span>
+                                                                        {{ number_format($value->product_price_member_usd, 2) }} <span
+                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
                                                                     </p>
                                                                     @endif
 
@@ -76,7 +76,7 @@
                                                                                 <button class="btnquantity sp-plus"></button>
                                                                             </div>
                                                                         </div> --}}
-                                                                        <div class="col-4 col-md-6">
+                                                                        <div class="col-6 col-md-6">
                                                                             <button type="button"
                                                                                 onclick="view_detail({{ $value->products_id }});"
                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
@@ -102,28 +102,35 @@
                                                                         <div class="col-md-2 col-lg-2">
                                                                             <div class="row mb-2 box-product">
                                                                                 <div class="col-6 col-md-12 text-center">
-                                                                                    <img src="{{ asset(@$value_one->img_url . '' . $value_one->product_img) }}"
+                                                                                    <img src="{{ asset($value->product_image_url . '' . $value->product_image_name) }}"
                                                                                         class="mw-100 mb-2">
                                                                                 </div>
                                                                                 <div class="col-12 col-md-12 text-start text-md-center">
-                                                                                    <h6 class="mb-0">{{ $value_one->product_name }}</h6>
-                                                                                    <p class="mb-1"> {!! $value_one->icon !!}
-                                                                                        {{ number_format($value_one->member_price, 2) }} <span
-                                                                                            style="color:#00c454">[{{ $value_one->pv }} PV]</span>
+                                                                                    <h6 class="mb-0">{{ $value->product_name }}</h6>
+                                                                                    @if($product_all['currency']->id == 1)
+                                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
+                                                                                        {{ number_format($value->product_price_member_th, 2) }} <span
+                                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
                                                                                     </p>
+                                                                                    @else
+                                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
+                                                                                        {{ number_format($value->product_price_member_usd, 2) }} <span
+                                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
+                                                                                    </p>
+                                                                                    @endif
 
                                                                                     <div class="row justify-content-center">
                                                                                         {{-- <div class="col-8 col-md-12">
                                                                                             <div class="plusminus horiz">
                                                                                                 <button class="btnquantity"></button>
-                                                                                                <input type="number" id="productQty_{{$value_one->products_id}}" name="productQty"
-                                                                                                    class="numQty" value_one="0" min="0">
+                                                                                                <input type="number" id="productQty_{{$value->products_id}}" name="productQty"
+                                                                                                    class="numQty" value="0" min="0">
                                                                                                 <button class="btnquantity sp-plus"></button>
                                                                                             </div>
                                                                                         </div> --}}
                                                                                         <div class="col-4 col-md-6">
                                                                                             <button type="button"
-                                                                                                onclick="view_detail({{ $value_one->products_id }});"
+                                                                                                onclick="view_detail({{ $value->products_id }});"
                                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
                                                                                                 {{ __('text.Addtocard') }} <i
                                                                                                     class="fa fa-cart-plus f-20"></i></button>
@@ -149,28 +156,35 @@
                                                                         <div class="col-md-2 col-lg-2">
                                                                             <div class="row mb-2 box-product">
                                                                                 <div class="col-6 col-md-12 text-center">
-                                                                                    <img src="{{ asset(@$value_one->img_url . '' . $value_one->product_img) }}"
+                                                                                    <img src="{{ asset($value->product_image_url . '' . $value->product_image_name) }}"
                                                                                         class="mw-100 mb-2">
                                                                                 </div>
                                                                                 <div class="col-12 col-md-12 text-start text-md-center">
-                                                                                    <h6 class="mb-0">{{ $value_one->product_name }}</h6>
-                                                                                    <p class="mb-1"> {!! $value_one->icon !!}
-                                                                                        {{ number_format($value_one->member_price, 2) }} <span
-                                                                                            style="color:#00c454">[{{ $value_one->pv }} PV]</span>
+                                                                                    <h6 class="mb-0">{{ $value->product_name }}</h6>
+                                                                                    @if($product_all['currency']->id == 1)
+                                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
+                                                                                        {{ number_format($value->product_price_member_th, 2) }} <span
+                                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
                                                                                     </p>
+                                                                                    @else
+                                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
+                                                                                        {{ number_format($value->product_price_member_usd, 2) }} <span
+                                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
+                                                                                    </p>
+                                                                                    @endif
 
                                                                                     <div class="row justify-content-center">
                                                                                         {{-- <div class="col-8 col-md-12">
                                                                                             <div class="plusminus horiz">
                                                                                                 <button class="btnquantity"></button>
-                                                                                                <input type="number" id="productQty_{{$value_one->products_id}}" name="productQty"
-                                                                                                    class="numQty" value_one="0" min="0">
+                                                                                                <input type="number" id="productQty_{{$value->products_id}}" name="productQty"
+                                                                                                    class="numQty" value="0" min="0">
                                                                                                 <button class="btnquantity sp-plus"></button>
                                                                                             </div>
                                                                                         </div> --}}
                                                                                         <div class="col-4 col-md-6">
                                                                                             <button type="button"
-                                                                                                onclick="view_detail({{ $value_one->products_id }});"
+                                                                                                onclick="view_detail({{ $value->products_id }});"
                                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
                                                                                                 {{ __('text.Addtocard') }} <i
                                                                                                     class="fa fa-cart-plus f-20"></i></button>
@@ -195,28 +209,35 @@
                                                                         <div class="col-md-2 col-lg-2">
                                                                             <div class="row mb-2 box-product">
                                                                                 <div class="col-6 col-md-12 text-center">
-                                                                                    <img src="{{ asset(@$value_one->img_url . '' . $value_one->product_img) }}"
+                                                                                    <img src="{{ asset($value->product_image_url . '' . $value->product_image_name) }}"
                                                                                         class="mw-100 mb-2">
                                                                                 </div>
                                                                                 <div class="col-12 col-md-12 text-start text-md-center">
-                                                                                    <h6 class="mb-0">{{ $value_one->product_name }}</h6>
-                                                                                    <p class="mb-1"> {!! $value_one->icon !!}
-                                                                                        {{ number_format($value_one->member_price, 2) }} <span
-                                                                                            style="color:#00c454">[{{ $value_one->pv }} PV]</span>
+                                                                                    <h6 class="mb-0">{{ $value->product_name }}</h6>
+                                                                                    @if($product_all['currency']->id == 1)
+                                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
+                                                                                        {{ number_format($value->product_price_member_th, 2) }} <span
+                                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
                                                                                     </p>
+                                                                                    @else
+                                                                                    <p class="mb-1"> {!! $dataset_currency->icon !!}
+                                                                                        {{ number_format($value->product_price_member_usd, 2) }} <span
+                                                                                            style="color:#00c454">[{{ $value->product_pv }} PT]</span>
+                                                                                    </p>
+                                                                                    @endif
 
                                                                                     <div class="row justify-content-center">
                                                                                         {{-- <div class="col-8 col-md-12">
                                                                                             <div class="plusminus horiz">
                                                                                                 <button class="btnquantity"></button>
-                                                                                                <input type="number" id="productQty_{{$value_one->products_id}}" name="productQty"
-                                                                                                    class="numQty" value_one="0" min="0">
+                                                                                                <input type="number" id="productQty_{{$value->products_id}}" name="productQty"
+                                                                                                    class="numQty" value="0" min="0">
                                                                                                 <button class="btnquantity sp-plus"></button>
                                                                                             </div>
                                                                                         </div> --}}
                                                                                         <div class="col-4 col-md-6">
                                                                                             <button type="button"
-                                                                                                onclick="view_detail({{ $value_one->products_id }});"
+                                                                                                onclick="view_detail({{ $value->products_id }});"
                                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
                                                                                                 {{ __('text.Addtocard') }} <i
                                                                                                     class="fa fa-cart-plus f-20"></i></button>
@@ -369,14 +390,14 @@
                         $('#ProductDetailLabel').html(data['product']['product_name']);
                         $('#descriptions').html(data['product']['descriptions']);
                         if(data['dataset_currency'] == 1){
-                            $('#member_price').html(data['product']['member_price_th']+' BAT');
+                            $('#member_price').html(data['product']['product_price_member_th']+' ฿');
                         }else{
-                            $('#member_price').html(data['product']['member_price_usd']+' USD');
+                            $('#member_price').html(data['product']['product_price_member_usd']+' $');
                         }
 
                         $('#pv').html(data['product']['pv'] + ' PV');
                         $('#product_id').val(product_id);
-                        uel_link= url_asset+''+data['product']['img_url']+''+data['product']['product_img'];
+                        uel_link= url_asset+''+data['product']['product_image_url']+''+data['product']['product_image_name'];
                         var url = '<img id="img" src="'+uel_link+'" class="mw-100 mb-2">';
                         $('#img').html(url);
 

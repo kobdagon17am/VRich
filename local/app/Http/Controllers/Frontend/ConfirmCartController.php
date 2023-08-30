@@ -40,8 +40,8 @@ class ConfirmCartController extends Controller
 
             foreach ($data as $value) {
                 $pv[] = $value['quantity'] * $value['attributes']['pv'];
-                $product_shipping = DB::table('products_cost')
-                ->where('product_id_fk',$value['id'])
+                $product_shipping = DB::table('products')
+                ->where('id',$value['id'])
                 ->where('status_shipping','Y')
                 ->first();
 
@@ -336,8 +336,8 @@ class ConfirmCartController extends Controller
                 $pv[] = $value['quantity'] * $value['attributes']['pv'];
 
 
-                $product_shipping = DB::table('products_cost')
-                ->where('product_id_fk',$value['id'])
+                $product_shipping = DB::table('products')
+                ->where('id',$value['id'])
                 ->where('status_shipping','Y')
                 ->first();
 
