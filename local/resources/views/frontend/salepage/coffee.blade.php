@@ -3,7 +3,13 @@
 @section('title')
 Vrich herbal coffee
 @endsection
+@section('meta')
+<meta property="og:title" content="Vrich herbal coffee">
+<meta property="og:image" content="{{ asset('frontend/salepage/coffee/0.jpg') }}">
+<meta property="og:description" content="Vrich herbal coffee">
+@endsection
 @section('css')
+
 
     <style>
         .bg_product {

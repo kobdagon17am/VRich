@@ -3,7 +3,15 @@
 @section('title')
 Vrich Smooth&Bright up Serum
 @endsection
+@section('meta')
+<meta property="og:title" content="Vrich Smooth&Bright up Serum">
+<meta property="og:image" content="{{ asset('rontend/salepage/serum/1.png') }}">
+<meta property="og:description" content="rich Smooth&Bright up Serum">
+@endsection
 @section('css')
+
+
+
 
     <style>
         .bg_product {
