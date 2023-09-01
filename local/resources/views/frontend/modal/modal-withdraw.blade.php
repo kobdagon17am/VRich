@@ -12,7 +12,7 @@
                     <div class="alert alert-warning d-flex align-items-center" role="alert">
                         <i class='bx bxs-info-circle me-2'></i>
                         <div>
-                            การถอนเงิน eWallet ขั้นต่ำ = 300 บาท
+                            การถอนเงิน eWallet ขั้นต่ำ = 10 USD
                         </div>
                     </div>
                     <div class="row gx-2">

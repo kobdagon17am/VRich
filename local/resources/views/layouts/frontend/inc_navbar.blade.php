@@ -22,13 +22,15 @@
 
 
 
-            <input type="radio" class="btn-check changeLang" name="options" value="th" id="option1" autocomplete="off" {{ session()->get('locale') == 'th' ? 'checked' : '' }}>
-            <label class="btn btnFlag" for="option1"><img src="{{ asset('frontend/images/thailand.png') }}"
-                    class="flagS" alt="" /></label>
+
 
             <input type="radio" class="btn-check changeLang" name="options" value="en" id="option2" autocomplete="off"  {{ session()->get('locale') == 'en' ? 'checked' : '' }}>
             <label class="btn btnFlag" for="option2"><img src="{{ asset('frontend/images/united-kingdom.png') }}"
                     class="flagS" alt="" /></label>
+
+                    <input type="radio" class="btn-check changeLang" name="options" value="th" id="option1" autocomplete="off" {{ session()->get('locale') == 'th' ? 'checked' : '' }}>
+                    <label class="btn btnFlag" for="option1"><img src="{{ asset('frontend/images/thailand.png') }}"
+                            class="flagS" alt="" /></label>
             <button class="btn btn-wp" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight"><span class="d-inline-flex d-md-none"><i
                         class='bx bxs-user-circle'></i></span><span class="d-none d-md-inline-flex">
@@ -62,8 +64,23 @@
                         <li><a class="dropdown-item" href="{{ route('order_history') }}">{{__('text.OrderHistory')}}</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('Learning') }}">{{__('text.MdkLerning')}}</a>
+                </li> --}}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false"> Sale Page
+                    </a>
+
+                    <?php $user_name= Auth::guard('c_user')->user()->user_name; ?>
+
+
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{{url($user_name.'/1')}}">Vrich Smooth&Bright up Serum</a></li>
+                        <li><a class="dropdown-item" href="{{url($user_name.'/2')}}">Vrich herbal coffee</a></li>
+                        <li><a class="dropdown-item" href="{{ route('order_history') }}">Sale Page Setting</a></li>
+                    </ul>
                 </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('Contact') }}">{{__('text.Contact')}}</a>

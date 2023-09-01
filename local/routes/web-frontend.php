@@ -202,4 +202,6 @@ Route::post('home/withdraw/', 'Frontend\eWalletController@withdraw')->name('fron
 Route::get('fc_shipping_zip_code_js', 'Frontend\ShippingController@fc_shipping_zip_code_js')->name('fc_shipping_zip_code_js');
 
 
+Route::get('{user_name?}/1','Frontend\SalepageController@serum')->name('1');
+Route::get('{user_name?}/2','Frontend\SalepageController@coffee')->name('2');
 // BEGIN eWallet withdraw

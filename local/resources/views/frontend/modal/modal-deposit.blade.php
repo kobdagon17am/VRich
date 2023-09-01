@@ -36,13 +36,15 @@
                             <div class="card borderR10 p-2 mb-2">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img src="{{ asset('frontend/images/kbank.png') }}" alt="icon-Kbank"
+                                        <img src="{{ asset('frontend/images/aba logo.jpg') }}" alt="icon-Kbank"
                                             width="50px">
                                     </div>
                                     <div class="flex-grow-1 ms-3">
-                                        ธนาคารกสิกรไทย (สาขา เซนทรัล เฟสติวัล หาดใหญ่)<br>
-                                        035-1-66563-7<br>
-                                        VRich
+                                        ABA Bank  <br>
+                                        005 095 692 <br>
+                                        Kitti Singhathom
+
+
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +87,7 @@
                     <div class="alert alert-warning d-flex align-items-center" role="alert">
                         <i class='bx bxs-info-circle me-2'></i>
                         <div>
-                            การฝากเงิน eWallet ขั้นต่ำ = 100 บาท
+                            การฝากเงิน eWallet ขั้นต่ำ = 10 USD
                         </div>
                     </div>
                     <!--
