@@ -608,7 +608,7 @@
 
 
                          {
-                             data: 'qualification_id',
+                             data: 'business_qualifications',
                              title: '<center>ตำแหน่ง</center>',
                              className: 'text-center'
                          },

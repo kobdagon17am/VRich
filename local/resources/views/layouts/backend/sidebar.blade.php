@@ -72,7 +72,7 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="a3" data-parent="#accordionExample">
                     <li>
-                        <a href="#"> รายการ ฝากเงิน </a>
+                        <a href="{{ route('admin/eWallet') }}"> รายการ ฝากเงิน </a>
                     </li>
                     <li>
                         <a href="#"> รายการ ถอนเงิน </a>

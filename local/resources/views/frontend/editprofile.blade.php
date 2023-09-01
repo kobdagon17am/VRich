@@ -44,8 +44,8 @@
                                 </div>
                                 <div class="col-md-6 col-lg-2 col-xxl-1">
                                     <label for="" class="form-label d-none d-md-block">&nbsp;</label>
-                                    <button class="btn btn-p1 rounded-pill">ตรวจ</button>
-                                    <button class="btn btn-outline-dark rounded-circle btn-icon"><i
+                                    <button class="btn btn-sm btn-p1 rounded-pill">ตรวจ</button>
+                                    <button class="btn  btn-outline-dark rounded-circle btn-icon"><i
                                             class="bx bx-x"></i></button>
                                 </div>
                                 <div class="col-md-6 col-lg-6 col-xxl-8 mb-3">
@@ -84,7 +84,7 @@
                                 <div class="col-md-6 col-xl-3">
                                     <label for="" class="form-label">เพศ <span
                                             class="text-danger gender_err _err">*</span></label>
-                                    <select name="gender" class="form-select disabled_select" id="">
+                                    <select name="gender" class="form-select disabled_select" id="">resources\views\frontend\editprofile.blade.php
                                         <option selected disabled>เลือกเพศ</option>
                                         <option {{ $customers_info->gender == 'ชาย' ? 'selected' : '' }} value="ชาย">
                                             ชาย</option>
@@ -455,7 +455,7 @@
                                                         <option
                                                             {{ $info_bank->bank_id_fk == $value_bank->id ? 'selected' : '' }}
                                                             value="{{ $value_bank->id }}">
-                                                            {{ $value_bank->name }}</option>
+                                                            {{ $value_bank->bank_name }}</option>
                                                     @endforeach
 
 
@@ -520,7 +520,7 @@
 
                                                         @foreach ($bank as $value_bank)
                                                             <option value="{{ $value_bank->id }}">
-                                                                {{ $value_bank->name }}</option>
+                                                                {{ $value_bank->bank_name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>

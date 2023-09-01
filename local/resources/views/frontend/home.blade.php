@@ -122,8 +122,8 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="row gx-2 gx-md-3">
-                        <div class="col-4 col-lg-6 d-none d-lg-block">
-                            {{-- <a href="#!"> --}}
+                        {{-- <div class="col-4 col-lg-6 d-none d-lg-block">
+
                             <a href="{{ route('tree') }}">
                                 <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
                                     <div class="d-flex">
@@ -139,7 +139,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>
+                        </div> --}}
 
 
                         <div class="col-4 col-lg-6">
@@ -327,8 +327,8 @@
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkTp">
-                            <li><a class="dropdown-item"
-                                    href="{{ route('jp_clarify') }}">{{ __('text.Clarify PV.') }}</a></li>
+                            {{-- <li><a class="dropdown-item"
+                                    href="{{ route('jp_clarify') }}">{{ __('text.Clarify PV.') }}</a></li> --}}
                             {{-- <li><a class="dropdown-item" href="{{ route('jp_transfer') }}">รับ-โอน PV.</a></li> --}}
                         </ul>
                     </div>
@@ -363,6 +363,10 @@
                                     id="withdraw">{{ __('text.Withdrawewallet') }}</a></li>
                             <li><a class="dropdown-item"
                                     href="{{ route('eWallet_history') }}">{{ __('text.Historyewallet') }}</a></li>
+
+
+                            <li><a class="dropdown-item"
+                                href="{{ route('eWallet-TranferHistory') }}"> ประวัติการฝากเงิน eWallet </a></li>
                         </ul>
                     </div>
                 </div>

@@ -357,7 +357,7 @@
                         confirmButtonText: 'ปิด',
 
                     }).then((result) => {
-                        location.href = "eWallet_history";
+                        location.href = "eWallet-TranferHistory";
                     })
                 } else {
                     printErrorMsg(data.error);

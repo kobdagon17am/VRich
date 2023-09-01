@@ -62,7 +62,7 @@ class ProfileController extends Controller
         // END ที่อยู่จัดส่ง
 
         // BEGIN ข้อมูลธนาคาร
-        $info_bank = CustomersBank::where('customers_id', $customers_id)->first();
+        $info_bank = CustomersBank::where('customer_id', $customers_id)->first();
         // END ข้อมูลธนาคาร
 
         // BEGIN ผู้รับผลประโยชน์
@@ -220,20 +220,20 @@ class ProfileController extends Controller
 
 
             $dataPrepare = [
-                'customers_id' => $customers_id,
-                'user_name' => $customers_user_name,
+                'customer_id' => $customers_id,
+                'username' => $customers_user_name,
                 'url' => $url,
                 'img_bank' => $filenametostore,
-                'bank_name' => $bank->name,
+                'bank_name' => $bank->bank_name,
                 'bank_id_fk' => $bank->id,
-                'code_bank' => $bank->code,
+                'code_bank' => $bank->bank_code,
                 'bank_branch' => $request->bank_branch,
-                'bank_no' => $request->bank_no,
+                'account_no' => $request->bank_no,
                 'account_name' => $request->account_name,
             ];
 
             $rquery_bamk = CustomersBank::updateOrInsert([
-                'customers_id' => $customers_id
+                'customer_id' => $customers_id
             ], $dataPrepare);
 
             Customers::where('id', $customers_id)->update(['regis_doc4_status' => 3]);

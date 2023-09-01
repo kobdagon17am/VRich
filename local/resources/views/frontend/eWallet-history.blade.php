@@ -1,4 +1,4 @@
-<title>VRich</title>
+<title>บริษัท มารวยด้วยกัน จำกัด</title>
 
 
 <style>
@@ -301,7 +301,7 @@
 
         function get_data_info_ewallet(id) {
             $.ajax({
-                url: '{{ route('get_info_ewallet') }}',
+                url: '',
                 method: 'POST',
                 data: {
                     '_token': '{{ csrf_token() }}',

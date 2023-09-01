@@ -38,9 +38,11 @@ class WorklineController extends Controller
 
 
         $introduce = DB::table('customers')
-            ->select('customers.*')
-            ->where('introduce_id', '=',$user_name)
-            ->where('name', '!=','');
+            ->select('customers.*','dataset_qualification.business_qualifications')
+            ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
+            ->where('customers.introduce_id', '=',$user_name)
+            ->where('customers.name', '!=','');
+
             // ->when($date_between, function ($query, $date_between) {
             //     return $query->whereBetween('created_at', $date_between);
             // });

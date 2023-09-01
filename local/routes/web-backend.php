@@ -168,16 +168,18 @@ Route::get('admin/Blank', function () {
 
 
       // BEGIN eWallet
-      Route::get('admin/eWallet', 'Backend\eWalletController@index')->name('admin/eWallet');
-      Route::get('admin/withdraw', 'Backend\eWalletController@withdraw')->name('admin/withdraw');
-      Route::get('admin/transfer', 'Backend\eWalletController@transfer')->name('admin/transfer');
-      Route::get('admin/export', 'Backend\eWalletController@export')->name('admin/export');
-      Route::get('admin/export2', 'Backend\eWalletController@export2')->name('admin/export2');
-      Route::post('admin/import', 'Backend\eWalletController@import')->name('admin/import');
-      Route::get('admin/eWallet/get_ewallet', 'Backend\eWalletController@get_ewallet')->name('admin/get_ewallet');
-      Route::get('admin/eWallet/get_transfer', 'Backend\eWalletController@get_transfer')->name('admin/get_transfer');
-      Route::get('admin/eWallet/get_withdraw', 'Backend\eWalletController@get_withdraw')->name('admin/get_withdraw');
-      Route::post('eWallet/get_info_ewallet', 'Backend\eWalletController@get_info_ewallet')->name('admin/get_info_ewallet');
+      Route::get('admin/eWallet', 'Admin\eWalletController@index')->name('admin/eWallet');
+      Route::get('admin/withdraw', 'Admin\eWalletController@withdraw')->name('admin/withdraw');
+      Route::get('admin/transfer', 'Admin\eWalletController@transfer')->name('admin/transfer');
+      Route::get('admin/export', 'Admin\eWalletController@export')->name('admin/export');
+      Route::get('admin/export2', 'Admin\eWalletController@export2')->name('admin/export2');
+      Route::post('admin/import', 'Admin\eWalletController@import')->name('admin/import');
+      Route::get('admin/get_ewallet', 'Admin\eWalletController@get_ewallet')->name('admin/get_ewallet');
+      Route::get('admin/get_transfer', 'Admin\eWalletController@get_transfer')->name('admin/get_transfer');
+      Route::get('admin/get_withdraw', 'Admin\eWalletController@get_withdraw')->name('admin/get_withdraw');
+      Route::post('eWallet/get_info_ewallet', 'Admin\eWalletController@get_info_ewallet')->name('admin/get_info_ewallet');
 
-      Route::post('admin/eWallet/approve_update_ewallet', 'Backend\eWalletController@approve_update_ewallet')->name('admin/approve_update_ewallet');
-      Route::post('admin/eWallet/disapproved_update_ewallet', 'Backend\eWalletController@disapproved_update_ewallet')->name('admin/disapproved_update_ewallet');
+      Route::post('admin/approve_update_ewallet', 'Admin\eWalletController@approve_update_ewallet')->name('admin/approve_update_ewallet');
+      Route::post('admin/disapproved_update_ewallet', 'Admin\eWalletController@disapproved_update_ewallet')->name('admin/disapproved_update_ewallet');
+
+

@@ -167,6 +167,8 @@ Route::get('checkcustomer_upline_upgrad', 'Frontend\JPController@checkcustomer_u
 Route::get('eWallet_history', 'Frontend\eWalletController@eWallet_history')->name('eWallet_history');
 Route::get('eWallet_history/front_end_get_ewallet', 'Frontend\eWalletController@front_end_get_ewallet')->name('front_end_get_ewallet');
 // END หน้า  eWallet
+Route::get('eWallet-TranferHistory', 'Frontend\eWallet_tranferController@index')->name('eWallet-TranferHistory');
+Route::get('eWallet_TranferHistory_table', 'Frontend\eWallet_tranferController@eWallet_TranferHistory_table')->name('eWallet_TranferHistory_table');
 
 // BEGIN หน้า Bonus
 Route::get('bonus_all', 'Frontend\BonusController@bonus_all')->name('bonus_all');

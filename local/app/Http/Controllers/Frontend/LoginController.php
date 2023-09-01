@@ -19,6 +19,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class LoginController extends Controller
 {
 
+
   public function login(Request $req)
   {
 

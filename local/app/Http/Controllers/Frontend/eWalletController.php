@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Customers;
 use App\CustomersBank;
 use App\eWallet;
+use App\eWallet_tranfer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,10 @@ use DB;
 
 class eWalletController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('customer');
+    }
     public function eWallet_history()
 
     {
@@ -354,7 +358,7 @@ class eWalletController extends Controller
 
                 try {
                     DB::BeginTransaction();
-                    $query =  eWallet::create($dataPrepare);
+                    $query =  eWallet_tranfer::create($dataPrepare);
                 DB::commit();
                 return response()->json(['status' => 'success'], 200);
                     } catch (Exception $e) {
@@ -464,7 +468,7 @@ class eWalletController extends Controller
     }
 
     public function check_customerbank(Request $request){
-        $customer_bank = CustomersBank::where('customers_id',$request->id)->first();
+        $customer_bank = CustomersBank::where('customer_id',$request->id)->first();
         if(!empty($customer_bank)){
             $return = "true";
         }else{
@@ -519,7 +523,7 @@ class eWalletController extends Controller
                 }
                 $status = 'danger';
             } else {
-                $date_mt_active = 'Active ' . date('d/m/Y', strtotime(Auth::guard('c_user')->user()->expire_date));
+                $date_mt_active = 'Active ' . date('d/m/Y', strtotime($user_name_active->expire_date));
                 $status = 'success';
             }
             /////////////ไหม่ไม่ต้องตามสางาน
