@@ -26,7 +26,7 @@ Vrich herbal coffee
         }
 
     </style>
-     {!! $rs['data']->js_page_1 !!}
+     {{-- {!! $rs['data']->js_page_2 !!} --}}
 @endsection
 
 @section('content')

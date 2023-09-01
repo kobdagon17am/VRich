@@ -28,7 +28,7 @@ Vrich Smooth&Bright up Serum
         }
 
     </style>
-     {!! $rs['data']->js_page_1 !!}
+     {{-- {!! $rs['data']->js_page_1 !!} --}}
 @endsection
 
 @section('content')
