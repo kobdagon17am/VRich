@@ -1,9 +1,17 @@
-@extends('frontend.layouts.customer.customer_salepage')
+@extends('layouts.frontend.customer_salepage')
 
 @section('title')
-Cashewy Drink
+Vrich Smooth&Bright up Serum
+@endsection
+@section('meta')
+<meta property="og:title" content="Vrich Smooth&Bright up Serum">
+<meta property="og:image" content="{{ asset('rontend/salepage/serum/1.png') }}">
+<meta property="og:description" content="rich Smooth&Bright up Serum">
 @endsection
 @section('css')
+
+
+
 
     <style>
         .bg_product {
@@ -20,78 +28,37 @@ Cashewy Drink
         }
 
     </style>
-     {!! $rs['data']->js_page_3 !!}
+     {{-- {!! $rs['data']->js_page_1 !!} --}}
 @endsection
 
 @section('content')
 
     <div class="container">
         <div class="row justify-content-center">
-            <img src="{{ asset('frontend/salepage/Cashewy/1.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
+            <img src="{{ asset('frontend/salepage/serum/1.png') }}"
+                class="img-fluid" alt="Vrich Smooth&Bright up serum">
         </div>
 
         <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/2.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
+            <img src="{{ asset('frontend/salepage/serum/2.png') }}"
+                class="img-fluid" alt="Vrich Smooth&Bright up serum">
         </div>
 
         <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/3.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
+            <img src="{{ asset('frontend/salepage/serum/3.png') }}"
+                class="img-fluid" alt="Vrich Smooth&Bright up serum">
         </div>
 
         <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/4.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
+            <img src="{{ asset('frontend/salepage/serum/4.png') }}"
+                class="img-fluid" alt="Vrich Smooth&Bright up serum">
         </div>
 
-        <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/5.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
-        </div>
-
-        <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/6.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
-        </div>
-
-        <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/7.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
-        </div>
-
-        <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/8.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
-        </div>
-
-        <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/9.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
-        </div>
-
-        <div class="row justify-content-center mt-2">
-            <img src="{{ asset('frontend/salepage/Cashewy/10.jpg') }}"
-                class="img-fluid" alt="CashewyDrink">
-        </div>
-        <div class="row justify-content-center mt-2">
-          <img src="{{ asset('frontend/salepage/Cashewy/11.jpg') }}"
-              class="img-fluid" alt="CashewyDrink">
-      </div>
-      <div class="row justify-content-center mt-2">
-        <a href="{{ $url }}/aiyarashop/product-detail/2/10/{{ $rs['data']->user_name }}" target="_blank" >
-          <img src="{{ asset('frontend/salepage/Cashewy/12.jpg') }}"
-            class="img-fluid" alt="CashewyDrink">
-        </a>
-
-
-    </div>
 
     </div>
 
     <!-- FOOTER -->
-    <footer class="d-flex flex-wrap align-items-center py-3 my-2 border-top" style="background-color: #28a745;">
+    <footer class="d-flex flex-wrap align-items-center py-3 my-2 border-top" style="background-color: #182c3c;">
       <div class="container">
           <div class="row justify-content-md-center">
 
@@ -106,7 +73,7 @@ Cashewy Drink
                 <div class="justify-content-center" style="margin-top: 10px">
 
                   <b style="color: #fff">สนใจสมัครสมาชิกติดต่อ</b>
-                  <p style="color: #fff">คุณ {{ $rs['data']->first_name }} {{ $rs['data']->last_name }} รหัส {{ $rs['data']->user_name }}
+                  <p style="color: #fff">คุณ {{ $rs['data']->name }} {{ $rs['data']->last_name }} รหัส {{ $rs['data']->user_name }}
                   @if ($rs['data']->email)
                   <br><b>Email :</b> {{ $rs['data']->email }}
                   @endif
@@ -195,6 +162,10 @@ Cashewy Drink
             });
         });
 
+
+
     </script>
+
+
 
 @endsection

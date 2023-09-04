@@ -317,11 +317,11 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3 text-start">
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="mb-0"> TP ที่ใช้ได้ </h5>
+                                        <h5 class="mb-0"> PT ที่ใช้ได้ </h5>
                                         <h5 class="text-p1 text-end mb-0 fw-bold">
                                             {{ number_format(Auth::guard('c_user')->user()->pv) }}</h5>
                                     </div>
-                                    <p class="fs-12 text-secondary mb-0"> TP ที่ใช้ได้ </p>
+                                    <p class="fs-12 text-secondary mb-0"> PT ที่ใช้ได้ </p>
                                 </div>
                             </div>
                         </button>

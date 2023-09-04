@@ -10,10 +10,10 @@ use Auth;
 
 class SalepageController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('customer');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('customer');
+    // }
 
 
     public function serum($user_name = '')

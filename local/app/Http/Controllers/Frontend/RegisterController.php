@@ -91,7 +91,7 @@ class RegisterController extends Controller
 
     public function store_register(Request $request)
     {
-        //dd($request->all());
+        // dd($request->all());
         //return response()->json(['status' => 'fail', 'ms' => 'ลงทะเบียนไม่สำเร็จกรุณาลงทะเบียนไหม่sss']);
 
 
@@ -231,7 +231,9 @@ class RegisterController extends Controller
         //END data validator
 
 
+
         if (!$validator->fails()) {
+
             //BEGIN วันเกิด
             $day = $request->day;
             $month = $request->month;
@@ -283,8 +285,8 @@ class RegisterController extends Controller
                     'vvip_register_type' => 'register',
                     'facebook' => $request->facebook,
                     'telegrams' => $request->telegrams,
-                    'regis_doc4_status' => 0,
                     'regis_doc1_status' => 3,
+                    'regis_doc2_status' => 0,
                 ];
 
 
@@ -329,6 +331,22 @@ class RegisterController extends Controller
                         'customers_id' => $insert_customer->id
                     ], $CustomersAddressCard);
 
+
+                    $file_idcard = [
+                        'business_location_id_fk' =>  $request->nation_id,
+                        'customer_id' => $insert_customer->id,
+                        'username' =>  $user_name,
+                        'type' =>1,
+                        'url' =>$url,
+                        'file' => $filenametostore,
+                    ];
+
+                    DB::table('register_files')
+                    ->updateOrInsert(
+                        ['username' => $user_name, 'type' => 1],
+                        $file_idcard
+                    );
+
                     //END ข้อมูล บัตรประชาชน
 
                     //BEGIN สถานะว่า เอาข้อมูลมาจากไหน 1= บปช , 2= กรอกมาเอง
@@ -372,32 +390,46 @@ class RegisterController extends Controller
                             ->where('id', '=', $request->bank_name)
                             ->first();
 
+
                         $CustomersBank = [
-                            'customers_id' => $insert_customer->id,
-                            'user_name' => $user_name,
+                            'customer_id' => $insert_customer->id,
+                            'username' => $user_name,
                             'url' => $url,
                             'img_bank' => $filenametostore,
-                            'bank_name' => $bank->name,
+                            'bank_name' => $bank->bank_name,
                             'bank_id_fk' => $bank->id,
-                            'code_bank' => $bank->code,
+                            'code_bank' => $request->bank_no,
                             'bank_branch' => $request->bank_branch,
-                            'bank_no' => $request->bank_no,
+                            'account_no' => $request->bank_no,
                             'account_name' => $request->account_name
                             // 'regis_doc4_status' => 3
                         ];
 
 
-
                         $rquery_bamk = CustomersBank::updateOrInsert([
-                            'customers_id' => $insert_customer->id
+                            'customer_id' => $insert_customer->id
                         ], $CustomersBank);
 
                         // $rquery_bamk = CustomersBank::create($CustomersBank);
 
-                        Customers::where('id', $insert_customer->id)->update(['regis_doc4_status' => 3]);
+                        Customers::where('id', $insert_customer->id)->update(['regis_doc2_status' => 3]);
+
+                        $file_bank = [
+                            'business_location_id_fk' =>  $request->nation_id,
+                            'customer_id' => $insert_customer->id,
+                            'username' =>  $user_name,
+                            'type' =>2,
+                            'url' =>$url,
+                            'file' => $filenametostore,
+                        ];
+
+                        DB::table('register_files')
+                        ->updateOrInsert(
+                            ['username' => $user_name, 'type' => 2],
+                            $file_bank
+                        );
                     }
                     // END ข้อมูลธนาคาร
-
 
                     // BEGIN  ผู้รับผลประโยชน์
                     if ($request->name_benefit) {
@@ -433,12 +465,14 @@ class RegisterController extends Controller
                 return response()->json(['status' => 'fail', 'ms' => '
                 Registration unsuccessful. Please try registering again.']);
             }
+        }else{
+            return response()->json(['ms' => 'Please fill in all the required information before registering', 'error' => $validator->errors()]);
         }
 
         //return  redirect('register')->withError('ลงทะเบียนไม่สำเร็จ');
         // dd($validator->errors());
 
-        return response()->json(['ms' => 'Please fill in all the required information before registering', 'error' => $validator->errors()]);
+
     }
 
 

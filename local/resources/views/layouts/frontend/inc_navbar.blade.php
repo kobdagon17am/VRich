@@ -77,8 +77,8 @@
 
 
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{url($user_name.'/1')}}">Vrich Smooth&Bright up Serum</a></li>
-                        <li><a class="dropdown-item" href="{{url($user_name.'/2')}}">Vrich herbal coffee</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{url($user_name.'/1')}}">Vrich Smooth&Bright up Serum</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="{{url($user_name.'/2')}}">Vrich herbal coffee</a></li>
                         <li><a class="dropdown-item" href="{{ route('order_history') }}">Sale Page Setting</a></li>
                     </ul>
                 </li>

@@ -32,12 +32,7 @@ Vrich herbal coffee
 @section('content')
 
     <div class="container">
-        <div class="row justify-content-center">
-            <img src="{{ asset('frontend/salepage/coffee/0.jpg') }}"
-                class="img-fluid" alt="Vrich herbal coffee<">
-        </div>
-
-        <div class="row justify-content-center mt-2">
+        <div class="row justify-content-center pt-3">
             <img src="{{ asset('frontend/salepage/coffee/1.jpg') }}"
                 class="img-fluid" alt="Vrich herbal coffee<">
         </div>
@@ -49,6 +44,11 @@ Vrich herbal coffee
 
         <div class="row justify-content-center mt-2">
             <img src="{{ asset('frontend/salepage/coffee/3.jpg') }}"
+                class="img-fluid" alt="Vrich herbal coffee<">
+        </div>
+
+        <div class="row justify-content-center mt-2">
+            <img src="{{ asset('frontend/salepage/coffee/0.jpg') }}"
                 class="img-fluid" alt="Vrich herbal coffee<">
         </div>
 
