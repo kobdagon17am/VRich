@@ -1,3 +1,4 @@
+
 @extends('layouts.frontend.app_registerurl')
 
 @section('css')
@@ -44,15 +45,15 @@
                                         <label for="" class="form-label">Sponsor Code<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="sponsor"  id="sponsor"
-                                            value="{{$user_name_sponser->user_name }}" disabled>
-                                        <input type="hidden" class="form-control" name="sponsor" value="{{$user_name_sponser->user_name}}" id="">
+                                            value="{{ Auth::guard('c_user')->user()->user_name }}">
+                                        {{-- <input type="hidden" class="form-control" name="sponsor" value="{{ Auth::guard('c_user')->user()->user_name }}" id=""> --}}
                                     </div>
 
                                     <div class="col-md-4 col-lg-4 col-xxl-3 mb-3">
                                         <label for="" class="form-label">Sponsor Name<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="sponsor_name"
-                                            value="{{ $user_name_sponser->name }} {{  $user_name_sponser->last_name }}"
+                                            value="{{ Auth::guard('c_user')->user()->name }} {{ Auth::guard('c_user')->user()->last_name }}"
                                             disabled>
                                     </div>
 
@@ -213,8 +214,8 @@
                                             </div>
                                         </div>
                                         <div class="mt-1 mb-2 d-flex justify-content-center">
-                                            <img width="250" height="300" id="img_card"
-                                                src="https://via.placeholder.com/250x300.png?text=card" />
+                                            <img width="250" height="300" id="img_card" accept="image/*"
+                                                src="{{ asset('frontend/images/250x300.png') }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-8 my-auto">
@@ -378,7 +379,7 @@
                                         </div>
                                         <div class=" mt-1 mb-1 d-flex justify-content-center">
                                             <img width="250" height="300" id="img_bank" accept="image/*"
-                                                src="https://via.placeholder.com/250x300.png?text=Bank" />
+                                                src="{{ asset('frontend/images/250x300.png') }}" />
                                         </div>
 
                                     </div>
@@ -391,7 +392,7 @@
                                                     <option selected disabled>Select Bank</option>
 
                                                     @foreach ($bank as $value_bank)
-                                                        <option value="{{ $value_bank->id }}">{{ $value_bank->name }}
+                                                        <option value="{{ $value_bank->id }}">{{ $value_bank->bank_name }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -525,7 +526,7 @@
                     type: 'GET',
                     data: {
                         sponser: sponser,
-                        user_name: '{{$user_name_sponser->user_name }}'
+                        user_name: '{{ Auth::guard('c_user')->user()->user_name }}'
                     },
                 })
                 .done(function(data) {
@@ -679,7 +680,7 @@
                     confirmButtonText: 'ปิด',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "{{ route('login') }}";
+                        window.location.href = "{{ route('home') }}";
                     }
                 })
             }
@@ -689,6 +690,7 @@
 
     {{-- BEGIN  Preview image --}}
     <script>
+
         file_card.onchange = evt => {
             const [file] = file_card.files
             if (file) {
