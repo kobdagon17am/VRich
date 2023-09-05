@@ -213,7 +213,7 @@
                                             </div>
                                         </div>
                                         <div class="mt-1 mb-2 d-flex justify-content-center">
-                                            <img width="250" height="300" id="img_bank" accept="image/*"
+                                            <img width="250" height="300" id="img_card" accept="image/*"
                                                 src="{{ asset('frontend/images/250x300.png') }}" />
                                         </div>
                                     </div>
@@ -689,6 +689,7 @@
 
     {{-- BEGIN  Preview image --}}
     <script>
+
         file_card.onchange = evt => {
             const [file] = file_card.files
             if (file) {

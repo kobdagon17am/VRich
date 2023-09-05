@@ -289,18 +289,10 @@ class RegisterController extends Controller
                     'regis_doc2_status' => 0,
                 ];
 
-
-
-
                 // หัก PV Sponser
                 $sponser = Customers::where('user_name', $request->sponser)->first();
                 // End PV Sponser
-
-
-
                 $insert_customer = Customers::create($customer);
-
-
 
 
                 if ($request->file_card) {
