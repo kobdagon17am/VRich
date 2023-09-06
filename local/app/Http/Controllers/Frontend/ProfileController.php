@@ -54,11 +54,26 @@ class ProfileController extends Controller
 
 
         // BEGIN ข้อมูลบัตรประชาชน
-        $address_card = CustomersAddressCard::where('customers_id', $customers_id)->first();
+        $address_card = DB::table('customers_address_card')
+        ->select('customers_address_card.*', 'dataset_districts.name_th as tambon_name','dataset_amphures.name_th as amphure_name')
+        ->leftJoin('dataset_districts', 'customers_address_card.tambon', '=', 'dataset_districts.id')
+        ->leftJoin('dataset_amphures', 'customers_address_card.district', '=', 'dataset_amphures.id')
+        ->where('customers_address_card.customers_id', $customers_id)
+        ->first();
+
+
         // END ข้อมูลบัตรประชาชน
 
         // BEGIN ที่อยู่จัดส่ง
-        $address_delivery = CustomersAddressDelivery::where('customers_id', $customers_id)->first();
+
+
+        $address_delivery = DB::table('customers_address_delivery')
+        ->select('customers_address_delivery.*', 'dataset_districts.name_th as tambon_name','dataset_amphures.name_th as amphure_name')
+        ->leftJoin('dataset_districts', 'customers_address_delivery.tambon', '=', 'dataset_districts.id')
+        ->leftJoin('dataset_amphures', 'customers_address_delivery.district', '=', 'dataset_amphures.id')
+        ->where('customers_address_delivery.customers_id', $customers_id)
+        ->first();
+
         // END ที่อยู่จัดส่ง
 
         // BEGIN ข้อมูลธนาคาร
@@ -125,6 +140,7 @@ class ProfileController extends Controller
 
     public function update_same_address(Request $request)
     {
+
 
         $validator = Validator::make(
             $request->all(),

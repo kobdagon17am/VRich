@@ -22,8 +22,8 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">สมัครสมาชิก</li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Edit information</li>
                         </ol>
                     </nav>
                 </div>
@@ -33,75 +33,68 @@
 
                     <div class="card card-box borderR10 mb-2 mb-md-0">
                         <div class="card-body">
-                            <h4 class="card-title">สมัครสมาชิก</h4>
+                            <h4 class="card-title">>Edit information</h4>
                             <hr>
-                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ผู้แนะนำ</div>
+                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Sponsor</div>
                             <div class="row g-3">
                                 <div class="col-md-6 col-lg-4 col-xxl-3">
-                                    <label for="" class="form-label">รหัสผู้แนะนำ <span
+                                    <label for="" class="form-label">Sponsor Code <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="">
+                                    <input type="text" class="form-control" id="" value="{{$customers_info->introduce_id}}" disabled>
                                 </div>
-                                <div class="col-md-6 col-lg-2 col-xxl-1">
+                                {{-- <div class="col-md-6 col-lg-2 col-xxl-1">
                                     <label for="" class="form-label d-none d-md-block">&nbsp;</label>
                                     <button class="btn btn-sm btn-p1 rounded-pill">ตรวจ</button>
                                     <button class="btn  btn-outline-dark rounded-circle btn-icon"><i
                                             class="bx bx-x"></i></button>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-6 col-lg-6 col-xxl-8 mb-3">
-                                    <label for="" class="form-label">ชื่อผู้แนะนำ <span
+                                    {{-- <label for="" class="form-label">ชื่อผู้แนะนำ <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="" disabled>
+                                    <input type="text" class="form-control" id="" disabled> --}}
                                 </div>
                             </div>
-                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ข้อมูลส่วนตัว</div>
+                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3 mt-2">Personal information</div>
                             <div class="row g-3">
                                 <div class="col-md-6 col-xl-3">
-                                    <label for="" class="form-label">คำนำหน้า <span
-                                            class="text-danger prefix_name_err _err">*</span></label>
+                                    <label for="" class="form-label">Prefix <span class="text-danger prefix_name_err _err">*</span></label>
                                     <select name="prefix_name" class="form-select disabled_select" id="">
-                                        <option disabled>เลือกคำนำหน้า</option>
-                                        <option {{ $customers_info->prefix_name == 'นาย' ? 'selected' : '' }}
-                                            value="นาย">นาย</option>
-                                        <option {{ $customers_info->prefix_name == 'นาง' ? 'selected' : '' }}
-                                            value="นาง">นาง</option>
-                                        <option {{ $customers_info->prefix_name == 'นางสาว' ? 'selected' : '' }}
-                                            value="นางสาว">นางสาว</option>
+                                        <option disabled>Select Prefix</option>
+                                        <option {{ $customers_info->prefix_name == 'Miss' ? 'selected' : '' }} value="Mr.">Mr.</option>
+                                        <option {{ $customers_info->prefix_name == 'Mrs' ? 'selected' : '' }} value="Mrs.">Mrs.</option>
+                                        <option {{ $customers_info->prefix_name == 'Miss' ? 'selected' : '' }} value="Miss">Miss</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-xl-3">
-                                    <label for="" class="form-label">ชื่อ <span
+                                    <label for="" class="form-label">Name <span
                                             class="text-danger name_err _err">*</span></label>
                                     <input name="name" type="text" class="form-control" id=""
                                         value="{{ $customers_info->name }}" readonly>
                                 </div>
                                 <div class="col-md-3 col-xl-3">
-                                    <label for="" class="form-label">นามสกุล <span
+                                    <label for="" class="form-label">Last Name <span
                                             class="text-danger last_name_err _err">*</span></label>
                                     <input name="last_name" type="text" class="form-control" id=""
                                         value="{{ $customers_info->last_name }}" readonly>
                                 </div>
                                 <div class="col-md-6 col-xl-3">
-                                    <label for="" class="form-label">เพศ <span
+                                    <label for="" class="form-label">Gender <span
                                             class="text-danger gender_err _err">*</span></label>
-                                    <select name="gender" class="form-select disabled_select" id="">resources\views\frontend\editprofile.blade.php
-                                        <option selected disabled>เลือกเพศ</option>
-                                        <option {{ $customers_info->gender == 'ชาย' ? 'selected' : '' }} value="ชาย">
-                                            ชาย</option>
-                                        <option {{ $customers_info->gender == 'หญิง' ? 'selected' : '' }} value="หญิง">
-                                            หญิง</option>
-                                        <option {{ $customers_info->gender == 'ไม่ระบุ' ? 'selected' : '' }}
-                                            vlaue="ไม่ระบุ">ไม่ระบุ</option>
+                                    <select name="gender" class="form-select disabled_select" id="">
+                                        <option selected disabled>Select Gender</option>
+                                        <option {{ $customers_info->gender == 'Male' ? 'selected' : '' }} value="Male">Male</option>
+                                        <option {{ $customers_info->gender == 'Female' ? 'selected' : '' }} value="Female">Female</option>
+                                        <option {{ $customers_info->gender == 'Unspecified' ? 'selected' : '' }} value="Unspecified">Unspecified</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 col-xl-6">
-                                    <label for="" class="form-label">ชื่อทางธุรกิจ <span
+                                    <label for="" class="form-label">Company name <span
                                             class="text-danger business_name_err _err">*</span></label>
                                     <input name="business_name" type="text" class="form-control" id=""
                                         value="{{ $customers_info->business_name }}" readonly>
                                 </div>
                                 <div class="col-md-6 col-xl-2">
-                                    <label for="" class="form-label">วันเกิด <span
+                                    <label for="" class="form-label">Birthday <span
                                             class="text-danger day_err _err">*</span></label>
                                     <input name="day" type="text" class="form-control" id=""
                                         value="{{ $customers_day }}" readonly>
@@ -112,37 +105,19 @@
                                     <label for=""
                                         class=" text-danger form-label d-none d-md-block month_err _err">&nbsp;</label>
                                     <select name="month" class="form-select disabled_select" id="">
-                                        <option disabled>เดือน</option>
-                                        <option {{ $customers_month == '01' ? 'selected' : '' }} value="01">มกราคม
-                                        </option>
-                                        <option {{ $customers_month == '02' ? 'selected' : '' }} value="02">
-                                            กุมภาพันธ์</option>
-                                        <option {{ $customers_month == '03' ? 'selected' : '' }} value="03">มีนาคม
-                                        </option>
-                                        <option {{ $customers_month == '04' ? 'selected' : '' }} value="04">เมษายน
-                                        </option>
-                                        <option {{ $customers_month == '05' ? 'selected' : '' }} value="05">
-                                            พฤษภาคม
-                                        </option>
-                                        <option {{ $customers_month == '06' ? 'selected' : '' }} value="06">
-                                            มิถุนายน
-                                        </option>
-                                        <option {{ $customers_month == '07' ? 'selected' : '' }} value="07">
-                                            กรกฎาคม
-                                        </option>
-                                        <option {{ $customers_month == '08' ? 'selected' : '' }} value="08">
-                                            สิงหาคม
-                                        </option>
-                                        <option {{ $customers_month == '09' ? 'selected' : '' }} value="09">
-                                            กันยายน
-                                        </option>
-                                        <option {{ $customers_month == '10' ? 'selected' : '' }} value="10">ตุลาคม
-                                        </option>
-                                        <option {{ $customers_month == '11' ? 'selected' : '' }} value="11">
-                                            พฤศจิกายน</option>
-                                        <option {{ $customers_month == '12' ? 'selected' : '' }} value="12">
-                                            ธันวาคม
-                                        </option>
+                                        <option disabled>Month</option>
+                                        <option {{ $customers_month == '01' ? 'selected' : '' }} value="01">January</option>
+                                        <option {{ $customers_month == '02' ? 'selected' : '' }} value="02">February</option>
+                                        <option {{ $customers_month == '03' ? 'selected' : '' }} value="03">March</option>
+                                        <option {{ $customers_month == '04' ? 'selected' : '' }} value="04">April</option>
+                                        <option {{ $customers_month == '05' ? 'selected' : '' }} value="05">May</option>
+                                        <option {{ $customers_month == '06' ? 'selected' : '' }} value="06">June</option>
+                                        <option {{ $customers_month == '07' ? 'selected' : '' }} value="07">July</option>
+                                        <option {{ $customers_month == '08' ? 'selected' : '' }} value="08">August</option>
+                                        <option {{ $customers_month == '09' ? 'selected' : '' }} value="09">September</option>
+                                        <option {{ $customers_month == '10' ? 'selected' : '' }} value="10">October</option>
+                                        <option {{ $customers_month == '11' ? 'selected' : '' }} value="11">November</option>
+                                        <option {{ $customers_month == '12' ? 'selected' : '' }} value="12">December</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 col-xl-2">
@@ -151,24 +126,27 @@
                                     <input name="year" type="text" class="form-control" id=""
                                         value="{{ $customers_year }}" readonly>
                                 </div>
-                                <div class="col-md-6 col-xl-2">
-                                    <label for="" class="form-label">สัญชาติ <span
-                                            class="text-danger nation_id_err _err">*</span></label>
-                                    <select class="form-select disabled_select" name="nation_id" id="">
-                                        <option disabled>เลือกสัญชาติ</option>
-                                        <option {{ $customers_info->nation_id == 'ไทย' ? 'selected' : '' }}
-                                            value="ไทย">ไทย</option>
 
-                                    </select>
+                                <div class="col-md-6 col-xl-2">
+
+                                    <label for="" class="form-label">Nationality <span
+                                        class="text-danger nation_id_err _err">*</span></label>
+                                <select class="form-select disabled_select" name="nation_id" id="nation_id">
+                                    {{-- <option selected disabled>Select nationality</option> --}}
+                                    @php $region = DB::table('dataset_business_location')->get(); @endphp
+                                    @foreach (@$region as $r)
+                                        <option {{ $customers_info->nation_id == $r->id ? 'selected' : '' }} >{{ @$r->txt_desc }}</option>
+                                    @endforeach
+                                </select>
                                 </div>
                                 <div class="col-md-6 col-xl-5">
-                                    <label for="" class="form-label">เลขบัตรประชาชน <span
+                                    <label for="" class="form-label">National ID Card Number <span
                                             class="text-danger id_card_err _err">*</span></label>
                                     <input name="id_card" type="text" class="form-control" maxlength="13"
                                         id="" value="{{ $customers_info->id_card }}" readonly>
                                 </div>
                                 <div class="col-md-6 col-xl-5">
-                                    <label for="" class="form-label">โทรศัพท์ <span
+                                    <label for="" class="form-label">Phone Number <span
                                             class="text-danger phone_err _err">*</span></label>
                                     <input name="phone" type="text" class="form-control" id=""
                                         value="{{ $customers_info->phone }}" readonly>
@@ -197,14 +175,14 @@
                                     <div class="row text-center mb-2">
                                         <div class="col-md-12 col-xl-12">
                                             <button type="submit"
-                                                class="btn btn-success rounded-pill">บันทึกข้อมูล</button>
-                                            <button class="btn btn-danger rounded-pill">ยกเลิก</button>
+                                                class="btn btn-success rounded-pill">Submit</button>
+                                            <button class="btn btn-danger rounded-pill">Cancel</button>
                                         </div>
 
                                     </div>
                                 </form>
                             </div>
-                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ที่อยู่ตามบัตรประชาชน
+                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Address Information
                             </div>
 
                             <form id="form_update_info_card">
@@ -236,7 +214,7 @@
                                         <div id="group_data_card_address" class="row ">
 
                                             <div class="col-md-6 col-xl-5 ">
-                                                <label for="" class="form-label">ที่อยู่ <span
+                                                <label for="" class="form-label">Address <span
                                                         class="text-danger card_address_err _err">*</span></label>
                                                 <input type="text" name="card_address"
                                                     value="{{ @$address_card->address }}"
@@ -244,28 +222,28 @@
                                                     @if ($address_card != null) readonly @endif>
                                             </div>
                                             <div class="col-md-6 col-xl-3">
-                                                <label for="" class="form-label">หมู่ที่ <span
+                                                <label for="" class="form-label">Moo <span
                                                         class="text-danger card_moo_err _err">*</span></label>
                                                 <input type="text" name="card_moo" class="form-control card_address"
                                                     id=""
                                                     value="{{ @$address_card->moo }}"@if ($address_card != null) readonly @endif>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">ซอย <span
+                                                <label for="" class="form-label">Soi <span
                                                         class="text-danger card_soi_err _err">*</span></label>
                                                 <input type="text" name="card_soi" class="form-control card_address"
                                                     id=""
                                                     value="{{ @$address_card->soi }}"@if ($address_card != null) readonly @endif>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">ถนน <span
+                                                <label for="" class="form-label">Road <span
                                                         class="text-danger card_road_err _err">*</span></label>
                                                 <input type="text" name="card_road" class="form-control card_address"
                                                     id=""
                                                     value="{{ @$address_card->road }}"@if ($address_card != null) readonly @endif>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="province" class="form-label">จังหวัด</label>
+                                                <label for="province" class="form-label">Province</label>
                                                 <label class="form-label text-danger card_province_err _err"></label>
                                                 <select
                                                     class="form-select card_address @if ($address_card != null) disabled_select @endif "
@@ -282,32 +260,34 @@
                                             </div>
                                             <div class="col-md-6 col-xl-4">
 
-                                                <label for="district" class="form-label">อำเภอ/เขต</label>
+                                                <label for="district" class="form-label">District</label>
                                                 <label class="form-label text-danger card_district_err _err"></label>
                                                 <select
                                                     class="form-select card_address @if ($address_card != null) disabled_select @endif"
                                                     name="card_district" id="district" disabled>
-                                                    <option value="">--please select--</option>
+                                                    <option value="{{@$address_card->district}}">{{@$address_card->amphure_name}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="tambon" class="form-label">ตำบล</label>
+                                                <label for="tambon" class="form-label">Sub-district</label>
                                                 <label class="form-label text-danger tambon_err _err"></label>
                                                 <select
                                                     class="form-select card_address @if ($address_card != null) disabled_select @endif"
                                                     name="card_tambon" id="tambon" disabled>
-                                                    <option value="">--please select--</option>
+
+                                                    <option value="{{@$address_card->tambon}}">{{@$address_card->tambon_name}}</option>
                                                 </select>
                                             </div>
+
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">รหัสไปรษณีย์ <span
+                                                <label for="" class="form-label">Postal Code <span
                                                         class="text-danger card_zipcode_err _err">*</span></label>
                                                 <input id="zipcode" name="card_zipcode" type="text"
-                                                    class="form-control card_address" id="" value=""
+                                                    class="form-control card_address" id="" value="{{@$address_card->zipcode}}"
                                                     @if ($address_card != null) readonly @endif>
                                             </div>
                                             <div class="col-md-6 col-xl-4 mb-3">
-                                                <label for="" class="form-label">เบอร์มือถือ</label>
+                                                <label for="" class="form-label">Mobile Number</label>
                                                 <input type="text" name="card_phone" class="form-control card_address"
                                                     id="" value="{{ @$address_card->phone }}"
                                                     @if ($address_card != null) readonly @endif>
@@ -321,8 +301,8 @@
 
                                 <div class="row text-center mb-2">
                                     <div class="col-md-12 col-xl-12">
-                                        <button type="submit" class="btn btn-success rounded-pill">บันทึกข้อมูล</button>
-                                        <button class="btn btn-danger rounded-pill">ยกเลิก</button>
+                                        <button type="submit" class="btn btn-success rounded-pill">Submit</button>
+                                        <button class="btn btn-danger rounded-pill">Submit</button>
                                     </div>
 
                                 </div>
@@ -334,42 +314,42 @@
                                 @csrf
 
                                 <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">
-                                    ที่อยู่จัดส่ง
+                                    Shipping address
                                     <div class="form-check form-check-inline h6 fw-normal">
                                         <input class="form-check-input" name="status_address" id="status_address"
                                             type="checkbox" value="1" id="flexCheckDefault">
                                         <label class="form-check-label" for="status_address">
-                                            ใช้ที่อยู่เดียวกันบัตรประชาชน
+                                            In the same address as the ID card
                                         </label>
                                     </div>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-md-6 col-xl-5">
-                                        <label for="" class="form-label">ที่อยู่ <span
+                                        <label for="" class="form-label">Address <span
                                                 class="text-danger same_address_err _err">*</span></label>
                                         <input type="text" name="same_address" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->address }}">
                                     </div>
                                     <div class="col-md-6 col-xl-3">
-                                        <label for="" class="form-label">หมู่ที่ <span
+                                        <label for="" class="form-label">Moo <span
                                                 class="text-danger same_moo_err _err">*</span></label>
                                         <input type="text" name="same_moo" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->moo }}">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">ซอย <span
+                                        <label for="" class="form-label">Soi <span
                                                 class="text-danger same_soi_err _err">*</span></label>
                                         <input type="text" name="same_soi" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->soi }}">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">ถนน <span
+                                        <label for="" class="form-label">Road <span
                                                 class="text-danger same_road_err _err">*</span></label>
                                         <input type="text" name="same_road" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->road }}">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="province" class="form-label">จังหวัด</label>
+                                        <label for="province" class="form-label">Province</label>
                                         <label class="form-label text-danger same_province_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_province"
                                             id="same_province">
@@ -386,29 +366,31 @@
                                     </div>
                                     <div class="col-md-6 col-xl-4">
 
-                                        <label for="district" class="form-label">อำเภอ/เขต</label>
+                                        <label for="district" class="form-label">District</label>
                                         <label class="form-label text-danger same_district_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_district"
-                                            id="same_district" disabled readonly>
-                                            <option value="">--please select--</option>
+                                            id="same_district" >
+                                            <option value="{{@$address_delivery->district}}">{{@$address_delivery->amphure_name}}</option>
+
+
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="tambon" class="form-label">ตำบล</label>
+                                        <label for="tambon" class="form-label">Sub-district</label>
                                         <label class="form-label text-danger same_tambon_err _err"></label>
                                         <select class="form-select address_same_card select_same" name="same_tambon"
-                                            id="same_tambon" disabled readonly>
-                                            <option value="">--please select--</option>
+                                            id="same_tambon" >
+                                            <option value="{{@$address_delivery->tambon}}">{{@$address_delivery->tambon_name}}</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">รหัสไปรษณีย์ <span
+                                        <label for="" class="form-label">>Postal Code <span
                                                 class="text-danger same_zipcode_err _err ">*</span></label>
                                         <input id="same_zipcode" name="same_zipcode" type="text"
-                                            class="form-control address_same_card" id="">
+                                        class="form-control address_same_card" id="" value="{{$address_delivery->zipcode}}">
                                     </div>
                                     <div class="col-md-6 col-xl-4 mb-3">
-                                        <label for="" class="form-label">เบอร์มือถือ</label>
+                                        <label for="" class="form-label">Mobile Number</label>
                                         <input type="text" name="same_phone" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->phone }}">
                                     </div>
@@ -416,8 +398,8 @@
 
                                 <div class="row text-center mb-2">
                                     <div class="col-md-12 col-xl-12">
-                                        <button type="submit" class="btn btn-success rounded-pill">บันทึกข้อมูล</button>
-                                        <button class="btn btn-danger rounded-pill">ยกเลิก</button>
+                                        <button type="submit" class="btn btn-success rounded-pill">Submit</button>
+                                        <button class="btn btn-danger rounded-pill">Cancel</button>
                                     </div>
 
                                 </div>
@@ -425,13 +407,13 @@
 
 
                             <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">
-                                ข้อมูลบัญชีธนาคารเพื่อรับรายได้</div>
+                                Bank account information for receiving income</div>
                             @if ($info_bank != null)
                                 <div class="row g-3">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <i class='bx bxs-error me-2'></i>
                                         <div>
-                                            สมาชิกจะใส่หรือไม่ใส่ก็ได้ หากไม่ได้ใส่จะมีผลกับการโอนเงินให้สมาชิก
+                                            Members can choose to provide or not provide this information. If not provided, it may affect the transfer of funds to the member.
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -446,11 +428,11 @@
                                     <div class="col-md-8">
                                         <div class="row">
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">ธนาคาร <span
+                                                <label for="" class="form-label">Bank <span
                                                         class="text-danger bank_name_err _err "></span></label>
                                                 <select name="bank_name" class="form-select disabled_select"
                                                     id="">
-                                                    <option disabled>เลือกธนาคาร</option>
+                                                    <option disabled>Select Bank</option>
                                                     @foreach ($bank as $value_bank)
                                                         <option
                                                             {{ $info_bank->bank_id_fk == $value_bank->id ? 'selected' : '' }}
@@ -462,18 +444,18 @@
                                                 </select>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">สาขา <span
+                                                <label for="" class="form-label">Branch <span
                                                         class="text-danger bank_branch_err _err "></span></label>
                                                 <input type="text" name="bank_branch" class="form-control"
                                                     id="" value="{{ $info_bank->bank_branch }}" readonly>
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">เลขที่บัญชี </label>
+                                                <label for="" class="form-label">Account numer </label>
                                                 <input type="text" name="bank_no" class="form-control" id=""
                                                     value="{{ $info_bank->bank_no }}" readonly>
                                             </div>
                                             <div class="col-md-6 col-xl-12 mb-3">
-                                                <label for="" class="form-label">ชื่อบัญชี <span
+                                                <label for="" class="form-label">Account name <span
                                                         class="text-danger account_name_err _err "></span></label>
                                                 <input type="text" name="account_name" class="form-control"
                                                     id="" value="{{ $info_bank->account_name }}" readonly>
@@ -490,7 +472,7 @@
                                         <div class="alert alert-danger d-flex align-items-center" role="alert">
                                             <i class='bx bxs-error me-2'></i>
                                             <div>
-                                                สมาชิกจะใส่หรือไม่ใส่ก็ได้ หากไม่ได้ใส่จะมีผลกับการโอนเงินให้สมาชิก
+                                                Members may choose to provide or not provide this information. If not provided, it may affect the transfer of funds to the member.
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -499,7 +481,7 @@
                                                 <div class="file-upload">
                                                     <label for="file_bank" class="file-upload__label"><i
                                                             class='bx bx-upload'></i>
-                                                        อัพโหลดเอกสาร</label>
+                                                            Upload documents.</label>
                                                     <input id="file_bank" class="file-upload__input" type="file"
                                                         name="file_bank">
                                                 </div>
@@ -513,10 +495,10 @@
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-6 col-xl-4">
-                                                    <label for="" class="form-label">ธนาคาร <span
+                                                    <label for="" class="form-label">Bank <span
                                                             class="text-danger bank_name_err _err "></span></label>
                                                     <select name="bank_name" class="form-select" id="">
-                                                        <option selected disabled>เลือกธนาคาร</option>
+                                                        <option selected disabled>Select Bank</option>
 
                                                         @foreach ($bank as $value_bank)
                                                             <option value="{{ $value_bank->id }}">
@@ -525,20 +507,20 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6 col-xl-4">
-                                                    <label for="" class="form-label">สาขา <span
+                                                    <label for="" class="form-label">Branch <span
                                                             class="text-danger bank_branch_err _err "></span></label>
                                                     <input type="text" name="bank_branch" class="form-control"
                                                         id="">
                                                 </div>
                                                 <div class="col-md-6 col-xl-4">
-                                                    <label for="" class="form-label">เลขที่บัญชี <span
+                                                    <label for="" class="form-label">Account number. <span
                                                             class="text-danger small bank_no_err _err">*
-                                                            (ใส่เฉพาะตัวเลขเท่านั้น)</span></label>
+                                                            (Enter only numbers.)</span></label>
                                                     <input type="text" name="bank_no" minlength="10" maxlength="12"
                                                         class="form-control" id="">
                                                 </div>
                                                 <div class="col-md-6 col-xl-12 mb-3">
-                                                    <label for="" class="form-label">ชื่อบัญชี <span
+                                                    <label for="" class="form-label">Account name <span
                                                             class="text-danger account_name_err _err "></span></label>
                                                     <input type="text" name="account_name" class="form-control"
                                                         id="">
@@ -551,8 +533,8 @@
                                         <div class="row text-center mb-2">
                                             <div class="col-md-12 col-xl-12">
                                                 <button type="submit"
-                                                    class="btn btn-success rounded-pill">บันทึกข้อมูล</button>
-                                                <button class="btn btn-danger rounded-pill">ยกเลิก</button>
+                                                    class="btn btn-success rounded-pill">Submit</button>
+                                                <button class="btn btn-danger rounded-pill">Cancel</button>
                                             </div>
 
                                         </div>
@@ -779,14 +761,6 @@
 
         $(document).ready(function() {
 
-            $('#province').change();
-            $('#district').change();
-            $('#tambon').change();
-
-            $('#same_province').change();
-            $('#same_district').change();
-            $('#same_tambon').change();
-
 
             let same_addredd = ` {{ @$address_delivery->status }}`;
             if (same_addredd == 1) {
@@ -810,6 +784,8 @@
                     $("#district").append(` <option value="">--please select--</option>`);
                     $("#tambon").append(` <option value="">--please select--</option>`);
                     $("#zipcode").val("");
+
+
                     data.forEach((item) => {
                         $("#district").append(
                             `<option value="${item.id}">${item.name_th}</option>`
@@ -840,7 +816,8 @@
                 success: function(data) {
                     $("#tambon").children().remove();
                     $("#tambon").append(` <option value="">--please select--</option>`);
-                    $("#zipcode").val("");
+                    // $("#zipcode").val("");
+
                     data.forEach((item) => {
                         $("#tambon").append(
                             `<option value="${item.id}">${item.name_th}</option>`
@@ -877,6 +854,7 @@
     {{-- --------------------- Address Card --------------------- --}}
 
     {{-- --------------------- Address shipping  --------------------- --}}
+
     <script>
         // BEGIN province
         $("#same_province").change(function() {
@@ -890,7 +868,7 @@
                     province_id: province_id,
                 },
                 success: function(data) {
-                    let district = ` {{ @$address_delivery->district }}`;
+
                     $("#same_district").children().remove();
                     $("#same_tambon").children().remove();
                     $("#same_district").append(` <option value="">--please select--</option>`);
@@ -898,7 +876,8 @@
                     $("#same_zipcode").val("");
                     data.forEach((item) => {
                         $("#same_district").append(
-                            `<option ${district == item.district_id ? 'selected' : ''}   value="${item.district_id}">${item.district_name}</option>`
+
+                            `<option value="${item.id}">${item.name_th}</option>`
                         );
                     });
                     $("#same_district").attr('disabled', false);
@@ -926,10 +905,12 @@
                     $("#same_tambon").children().remove();
                     $("#same_tambon").append(` <option value="">--please select--</option>`);
                     $("#same_zipcode").val("");
-                    let tambon = ` {{ @$address_delivery->tambon }}`;
+
                     data.forEach((item) => {
+
                         $("#same_tambon").append(
-                            `<option ${tambon == item.tambon_id ? 'selected' : ''}  value="${item.tambon_id}">${item.tambon_name}</option>`
+
+                            `<option value="${item.id}">${item.name_th}</option>`
                         );
                     });
                     $("#same_tambon").attr('disabled', false);

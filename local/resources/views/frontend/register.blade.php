@@ -862,7 +862,7 @@
                     $("#same_zipcode").val("");
                     data.forEach((item) => {
                         $("#same_tambon").append(
-                            `<option value="${item.code}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_th}</option>`
                         );
                     });
                     $("#same_tambon").attr('disabled', false);
@@ -881,6 +881,7 @@
                 dataType: 'json',
                 data: {
                     tambon_id: tambon_id,
+
                 },
                 success: function(data) {
                     $("#same_zipcode").val(data.zipcode);
