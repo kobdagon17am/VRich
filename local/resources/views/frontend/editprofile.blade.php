@@ -33,7 +33,7 @@
 
                     <div class="card card-box borderR10 mb-2 mb-md-0">
                         <div class="card-body">
-                            <h4 class="card-title">>Edit information</h4>
+                            <h4 class="card-title">Edit information</h4>
                             <hr>
                             <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Sponsor</div>
                             <div class="row g-3">
@@ -245,10 +245,11 @@
                                             <div class="col-md-6 col-xl-4">
                                                 <label for="province" class="form-label">Province</label>
                                                 <label class="form-label text-danger card_province_err _err"></label>
+
                                                 <select
                                                     class="form-select card_address @if ($address_card != null) disabled_select @endif "
                                                     name="card_province" id="province">
-                                                    <option value="">--please select--</option>
+
                                                     @foreach ($province as $item)
                                                         <option
                                                             {{ @$address_card->province == $item->id ? 'selected' : '' }}
@@ -951,9 +952,9 @@
 
             if (this.checked) {
 
-                $('#province').change();
-                $('#district').change();
-                $('#tambon').change();
+                // $('#province').change();
+                // $('#district').change();
+                // $('#tambon').change();
                 $('.card_address').each(function(key) {
                     $('.address_same_card').eq(key).val($(this).val()).attr('readonly', true);
                     $("#same_district").attr('disabled', false);
