@@ -215,7 +215,7 @@
                                         </div>
                                         <div class="mt-1 mb-2 d-flex justify-content-center">
                                             <img width="250" height="300" id="img_card" accept="image/*"
-                                                src="{{ asset('frontend/images/250x300.png') }}" />
+                                                src="{{ asset('frontend/images/card.png') }}" />
                                         </div>
                                     </div>
                                     <div class="col-md-8 my-auto">
