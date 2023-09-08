@@ -384,7 +384,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">>Postal Code <span
+                                        <label for="" class="form-label">Postal Code <span
                                                 class="text-danger same_zipcode_err _err ">*</span></label>
                                         <input id="same_zipcode" name="same_zipcode" type="text"
                                         class="form-control address_same_card" id="" value="{{$address_delivery->zipcode}}">

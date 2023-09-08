@@ -27,6 +27,10 @@ class RegisterUrlController extends Controller
     {
         return view('frontend/RegisterUrlSetting');
     }
+    public function register_success()
+    {
+        return view('frontend/RegisterUrlSetting');
+    }
 
     public function register_url($uername)
     {

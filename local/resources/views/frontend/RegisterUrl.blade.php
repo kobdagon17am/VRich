@@ -45,15 +45,15 @@
                                         <label for="" class="form-label">Sponsor Code<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" name="sponsor"  id="sponsor"
-                                            value="{{ Auth::guard('c_user')->user()->user_name }}">
-                                        {{-- <input type="hidden" class="form-control" name="sponsor" value="{{ Auth::guard('c_user')->user()->user_name }}" id=""> --}}
+                                            value="{{ $user_name_sponser->user_name }}">
+                                        {{-- <input type="hidden" class="form-control" name="sponsor" value="{{ $user_name_sponser->user_name }}" id=""> --}}
                                     </div>
 
                                     <div class="col-md-4 col-lg-4 col-xxl-3 mb-3">
                                         <label for="" class="form-label">Sponsor Name<span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control" id="sponsor_name"
-                                            value="{{ Auth::guard('c_user')->user()->name }} {{ Auth::guard('c_user')->user()->last_name }}"
+                                            value="{{ $user_name_sponser->name }} {{ $user_name_sponser->last_name }}"
                                             disabled>
                                     </div>
 
@@ -526,7 +526,7 @@
                     type: 'GET',
                     data: {
                         sponser: sponser,
-                        user_name: '{{ Auth::guard('c_user')->user()->user_name }}'
+                        user_name: '{{ $user_name_sponser->user_name }}'
                     },
                 })
                 .done(function(data) {
@@ -680,7 +680,7 @@
                     confirmButtonText: 'ปิด',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "{{ route('home') }}";
+                        window.location.href = "{{ route('login') }}";
                     }
                 })
             }
