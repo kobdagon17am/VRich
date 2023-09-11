@@ -177,7 +177,14 @@ Route::get('admin/Blank', function () {
       Route::get('admin/get_ewallet', 'Admin\eWalletController@get_ewallet')->name('admin/get_ewallet');
       Route::get('admin/get_transfer', 'Admin\eWalletController@get_transfer')->name('admin/get_transfer');
       Route::get('admin/get_withdraw', 'Admin\eWalletController@get_withdraw')->name('admin/get_withdraw');
-      Route::post('eWallet/get_info_ewallet', 'Admin\eWalletController@get_info_ewallet')->name('admin/get_info_ewallet');
+      Route::post('admin/get_info_ewallet', 'Admin\eWalletController@get_info_ewallet')->name('admin/get_info_ewallet');
+      Route::post('admin/get_info_ewallet_withdraw', 'Admin\eWalletController@get_info_ewallet_withdraw')->name('admin/get_info_ewallet_withdraw');
+
+      Route::post('admin/approve_ewallet_withdraw', 'Admin\eWalletController@approve_ewallet_withdraw')->name('admin/approve_ewallet_withdraw');
+
+
+
+
 
       Route::post('admin/approve_update_ewallet', 'Admin\eWalletController@approve_update_ewallet')->name('admin/approve_update_ewallet');
       Route::post('admin/disapproved_update_ewallet', 'Admin\eWalletController@disapproved_update_ewallet')->name('admin/disapproved_update_ewallet');

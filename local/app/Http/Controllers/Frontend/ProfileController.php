@@ -202,6 +202,7 @@ class ProfileController extends Controller
 
     public function cerate_info_bank_last(Request $request)
     {
+
         $validator = Validator::make(
             $request->all(),
             [
@@ -252,7 +253,7 @@ class ProfileController extends Controller
                 'customer_id' => $customers_id
             ], $dataPrepare);
 
-            Customers::where('id', $customers_id)->update(['regis_doc4_status' => 3]);
+            Customers::where('id', $customers_id)->update(['regis_doc2_status' => 3]);
 
             // create($dataPrepare);
 

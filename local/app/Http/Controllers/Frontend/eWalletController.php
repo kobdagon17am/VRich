@@ -828,8 +828,8 @@ class eWalletController extends Controller
         {
          return redirect('home')->withError('วันที่รักษายอดไม่เพียงพอ');
         }else{
-        $y = date('Y') + 543;
-        $y = substr($y, -2);
+        // $y = date('Y') + 543;
+        // $y = substr($y, -2);
 
         $customer_withdraw->ewallet = $customer_withdraw->ewallet-$request->amt;
         $customer_withdraw->ewallet_use = $customer_withdraw->ewallet_use-$request->amt;

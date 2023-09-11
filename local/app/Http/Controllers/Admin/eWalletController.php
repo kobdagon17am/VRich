@@ -159,6 +159,17 @@ class eWalletController extends Controller
 
                 return $text_type;
             })
+                  ->editColumn('action', function ($query) {
+                if($query->status == 1){
+                    $html = '<a  data-toggle="modal" data-target="#info_ewallet"  onclick="get_data_info_ewallet('.$query->id.')" class="p-2">
+                    <i class="lab la-whmcs font-25 text-warning"></i></a>';
+                }else{
+                    $html = '';
+                }
+
+                return $html;
+            })
+            ->rawColumns(['action'])
 
             ->make(true);
     }
@@ -275,12 +286,24 @@ class eWalletController extends Controller
 
                 return $text_type;
             })
+            ->editColumn('action', function ($query) {
+                if($query->status == 1){
+                    $html = '<a  data-toggle="modal" data-target="#info_ewallet"  onclick="get_data_info_ewallet('.$query->id.')" class="p-2">
+                    <i class="lab la-whmcs font-25 text-warning"></i></a>';
+                }else{
+                    $html = '';
+                }
+
+                return $html;
+            })
+            ->rawColumns(['action'])
 
             ->make(true);
     }
 
     public function get_withdraw(Request $request)
     {
+
         $data =  eWallet::select(
             'ewallet.id',
             'transaction_code',
@@ -380,6 +403,17 @@ class eWalletController extends Controller
 
                 return $text_type;
             })
+            ->editColumn('action', function ($query) {
+                if($query->status == 1){
+                    $html = '<a  data-toggle="modal" data-target="#info_ewallet"  onclick="get_data_info_ewallet('.$query->id.')" class="p-2">
+                    <i class="lab la-whmcs font-25 text-warning"></i></a>';
+                }else{
+                    $html = '';
+                }
+
+                return $html;
+            })
+            ->rawColumns(['action'])
 
             ->make(true);
     }
@@ -413,7 +447,7 @@ class eWalletController extends Controller
         )
             ->leftjoin('customers', 'customers.id', 'ewallet_tranfer.customers_id_fk')
             ->leftjoin('customers_bank', 'customers_bank.customer_id', 'customers.id')
-            ->where('ewallet_tranfer.id', $request->id)
+            ->where('ewallet_tranfer.id',$request->id)
             ->get();
 
 
@@ -424,6 +458,48 @@ class eWalletController extends Controller
             ->leftjoin('customers', 'customers.id', 'ewallet_tranfer.customers_id_fk')
             ->leftjoin('customers_bank', 'customers_bank.customer_id', 'customers.id')
             ->where('ewallet_tranfer.id', $request->id)
+            ->first();
+
+        return response()->json(['data' => $data, 'data_amt' => number_format($data_amt['amt'], 2)]);
+    }
+
+    public function  get_info_ewallet_withdraw(Request $request)
+    {
+
+
+        $data =  eWallet::select(
+            'ewallet.id as ewallet_id',
+            'transaction_code',
+            'customers_id_fk',
+            'ewallet.url',
+            'ewallet.file_ewllet',
+            'amt',
+            'customers_id_receive',
+            'customers_name_receive',
+            'type',
+            'ewallet.status',
+            'ewallet.created_at as ewallet_created_at',
+            'customers.user_name',
+            'customers.name',
+            'customers_bank.bank_name',
+            'customers_bank.bank_branch',
+            'customers_bank.account_no',
+            'customers_bank.account_name',
+        )
+            ->leftjoin('customers', 'customers.id', 'ewallet.customers_id_fk')
+            ->leftjoin('customers_bank', 'customers_bank.customer_id', 'customers.id')
+            ->where('ewallet.id',$request->id)
+            ->get();
+
+
+
+
+        $data_amt =  eWallet::select(
+            'amt',
+        )
+            ->leftjoin('customers', 'customers.id', 'ewallet.customers_id_fk')
+            ->leftjoin('customers_bank', 'customers_bank.customer_id', 'customers.id')
+            ->where('ewallet.id', $request->id)
             ->first();
 
         return response()->json(['data' => $data, 'data_amt' => number_format($data_amt['amt'], 2)]);
@@ -544,6 +620,42 @@ class eWalletController extends Controller
             }
         }
         return redirect('admin/eWallet')->withError('อนุมัคิรายการไม่สำเร็จ');
+    }
+
+    public function approve_ewallet_withdraw(Request $request){
+
+
+        $sRow =  eWallet::where('id', $request->ewallet_id)->first();
+
+        if($sRow){
+            $sRow->status = "2";
+            $sRow->updated_at = date('Y-m-d H:i:s');
+            $sRow->save();
+            return redirect('admin/withdraw')->withSuccess('อนุมัติการถอนเงินสำเร็จ');
+        }else{
+            return redirect('admin/withdraw')->withErrpr('อนุมัติการถอนเงินไม่สำเร็จ');
+
+        }
+
+
+    }
+
+
+    public function cancle_ewallet_withdraw(Request $request){
+
+
+        $sRow =  eWallet::where('id', $request->ewallet_id)->first();
+
+        if($sRow){
+            $sRow->status = "2";
+            $sRow->updated_at = date('Y-m-d H:i:s');
+            $sRow->save();
+            return redirect('admin/withdraw')->withSuccess('อนุมัติการถอนเงินสำเร็จ');
+        }else{
+            return redirect('admin/withdraw')->withErrpr('อนุมัติการถอนเงินไม่สำเร็จ');
+        }
+
+
     }
 
 

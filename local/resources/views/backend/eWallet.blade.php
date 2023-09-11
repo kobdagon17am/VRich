@@ -438,7 +438,7 @@
                             className: "table-report__action text-center whitespace-nowrap",
                         },
                         {
-                            data: "id",
+                            data: "action",
                             title: "",
                             className: "table-report__action text-center",
                         },
@@ -494,12 +494,7 @@
                         );
 
                         //Action
-                        $('td:nth-last-child(1)', nRow).html(
-                            `
-                                <a  data-toggle="modal" data-target="#info_ewallet"  onclick="get_data_info_ewallet(${id})" class="p-2">
-                                    <i class="lab la-whmcs font-25 text-warning"></i></a>
-                                `
-                        );
+
                     },
                 });
                 $('.myWhere,.myLike,.datepicker,.iSort,.myCustom').on('change', function(e) {

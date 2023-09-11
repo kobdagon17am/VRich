@@ -75,7 +75,7 @@
                         <a href="{{ route('admin/eWallet') }}"> รายการ ฝากเงิน </a>
                     </li>
                     <li>
-                        <a href="#"> รายการ ถอนเงิน </a>
+                        <a href="{{ route('admin/withdraw') }}"> รายการ ถอนเงิน </a>
                     </li>
 
                 </ul>

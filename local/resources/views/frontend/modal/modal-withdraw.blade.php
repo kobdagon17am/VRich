@@ -105,16 +105,16 @@
                         <div class="col-sm-12">
                             <h5 class="text-center">ยอดถอน</h5>
                             <div class="card p-2 borderR10 mb-3 text-center">
-                                <h4 id="withdraw_text_confirm" class="mb-0 text-purple1 bg-opacity-100"> บาท </h4>
+                                <h4 id="withdraw_text_confirm" class="mb-0 text-purple1 bg-opacity-100"> USD </h4>
                             </div>
                         </div>
                     </div>
-                    <div class="alert alert-warning d-flex" role="alert">
+                    {{-- <div class="alert alert-warning d-flex" role="alert">
                         <i class='bx bxs-info-circle me-2 bx-sm'></i>
                         <div>
                             เงินจะโอนเข้าบัญชีธนาคารตามที่ระบุในระบบ ตามรอบการตัดจ่ายโบนัส “ค่าธรรมเนียมการโอน 13 บาท”
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="alert alert-danger d-flex" role="alert">
                         <i class='bx bxs-error me-2 bx-sm'></i>
                         <div>
@@ -174,7 +174,7 @@
             }).then((result) => {
                 location.reload();
             });
-        } else if (amt2 < 299) {
+        } else if (amt2 < 10) {
             $('#withdrawModal').modal('hide')
             Swal.fire({
                 icon: 'error',
@@ -196,7 +196,7 @@
             withdraw = $('#amtwithdraw').val();
             $('#withdrawModal').modal('hide')
             $('#withdrawModal2').modal('toggle');
-            $('#withdraw_text_confirm').text(withdraw + " บาท");
+            $('#withdraw_text_confirm').text(withdraw + " USD");
         }
     }
 </script>
