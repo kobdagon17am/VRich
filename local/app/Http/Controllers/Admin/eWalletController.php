@@ -622,6 +622,12 @@ class eWalletController extends Controller
         return redirect('admin/eWallet')->withError('อนุมัคิรายการไม่สำเร็จ');
     }
 
+
+
+
+
+
+
     public function approve_ewallet_withdraw(Request $request){
 
 
@@ -647,28 +653,69 @@ class eWalletController extends Controller
         $sRow =  eWallet::where('id', $request->ewallet_id)->first();
 
         if($sRow){
-            $sRow->status = "2";
+            $sRow->status = "3";
             $sRow->updated_at = date('Y-m-d H:i:s');
-            $sRow->save();
-            return redirect('admin/withdraw')->withSuccess('อนุมัติการถอนเงินสำเร็จ');
-        }else{
-            return redirect('admin/withdraw')->withErrpr('อนุมัติการถอนเงินไม่สำเร็จ');
+
+
+
+
+            $customers = DB::table('customers')
+            ->select('id', 'user_name', 'ewallet', 'ewallet_use')
+            ->where('user_name', $sRow->customer_username)
+            ->first();
+        // if(empty($customers)){
+        //     dd($value->user_name);
+        // }
+
+
+        if (empty($customers->ewallet)) {
+            $ewallet = 0;
+        } else {
+            $ewallet = $customers->ewallet;
         }
 
+        if (empty($customers->ewallet_use)) {
+            $ewallet_use = 0;
+        } else {
+            $ewallet_use = $customers->ewallet_use;
+        }
 
+        $ew_total = $ewallet  + $sRow->amt;
+        $ew_use = $ewallet_use + $sRow->amt;
+        DB::table('customers')
+            ->where('user_name', $sRow->customer_username)
+            ->update(['ewallet' => $ew_total, 'ewallet_use' => $ew_use]);
+
+
+        $dataPrepare = [
+            'transaction_code' =>  $sRow->transaction_code,
+            'customers_id_fk' => $customers->id,
+            'customer_username' =>  $sRow->customer_username,
+            'tax_total' => 0,
+            'bonus_full' =>$sRow->amt,
+            'amt' => $sRow->amt,
+            'old_balance' => $customers->ewallet,
+            'balance' => $ew_total,
+            'note_orther' => $request->info_other,
+            'receive_date' => now(),
+            'receive_time' => now(),
+            'type' => 1,
+            'status' => 2,
+        ];
+
+        $query =  eWallet::create($dataPrepare);
+        $sRow->save();
+
+            return redirect('admin/withdraw')->withSuccess('ยกเลิกการถอนเงินสำเร็จ');
+        }else{
+            return redirect('admin/withdraw')->withErrpr('ยกเลิกการถอนเงินไม่สำเร็จ');
+        }
     }
-
 
     public function disapproved_update_ewallet(Request $request)
     {
 
-
-
-
         $radio = $request->vertical_radio_button;
-
-
-
 
         $rule = [
             'vertical_radio_button' => 'required',

@@ -181,6 +181,9 @@ Route::get('admin/Blank', function () {
       Route::post('admin/get_info_ewallet_withdraw', 'Admin\eWalletController@get_info_ewallet_withdraw')->name('admin/get_info_ewallet_withdraw');
 
       Route::post('admin/approve_ewallet_withdraw', 'Admin\eWalletController@approve_ewallet_withdraw')->name('admin/approve_ewallet_withdraw');
+      Route::post('admin/cancle_ewallet_withdraw', 'Admin\eWalletController@cancle_ewallet_withdraw')->name('admin/cancle_ewallet_withdraw');
+
+
 
 
 

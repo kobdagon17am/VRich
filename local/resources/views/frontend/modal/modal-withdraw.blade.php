@@ -51,7 +51,7 @@
                         <div class="col-sm-12">
                             <div class="card p-2 borderR10 mb-3">
                                 <h5 class="text-center">ยอดถอน</h5>
-                                <input type="number" name="amt" min="300" value="0" step="0.01"
+                                <input type="number" name="amt" min="10" value="0" step="0.01"
                                     id="amtwithdraw" required
                                     class="form-control text-purple1 bg-opacity-100 form-control-lg">
                                 <p class="small text-muted mb-0">** ไม่สามารถโอนได้มากกว่ายอดเงินคงเหลือที่มีอยู่</p>

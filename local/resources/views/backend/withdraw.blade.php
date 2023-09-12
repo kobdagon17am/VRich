@@ -99,7 +99,7 @@
                                                     </form>
                                                 </div>
                                                     <div class="col-lg-6  mt-2">
-                                                        <form id="form_approve" action="{{route('admin/approve_ewallet_withdraw')}}" method='POST'>
+                                                        <form id="form_approve" action="{{route('admin/cancle_ewallet_withdraw')}}" method='POST'>
                                                         @csrf
                                                         <input type="hidden" class="ewallet_id" name="ewallet_id"
                                                             value="">
@@ -212,7 +212,7 @@
                         }
                     } else if (val.type == 3) {
                         $('.h2').html('รายการ ถอนเงิน')
-                        $('.type').html('จำนวนเงินถอน <span class="text-danger amt"></span> บาท')
+                        $('.type').html('จำนวนเงินถอน <span class="text-danger amt"></span> USD')
                         $('.ewallet_id').val(val.ewallet_id);
                         $('#customers_id_fk').val(val.customers_id_fk);
                         $('#amt').val(val.amt);

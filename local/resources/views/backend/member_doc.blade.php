@@ -267,10 +267,11 @@
                     }
                 })
                 .done(function(data) {
+                    console.log(data['data']);
                     if(data['data']){
                     $("#id").val(data['data']['id']);
-                    $("#username").val(data['data']['username']);
-                    $("#first_name").val(data['data']['first_name']);
+                    $("#username").val(data['data']['user_name']);
+                    $("#first_name").val(data['data']['name']);
                     $("#last_name").val(data['data']['last_name']);
                     $("#id_card").val(data['data']['id_card']);
                     $("#remark").val(data['data']['remark']);
@@ -324,125 +325,6 @@
                 })
         }
 
-        function edit1(id, type) {
-            $.ajax({
-                    url: '{{ route('admin/Member_Acc_view') }}',
-                    type: 'GET',
-                    data: {
-                        id: id,
-                        type: type
-                    }
-                })
-                .done(function(data) {
-                    if(data['data']){
-                    $("#id").val(data['data']['id']);
-                    $("#username").val(data['data']['username']);
-                    $("#first_name").val(data['data']['first_name']);
-                    $("#last_name").val(data['data']['last_name']);
-                    $("#id_card").val(data['data']['id_card']);
-                    $("#remark").val(data['data']['remark']);
-                    var img = '{{ asset('') }}';
-                    var img_url = img + data['data']['url'] + '/' + data['data']['file'];
-
-                    var htmlContent = '<img src="' + img_url +
-                        '"class="img-fluid" id="file" name="file" alt="Document Image">';
-                    $("#img").html(htmlContent);
-                    $("#edi1").modal();
-
-
-                    if (data['data']['regis_doc_status'] == '2' || data['data']['regis_doc_status'] ==
-                        '3') {
-                        stock_button.style.display = "none";
-
-                        // console.log('ปิด');
-
-                    } else {
-                        stock_button.style.display = "block";
-                        // console.log(data['data']['regis_doc_status']);
-                    }
-                }else{
-                    swal.fire({
-                            icon: 'error',
-                            title:'Error !',
-                            text:"ไม่พบข้อมูล",
-                            // timer:4000,
-                            type:'error'
-                        })
-                }
-
-
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-        }
-
-        function edit1(id1, type) {
-            $.ajax({
-                    url: '{{ route('admin/History_Acc_view') }}',
-                    type: 'GET',
-                    data: {
-                        id: id1,
-                        type: type
-                    }
-                })
-                .done(function(data) {
-                    if(data['data']){
-                        $("#id1").val(data['data']['id']);
-                    $("#account_name").val(data['data']['account_name']);
-                    $("#account_no").val(data['data']['account_no']);
-                    $("#bank_name").val(data['data']['bank_name']);
-                    $("#bank_branch").val(data['data']['bank_branch']);
-                    $("#bank_type").val(data['data']['bank_type']);
-                    $("#remark1").val(data['data']['remark']);
-                    var img1 = '{{ asset('') }}';
-                    var img_url = img1 + data['data']['url'] + '/' + data['data']['file'];
-
-                    var htmlContent = '<img src="' + img_url +
-                        '"class="img-fluid" id="file" name="file" alt="Document Image">';
-                    $("#img1").html(htmlContent);
-                    $("#edit1").modal();
-
-                    //display BUTTON
-                    if (data['data']['regis_doc_status'] == '2' || data['data']['regis_doc_status'] ==
-                        '3') {
-                        stock_button1.style.display = "none";
-                        // console.log('ปิด');
-                    } else {
-                        stock_button1.style.display = "block";
-                        // console.log(data['data']['regis_doc_status']);
-                    }
-
-                    //disable REMARK
-                    if (data['data']['regis_doc_status'] == '2' || data['data']['regis_doc_status'] ==
-                        '3') {
-                        remark1.disabled = true;
-
-                        // console.log('ปิด');
-
-                    } else {
-                        remark1.disabled = false;
-                        // console.log(data['data']['regis_doc_status']);
-                    }
-
-                    }else{
-                        swal.fire({
-                            icon: 'error',
-                            title:'Error !',
-                            text:"ไม่พบข้อมูล",
-                            // timer:4000,
-                            type:'error'
-                        })
-
-                    }
-
-
-
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-        }
 
         $(function() {
             table_order = $('#basic-dt').DataTable({
@@ -525,23 +407,10 @@
 
                     },
 
+
+
                     {
                         data: "regis_doc2_status",
-                        title: "ภาพถ่ายหน้าตรง",
-                        className: "w-10",
-
-                    },
-
-
-                    {
-                        data: "regis_doc3_status",
-                        title: "ภาพหน้าตรงพร้อมบัตรประชาชน",
-                        className: "w-10",
-
-                    },
-
-                    {
-                        data: "regis_doc4_status",
                         title: "ภาพถ่ายหน้าบัญชีธนาคาร",
                         className: "w-10",
 
