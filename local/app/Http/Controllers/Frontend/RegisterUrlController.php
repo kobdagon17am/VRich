@@ -302,8 +302,8 @@ class RegisterUrlController extends Controller
                     'vvip_register_type' => 'register',
                     'facebook' => $request->facebook,
                     'telegrams' => $request->telegrams,
-                    'regis_doc1_status' => 0,
-                    'regis_doc2_status' => 3,
+                    'regis_doc1_status' => 3,
+                    'regis_doc2_status' => 0,
                 ];
 
 

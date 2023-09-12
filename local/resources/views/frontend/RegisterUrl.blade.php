@@ -678,6 +678,8 @@
                     showCancelButton: false,
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'ปิด',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location.href = "{{ route('login') }}";
