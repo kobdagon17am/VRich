@@ -41,7 +41,7 @@ class DocHistoryController extends Controller
 
 
       ->addColumn('username', function ($row) {
-        return $row->username;
+        return $row->user_name;
       })
 
       ->addColumn('first_name', function ($row) {
@@ -61,15 +61,16 @@ class DocHistoryController extends Controller
         if ($row->regis_doc1_status == '0') {
           $html = '<span class="badge badge-rounded outline-badge-dark">ยังไม่ส่งเอกสาร</span>';
         } elseif ($row->regis_doc1_status == '1') {
-          $html = '<a href="#!" onclick="edit(' . $row->id . ',1)"> <span class="badge badge-rounded outline-badge-warning">รอตรวจสอบ</span>';
-        } elseif ($row->regis_doc1_status == '2') {
+
           $html = '<a href="#!" onclick="edit(' . $row->id . ',1)"> <span class="badge badge-rounded badge-success">อนุมัติ</span>';
+        } elseif ($row->regis_doc1_status == '2') {
+            $html = '<a href="#!" onclick="edit(' . $row->id . ',1)"> <span class="badge badge-rounded badge-danger">ไม่อนุมัติ</span>';
+
         } elseif ($row->regis_doc1_status == '3') {
-          $html = '<span class="badge badge-rounded badge-danger">ไม่อนุมัติ</span>';
+            $html = '<a href="#!" onclick="edit(' . $row->id . ',1)"> <span class="badge badge-rounded outline-badge-warning">รอตรวจสอบ</span>';
         } else {
           $html = '';
         }
-
         return  $html;
       })
 
@@ -77,49 +78,19 @@ class DocHistoryController extends Controller
         if ($row->regis_doc2_status == '0') {
           $html = '<span class="badge badge-rounded outline-badge-dark">ยังไม่ส่งเอกสาร</span>';
         } elseif ($row->regis_doc2_status == '1') {
-          $html = '<a href="#!" onclick="edit(' . $row->id . ',2)"> <span class="badge badge-rounded outline-badge-warning">รอตรวจสอบ</span>';
+
+          $html = '<a href="#!" onclick="edit(' . $row->id . ',1)"> <span class="badge badge-rounded badge-success">อนุมัติ</span>';
         } elseif ($row->regis_doc2_status == '2') {
-          $html = '<a href="#!" onclick="edit(' . $row->id . ',2)"> <span class="badge badge-rounded badge-success">อนุมัติ</span>';
+            $html = '<a href="#!" onclick="edit(' . $row->id . ',1)"> <span class="badge badge-rounded badge-danger">ไม่อนุมัติ</span>';
+
         } elseif ($row->regis_doc2_status == '3') {
-          $html = '<span class="badge badge-rounded badge-danger">ไม่อนุมัติ</span>';
+            $html = '<a href="#!" onclick="edit(' . $row->id . ',1)"> <span class="badge badge-rounded outline-badge-warning">รอตรวจสอบ</span>';
         } else {
           $html = '';
         }
-
         return  $html;
       })
 
-      ->addColumn('regis_doc3_status', function ($row) {
-        if ($row->regis_doc3_status == '0') {
-          $html = '<span class="badge badge-rounded outline-badge-dark">ยังไม่ส่งเอกสาร</span>';
-        } elseif ($row->regis_doc3_status == '1') {
-          $html = '<a href="#!" onclick="edit(' . $row->id . ',3)"> <span class="badge badge-rounded outline-badge-warning">รอตรวจสอบ</span>';
-        } elseif ($row->regis_doc3_status == '2') {
-          $html = '<a href="#!" onclick="edit(' . $row->id . ',3)"> <span class="badge badge-rounded badge-success">อนุมัติ</span>';
-        } elseif ($row->regis_doc3_status == '3') {
-          $html = '<span class="badge badge-rounded badge-danger">ไม่อนุมัติ</span>';
-        } else {
-          $html = '';
-        }
-
-        return  $html;
-      })
-
-      ->addColumn('regis_doc4_status', function ($row) {
-        if ($row->regis_doc4_status == '0') {
-          $html = '<span class="badge badge-rounded outline-badge-dark">ยังไม่ส่งเอกสาร</span>';
-        } elseif ($row->regis_doc4_status == '1') {
-          $html = '<a href="#!" onclick="edit1(' . $row->id . ',4)"> <span class="badge badge-rounded outline-badge-warning">รอตรวจสอบ</span>';
-        } elseif ($row->regis_doc4_status == '2') {
-          $html = '<a href="#!" onclick="edit1(' . $row->id . ',4)"> <span class="badge badge-rounded badge-success">อนุมัติ</span>';
-        } elseif ($row->regis_doc4_status == '3') {
-          $html = '<span class="badge badge-rounded badge-danger">ไม่อนุมัติ</span>';
-        } else {
-          $html = '';
-        }
-
-        return  $html;
-      })
 
       ->addColumn('regis_doc_status', function ($row) {
         $html = '<span class="badge badge-rounded badge-success">ผ่านการอนุมัติ</span>';
@@ -136,7 +107,7 @@ class DocHistoryController extends Controller
       })
 
 
-      ->rawColumns(['regis_doc1_status', 'regis_doc2_status', 'regis_doc3_status', 'regis_doc4_status', 'regis_doc_status'])
+      ->rawColumns(['regis_doc1_status', 'regis_doc2_status','regis_doc_status'])
       ->make(true);
   }
 
