@@ -29,7 +29,8 @@ class RegisterUrlController extends Controller
     }
     public function register_success()
     {
-        return view('frontend/RegisterUrlSetting');
+
+        return view('frontend/salepage/success');
     }
 
     public function register_url($uername)
@@ -122,6 +123,8 @@ class RegisterUrlController extends Controller
 
          $pv_register = $request->pv;
         // End PV Sponser
+
+
 
         //BEGIN data validator
         $rule = [
@@ -251,6 +254,12 @@ class RegisterUrlController extends Controller
 
 
         if (!$validator->fails()) {
+
+            $id_casrd_check = Customers::where('id_card', $request->id_card)->first();
+
+            if($id_casrd_check){
+                return response()->json(['status' => 'fail', 'ms' => 'Duplicate ID card numbers cannot be applied.']);
+            }
             //BEGIN วันเกิด
             $day = $request->day;
             $month = $request->month;

@@ -615,6 +615,8 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
                 success: function(data) {
                     swal.close();
                     if (data.pvalert) {
@@ -660,31 +662,40 @@
     <script>
         function alert_result(data) {
             if (data) {
-                var html = `
-            <div class="overflow-hidden " >
-            <div class="row">
-                <div class="col-12 text-right">Name: ${data.prefix_name}${data.name} ${data.last_name}</div>
-                <div class="col-12 text-right">Business Name: ${data.business_name}</div>
-                <hr class="mt-3">
-                <div class="col-12 text-right">Username: ${data.user_name}</div>
-                <div class="col-12 text-right">Password: ${data.password}</div>
-            </div>
-        </div>
-            `
-                Swal.fire({
-                    title: 'Membership registration successful',
-                    html: html,
-                    icon: 'success',
-                    showCancelButton: false,
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'ปิด',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "{{ route('login') }}";
-                    }
-                })
+
+            var name = `${data.prefix_name} ${data.name} ${data.last_name}`;
+
+            var business_name = `${data.business_name}`;
+            var user_name = `${data.user_name}`;
+            var password = `${data.password}`;
+            var myArray = [name,business_name,user_name,password];
+                // แปลง Array เป็นสตริง
+            var arrayAsString = JSON.stringify(myArray);
+
+            // เข้ารหัสสตริงเพื่อให้เป็นรูปแบบที่ถูกต้องสำหรับ URL
+            var encodedArray = encodeURIComponent(arrayAsString);
+
+            // สร้าง URL พร้อมกับ query parameter ที่มีค่าเป็น Array
+            var url = "{{ route('RegisterSuccess') }}?data=" + encodedArray;
+
+            // ใช้ window.location.href เพื่อเปลี่ยนหน้า
+            window.location.href = url;
+                // Swal.fire({
+                //     title: 'Membership registration successful',
+                //     html: html,
+                //     icon: 'success',
+                //     showCancelButton: false,
+                //     confirmButtonColor: '#3085d6',
+                //     confirmButtonText: 'ปิด',
+                //     allowOutsideClick: false,
+                //     allowEscapeKey: false,
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
+                //         window.location.href = "{{ route('login') }}";
+                //     }
+                // })
+
+
             }
         }
     </script>
