@@ -91,10 +91,13 @@
                     </div>
                 </a>
                 <ul class="collapse submenu list-unstyled" id="a3" data-parent="#accordionExample">
-                    <li>
-                        <a href="#"> ใบขาย </a>
+                     <li>
+                        <a href="{{route('admin/orders/list')}}"> รายการสั่งซื้อรอจัดส่ง </a>
                     </li>
                     <li>
+                        <a href="{{route('admin/orders/get_data_order_list_success')}}"> รายการจัดส่งสำเร็จ </a>
+                    </li>
+                    {{-- <li>
                         <a href="#"> รายงานสรุปยอดขาย </a>
                     </li>
                     <li>
@@ -102,7 +105,7 @@
                     </li>
                     <li>
                         <a href="#"> รายงานการขาย (สินค้า) </a>
-                    </li>
+                    </li>   --}}
                 </ul>
             </li>
             <li class="menu main-single-menu">
