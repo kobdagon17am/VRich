@@ -18,9 +18,9 @@
     <div class="col-lg-12 layout-spacing">
         <div class="statbox widget box box-shadow mb-4 mt-4">
             <div class="row mb-4 ml-2">
-                <div class="col-lg-1 mt-2">
+                {{-- <div class="col-lg-1 mt-2">
                     <input type="text" class="form-control" name="upline_id" id="s_upline_id" placeholder="UPLINE">
-                </div>
+                </div> --}}
                 <div class="col-lg-1 mt-2">
                     <span class="form-label text-danger introduce_id_err _err"></span>
                     <input type="text" class="form-control" name="introduce_id" id="s_introduce_id"
@@ -230,7 +230,7 @@
                         // console.log(s_username);
                         d.s_first_name = $('#s_first_name').val();
                         d.s_id_card = $('#s_id_card').val();
-                        d.s_upline_id = $('#s_upline_id').val();
+                        // d.s_upline_id = $('#s_upline_id').val();
                         d.s_introduce_id = $('#s_introduce_id').val();
                         d.s_regis_date_doc = $('#s_regis_date_doc').val();
 
@@ -279,17 +279,17 @@
                         className: "w-10",
                     },
 
-                    {
-                        data: "upline_id",
-                        title: "Upline",
-                        className: "w-10",
-                    },
+                    // {
+                    //     data: "upline_id",
+                    //     title: "Upline",
+                    //     className: "w-10",
+                    // },
 
-                    {
-                        data: "line_type",
-                        title: "สายงาน",
-                        className: "w-10",
-                    },
+                    // {
+                    //     data: "line_type",
+                    //     title: "สายงาน",
+                    //     className: "w-10",
+                    // },
 
                     {
                         data: "introduce_id",

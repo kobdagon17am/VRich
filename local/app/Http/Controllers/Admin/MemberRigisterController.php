@@ -39,7 +39,7 @@ class MemberRigisterController extends Controller
       ->whereRaw(("case WHEN  '{$rs->s_username}' != ''  THEN  customers.user_name = '{$rs->s_username}' else 1 END"))
       ->whereRaw(("case WHEN  '{$rs->s_first_name}' != ''  THEN  customers.name LIKE '{$rs->s_first_name}%' else 1 END"))
       ->whereRaw(("case WHEN  '{$rs->s_id_card}' != ''  THEN  customers.id_card = '{$rs->s_id_card}' else 1 END"))
-      ->whereRaw(("case WHEN  '{$rs->s_upline_id}' != ''  THEN  customers.upline_id = '{$rs->s_upline_id}' else 1 END"))
+    //   ->whereRaw(("case WHEN  '{$rs->s_upline_id}' != ''  THEN  customers.upline_id = '{$rs->s_upline_id}' else 1 END"))
       ->whereRaw(("case WHEN  '{$rs->s_introduce_id}' != ''  THEN  customers.introduce_id = '{$rs->s_introduce_id}' else 1 END"))
       ->whereRaw(("case WHEN '{$rs->s_regis_date_doc}' != ''  THEN  date(customers.regis_date_doc) = '{$rs->s_regis_date_doc}' else 1 END"))
 
@@ -59,7 +59,7 @@ class MemberRigisterController extends Controller
 
 
       ->addColumn('username', function ($row) {
-        return $row->username;
+        return $row->user_name;
       })
 
       ->addColumn('first_name', function ($row) {
@@ -74,13 +74,13 @@ class MemberRigisterController extends Controller
         return $row->id_card;
       })
 
-      ->addColumn('upline_id', function ($row) {
-        return $row->upline_id;
-      })
+    //   ->addColumn('upline_id', function ($row) {
+    //     return $row->upline_id;
+    //   })
 
-      ->addColumn('line_type', function ($row) {
-        return $row->line_type;
-      })
+    //   ->addColumn('line_type', function ($row) {
+    //     return $row->line_type;
+    //   })
 
       ->addColumn('introduce_id', function ($row) {
         return $row->introduce_id;
@@ -99,9 +99,9 @@ class MemberRigisterController extends Controller
       })
 
       ->addColumn('customer_status', function ($row) {
-        if ($row->customer_status == '1') {
+        if ($row->status_customer == 'normal') {
           $html = '<span class="badge badge-pill badge-success light">ใช้งาน</span>';
-        } elseif ($row->customer_status == '0') {
+        } elseif ($row->status_customer == 'cancel') {
           $html = '<span class="badge badge-pill badge-danger light">ยกเลิกรหัส</span>';
         } else {
           $html = '';
@@ -112,10 +112,12 @@ class MemberRigisterController extends Controller
 
       ->addColumn('action', function ($row) {
 
-        $html = '<a href="#!" onclick="edit(' . $row->id . ')" class="p-2">
-              <i class="las la-sign-in-alt font-25 text-success"></i></a>';
-        $html1 = "<a href='" . route('admin/EditProfile') . "' onclick='edit(" . $row->id . ")' class='p-2'>
-              <i class='las la-user-edit font-25 text-info'></i></a>";
+        // $html = '<a href="#!" onclick="edit(' . $row->id . ')" class="p-2">
+        //       <i class="las la-sign-in-alt font-25 text-success"></i></a>';
+        // $html1 = "<a href='" . route('admin/EditProfile') . "' onclick='edit(" . $row->id . ")' class='p-2'>
+        //       <i class='las la-user-edit font-25 text-info'></i></a>";
+        $html = '';
+        $html1 ='';
         // $html2 = '<a href="#!" onclick="edit(' . $row->id . ')" class="p-2">
         //       <i class="lab la-whmcs font-25 text-warning"></i></a>';
         $html2 = '<i class="lab la-whmcs font-25 text-warning" id="btnGroupDrop1" data-toggle="dropdown"></i>
@@ -176,7 +178,7 @@ class MemberRigisterController extends Controller
 
     if ($rs->cencel_member == 'confirm') {
       $dataPrepare = [
-        'customer_status' => '0',
+        'status_customer' => 'cancel',
       ];
 
       $get_customer = DB::table('customers')
