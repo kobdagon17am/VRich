@@ -95,7 +95,7 @@
                         <a href="{{route('admin/orders/list')}}"> รายการสั่งซื้อรอจัดส่ง </a>
                     </li>
                     <li>
-                        <a href="{{route('admin/orders/get_data_order_list_success')}}"> รายการจัดส่งสำเร็จ </a>
+                        <a href="{{route('admin/orders/list_success')}}"> รายการจัดส่งสำเร็จ </a>
                     </li>
                     {{-- <li>
                         <a href="#"> รายงานสรุปยอดขาย </a>

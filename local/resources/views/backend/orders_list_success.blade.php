@@ -40,7 +40,7 @@
                     {{-- <button type="button" class="btn btn-outline-success btn-rounded" id="search-form"><i class="las la-search font-15"></i>
                         สืบค้น</button> --}}
 
-                        <div class="btn-group">
+                        {{-- <div class="btn-group">
                             <button type="button" class="btn btn-outline-primary btn-rounded btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ออกใบปะหน้า <i class="las la-angle-down"></i></button>
                             <div class="dropdown-menu" style="will-change: transform;">
                                 <a class="dropdown-item report_pdf" data-type="all" href="#">All</a>
@@ -51,7 +51,7 @@
                         <div class="btn-group">
                         <a type="button" class="btn btn-outline-primary btn-rounded btn-sm all_bill " target="_blank" >ใบรายละเอียดสินค้าหลายใบ </a>
 
-                        </div>
+                        </div> --}}
 
                 </div>
 
@@ -422,7 +422,7 @@
                 'processing': "กำลังโหลดข้อมูล",
             },
             ajax: {
-                url: '{{ route('admin/orders/get_data_order_list') }}',
+                url: '{{ route('admin/orders/get_data_order_list_success') }}',
                 data: function(d) {
                     d.Where = {};
 
@@ -499,7 +499,7 @@
                 },
                 {
                     data: "id",
-                    title: "",
+                    title: "Tracking no",
                     className: "table-report__action text-center",
                 },
 
@@ -533,8 +533,9 @@
 
                 // Action
                 var code_order = aData['code_order'];
+                var tracking_no = aData['tracking_no'];
                 $('td:nth-last-child(2)', nRow).html(
-                    `<a   onclick="updatestatus('${code_order}')" class="btn btn-sm btn-success mr-2"> Tracking </a>`
+                    `<a   onclick="updatestatus('${code_order}')" class="btn btn-sm btn-success mr-2"> ${tracking_no} </a>`
                 );
                 // $('td:nth-last-child(2)', nRow).html(
                 //     `<a  onclick="view_detail_oeder('${code_order}')" class="btn btn-sm btn-warning mr-2 "> Print </a>`
@@ -582,7 +583,7 @@
             }),
 
             $.ajax({
-                url: "{{ route('admin/orders/view_detail_oeder_pdf') }}",
+                url: "{{ route('admin/orders/view_detail_oeder_pdf_success') }}",
                 type: 'post',
                 data: {
                     '_token': '{{ csrf_token() }}',
