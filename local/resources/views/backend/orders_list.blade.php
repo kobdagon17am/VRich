@@ -36,21 +36,21 @@
                     <input type="taxt" class="form-control  myCustom code_order" name="code_order" placeholder="Code Order">
                 </div>
 
+                <div class="col-lg-4 mb-2 mt-4">
+                    {{-- <button type="button" class="btn btn-outline-success btn-rounded" id="search-form"><i class="las la-search font-15"></i>
+                        สืบค้น</button> --}}
 
-                {{-- <div class="col-lg-2 mt-2">
-                    <span class="form-label text-danger introduce_id_err _err"></span>
-                    <input type="text" class="form-control" name="introduce_id" id="s_introduce_id"
-                        placeholder="ผู้แนะนำ">
-                </div>
-                <div class="col-lg-2 mt-2">
-                    <input type="text" class="form-control" name="user_name" placeholder="รหัสสมาชิก">
-                </div>
-                <div class="col-lg-2 mt-2">
-                    <input type="text" class="form-control" name="customers.name" placeholder="ชื่อสมาชิก">
+                        <button type="button" class="btn btn-outline-primary btn-rounded btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ออกใบปะหน้า <i class="las la-angle-down"></i></button>
+                        <div class="dropdown-menu" style="will-change: transform;">
+                            <a class="dropdown-item report_pdf" data-type="all" href="#">All</a>
+
+                        </div>
+                        <a type="button" class="btn btn-outline-primary btn-rounded btn-sm all_bill " target="_blank" >ใบรายละเอียดสินค้าหลายใบ </a>
                 </div>
 
 
-                <div class="col-lg-2 mb-2 mt-2" style="margin-top:15px">
+
+                   {{-- <div class="col-lg-2 mb-2 mt-2" style="margin-top:15px">
                     <select class="form-control myWhere" name="status">
                         <option value="0">ทั้งหมด</option>
                         <option selected value="1">รออนุมัติ</option>
@@ -173,8 +173,8 @@
                 // let path = `/demo/admin/orders/report_order_pdf/${type}/${date_start}/${date_end}`
 
                 // local
-                let path = `/admin/orders/report_order_pdf/${type}/${date_start}/${date_end}`
-                let full_url = location.protocol + '//' + location.host + path;
+                var url = '{{ asset('') }}';
+                let full_url = url+`admin/orders/report_order_pdf/${type}/${date_start}/${date_end}`
 
 
                 window.open(`${full_url}`);
@@ -273,7 +273,8 @@
                         },
                         success: function(data) {
                             Swal.close();
-                            const path = '/local/public/pdf/result.pdf';
+                            var url = '{{ asset('') }}';
+                            const path = url+'local/public/pdf/result.pdf';
                             window.open(path, "_blank");
 
 
@@ -494,11 +495,7 @@
                     title: "",
                     className: "table-report__action text-center",
                 },
-                {
-                    data: "id",
-                    title: "",
-                    className: "table-report__action text-center",
-                },
+
                 {
                     data: "id",
                     title: "",
@@ -524,17 +521,17 @@
                 //แสดงสถานะ
                 var status = aData['detail'];
                 var css_class = aData['css_class'];
-                $('td:nth-last-child(5)', nRow).html(
+                $('td:nth-last-child(4)', nRow).html(
                     ` <p class="text-${css_class}"> ${status} </p> `);
 
                 // Action
                 var code_order = aData['code_order'];
-                $('td:nth-last-child(3)', nRow).html(
+                $('td:nth-last-child(2)', nRow).html(
                     `<a   onclick="updatestatus('${code_order}')" class="btn btn-sm btn-success mr-2"> Tracking </a>`
                 );
-                $('td:nth-last-child(2)', nRow).html(
-                    `<a  onclick="view_detail_oeder('${code_order}')" class="btn btn-sm btn-warning mr-2 "> View </a>`
-                );
+                // $('td:nth-last-child(2)', nRow).html(
+                //     `<a  onclick="view_detail_oeder('${code_order}')" class="btn btn-sm btn-warning mr-2 "> Print </a>`
+                // );
                 $('td:nth-last-child(1)', nRow).html(
                     `<a  onclick="view_detail_oeder_pdf('${code_order}')" class="btn btn-sm btn-success mr-2"> Print </a>`
                 );

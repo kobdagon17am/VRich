@@ -240,16 +240,20 @@ class OrderController extends Controller
         $orders_detail = DB::table('db_orders')
             ->select(
                 'db_orders.*',
-                'district_name as district',
-                'province_name as province',
-                'tambon_name as tambon',
+                'dataset_districts.name_th as district',
+                'dataset_provinces.name_th as province',
+                'dataset_amphures.name_th as tambon',
                 'customers.name as customers_name',
                 'customers.last_name as customers_last_name',
             )
             ->leftjoin('customers', 'customers.id', 'db_orders.customers_id_fk')
-            ->leftjoin('address_districts', 'address_districts.district_id', 'db_orders.district_id')
-            ->leftjoin('address_provinces', 'address_provinces.province_id', 'db_orders.province_id')
-            ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'db_orders.tambon_id')
+
+
+            ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
+            ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
+            ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
+
+
             ->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)))
             ->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)))
             ->where('db_orders.order_status_id_fk', '=', '5')
@@ -259,17 +263,14 @@ class OrderController extends Controller
                     $query->where('tracking_type', $type);
                 }
             })
-            ->get()
-            ->map(function ($item) {
-                $item->product_detail = DB::table('db_order_products_list')
-                    ->select('db_order_products_list.product_name', 'db_order_products_list.amt')
-                    ->leftjoin('products_details', 'products_details.product_id_fk', 'db_order_products_list.product_id_fk')
-                    ->where('products_details.lang_id', 1)
-                    ->where('db_order_products_list.code_order', $item->code_order)
-                    ->GroupBy('products_details.product_name')
-                    ->get();
-                return $item;
-            });
+            ->get();
+
+
+            // dd($orders_detail);
+
+
+
+
 
 
         $data = [
@@ -282,7 +283,7 @@ class OrderController extends Controller
 
         if ($orders_detail->count() > 0) {
 
-            $pdf = PDF::loadView('backend/orders_list/report_order_pdf', $data);
+            $pdf = PDF::loadView('backend/PDF/report_order_pdf', $data);
             return $pdf->stream('document.pdf');
         } else {
             $status = 'ยังไม่มีรายการสั่งซ์้อ';

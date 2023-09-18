@@ -201,7 +201,9 @@
 
 
 <div class="grid-container">
+
     @foreach ($orders_detail as $key => $item)
+
         @if ($key % 9 == 0 && $key != 0)
             <div style="page-break-before: always;"></div>
         @endif
@@ -209,38 +211,40 @@
             <div class="row">
                 <div class="col-10 ">
                     <div class="box_items">
-                        <span class="text_head">รหัสการสั่งซื้อ :
+                        <span class="text_head">Code :
                             <span class="text_info"> {{ $item->code_order }}</span>
                             <span class="text_info">
                                 {{ $item->customers_user_name }}
                                 {{ $item->customers_name }}
                                 {{ $item->customers_last_name }}
                                 ({{ $item->position }})
-                                เบอร์โทร : <span class="text_info"> {{ $item->tel != null ? $item->tel : '-' }} </span>
+                                Tel : <span class="text_info"> {{ $item->tel != null ? $item->tel : '-' }} </span>
                             </span>
                         </span>
                     </div>
                 </div>
-                <div class="col-1">
+                {{-- <div class="col-1">
                     <div class="box_number">
                         {{ $item->tracking_no_sort }}
                     </div>
-                </div>
+                </div> --}}
             </div>
 
 
             <div class="row ">
                 <div class="col-10">
-                    <span class="text_head ">ที่อยู่จัดส่ง :
-                        <span class="text_info"> {{ $item->name }} </span> <br>
+
+
+                    <span class="text_head">Address :
+                        <span class="text_info"> {{ $item->name }} </span>
                         <span class="text_info"> {{ $item->house_no }}</span>
-                        <span class="text_info">หมู่ {{ $item->moo }}</span>
-                        <span class="text_info">ซอย {{ $item->soi }}</span>
-                        <span class="text_info">ถนน {{ $item->road }}</span>
-                        <span class="text_info">ตำบล {{ $item->tambon }}</span>
-                        <span class="text_info">อำเภอ {{ $item->district }}</span>
+                        <span class="text_info">Moo {{ $item->moo }}</span>
+                        <br>
+                        <span class="text_info">Soi {{ $item->soi }}</span>
+                        <span class="text_info">Road {{ $item->road }}</span>
+                        <span class="text_info">Tambon {{ $item->tambon }}</span>
+                        <span class="text_info">District {{ $item->district }}</span>
                         <span class="text_info"> {{ $item->province }} {{ $item->zipcode }}</span>
-                    </span>
                 </div>
                 <div class="col-1" style="margin-top:15px;">
                     <div class="box_shipping ">

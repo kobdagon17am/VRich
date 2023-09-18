@@ -540,9 +540,10 @@
 
 
 @foreach ($orders_detail as $key => $item)
+
     <div class="row">
         <div class="col-12 text-center">
-            <h3>Oder Detail a</h3>
+            <h3>Oder Detail </h3>
         </div>
     </div>
     <div class="row box_detail ">
