@@ -120,6 +120,273 @@
                         </div>
                     </div>
                 </div>
+                <div class="row d-block d-lg-none">
+                    <div class="col-md-6 col-xl-3">
+                        <div class="dropdown mb-3">
+                            <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
+                                id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex w-100 pe-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                            <i class='bx bxs-coin-stack text-purple2 bg-opacity-100'></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3 text-start">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">{{ __('text.Income') }}</h5>
+                                            <h5 class="text-p1 text-end mb-0 fw-bold">  {{ number_format(Auth::guard('c_user')->user()->bonus_total, 2) }} </h5>
+                                        </div>
+                                        <p class="fs-12 text-secondary mb-0">{{ __('text.Bonus Management') }}</p>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="{{ route('bonus_all') }}">กำไรส่วนต่าง</a>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">กำไรส่วนต่างทั้งทีม</a></li>
+                                {{-- <li><a class="dropdown-item" href="{{ route('bonus_team') }}">โบนัสบริหารทีม</a></li>
+                                <li><a class="dropdown-item" href="{{ route('bonus_discount') }}">โบนัสส่วนลด</a></li>
+                                <li><a class="dropdown-item" href="{{ route('bonus_matching') }}">โบนัส Matching</a></li>
+                                <li><a class="dropdown-item" href="{{ route('bonus_history') }}">ประวัติการโอนโบนัส</a></li> --}}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3">
+                        <div class="dropdown mb-3">
+                            <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
+                                id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex w-100 pe-4">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                            <i class='bx bxs-wallet text-purple2 bg-opacity-100'></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1 ms-3 text-start">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">eWallet</h5>
+                                            <h5 class="text-p1 text-end mb-0 fw-bold">
+                                                {{ number_format(Auth::guard('c_user')->user()->ewallet, 2) }}</h5>
+                                        </div>
+                                        <p class="fs-12 text-secondary mb-0">{{ __('text.Ewallet Mangament') }}</p>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a onclick="resetForm()" class="dropdown-item" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#depositModal">{{ __('text.Depositewallet') }}</a></li>
+                                {{-- <li><a class="dropdown-item" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#transferModal">{{ __('text.Transferewallet') }}</a></li> --}}
+                                <li><a class="dropdown-item" type="button"
+                                        id="withdraw">{{ __('text.Withdrawewallet') }}</a></li>
+                                <li><a class="dropdown-item"
+                                        href="{{ route('eWallet_history') }}">{{ __('text.Historyewallet') }}</a></li>
+
+
+                                <li><a class="dropdown-item"
+                                    href="{{ route('eWallet-TranferHistory') }}"> ประวัติการฝากเงิน eWallet </a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3 d-block d-lg-none">
+                        <div class="dropdown mb-3">
+                            <button class="card card-boxDrp dropdown-toggle" href="#"  id="dropdownMenuLinkStock" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex w-100">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-purple1 bg-opacity-20 borderR8 iconFlex">
+                                            <i class='bx bx-box text-purple1 bg-opacity-100'></i>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="d-flex w-100 pe-4">
+                                        <h4 class="mb-0 text-purple1 bg-opacity-100 fw-bold">
+                                            <h5 class="mb-0"> MY STOCK </h5>
+                                            </h4>
+                                        <p class="fs-12 text-secondary mb-0"> คลังสินค้าส่วนตัว </p>
+                                    </div> --}}
+
+                                    <div class="flex-grow-1 ms-3 text-start">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">  MY STOCK</h5>
+
+                                        </div>
+                                        <p class="fs-12 text-secondary mb-0">คลังสินค้าส่วนตัว</p>
+                                    </div>
+                                </div>
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
+                                <li><a class="dropdown-item" href="{{ route('eWallet_history') }}">คลังสินค้าส่วนตัว</a></li>
+
+                                <li><a class="dropdown-item"
+                                        href="{{ route('eWallet_history') }}"> รายการเคลื่อนไหวหลังสินค้า </a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-3 d-block d-lg-none">
+                        <div class="dropdown mb-3">
+                            <button class="card card-boxDrp dropdown-toggle" href="#"  id="dropdownMenuLinkStock" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="d-flex w-100">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-purple1 bg-opacity-20 borderR8 iconFlex">
+                                            <i class='bx bx-globe text-purple1 bg-opacity-100'></i>
+
+                                        </div>
+                                    </div>
+                                    {{-- <div class="d-flex w-100 pe-4">
+                                        <h4 class="mb-0 text-purple1 bg-opacity-100 fw-bold">
+                                            <h5 class="mb-0"> MY STOCK </h5>
+                                            </h4>
+                                        <p class="fs-12 text-secondary mb-0"> คลังสินค้าส่วนตัว </p>
+                                    </div> --}}
+
+                                    <div class="flex-grow-1 ms-3 text-start">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="mb-0">  SALE PAGE</h5>
+
+                                        </div>
+                                        <p class="fs-12 text-secondary mb-0"> SALE PAGE</p>
+                                    </div>
+                                </div>
+                            </button>
+
+
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
+                                <?php $user_name= Auth::guard('c_user')->user()->user_name; ?>
+                                <li><a class="dropdown-item" target="_blank" href="{{url($user_name.'/1')}}"">Vrich Smooth&Bright up Serum</a></li>
+                                <li><a class="dropdown-item" target="_blank" href="{{url($user_name.'/2')}}"">Vrich herbal coffee</a></li>
+
+                                <li><a class="dropdown-item"
+                                        href="!#"> Sale Page Setting </a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-5 col-lg-5 d-block d-lg-none">
+
+                        <div class="col-md-12 col-xl-12">
+                            <div class="dropdown mb-3">
+                                <div class="card card-boxDrp"
+                                        aria-expanded="false">
+                                    <div class="d-flex w-100 ">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                                <i class='bx bx-user text-purple2 bg-opacity-100'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3 text-start">
+                                            <div class="d-flex justify-content-between">
+                                                <b class="mb-0 fs-12">Dealer  </b>
+
+                                            </div>
+
+                                            <h6 class="text-p1 text-end mb-0 fw-bold">
+                                                 0</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-xl-12">
+                            <div class="dropdown mb-3">
+                                <div class="card card-boxDrp"
+                                        aria-expanded="false">
+                                    <div class="d-flex w-100 ">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                                <i class='bx bx-sitemap text-purple2 bg-opacity-100'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3 text-start">
+                                            <div class="d-flex justify-content-between">
+                                                <b class="mb-0 fs-12">Member</b>
+
+                                            </div>
+
+                                            <h6 class="text-p1 text-end mb-0 fw-bold">
+                                                 0</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-7 col-lg-7 d-block d-lg-none">
+
+
+                        <div class="col-md-12 col-xl-12">
+                            <div class="dropdown mb-3">
+                                <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
+                                    id="dropdownMenuLinkTp" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="d-flex w-100 pe-4">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                                <i class='bx bx-gift text-purple2 bg-opacity-100'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3 text-start">
+                                            <div class="d-flex justify-content-between">
+                                                <b class="mb-0 fs-12">Total PT  </b>
+
+                                            </div>
+
+                                            <h6 class="text-p1 text-end mb-0 fw-bold">
+                                                {{ number_format(Auth::guard('c_user')->user()->pv) }}</h6>
+                                        </div>
+                                    </div>
+                                </button>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkTp">
+                                    {{-- <li><a class="dropdown-item"
+                                            href="{{ route('jp_clarify') }}">{{ __('text.Clarify PV.') }}</a></li> --}}
+                                    {{-- <li><a class="dropdown-item" href="{{ route('jp_transfer') }}">รับ-โอน PV.</a></li> --}}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-xl-12">
+                            <div class="dropdown mb-3">
+                                <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
+                                    id="dropdownMenuLinkTpReward" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="d-flex w-100 pe-4">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                                <i class='bx bx-gift text-purple2 bg-opacity-100'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3 text-start">
+                                            <div class="d-flex justify-content-between">
+                                                <b class="mb-0 fs-12">Reward Point </b>
+
+                                            </div>
+                                            {{-- <p class="fs-12 text-secondary mb-0">Reward Point  </p> --}}
+                                            <h6 class="text-p1 text-end mb-0 fw-bold">
+                                                0 </h6>
+                                        </div>
+                                    </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
                 <div class="col-lg-6">
                     <div class="row gx-2 gx-md-3">
                         {{-- <div class="col-4 col-lg-6 d-none d-lg-block">
@@ -140,45 +407,6 @@
                                 </div>
                             </a>
                         </div> --}}
-
-
-                        <div class="col-4 col-lg-6">
-                            <a href="{{ route('Workline') }}">
-
-
-                                <div class="card cardL card-body borderR10 bg-primary bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-primary borderR8 iconFlex">
-                                                <i class='bx bx-group'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>สายงานสมาชิก</h5>
-                                            <p class="fs-12 text-primary"> สายงานสมาชิก </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-6">
-                            <a href="#!">
-                                {{-- <a href="{{ route('upgradePosition') }}"> --}}
-                                <div class="card cardL card-body borderR10 bg-warning bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-warning borderR8 iconFlex">
-                                                <i class='bx bx-slider-alt'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.Higher Position') }}</h5>
-                                            <p class="fs-12 text-warning">{{ __('text.Repositioning Management') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
                         <div class="col-4 col-lg-6">
                             <a href="{{ route('register') }}">
                                 {{-- <a href="#!"> --}}
@@ -198,6 +426,43 @@
                                 </div>
                             </a>
                         </div>
+                        <div class="col-4 col-lg-6">
+                            <a href="{{ route('Workline') }}">
+
+
+                                <div class="card cardL card-body borderR10 bg-primary bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-primary borderR8 iconFlex">
+                                                <i class='bx bx-group'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>ตัวแทนของฉัน</h5>
+                                            <p class="fs-12 text-primary"> ตัวแทนของฉัน </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-4 col-lg-6 d-block d-lg-none">
+                            <a href="๒">
+                                <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-pink bg-opacity-100 borderR8 iconFlex">
+                                                <i class='bx bx-book-open'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>{{ __('text.MdkLerning') }}</h5>
+                                            <p class="fs-12 text-pink">{{ __('text.Learning/CT') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
                         <div class="col-4 col-lg-6 d-block d-lg-none">
                             <a href="{{ route('Order') }}">
                                 <div class="card cardL card-body borderR10 bg-info bg-opacity-20 mb-2 mb-md-3">
@@ -233,23 +498,27 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-4 col-lg-6 d-block d-lg-none">
-                            <a href="{{ route('Learning') }}">
-                                <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
+
+                        <div class="col-4 col-lg-6">
+                            <a href="#!">
+                                {{-- <a href="{{ route('upgradePosition') }}"> --}}
+                                <div class="card cardL card-body borderR10 bg-warning bg-opacity-20 mb-2 mb-md-3">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
-                                            <div class="bg-pink bg-opacity-100 borderR8 iconFlex">
-                                                <i class='bx bx-book-open'></i>
+                                            <div class="bg-warning borderR8 iconFlex">
+                                                <i class='bx bx-slider-alt'></i>
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.MdkLerning') }}</h5>
-                                            <p class="fs-12 text-pink">{{ __('text.Learning/CT') }}</p>
+                                            <h5> สื่อโปรโมท</h5>
+                                            {{-- <p class="fs-12 text-warning">{{ __('text.Repositioning Management') }}</p> --}}
                                         </div>
                                     </div>
                                 </div>
                             </a>
                         </div>
+
+
                         {{-- <div class="col-4 col-lg-6 d-block d-lg-none">
                             <a href="{{ route('Contact') }}">
                                 <div class="card cardL card-body borderR10 bg-danger bg-opacity-20 mb-2 mb-md-3">
@@ -270,8 +539,9 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-3 d-none d-lg-block">
                     <div class="dropdown mb-3">
                         <button class="card card-boxDrp dropdown-toggle" href="#"  id="dropdownMenuLinkStock" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex w-100">
@@ -305,7 +575,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-3 d-none d-lg-block">
                     <div class="dropdown mb-3">
                         <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
                             id="dropdownMenuLinkTp" data-bs-toggle="dropdown" aria-expanded="false">
@@ -333,7 +603,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-3 d-none d-lg-block">
                     <div class="dropdown mb-3">
                         <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
                             id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -370,7 +640,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 col-xl-3">
+                <div class="col-md-6 col-xl-3 d-none d-lg-block">
                     <div class="dropdown mb-3">
                         <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
                             id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -402,6 +672,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-box borderR10 mb-2 mb-md-0">
