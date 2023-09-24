@@ -30,7 +30,7 @@ class OrderController extends Controller
 
     public function orders_list(Request $request)
     {
-
+        
 
         $Shipping_type = Shipping_type::get();
 

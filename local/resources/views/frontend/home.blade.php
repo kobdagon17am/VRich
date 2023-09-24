@@ -24,7 +24,7 @@
                                         </div>
 
                                     </div>
-                                    <a href="{{route('editprofileimg')}}" type="button" class="btn btn-outline-primary btn-sm mt-2 rounded-pill" > แก้ไขรูปโปรไฟล์ </a>
+                                    <a href="{{route('editprofileimg')}}" type="button" class="btn btn-outline-primary btn-sm mt-2 rounded-pill" > Edit profile picture </a>
                                 </div>
                                 <div class="col-8 col-xxl-9">
                                     <div class="row">
@@ -76,22 +76,22 @@
 
                                     @if (Auth::guard('c_user')->user()->regis_doc1_status == 3)
                                         <p class="text-warning">
-                                            - รอตรวจสอบเอกสาร บัตรประชาชน
+                                            - Waiting to check ID card documents
                                         </p>
                                     @endif
                                     @if (Auth::guard('c_user')->user()->regis_doc1_status == 4)
                                         <p class="text-danger">
-                                            - บัตรประชาชนไม่ถูกต้อง กรุณาส่งเอกสารใหม่อีกครั้ง
+                                            - ID card is invalid Please send the document again.
                                         </p>
                                     @endif
                                     @if (Auth::guard('c_user')->user()->regis_doc4_status == 3)
                                         <p class="text-warning">
-                                            - รอตรวจสอบเอกสาร บัญชีธนาคาร
+                                            - Waiting to check bank account documents
                                         </p>
                                     @endif
                                     @if (Auth::guard('c_user')->user()->regis_doc4_status == 4)
                                         <p class="text-danger">
-                                            - บัญชีธนาคารไม่ถูกต้อง กรุณาส่งเอกสารใหม่อีกครั้ง
+                                            - Bank account is invalid Please send the document again
                                         </p>
                                     @endif
 
@@ -106,11 +106,11 @@
                             $upline = \App\Http\Controllers\Frontend\FC\AllFunctionController::get_upline(Auth::guard('c_user')->user()->introduce_id);
 
                             ?>
-                            <span class="badge bg-light text-dark fw-light">รหัส {{ @$upline->user_name }} |
+                            <span class="badge bg-light text-dark fw-light">User {{ @$upline->user_name }} |
                                 {{ @$upline->name }} {{ @$upline->last_name }}</span>
                             @else
 
-                            <span class="badge bg-light text-dark fw-light"> เป็นรหัสต้นสาย(ไม่มีผู้แนะนำ)
+                            <span class="badge bg-light text-dark fw-light"> It's the starting code (no suggestions)
 
 
                             @endif
@@ -120,8 +120,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row d-block d-lg-none">
-                    <div class="col-md-6 col-xl-3">
+                <div class="row d-block d-lg-none d-md-none">
+                    <div class="col-md-6 col-xl-3 d-block d-lg-none">
                         <div class="dropdown mb-3">
                             <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
                                 id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -142,9 +142,9 @@
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{ route('bonus_all') }}">กำไรส่วนต่าง</a>
+                                <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">กำไรส่วนต่างทั้งทีม</a></li>
+                                <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li>
                                 {{-- <li><a class="dropdown-item" href="{{ route('bonus_team') }}">โบนัสบริหารทีม</a></li>
                                 <li><a class="dropdown-item" href="{{ route('bonus_discount') }}">โบนัสส่วนลด</a></li>
                                 <li><a class="dropdown-item" href="{{ route('bonus_matching') }}">โบนัส Matching</a></li>
@@ -153,7 +153,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6 col-xl-3">
+                    <div class="col-md-6 col-xl-3 d-block d-lg-none">
                         <div class="dropdown mb-3">
                             <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
                                 id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
@@ -186,7 +186,7 @@
 
 
                                 <li><a class="dropdown-item"
-                                    href="{{ route('eWallet-TranferHistory') }}"> ประวัติการฝากเงิน eWallet </a></li>
+                                    href="{{ route('eWallet-TranferHistory') }}"> Deposit history eWallet </a></li>
                             </ul>
                         </div>
                     </div>
@@ -212,16 +212,18 @@
                                             <h5 class="mb-0">  MY STOCK</h5>
 
                                         </div>
-                                        <p class="fs-12 text-secondary mb-0">คลังสินค้าส่วนตัว</p>
+                                        <p class="fs-12 text-secondary mb-0">
+                                            private warehouse</p>
                                     </div>
                                 </div>
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
-                                <li><a class="dropdown-item" href="{{ route('eWallet_history') }}">คลังสินค้าส่วนตัว</a></li>
+                                <li><a class="dropdown-item" href="{{ route('eWallet_history') }}"> private warehouse</a></li>
 
                                 <li><a class="dropdown-item"
-                                        href="{{ route('eWallet_history') }}"> รายการเคลื่อนไหวหลังสินค้า </a></li>
+                                        href="{{ route('eWallet_history') }}">
+                                        List of movements behind the product </a></li>
                             </ul>
                         </div>
                     </div>
@@ -270,8 +272,159 @@
 
                 </div>
 
+                <div class="col-lg-6">
+                    <div class="row gx-2 gx-md-3">
+                        {{-- <div class="col-4 col-lg-6 d-none d-lg-block">
+
+                            <a href="{{ route('tree') }}">
+                                <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-pink bg-opacity-100 borderR8 iconFlex">
+                                                <i class='fa fa-sitemap'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>แลกโปรโมชั่น</h5>
+                                            <p class="fs-12 text-pink">แลกโปรโมชั่น</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> --}}
+                        <div class="col-4 col-lg-6">
+                            <a href="{{ route('register') }}">
+                                {{-- <a href="#!"> --}}
+
+                                <div class="card cardL card-body borderR10 bg-success bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-success borderR8 iconFlex">
+                                                <i class='bx bx-plus'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Register</h5>
+                                            <p class="fs-12 text-success"> Managing adding members</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-4 col-lg-6">
+                            <a href="{{ route('Workline') }}">
+
+
+                                <div class="card cardL card-body borderR10 bg-primary bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-primary borderR8 iconFlex">
+                                                <i class='bx bx-group'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>My agent</h5>
+                                            <p class="fs-12 text-primary"> my agent </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-4 col-lg-6 d-block d-lg-none">
+                            <a href="๒">
+                                <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-pink bg-opacity-100 borderR8 iconFlex">
+                                                <i class='bx bx-book-open'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>{{ __('text.MdkLerning') }}</h5>
+                                            <p class="fs-12 text-pink">{{ __('text.Learning/CT') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-4 col-lg-6 d-block d-lg-none">
+                            <a href="{{ route('Order') }}">
+                                <div class="card cardL card-body borderR10 bg-info bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-info borderR8 iconFlex">
+                                                <i class='bx bx-cart'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Buy products</h5>
+                                            <p class="fs-12 text-info">Ordering products online</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-4 col-lg-6 d-block d-lg-none">
+                            <a href="{{ route('order_history') }}">
+                                <div class="card cardL card-body borderR10 bg-info bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-info borderR8 iconFlex">
+                                                <i class='fa fa-history'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Order history</h5>
+                                            <p class="fs-12 text-info">Order history</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="col-4 col-lg-6">
+                            <a href="#!">
+                                {{-- <a href="{{ route('upgradePosition') }}"> --}}
+                                <div class="card cardL card-body borderR10 bg-warning bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-warning borderR8 iconFlex">
+                                                <i class='bx bx-slider-alt'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5> Promotional media</h5>
+                                            {{-- <p class="fs-12 text-warning">{{ __('text.Repositioning Management') }}</p> --}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+
+                        {{-- <div class="col-4 col-lg-6 d-block d-lg-none">
+                            <a href="{{ route('Contact') }}">
+                                <div class="card cardL card-body borderR10 bg-danger bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-danger borderR8 iconFlex">
+                                                <i class='bx bx-buildings'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>{{ __('text.Contact') }}</h5>
+                                            <p class="fs-12 text-danger">{{ __('text.Report') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> --}}
+                    </div>
+                </div>
                 <div class="row">
-                    <div class="col-5 col-lg-5 d-block d-lg-none">
+                    <div class="col-5 col-lg-5 col-md-5 d-block d-lg-none">
 
                         <div class="col-md-12 col-xl-12">
                             <div class="dropdown mb-3">
@@ -326,7 +479,7 @@
                         </div>
 
                     </div>
-                    <div class="col-7 col-lg-7 d-block d-lg-none">
+                    <div class="col-7 col-lg-7 col-md-7 d-block d-lg-none">
 
 
                         <div class="col-md-12 col-xl-12">
@@ -384,160 +537,12 @@
                             </div>
                         </div>
 
+
+
                     </div>
 
                 </div>
-                <div class="col-lg-6">
-                    <div class="row gx-2 gx-md-3">
-                        {{-- <div class="col-4 col-lg-6 d-none d-lg-block">
 
-                            <a href="{{ route('tree') }}">
-                                <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-pink bg-opacity-100 borderR8 iconFlex">
-                                                <i class='fa fa-sitemap'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>แลกโปรโมชั่น</h5>
-                                            <p class="fs-12 text-pink">แลกโปรโมชั่น</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div> --}}
-                        <div class="col-4 col-lg-6">
-                            <a href="{{ route('register') }}">
-                                {{-- <a href="#!"> --}}
-
-                                <div class="card cardL card-body borderR10 bg-success bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-success borderR8 iconFlex">
-                                                <i class='bx bx-plus'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.Register') }}</h5>
-                                            <p class="fs-12 text-success">{{ __('text.Managing Add Members') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-6">
-                            <a href="{{ route('Workline') }}">
-
-
-                                <div class="card cardL card-body borderR10 bg-primary bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-primary borderR8 iconFlex">
-                                                <i class='bx bx-group'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>ตัวแทนของฉัน</h5>
-                                            <p class="fs-12 text-primary"> ตัวแทนของฉัน </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-4 col-lg-6 d-block d-lg-none">
-                            <a href="๒">
-                                <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-pink bg-opacity-100 borderR8 iconFlex">
-                                                <i class='bx bx-book-open'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.MdkLerning') }}</h5>
-                                            <p class="fs-12 text-pink">{{ __('text.Learning/CT') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-4 col-lg-6 d-block d-lg-none">
-                            <a href="{{ route('Order') }}">
-                                <div class="card cardL card-body borderR10 bg-info bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-info borderR8 iconFlex">
-                                                <i class='bx bx-cart'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.BuyProduct') }}</h5>
-                                            <p class="fs-12 text-info">{{ __('text.Online ordering') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-4 col-lg-6 d-block d-lg-none">
-                            <a href="{{ route('order_history') }}">
-                                <div class="card cardL card-body borderR10 bg-info bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-info borderR8 iconFlex">
-                                                <i class='fa fa-history'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.OrderHistory') }}</h5>
-                                            <p class="fs-12 text-info">{{ __('text.OrderHistory') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-4 col-lg-6">
-                            <a href="#!">
-                                {{-- <a href="{{ route('upgradePosition') }}"> --}}
-                                <div class="card cardL card-body borderR10 bg-warning bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-warning borderR8 iconFlex">
-                                                <i class='bx bx-slider-alt'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5> สื่อโปรโมท</h5>
-                                            {{-- <p class="fs-12 text-warning">{{ __('text.Repositioning Management') }}</p> --}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-
-                        {{-- <div class="col-4 col-lg-6 d-block d-lg-none">
-                            <a href="{{ route('Contact') }}">
-                                <div class="card cardL card-body borderR10 bg-danger bg-opacity-20 mb-2 mb-md-3">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="bg-danger borderR8 iconFlex">
-                                                <i class='bx bx-buildings'></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.Contact') }}</h5>
-                                            <p class="fs-12 text-danger">{{ __('text.Report') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div> --}}
-                    </div>
-                </div>
             </div>
 
             <div class="row">
@@ -562,16 +567,18 @@
                                         <h5 class="mb-0">  MY STOCK</h5>
 
                                     </div>
-                                    <p class="fs-12 text-secondary mb-0">คลังสินค้าส่วนตัว</p>
+                                    <p class="fs-12 text-secondary mb-0">
+                                        private warehouse</p>
                                 </div>
                             </div>
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
-                            <li><a class="dropdown-item" href="{{ route('eWallet_history') }}">คลังสินค้าส่วนตัว</a></li>
+                            <li><a class="dropdown-item" href="{{ route('eWallet_history') }}">
+                                private warehouse</a></li>
 
                             <li><a class="dropdown-item"
-                                    href="{{ route('eWallet_history') }}"> รายการเคลื่อนไหวหลังสินค้า </a></li>
+                                    href="{{ route('eWallet_history') }}"> List of movements behind the product </a></li>
                         </ul>
                     </div>
                 </div>
@@ -587,11 +594,11 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3 text-start">
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="mb-0"> PT ที่ใช้ได้ </h5>
+                                        <h5 class="mb-0"> PT </h5>
                                         <h5 class="text-p1 text-end mb-0 fw-bold">
                                             {{ number_format(Auth::guard('c_user')->user()->pv) }}</h5>
                                     </div>
-                                    <p class="fs-12 text-secondary mb-0"> PT ที่ใช้ได้ </p>
+                                    <p class="fs-12 text-secondary mb-0"> PT used </p>
                                 </div>
                             </div>
                         </button>
@@ -636,7 +643,7 @@
 
 
                             <li><a class="dropdown-item"
-                                href="{{ route('eWallet-TranferHistory') }}"> ประวัติการฝากเงิน eWallet </a></li>
+                                href="{{ route('eWallet-TranferHistory') }}"> deposit history eWallet </a></li>
                         </ul>
                     </div>
                 </div>
@@ -661,9 +668,9 @@
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{ route('bonus_all') }}">กำไรส่วนต่าง</a>
+                            <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">กำไรส่วนต่างทั้งทีม</a></li>
+                            <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li>
                             {{-- <li><a class="dropdown-item" href="{{ route('bonus_team') }}">โบนัสบริหารทีม</a></li>
                             <li><a class="dropdown-item" href="{{ route('bonus_discount') }}">โบนัสส่วนลด</a></li>
                             <li><a class="dropdown-item" href="{{ route('bonus_matching') }}">โบนัส Matching</a></li>
@@ -671,13 +678,91 @@
                         </ul>
                     </div>
                 </div>
+
+                <div class="col-md-6 col-xl-3 d-none d-lg-block">
+                    <div class="dropdown mb-3">
+                        <div class="card card-boxDrp"
+                                aria-expanded="false">
+                            <div class="d-flex w-100 ">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                        <i class='bx bx-user text-purple2 bg-opacity-100'></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3 text-start">
+                                    <div class="d-flex justify-content-between">
+                                        <b class="mb-0 fs-12">Dealer  </b>
+
+                                    </div>
+
+                                    <h6 class="text-p1 text-end mb-0 fw-bold">
+                                         0</h6>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3 d-none d-lg-block">
+                    <div class="dropdown mb-3">
+                        <div class="card card-boxDrp"
+                                aria-expanded="false">
+                            <div class="d-flex w-100 ">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                        <i class='bx bx-sitemap text-purple2 bg-opacity-100'></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3 text-start">
+                                    <div class="d-flex justify-content-between">
+                                        <b class="mb-0 fs-12">Member</b>
+
+                                    </div>
+
+                                    <h6 class="text-p1 text-end mb-0 fw-bold">
+                                         0</h6>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-xl-3 d-none d-lg-block">
+                    <div class="dropdown mb-3">
+                        <button class="card card-boxDrp dropdown-toggle" href="#" role="button"
+                            id="dropdownMenuLinkTpReward" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="d-flex w-100 pe-4">
+                                <div class="flex-shrink-0">
+                                    <div class="bg-purple2 bg-opacity-20 borderR8 iconFlex">
+                                        <i class='bx bx-gift text-purple2 bg-opacity-100'></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1 ms-3 text-start">
+                                    <div class="d-flex justify-content-between">
+                                        <b class="mb-0 fs-12">Reward Point </b>
+
+                                    </div>
+                                    {{-- <p class="fs-12 text-secondary mb-0">Reward Point  </p> --}}
+                                    <h6 class="text-p1 text-end mb-0 fw-bold">
+                                        0 </h6>
+                                </div>
+                            </div>
+
+
+                    </div>
+                </div>
+
             </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="card card-box borderR10 mb-2 mb-md-0">
                         <div class="card-body">
-                            <h4 class="card-title">{{ __('text.News Announcements') }}</h4>
+                            <h4 class="card-title">News</h4>
                             <hr>
                             <div class="row">
                                 @if (isset($News))
@@ -708,7 +793,7 @@
                                                                     {{ isset($value->detail_news) ? $value->detail_news : '' }}
                                                                 </p>
                                                                 <a href="{{ url('news_detail') }}/{{ $value->id }}"
-                                                                    class="linkNews stretched-link"><span>อ่านเพิ่มเติม</span><i
+                                                                    class="linkNews stretched-link"><span>Read more</span><i
                                                                         class='bx bxs-right-arrow-circle'></i></a>
                                                             </div>
                                                         </div>
@@ -778,8 +863,8 @@
                     if (data == "fail") {
                         Swal.fire({
                             icon: 'error',
-                            title: 'เกิดข้อผิดพลาด',
-                            text: 'กรุณากรอกข้อมูล ธนาคาร!',
+                            title: 'An error occurred',
+                            text: 'Please fill in bank information!',
                         }).then((result) => {
                             location.href = '{{ route('editprofile') }}';
                         });
@@ -812,16 +897,16 @@
                     if (data == "fail") {
                         Swal.fire({
                             icon: 'error',
-                            title: 'เกิดข้อผิดพลาด',
-                            text: 'รหัสสมาชิกไม่ถูกต้อง!',
+                            title: 'An error occurred.',
+                            text: 'Member ID is incorrect.!',
                         })
                         $('#customers_id_receive').val(" ")
                         $('#customers_name_receive').val(" ")
                     } else if (user_name == data.user_name) {
                         Swal.fire({
                             icon: 'error',
-                            title: 'เกิดข้อผิดพลาด',
-                            text: 'ไม่สามารถทำรายการให้ตนเองได้',
+                            title: 'An error occurred.',
+                            text: 'Unable to make transactions for myself',
                         })
                         $('#customers_id_receive').val(" ")
                         $('#customers_name_receive').val(" ")
@@ -839,8 +924,8 @@
                 console.log(amount, amt)
                 Swal.fire({
                     icon: 'error',
-                    title: 'เกิดข้อผิดพลาด',
-                    text: 'eWallet ของท่านไม่เพียงพอ!',
+                    title: 'An error occurred.',
+                    text: 'eWallet Yours is not enough.',
                 }).then((result) => {
                     location.reload();
                 })
@@ -854,7 +939,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'เกิดข้อผิดพลาด',
-                    text: 'eWallet ของท่านไม่เพียงพอ!',
+                    text: 'eWallet Yours is not enough.',
                 }).then((result) => {
                     location.reload();
                 })

@@ -190,25 +190,25 @@ Route::get('admin/Blank', function () {
 
 
       // BEGIN Order
-    Route::get('admin/orders/list', 'admin\OrderController@orders_list')->name('admin/orders/list');
-    Route::get('admin/orders/get_data_order_list', 'admin\OrderController@get_data_order_list')->name('admin/orders/get_data_order_list');
+    Route::get('admin/orders/list', 'Admin\OrderController@orders_list')->name('admin/orders/list');
+    Route::get('admin/orders/get_data_order_list', 'Admin\OrderController@get_data_order_list')->name('admin/orders/get_data_order_list');
 
-    Route::get('admin/orders/list_success', 'admin\OrderController@orders_success')->name('admin/orders/list_success');
-    Route::get('admin/orders/get_data_order_list_success', 'admin\OrderController@get_data_order_list_success')->name('admin/orders/get_data_order_list_success');
-
-
-
-    Route::post('admin/orders/tracking_no', 'admin\OrderController@tracking_no')->name('admin/orders/tracking_no');
+    Route::get('admin/orders/list_success', 'Admin\OrderController@orders_success')->name('admin/orders/list_success');
+    Route::get('admin/orders/get_data_order_list_success', 'Admin\OrderController@get_data_order_list_success')->name('admin/orders/get_data_order_list_success');
 
 
-    Route::get('orderexport/{date_start}/{date_end}', 'admin\OrderController@orderexport')->name('admin/orders/orderexport');
-    Route::post('importorder', 'admin\OrderController@importorder')->name('admin/orders/importorder');
-    Route::get('admin/orders/view_detail_oeder/{code_order}', 'admin\OrderController@view_detail_oeder')->name('admin/orders/view_detail_oeder');
-    Route::get('admin/orders/report_order_pdf/{shipping_type}/{date_start}/{date_end}', 'admin\OrderController@report_order_pdf')->name('admin/orders/report_order_pdf');
 
-    Route::post('admin/orders/view_detail_oeder_pdf_success/', 'admin\OrderController@view_detail_oeder_pdf_success')->name('admin/orders/view_detail_oeder_pdf_success');
+    Route::post('admin/orders/tracking_no', 'Admin\OrderController@tracking_no')->name('admin/orders/tracking_no');
 
 
-    Route::post('admin/orders/tracking_no_sort', 'admin\OrderController@tracking_no_sort')->name('admin/orders/tracking_no_sort');
-    Route::post('admin/orders/view_detail_oeder_pdf/', 'admin\OrderController@view_detail_oeder_pdf')->name('admin/orders/view_detail_oeder_pdf');
+    Route::get('orderexport/{date_start}/{date_end}', 'Admin\OrderController@orderexport')->name('admin/orders/orderexport');
+    Route::post('importorder', 'Admin\OrderController@importorder')->name('admin/orders/importorder');
+    Route::get('admin/orders/view_detail_oeder/{code_order}', 'Admin\OrderController@view_detail_oeder')->name('admin/orders/view_detail_oeder');
+    Route::get('admin/orders/report_order_pdf/{shipping_type}/{date_start}/{date_end}', 'Admin\OrderController@report_order_pdf')->name('admin/orders/report_order_pdf');
+
+    Route::post('admin/orders/view_detail_oeder_pdf_success/', 'Admin\OrderController@view_detail_oeder_pdf_success')->name('admin/orders/view_detail_oeder_pdf_success');
+
+
+    Route::post('admin/orders/tracking_no_sort', 'Admin\OrderController@tracking_no_sort')->name('admin/orders/tracking_no_sort');
+    Route::post('admin/orders/view_detail_oeder_pdf/', 'Admin\OrderController@view_detail_oeder_pdf')->name('admin/orders/view_detail_oeder_pdf');
 
