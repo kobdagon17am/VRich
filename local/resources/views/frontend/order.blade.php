@@ -440,7 +440,7 @@
                                                     swal.fire({
                                 icon: 'success',
                                 title:'Success !',
-                                text:"เพิ่มสินค้าลงตะกร้าสำเร็จ",
+                                text:"Product added to cart successfully.",
                                 timer:4000,
                                 type:'success'
                             }).then((value) => {

@@ -193,7 +193,7 @@
                                     </div>
                                     <div class="col-md-3 col-xl-3 mb-3">
                                         <label for="" class="form-label">Facebook</label>
-                                        <input name="fackbook" type="text" class="form-control" id="">
+                                        <input name="facebook" type="text" class="form-control" id="">
                                     </div>
 
                                     <div class="col-md-6 col-xl-3 mb-3">

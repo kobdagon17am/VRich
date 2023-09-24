@@ -52,16 +52,16 @@
         <div class="order-3 order-md-2 collapse navbar-collapse" id="linkMenuTop">
             <ul class="navbar-nav me-auto my-2 my-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('home') }}">{{__('text.Home')}}</a>
+                    <a class="nav-link" href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        {{__('text.BuyProduct')}}
+                        Buy products
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{ route('Order') }}">{{__('text.BuyProduct')}}</a></li>
-                        <li><a class="dropdown-item" href="{{ route('order_history') }}">{{__('text.OrderHistory')}}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('Order') }}">Buy products</a></li>
+                        <li><a class="dropdown-item" href="{{ route('order_history') }}">Order history</a></li>
                     </ul>
                 </li>
                 {{-- <li class="nav-item">
@@ -79,7 +79,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" target="_blank" href="{{url($user_name.'/1')}}">Vrich Smooth&Bright up Serum</a></li>
                         <li><a class="dropdown-item" target="_blank" href="{{url($user_name.'/2')}}">Vrich herbal coffee</a></li>
-                        <li><a class="dropdown-item" href="{{ route('order_history') }}">Sale Page Setting</a></li>
+                        <li><a class="dropdown-item" href="{{ route('SalepageSetting') }}">Sale Page Setting</a></li>
                     </ul>
                 </li>
                 {{-- <li class="nav-item">
@@ -106,7 +106,7 @@
     <div class="offcanvas-body">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('editprofile') }}">{{__('text.Editprofile')}}</a>
+                <a class="nav-link" href="{{ route('editprofile') }}">Edit Profile</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="modal" data-bs-target="#changePassModal">{{__('text.Changepassword')}}</a>
@@ -116,7 +116,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}"><i
-                        class="fas fa-power-off me-1 text-danger"></i>{{__('text.Logout')}}</a>
+                        class="fas fa-power-off me-1 text-danger"></i>Logout</a>
             </li>
         </ul>
     </div>

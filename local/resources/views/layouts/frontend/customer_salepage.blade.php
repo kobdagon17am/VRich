@@ -39,10 +39,10 @@
       <span class="navbar-toggler-icon"></span>
     </button> --}}
 
-            @if ($rs['data']->tel_number)
-                <a href="tel:{{ $rs['data']->tel_number }}" class="btn btn-outline-light d-md-none d-lg-none d-xl-none"
+            @if ($rs['data']->phone)
+                <a href="tel:{{ $rs['data']->phone }}" class="btn btn-outline-light d-md-none d-lg-none d-xl-none"
                     style="margin-right: 16px;"><i class="fa fa-phone-alt"></i>
-                    <b>{{ $rs['data']->tel_number }}</b></a>
+                    <b>{{ $rs['data']->phone }}</b></a>
             @endif
             <div class="collapse navbar-collapse " id="navbarCollapse">
                 <ul class="navbar-nav ml-auto">
@@ -61,9 +61,9 @@
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form> --}}
-                @if ($rs['data']->tel_number)
-                    <a href="tel:{{ $rs['data']->tel_number }}" class="btn btn-outline-light"><i
-                            class="fa fa-phone-alt"></i> <b>{{ $rs['data']->tel_number }}</b></a>
+                @if ($rs['data']->phone)
+                    <a href="tel:{{ $rs['data']->phone }}" class="btn btn-outline-light"><i
+                            class="fa fa-phone-alt"></i> <b>{{ $rs['data']->phone }}</b></a>
                 @endif
             </div>
         </nav>

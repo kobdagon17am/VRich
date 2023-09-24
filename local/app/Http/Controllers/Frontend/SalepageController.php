@@ -22,7 +22,6 @@ class SalepageController extends Controller
 
       $data = DB::table('customers')
         ->select(
-          'db_salepage_setting.*',
           // 'customers_detail.tel_mobile',
           'customers.user_name',
           'customers.name',
@@ -30,34 +29,19 @@ class SalepageController extends Controller
           'customers.business_name',
           'customers.profile_img',
           'customers.email',
-          'customers.business_location_id'
+          'customers.business_location_id',
+          'customers.phone',
+          'customers.line_id',
+          'customers.facebook',
+          'customers.telegrams',
+
         )
-        ->leftjoin('db_salepage_setting', 'customers.user_name', '=', 'db_salepage_setting.customers_username')
+
         // ->leftjoin('customers_detail', 'customers_detail.user_name', '=', 'customers.user_name')
         ->where('customers.user_name', '=', $user_name)
         // ->orwhere('db_salepage_setting.name_s3', '=', $user_name)
         ->first();
 
-        if(!$data){
-          $data = DB::table('customers')
-          ->select(
-            'db_salepage_setting.*',
-            // 'customers_detail.tel_mobile',
-            'customers.user_name',
-            'customers.name',
-            'customers.last_name',
-            'customers.business_name',
-            'customers.profile_img',
-            'customers.email',
-            'customers.business_location_id'
-          )
-          ->leftjoin('db_salepage_setting', 'customers.user_name', '=', 'db_salepage_setting.customers_username')
-          // ->leftjoin('customers_detail', 'customers_detail.user_name', '=', 'customers.user_name')
-          // ->where('customers.user_name', '=', $user_name)
-          // ->orwhere('db_salepage_setting.name_s3', '=', $user_name)
-          ->where('db_salepage_setting.name_s3', '=', $user_name)
-          ->first();
-        }
 
         $business_location_id = @$data->business_location_id;
         if (empty($business_location_id)) {
@@ -85,7 +69,7 @@ class SalepageController extends Controller
 
       $data = DB::table('customers')
         ->select(
-          'db_salepage_setting.*',
+
           // 'customers_detail.tel_mobile',
           'customers.user_name',
           'customers.name',
@@ -93,34 +77,17 @@ class SalepageController extends Controller
           'customers.business_name',
           'customers.profile_img',
           'customers.email',
-          'customers.business_location_id'
+          'customers.business_location_id',
+          'customers.phone',
+          'customers.line_id',
+          'customers.facebook',
+          'customers.telegrams',
         )
-        ->leftjoin('db_salepage_setting', 'customers.user_name', '=', 'db_salepage_setting.customers_username')
-        // ->leftjoin('customers_detail', 'customers_detail.user_name', '=', 'customers.user_name')
+
         ->where('customers.user_name', '=', $user_name)
         // ->orwhere('db_salepage_setting.name_s3', '=', $user_name)
         ->first();
 
-        if(!$data){
-          $data = DB::table('customers')
-          ->select(
-            'db_salepage_setting.*',
-            // 'customers_detail.tel_mobile',
-            'customers.user_name',
-            'customers.name',
-            'customers.last_name',
-            'customers.business_name',
-            'customers.profile_img',
-            'customers.email',
-            'customers.business_location_id'
-          )
-          ->leftjoin('db_salepage_setting', 'customers.user_name', '=', 'db_salepage_setting.customers_username')
-          // ->leftjoin('customers_detail', 'customers_detail.user_name', '=', 'customers.user_name')
-          // ->where('customers.user_name', '=', $user_name)
-          // ->orwhere('db_salepage_setting.name_s3', '=', $user_name)
-          ->where('db_salepage_setting.name_s3', '=', $user_name)
-          ->first();
-        }
 
         $business_location_id = @$data->business_location_id;
         if (empty($business_location_id)) {
@@ -141,4 +108,38 @@ class SalepageController extends Controller
         return view('frontend/alert/Error');
       }
     }
+
+    public function salepage_setting(){
+
+
+        return view('frontend/salepage_setting');
+
+
+    }
+    public function edit_SalePageSetting(Request $rs){
+
+        $dataPrepare = [
+            'phone' => $rs->phone,
+            'facebook' => $rs->facebook,
+            'telegrams' => $rs->telegrams,
+            'line_id' => $rs->line_id,
+        ];
+
+        // dd($dataPrepare);
+        try {
+            DB::BeginTransaction();
+            $get_customer = DB::table('customers')
+                ->where('user_name', '=', $rs->user_name)
+                ->update($dataPrepare);
+            DB::commit();
+            return redirect('SalepageSetting')->withSuccess('Success');
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect('SalepageSetting')->withError('fail');
+        }
+
+    }
+
+
+
 }

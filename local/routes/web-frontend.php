@@ -204,6 +204,8 @@ Route::get('fc_shipping_zip_code_js', 'Frontend\ShippingController@fc_shipping_z
 
 Route::get('{user_name?}/1','Frontend\SalepageController@serum')->name('1');
 Route::get('{user_name?}/2','Frontend\SalepageController@coffee')->name('2');
+Route::get('SalepageSetting','Frontend\SalepageController@salepage_setting')->name('SalepageSetting');
+Route::post('edit_SalePageSetting','Frontend\SalepageController@edit_SalePageSetting')->name('edit_SalePageSetting');
 
 Route::get('RegisterSuccess/{data?}','Frontend\RegisterUrlController@register_success')->name('RegisterSuccess');
 // BEGIN eWallet withdraw

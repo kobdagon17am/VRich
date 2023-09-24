@@ -72,30 +72,30 @@ Vrich Smooth&Bright up Serum
             @endif
                 <div class="justify-content-center" style="margin-top: 10px">
 
-                  <b style="color: #fff">สนใจสมัครสมาชิกติดต่อ</b>
-                  <p style="color: #fff">คุณ {{ $rs['data']->name }} {{ $rs['data']->last_name }} รหัส {{ $rs['data']->user_name }}
+                  <b style="color: #fff">Interested in becoming a member? Contact</b>
+                  <p style="color: #fff">{{ $rs['data']->name }} {{ $rs['data']->last_name }} รหัส {{ $rs['data']->user_name }}
                   @if ($rs['data']->email)
                   <br><b>Email :</b> {{ $rs['data']->email }}
                   @endif
                   </p>
-                  @if ($rs['data']->url_fb)
-                  <a href="{{ $rs['data']->url_fb }}"> <img src="{{ asset('frontend/salepage/img/FB.png') }}"
+                  @if ($rs['data']->facebook)
+                  <a href="{{ $rs['data']->facebook }}"> <img src="{{ asset('frontend/salepage/img/FB.png') }}"
                           style="margin: 5px;" class="img-fluid" width="30" alt="..."> </a>
               @endif
-              @if ($rs['data']->url_ig)
-                  <a href="{{ $rs['data']->url_ig }}"> <img src="{{ asset('frontend/salepage/img/IG.png') }}"
+              @if ($rs['data']->telegrams)
+                  <a href="{{ $rs['data']->telegrams }}"> <img src="{{ asset('frontend/salepage/img/Telegram_logo.svg.webp') }}"
                           style="margin: 5px;" class="img-fluid" width="30" alt="..."> </a>
               @endif
-              @if ($rs['data']->url_line)
-              <a href="https://line.me/ti/p/{{ $rs['data']->url_line }}" > <img
+              @if ($rs['data']->line_id)
+              <a href="https://line.me/ti/p/{{ $rs['data']->line_id }}" > <img
                           src="{{ asset('frontend/salepage/img/line.png') }}" style="margin: 5px;"
                           class="img-fluid" width="30" alt="..."> </a>
               @endif
               <br>
 
-              @if ($rs['data']->tel_number)
-              <a href="tel:{{ $rs['data']->tel_number }}" class="btn btn-success"><i class="fa fa-phone-alt"></i>
-                  <b>{{ $rs['data']->tel_number }}</b></a>
+              @if ($rs['data']->phone)
+              <a href="tel:{{ $rs['data']->phone }}" class="btn btn-success"><i class="fa fa-phone-alt"></i>
+                  <b>{{ $rs['data']->phone }}</b></a>
               </div>
             @endif
                 </div>
@@ -111,28 +111,29 @@ Vrich Smooth&Bright up Serum
 
     <nav class="float-action-button">
 
-        @if ($rs['data']->url_fb)
-            <a href="{{ $rs['data']->url_fb }}" class="buttons" title="Facebook" data-toggle="tooltip"
+
+        @if ($rs['data']->facebook)
+            <a href="{{ $rs['data']->facebook }}" class="buttons" title="Facebook" data-toggle="tooltip"
                 data-placement="left">
                 <img src="{{ asset('frontend/salepage/img/FB.png') }}" style="margin-top: -16px;" class="img-fluid"
                     width="50" alt="...">
             </a>
         @endif
-        @if ($rs['data']->url_ig)
-            <a href="{{ $rs['data']->url_ig }}" class="buttons" title="IG" data-toggle="tooltip" data-placement="left">
-                <img src="{{ asset('frontend/salepage/img/IG.png') }}" style="margin-top: -16px;" class="img-fluid"
+        @if ($rs['data']->telegrams)
+            <a href="{{ $rs['data']->telegrams }}" class="buttons" title="Telegram" data-toggle="tooltip" data-placement="left">
+                <img src="{{ asset('frontend/salepage/img/Telegram_logo.svg.webp') }}" style="margin-top: -16px;" class="img-fluid"
                     width="50" alt="...">
             </a>
         @endif
-        @if ($rs['data']->url_line)
-            <a href="{{ $rs['data']->url_line }}" class="buttons" title="line" data-toggle="tooltip"
+        @if ($rs['data']->line_id)
+            <a href="https://line.me/ti/p/{{ $rs['data']->line_id }}" class="buttons" title="line" data-toggle="tooltip"
                 data-placement="left">
                 <img src="{{ asset('frontend/salepage/img/line.png') }}" style="margin-top: -16px;" class="img-fluid"
                     width="50" alt="...">
             </a>
         @endif
-        @if ($rs['data']->tel_number)
-            <a href="tel:{{ $rs['data']->tel_number }}" class="buttons" title="Phone" data-toggle="tooltip"
+        @if ($rs['data']->phone)
+            <a href="tel:{{ $rs['data']->phone }}" class="buttons" title="Phone" data-toggle="tooltip"
                 data-placement="left">
                 <svg class="ico_d" width="40" height="40" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg"
                     style="margin-top: -16px;transform: rotate(0deg);">
