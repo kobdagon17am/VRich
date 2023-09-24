@@ -59,7 +59,7 @@
                                     </div>
 
 
-                                    <h5>{{ __('text.MemberID') }} :
+                                    <h5>
                                         {{ Auth::guard('c_user')->user()->user_name }}
                                         <?php
                                          $position = \App\Http\Controllers\Frontend\FC\AllFunctionController::position(Auth::guard('c_user')->user()->qualification_id);
