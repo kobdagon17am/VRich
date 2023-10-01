@@ -96,7 +96,7 @@
                 <i class='bx bxs-user-circle bx-lg text-p1'></i>
             </div>
             <div class="flex-grow-1 ms-3">
-                {{__('text.Position')}}<br>
+                Position<br>
                 <h6>{{ Auth::guard('c_user')->user()->name }}
                     {{ Auth::guard('c_user')->user()->last_name }}</h6>
             </div>
@@ -109,7 +109,7 @@
                 <a class="nav-link" href="{{ route('editprofile') }}">Edit Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#changePassModal">{{__('text.Changepassword')}}</a>
+                <a class="nav-link" data-bs-toggle="modal" data-bs-target="#changePassModal">Change Password</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('RegisterUrlSetting') }}">  Register URL  </a>

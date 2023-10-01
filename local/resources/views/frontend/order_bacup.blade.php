@@ -318,7 +318,7 @@
             <div class="modal-dialog">
                 <div class="modal-content borderR25">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="adjNumModalLabel">แก้ไขจำนวน</h5>
+                        <h5 class="modal-title" id="adjNumModalLabel">Edit quantity</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-center">
@@ -330,8 +330,8 @@
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-outline-dark rounded-pill"
-                            data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-p1 rounded-pill">บันทึก</button>
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-p1 rounded-pill">Save</button>
                     </div>
                 </div>
             </div>

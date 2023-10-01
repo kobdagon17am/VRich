@@ -8,9 +8,9 @@
                     <div class="col-lg-12">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('home')}}">หน้าแรก</a></li>
-                                <li class="breadcrumb-item"><a href="{{route('Order')}}">รายการสินค้า</a></li>
-                                <li class="breadcrumb-item active text-truncate" aria-current="page"> ยืนยันรายการสินค้า </li>
+                                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('Order')}}">Product List</a></li>
+                                <li class="breadcrumb-item active text-truncate" aria-current="page"> Confirm Product List </li>
                             </ol>
                         </nav>
                     </div>
@@ -24,7 +24,7 @@
                                 <div class="row">
 
                                         <div class="col-md-8 col-sm-12">
-                                            <h4 class="card-title">ยืนยันรายการสินค้า</h4>
+                                            <h4 class="card-title">Confirm Product List</h4>
 
 
                                             <div class="card card-box borderR10 mb-2 mb-md-0">
@@ -44,17 +44,17 @@
 
                                                                     <p class="mb-0">{!!$dataset_currency->icon!!} {{ number_format($value['price'],2) }} </p>
 
-                                                                    <p class="mb-0"> {{ number_format($value['attributes']['pv'],2) }} PV</p>
+                                                                    <p class="mb-0"> {{ number_format($value['attributes']['pv'],2) }} PT</p>
 
                                                             </div>
                                                             <div class="col-3">
 
                                                                 <div class="text-md-end">
                                                                     <button type="button" class="btn btn-outline-secondary px-2 py-1"
-                                                                     onclick="quantity_change({{$value['id']}},{{$value['quantity']}})">จำนวน {{ $value['quantity'] }} ชิ้น</button>
+                                                                     onclick="quantity_change({{$value['id']}},{{$value['quantity']}})">Amount {{ $value['quantity'] }} Piece</button>
                                                                         <button type="button" class="btn btn-p2 rounded-pill mb-1" onclick="cart_delete('{{ $value['id'] }}')"> <i class="fa fa-trash" aria-hidden="true"></i> </button>
-                                                                    <p class="mb-0">รวม {{ number_format($value['quantity']*$value['price'],2) }} {!!$dataset_currency->icon!!}</p>
-                                                                    <p class="mb-0">รวม {{ number_format($value['quantity']*$value['attributes']['pv'],2) }} PV</p>
+                                                                    <p class="mb-0">Total {{ number_format($value['quantity']*$value['price'],2) }} {!!$dataset_currency->icon!!}</p>
+                                                                    <p class="mb-0">Total {{ number_format($value['quantity']*$value['attributes']['pv'],2) }} PT</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -67,12 +67,12 @@
 
                                             <div class="card card-box borderR10 mb-2 mb-md-0">
                                                 <div class="card-body">
-                                                    <h4>สรุปรายการสั่งซื้อ</h4>
+                                                    <h4>ORDER SUMMARY</h4>
                                                     <hr>
 
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <p class="mb-2">มูลค่าสินค้า ({{Cart::session(1)->getTotalQuantity()}}) ชิ้น</p>
+                                                            <p class="mb-2">Price ({{Cart::session(1)->getTotalQuantity()}}) Piece</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
                                                             <p class="mb-2">{{ number_format(Cart::session(1)->getTotal(),2) }} {!!$dataset_currency->icon!!}</p>
@@ -81,7 +81,7 @@
 
 
                                                         <div class="col-md-6">
-                                                            <p class="mb-2">PV รวม</p>
+                                                            <p class="mb-2">Total PT</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
                                                             <?php
@@ -98,10 +98,11 @@
                                                             }
 
                                                             ?>
-                                                            <p class="mb-2">{{number_format($pv_total)}} PV</p>
+                                                            <p class="mb-2">{{number_format($pv_total)}} PT</p>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p class="mb-2">ค่าส่ง</p>
+                                                            <p class="mb-2">
+                                                                Shipping cost</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
                                                             @if($dataset_currency->id == 1)
@@ -121,7 +122,7 @@
                                                     <hr>
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <p class="mb-2">ราคาสุทธิ</p>
+                                                            <p class="mb-2">Grand Total</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
 
@@ -136,9 +137,9 @@
                                                     <div class="text-center">
 
                                                         <a href="{{route('confirm_cart')}}" type="button"
-                                                            class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center">ยืนยันคำสั่งซื้อ</a>
+                                                            class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center">Confirm Order</a>
                                                         <a href="{{route('cancel_order')}}" type="button"
-                                                            class="btn btn-outline-dark rounded-pill w-100 mb-2 justify-content-center">ยกเลิก</a>
+                                                            class="btn btn-outline-dark rounded-pill w-100 mb-2 justify-content-center">Cancel</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -160,7 +161,7 @@
         <div class="modal-dialog">
             <div class="modal-content borderR25">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="adjNumModalLabel">แก้ไขจำนวน</h5>
+                    <h5 class="modal-title" id="adjNumModalLabel">Edit quantity</h5>
 
                 </div>
                 <form action="{{ route('quantity_change') }}" method="POST">
@@ -175,8 +176,8 @@
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-outline-dark rounded-pill"
-                            data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="submit" class="btn btn-p1 rounded-pill">บันทึก</button>
+                            data-bs-dismiss="modal">Cancle</button>
+                        <button type="submit" class="btn btn-p1 rounded-pill">Save</button>
                     </div>
                 </form>
 
@@ -214,14 +215,14 @@
     function cart_delete(item_id){
         var url = '{{ route('cart_delete') }}';
         Swal.fire({
-          title: 'ลบสินค้าออกจากตะกร้า',
+          title: 'Delete from Cart',
           // text: "You won't be able to revert this!",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'ยืนยัน',
-          cancelButtonText: 'ยกเลิก'
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel'
       }).then((result) => {
           if (result.isConfirmed){
             $("#cart_delete" ).attr('action',url);

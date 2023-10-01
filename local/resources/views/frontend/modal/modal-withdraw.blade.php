@@ -5,14 +5,14 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content borderR25">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="withdrawModalLabel">ถอนเงิน eWallet</h5>
+                    <h5 class="modal-title" id="withdrawModalLabel">Withdraw eWallet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning d-flex align-items-center" role="alert">
                         <i class='bx bxs-info-circle me-2'></i>
                         <div>
-                            การถอนเงิน eWallet ขั้นต่ำ = 10 USD
+                            Minimum eWallet withdraw = 10 USD
                         </div>
                     </div>
                     <div class="row gx-2">
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="alert alert-purple p-2 h-82 borderR10">
-                                <p class="small">eWallet ที่สามารถถอนได้</p>
+                                <p class="small">eWallet that can be withdrawn</p>
                                 <p class="text-end mb-0"><span class="h5 text-purple1 bg-opacity-100">
                                     @php
                                     $ewallet_use = Auth::guard('c_user')->user()->ewallet_use;
@@ -50,27 +50,27 @@
                         </div>
                         <div class="col-sm-12">
                             <div class="card p-2 borderR10 mb-3">
-                                <h5 class="text-center">ยอดถอน</h5>
+                                <h5 class="text-center">Withdrawal amount</h5>
                                 <input type="number" name="amt" min="10" value="0" step="0.01"
                                     id="amtwithdraw" required
                                     class="form-control text-purple1 bg-opacity-100 form-control-lg">
-                                <p class="small text-muted mb-0">** ไม่สามารถโอนได้มากกว่ายอดเงินคงเหลือที่มีอยู่</p>
+                                <p class="small text-muted mb-0">** Cannot withdraw more than available balance</p>
                             </div>
                         </div>
                     </div>
                     <div class="alert alert-danger d-flex" role="alert">
                         <i class='bx bxs-error me-2 bx-sm'></i>
                         <div>
-                            คำเตือน ! ต้องมีการยืนยันตัวตนและยืนยันข้อมูลทางบัญชีแล้วเท่านั้น (ข้อมูลส่งบัญชี)
+                            Warning! Only identity verification and account information must be verified. (Information sent to account)
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between border-0">
                     <button type="button" class="btn btn-outline-dark rounded-pill"
-                        data-bs-dismiss="modal">ยกเลิก</button>
+                        data-bs-dismiss="modal">Cancel</button>
                     <button type="button" onclick="withdraw_confirm()"
                         class="btn btn-p1 rounded-pill d-flex align-items-center"><i
-                            class='bx bxs-check-circle me-2'></i>ทำรายการ</button>
+                            class='bx bxs-check-circle me-2'></i>Submit</button>
                 </div>
             </div>
 
@@ -81,12 +81,12 @@
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content borderR25">
                 <div class="modal-header justify-content-center">
-                    <h5 class="modal-title" id="withdrawModal2Label">ท่านทำรายการถอนเงิน eWallet</h5>
+                    <h5 class="modal-title" id="withdrawModal2Label">Confirm eWallet withdraw</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row gx-2 justify-content-center">
                         <div class="col-sm-12">
-                            <p class="mb-0">ผู้ทำรายการ</p>
+                            <p class="mb-0">Username</p>
                             <div class="alert alert-white p-2 borderR10">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
@@ -103,7 +103,7 @@
                     </div>
                     <div class="row gx-2">
                         <div class="col-sm-12">
-                            <h5 class="text-center">ยอดถอน</h5>
+                            <h5 class="text-center">Withdrawal amount</h5>
                             <div class="card p-2 borderR10 mb-3 text-center">
                                 <h4 id="withdraw_text_confirm" class="mb-0 text-purple1 bg-opacity-100"> USD </h4>
                             </div>
@@ -118,15 +118,15 @@
                     <div class="alert alert-danger d-flex" role="alert">
                         <i class='bx bxs-error me-2 bx-sm'></i>
                         <div>
-                            กรุณาแคปหน้าจอการทำรายการเพื่อใช้ตรวจสอบกรณีมีปัญหาในการทำรายการ
+                            Screen capture and review the item to check in case there is a problem with the item
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between border-0">
                     <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-target="#withdrawModal2"
-                        data-bs-toggle="modal">ยกเลิก</button>
+                        data-bs-toggle="modal">Cancel</button>
                     <button type="submit" class="btn btn-p1 rounded-pill d-flex align-items-center"><i
-                            class='bx bxs-check-circle me-2'></i>ยืนยันทำรายการ</button>
+                            class='bx bxs-check-circle me-2'></i>Submit</button>
                 </div>
             </div>
         </div>
@@ -137,18 +137,18 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content borderR25">
             <div class="modal-header justify-content-center">
-                <h5 class="modal-title" id="withdrawModal3Label">คุณได้ทำรายการถอนเงินเรียบร้อยแล้ว</h5>
+                <h5 class="modal-title" id="withdrawModal3Label">You have completed eWallet withdraw</h5>
             </div>
             <div class="modal-body">
                 <div class="row gx-2">
                     <div class="col-sm-12 text-center">
                         <i class='far fa-check-circle text-success fa-5x mb-3'></i>
-                        <h5 class="text-center">ทำรายการสำเร็จ</h5>
+                        <h5 class="text-center">Success</h5>
                     </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0">
-                <button type="button" class="btn btn-p1 rounded-pill" data-bs-dismiss="modal">ตกลง</button>
+                <button type="button" class="btn btn-p1 rounded-pill" data-bs-dismiss="modal">Submit</button>
             </div>
         </div>
     </div>
@@ -169,8 +169,8 @@
             $('#withdrawModal').modal('hide')
             Swal.fire({
                 icon: 'error',
-                title: 'เกิดข้อผิดพลาด',
-                text: 'eWallet ของท่านไม่เพียงพอ!',
+                title: 'Error',
+                text: 'eWallet not enough!',
             }).then((result) => {
                 location.reload();
             });
@@ -178,8 +178,8 @@
             $('#withdrawModal').modal('hide')
             Swal.fire({
                 icon: 'error',
-                title: 'เกิดข้อผิดพลาด',
-                text: 'จำนวนถอนขั้นต่ำไม่ถูกต้อง!',
+                title: 'Error',
+                text: 'The minimum withdrawal amount is incorrect!',
             }).then((result) => {
                 location.reload();
             });
@@ -187,8 +187,8 @@
             $('#withdrawModal').modal('hide')
             Swal.fire({
                 icon: 'error',
-                title: 'เกิดข้อผิดพลาด',
-                text: 'กรุณากรอกจำนวนเงิน !',
+                title: 'error',
+                text: 'Please enter the amount!',
             }).then((result) => {
                 location.reload();
             });

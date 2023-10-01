@@ -16,8 +16,8 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active text-truncate" aria-current="page">ประวัติ eWallet</li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active text-truncate" aria-current="page">History eWallet</li>
                         </ol>
                     </nav>
                 </div>
@@ -70,12 +70,12 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <h4 class="card-title mb-0">ประวัติ eWallet</h4>
+                                    <h4 class="card-title mb-0">History eWallet</h4>
                                 </div>
-                                <div class="col-sm-6 text-md-end">
+                                {{-- <div class="col-sm-6 text-md-end">
                                     <button type="button" class="btn btn-info rounded-pill"><i
-                                            class='bx bxs-file me-1'></i> ออกรายงาน</button>
-                                </div>
+                                            class='bx bxs-file me-1'></i> Report</button>
+                                </div> --}}
                             </div>
                             <hr>
                             <div class="table-responsive">
@@ -110,10 +110,10 @@
                         <div class="col-6">
                             <div class="row">
                                 <div class="col-12 p-2">
-                                    <p class="mt-2 text-left">รหัสรายการ <span id="transaction_code"></span> </p>
-                                    <p class="mt-2 text-left">วันที่ทำรายการ <span id="ewallet_created_at"></span> </p>
-                                    <P class="mt-2 text-left">สมาชิก <span id="name"></span> </P>
-                                    <p class="text-xl mt-2"> จำนวน <span class="text-danger amt"></span>
+                                    <p class="mt-2 text-left">No. <span id="transaction_code"></span> </p>
+                                    <p class="mt-2 text-left">Create Date <span id="ewallet_created_at"></span> </p>
+                                    <P class="mt-2 text-left">Username <span id="name"></span> </P>
+                                    <p class="text-xl mt-2"> Amount <span class="text-danger amt"></span>
                                         บาท</p>
                                 </div>
                             </div>
@@ -147,16 +147,16 @@
                         "lengthMenu": "แสดง _MENU_ แถว",
                         "zeroRecords": "ไม่พบข้อมูล",
                         "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
-                        "search": "ค้นหา",
+                        "search": "Search",
                         "infoEmpty": "",
                         "infoFiltered": "",
                         "paginate": {
-                            "first": "หน้าแรก",
-                            "previous": "ย้อนกลับ",
-                            "next": "ถัดไป",
-                            "last": "หน้าสุดท้าย"
+                            "first": "First",
+                            "previous": "Previous",
+                            "next": "Next",
+                            "last": "Last"
                         },
-                        'processing': "กำลังโหลดข้อมูล",
+                        'processing': "Loading",
                     },
                     ajax: {
                         url: '{{ route('front_end_get_ewallet') }}',
@@ -200,37 +200,37 @@
                     },
                     columns: [{
                             data: "id",
-                            title: "ลำดับ",
+                            title: "NO.",
                             className: "table-report__action w-10 text-center",
                         },
                         {
                             data: "transaction_code",
-                            title: "รหัสรายการ",
+                            title: "Transaction No.",
                             className: "table-report__action w-10 ",
                         },
                         {
                             data: "created_at",
-                            title: "วันที่ทำรายการ",
+                            title: "Created Date",
                             className: "table-report__action w-10 text-center whitespace-nowrap",
                         },
                         {
                             data: "customer_username",
-                            title: "ชื่อสมาชิก",
+                            title: "Username",
                             className: "table-report__action w-24 whitespace-nowrap text-center",
                         },
                         {
                             data: "bonus_full",
-                            title: "ยอดที่ได้รับ",
+                            title: "Amount received",
                             className: "table-report__action w-10 text-end",
                         },
                         {
                             data: "tax_total",
-                            title: "ภาษี 3%",
+                            title: "Tax 3%",
                             className: "table-report__action w-10 text-end",
                         },
                         {
                             data: "amt",
-                            title: "สุทธิ",
+                            title: "Total",
                             className: "table-report__action w-10 text-end",
                         },
 
@@ -241,7 +241,7 @@
                         // },
                         {
                             data: "balance",
-                            title: "eWallet คงเหลือ",
+                            title: "eWallet Balance",
                             className: "table-report__action w-12 text-end",
                         },
                         // {
@@ -251,22 +251,22 @@
                         // },
                         {
                             data: "customers_name_receive",
-                            title: "ชื่อผู้รับ",
+                            title: "Receiver Name",
                             className: "table-report__action w-12 text-center",
                         },
                         {
                             data: "note_orther",
-                            title: "รายละเอียด",
+                            title: "Detail",
                             className: "table-report__action w-10 text-center",
                         },
                         {
                             data: "type",
-                            title: "ประเภท",
+                            title: "Type",
                             className: "table-report__action w-10 text-center",
                         },
                         {
                             data: "status",
-                            title: "สถานะ",
+                            title: "Status",
                             className: "table-report__action w-10 text-center whitespace-nowrap",
                         },
                         // {

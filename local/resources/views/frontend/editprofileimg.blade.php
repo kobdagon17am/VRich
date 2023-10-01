@@ -13,8 +13,8 @@
             <div class="col-lg-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
-                        <li class="breadcrumb-item active text-truncate" aria-current="page"> อัพโหลดรูปโปรไฟล์ </li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active text-truncate" aria-current="page"> Upload Profile </li>
                     </ol>
                 </nav>
             </div>
@@ -25,7 +25,7 @@
             <div class="col-md-12">
                 <div class="card card-box borderR10 mb-2 mb-md-0">
                     <div class="card-body">
-                        <h4 class="card-title">อัพโหลดรูปโปรไฟล์</h4>
+                        <h4 class="card-title">Upload Profile</h4>
                         <hr>
 
                         <div class="row ">
@@ -44,13 +44,13 @@
                                         @endif
                                     </div>
                                     <div class="card-body">
-                                      <h5 class="card-title">อัพโหลดรูปโปรไฟล์</h5>
+                                      <h5 class="card-title">Upload Profile</h5>
                                       <input type="file" name="img" class="input-image" id="img" style="display: none;">
                                       <input type="hidden" name="imgBase64" value="">
 
-                                      <button type="button" class="btn btn-success rounded-pill"  onclick="document.getElementById('img').click()" >เลือกรูปภาพ</button>
+                                      <button type="button" class="btn btn-success rounded-pill"  onclick="document.getElementById('img').click()" >Choose File</button>
 
-                                      <button type="submit" id="upload" class="btn btn-primary rounded-pill">อัพโหลดรูปภาพ</button>
+                                      <button type="submit" id="upload" class="btn btn-primary rounded-pill">Upload File</button>
                                     </div>
 
                                   </div>

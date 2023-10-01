@@ -13,8 +13,8 @@
                      <div class="col-lg-12">
                          <nav aria-label="breadcrumb">
                              <ol class="breadcrumb">
-                                 <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
-                                 <li class="breadcrumb-item active text-truncate" aria-current="page">สายงาน</li>
+                                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                                 <li class="breadcrumb-item active text-truncate" aria-current="page">History Deposit eWallet</li>
                              </ol>
                          </nav>
                      </div>
@@ -68,22 +68,22 @@
                      columns:  [
                         {
                             data: "created_at",
-                            title: "วันที่ทำรายการ",
+                            title: "Create Date",
                             className: "w-10 text-center whitespace-nowrap",
                         },
                         {
                             data: "transaction_code",
-                            title: "รหัสรายการ",
+                            title: "Transaction No.",
                             className: "w-10 ",
                         },
                         {
                             data: "date_mark",
-                            title: "วันที่อนุมัติ",
+                            title: "Approve Date",
                             className: "w-10 text-center whitespace-nowrap",
                         },
                         {
                             data: "customer_username",
-                            title: "ชื่อสมาชิก",
+                            title: "Username",
                             className: "w-24 whitespace-nowrap text-center",
                         },
                         // {
@@ -94,7 +94,7 @@
 
                         {
                             data: "amt",
-                            title: "สุทธิ",
+                            title: "Total",
                             className: "w-10 text-end",
                         },
 
@@ -112,17 +112,17 @@
                         // },
                         {
                             data: "note_orther",
-                            title: "รายละเอียด",
+                            title: "Detail",
                             className: "w-10 text-center",
                         },
                         {
                             data: "type",
-                            title: "ประเภท",
+                            title: "Type",
                             className: "w-10 text-center",
                         },
                         {
                             data: "status",
-                            title: "สถานะ",
+                            title: "Status",
                             className: "w-10 text-center whitespace-nowrap",
                         },
 

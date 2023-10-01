@@ -199,77 +199,77 @@ class eWalletController extends Controller
                 $text_type = "";
                 if($query->customers_id_receive == Auth::guard('c_user')->user()->id){
                     if ($type  == 1) {
-                        $text_type = "ฝากเงิน";
+                        $text_type = "Deposit";
                     }
                     if ($type  == 2) {
-                        $text_type = "รับเงิน";
+                        $text_type = "Receive";
                     }
                     if ($type  == 3) {
-                        $text_type = "ถอนเงิน";
+                        $text_type = "Withdraw";
                     }
                     if ($type  == 4) {
-                        $text_type = "ซื้อสินค้า";
+                        $text_type = "Buy products";
                     }
                     if ($type  == 5) {
-                        $text_type = "แจงลูกค้าประจำ";
+                        $text_type = "Jang regular customers";
                     }
                     if ($type  == 6) {
-                        $text_type = "บริหารทีมลูกค้าประจำ";
+                        $text_type = "Manage a team of regular customers";
                     }
                     if ($type  == 7) {
-                        $text_type = "สนับสนุนสินค้า";
+                        $text_type = "Product support";
                     }
                     if ($type  == 8) {
-                        $text_type = "โบนัสบริหารทีม";
+                        $text_type = "Team management bonus";
                     }
                     if ($type  == 9) {
-                        $text_type = "โบนัสเจ้าของลิขสิทธิ์";
+                        $text_type = "Copyright owner bonus";
                     }
 
                     if ($type  == 10) {
-                        $text_type = "โบนัสโบนัสขยายธุรกิจ";
+                        $text_type = "Business expansion bonus";
                     }
 
                     if ($type  == 11) {
-                        $text_type = "โบนัสสร้างทีม";
+                        $text_type = "Team building bonus";
                     }
 
                 }else{
 
                     if ($type  == 1) {
-                        $text_type = "ฝากเงิน";
+                        $text_type = "Deposit";
                     }
                     if ($type  == 2) {
-                        $text_type = "โอนเงิน";
+                        $text_type = "Receive";
                     }
                     if ($type  == 3) {
-                        $text_type = "ถอนเงิน";
+                        $text_type = "Withdraw";
                     }
                     if ($type  == 4) {
-                        $text_type = "ซื้อสินค้า";
+                        $text_type = "Buy products";
                     }
                     if ($type  == 5) {
-                        $text_type = "แจงลูกค้าประจำ";
+                        $text_type = "Jang regular customers";
                     }
                     if ($type  == 6) {
-                        $text_type = "บริหารทีมลูกค้าประจำ";
+                        $text_type = "Manage a team of regular customers";
                     }
                     if ($type  == 7) {
-                        $text_type = "สนับสนุนสินค้า";
+                        $text_type = "Product support";
                     }
                     if ($type  == 8) {
-                        $text_type = "โบนัสบริหารทีม";
+                        $text_type = "Team management bonus";
                     }
                     if ($type  == 9) {
-                        $text_type = "โบนัสเจ้าของลิขสิทธิ์";
+                        $text_type = "Copyright owner bonus";
                     }
 
                     if ($type  == 10) {
-                        $text_type = "โบนัสโบนัสขยายธุรกิจ";
+                        $text_type = "Business expansion bonus";
                     }
 
                     if ($type  == 11) {
-                        $text_type = "โบนัสสร้างทีม";
+                        $text_type = "Team building bonus";
                     }
 
 
@@ -281,21 +281,21 @@ class eWalletController extends Controller
                 $status = $query->status;
 
                 if ($status == 1) {
-                    $status = "รออนุมัติ";
+                    $status = "Waiting for approval";
                     $status_bg = "warning";
 
                 }
                 if ($status == 2) {
-                    $status = "อนุมัติ";
+                    $status = "Approved";
                     $status_bg = "success";
 
                 }
                 if ($status == 3) {
-                    $status = "ไม่อนุมัติ";
+                    $status = "Not approved";
                     $status_bg = "danger";
                 }
                 if ($status == 4) {
-                    $status = "ยกเลิก";
+                    $status = "Cancel";
                     $status_bg = "danger";
                 }
                 $html ='<span class="badge bg-'.$status_bg.'">'.$status.'</span>';
@@ -320,9 +320,9 @@ class eWalletController extends Controller
         ];
 
         $message_err = [
-            'amt.required' => 'กรุณากรอกข้อมูล',
-            'amt.numeric' => 'กรุณากรอกเป็นตัวเลขเท่านั้น',
-            'upload.required' => 'กรุณาแนบสลิป การโอนเงิน',
+            'amt.required' => 'Please fill in',
+            'amt.numeric' => 'Please fill in numbers only',
+            'upload.required' => 'Please attach the slip',
         ];
 
 
@@ -363,7 +363,7 @@ class eWalletController extends Controller
                 return response()->json(['status' => 'success'], 200);
                     } catch (Exception $e) {
                         DB::rollback();
-                        return response()->json(['status' => 'fail','ms'=>'เกิดข้อผิดพลาดกรุณาทำรายการไหม่'], 200);
+                        return response()->json(['status' => 'fail','ms'=>'Error, Please do again!'], 200);
                     }
             }
             return response()->json(['status' => 'fail'], 200);
@@ -386,8 +386,8 @@ class eWalletController extends Controller
         $customer_transfer = Customers::where('id',$customers_id_fk)->first();
 
         if (empty($customer_transfer->expire_date) || strtotime($customer_transfer->expire_date) < strtotime(date('Ymd'))) {
-            $data = ['status'=>'fail','ms'=>'รหัสของคุณไม่มีการ Active ไม่สามารถแจงให้รหัสอื่นได้'];
-            return response()->json(['status' => 'fail','ms'=>'รหัสของคุณไม่มีการ Active ไม่สามารถทำราการโอนได้'], 200);
+            $data = ['status'=>'fail','ms'=>'Your ID is not active. Cannot be JANG to other ID'];
+            return response()->json(['status' => 'fail','ms'=>'Your ID is not active. The transfer cannot be made.'], 200);
 
         }
 
@@ -429,7 +429,7 @@ class eWalletController extends Controller
                 'customers_name_receive' => $customer_receive->user_name,
                 'old_balance'=>$old_balance_receive,
                 'balance'=>$customer_receive->ewallet,
-                'note_orther'=>'ได้รับยอดโอนจาก '.Auth::guard('c_user')->user()->user_name,
+                'note_orther'=>'Received transfer amount from '.Auth::guard('c_user')->user()->user_name,
 
                 // 'balance_recive'=>$customer_receive->ewallet,
                 'type_tranfer'=>'receive',
@@ -449,10 +449,10 @@ class eWalletController extends Controller
             return response()->json(['status' => 'success'], 200);
                 } catch (Exception $e) {
                     DB::rollback();
-                    return response()->json(['status' => 'fail','ms'=>'เกิดข้อผิดพลาดกรุณาทำรายการไหม่'], 200);
+                    return response()->json(['status' => 'fail','ms'=>'Error, Please do again!'], 200);
                 }
         }else{
-            return response()->json(['status' => 'fail','ms'=>'eWallet ของท่านไม่เพียงพอ'], 200);
+            return response()->json(['status' => 'fail','ms'=>'eWallet is not enough'], 200);
             // return redirect('home')->withError('eWallet ของท่านไม่เพียงพอ');
         }
     }
@@ -494,7 +494,7 @@ class eWalletController extends Controller
         ->first();
 
         if (empty($user->expire_date) || strtotime($user->expire_date) < strtotime(date('Ymd'))) {
-            $data = ['status'=>'fail','ms'=>'รหัสของคุณไม่มีการ Active ไม่สามารถแจงให้รหัสอื่นได้'];
+            $data = ['status'=>'fail','ms'=>'Your ID is not active. Cannot be JANG to other ID'];
             return $data;
         }
 
@@ -635,7 +635,7 @@ class eWalletController extends Controller
 
             // }
         }else{
-            $data = ['status'=>'fail','ms'=>'รหัสสมาชิกไม่ถูกต้อง'];
+            $data = ['status'=>'fail','ms'=>'Username Incorrect'];
             return $data;
         }
 
@@ -648,7 +648,7 @@ class eWalletController extends Controller
         $rs_user_name_active = trim($request->user_name_active);
         $rs_user_use  = trim($request->user_use);
         if($rs_user_name_active ==  $rs_user_use){
-            $data = ['status'=>'fail','ms'=>'ไม่สามารถทำรายการโอน PV ให้ตัวเองได้'];
+            $data = ['status'=>'fail','ms'=>'Unable to transfer PV to ownself'];
             return $data;
         }
 
@@ -660,7 +660,7 @@ class eWalletController extends Controller
         ->first();
 
         if (empty($user->expire_date) || strtotime($user->expire_date) < strtotime(date('Ymd'))) {
-            $data = ['status'=>'fail','ms'=>'รหัสของคุณไม่มีการ Active ไม่สามารถแจงให้รหัสอื่นได้'];
+            $data = ['status'=>'fail','ms'=>'Your ID is not active. Cannot be JANG to other ID'];
             return $data;
         }
 
@@ -801,7 +801,7 @@ class eWalletController extends Controller
 
             // }
         }else{
-            $data = ['status'=>'fail','ms'=>'รหัสสมาชิกไม่ถูกต้อง'];
+            $data = ['status'=>'fail','ms'=>'Username Incorrect'];
             return $data;
         }
 
@@ -817,16 +817,16 @@ class eWalletController extends Controller
         $customers_id_fk =  Auth::guard('c_user')->user()->id;
         $customer_withdraw = Customers::where('id',$customers_id_fk)->first();
         if($customer_withdraw->ewallet < $request->amt){
-            return redirect('home')->withError('ยอดทำรายการผิดกรุณาทำรายการไหม่อีกครั้ง');
+            return redirect('home')->withError('The transaction amount is incorrct. Please make a new transaction again.');
         }
 
         if($customer_withdraw->ewallet_use < $request->amt){
-            return redirect('home')->withError('ยอดทำรายการผิดกรุณาทำรายการไหม่อีกครั้ง');
+            return redirect('home')->withError('The transaction amount is incorrct. Please make a new transaction again.');
         }
 
         if(empty($customer_withdraw->expire_date) || (strtotime($customer_withdraw->expire_date) < strtotime(date('Y-m-d'))) )
         {
-         return redirect('home')->withError('วันที่รักษายอดไม่เพียงพอ');
+         return redirect('home')->withError('Days when maintaining balance is not enough');
         }else{
         // $y = date('Y') + 543;
         // $y = substr($y, -2);
@@ -855,10 +855,10 @@ class eWalletController extends Controller
             $customer_withdraw->save();
             $query =  eWallet::create($dataPrepare);
             DB::commit();
-            return redirect('home')->withSuccess('ทำรายการถอดสำเร็จ');
+            return redirect('home')->withSuccess('Withdraw Success');
         }catch (\Exception $e) {
             DB::rollback();
-            return redirect('home')->withSuccess('ทำรายการถอดไม่สำเร็จกรุณาทำรายการไหม่');
+            return redirect('home')->withSuccess('Failed to Withdraw, Please withdraw again!');
         }
 
 

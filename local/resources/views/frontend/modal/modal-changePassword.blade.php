@@ -5,7 +5,7 @@
             <form id="form_change_password" method="post">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="changePassModalLabel">เปลี่ยนรหัสผ่าน สำหรับเข้าใช้ระบบ</h5>
+                    <h5 class="modal-title" id="changePassModalLabel">Change Password for Login</h5>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -16,12 +16,12 @@
                         <input type="password" class="form-control" id="" name="password" placeholder="">
                     </div> --}}
                     <div class="mb-3">
-                        <label for="" class="form-label">รหัสผ่านใหม่ ที่ต้องการเปลี่ยน</label>
+                        <label for="" class="form-label">New Password</label>
                         <small for="" class="fs-12 text-danger password_new_err  _err"></small>
                         <input type="password" class="form-control" id="" name="password_new" placeholder="">
                     </div>
                     <div class="mb-3">
-                        <label for="" class="form-label">ยืนยันรหัสผ่าน ที่ต้องการเปลี่ยน</label>
+                        <label for="" class="form-label">Confirm New Password</label>
                         <small for="" class="fs-12 text-danger password_new_comfirm_err  _err"></small>
                         <input type="password" class="form-control" id="" name="password_new_comfirm"
                             placeholder="">
@@ -32,15 +32,15 @@
                         <input class="form-check-input" type="checkbox" name="check_comfirm" value="1"
                             id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
-                            ยืนยันการเปลี่ยนรหัสผ่าน สำหรับการใช้งานระบบ
+                            Confirm New Password for Login
                         </label>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between border-0">
                     <button type="button" class="btn btn-outline-dark rounded-pill"
-                        data-bs-dismiss="modal">ยกเลิก</button>
+                        data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-p1 rounded-pill d-flex align-items-center"><i
-                            class='bx bxs-save me-2'></i>บันทึกการเปลี่ยนรหัสผ่าน</button>
+                            class='bx bxs-save me-2'></i>Save</button>
                 </div>
             </form>
         </div>

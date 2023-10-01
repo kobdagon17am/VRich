@@ -197,7 +197,7 @@
                                                 <span class="text-danger file_card_err _err"></span>
                                                 <label for="file_card" class="file-upload__label"><i
                                                         class='bx bx-upload'></i>
-                                                    อัพโหลดเอกสาร</label>
+                                                    Upload</label>
                                                 <input id="file_card" class="file-upload__input" type="file"
                                                     accept="image/*" name="file_card">
                                             </div>
@@ -303,7 +303,7 @@
                                 <div class="row text-center mb-2">
                                     <div class="col-md-12 col-xl-12">
                                         <button type="submit" class="btn btn-success rounded-pill">Submit</button>
-                                        <button class="btn btn-danger rounded-pill">Submit</button>
+                                        <button class="btn btn-danger rounded-pill">Cancel</button>
                                     </div>
 
                                 </div>
@@ -545,30 +545,31 @@
 
 
 
-                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">ผู้รับผลประโยชน์</div>
+                            <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Benefits</div>
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="alert alert-danger d-flex align-items-center mb-0" role="alert">
                                         <i class='bx bxs-error me-2'></i>
                                         <div>
-                                            ถ้าไม่กรอกถือว่าผู้รับผลประโยชน์จะเป็นผู้รับผลประโยชน์ตามกฎหมาย
+                                            If not filled-in, It is considered that the beneficiary will be the legal beneficiary.
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-xl-4">
-                                    <label for="" class="form-label">ชื่อ <span
+                                    <label for="" class="form-label">First Name <span
                                             class="text-danger name_benefit_err _err "></span></label>
                                     <input type="text" name="name_benefit" class="form-control" id=""
                                         value="{{ @$info_benefit->name }}" readonly>
                                 </div>
                                 <div class="col-md-6 col-xl-4">
-                                    <label for="" class="form-label">นามสกุล <span
+                                    <label for="" class="form-label">Last Name <span
                                             class="text-danger last_name_benefit_err _err "></span></label>
                                     <input type="text" name="last_name_benefit" class="form-control" id=""
                                         value="{{ @$info_benefit->last_name }}" readonly>
                                 </div>
                                 <div class="col-md-6 col-xl-4 mb-3">
-                                    <label for="" class="form-label">เกี่ยวข้องเป็น <span
+                                    <label for="" class="form-label">
+                                        Family Relations <span
                                             class="text-danger involved_err _err "></span></label>
                                     <input type="text" name="involved" class="form-control" id=""
                                         value="{{ @$info_benefit->involved }}" readonly>

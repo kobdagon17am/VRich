@@ -8,9 +8,9 @@
                     <div class="col-lg-12">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('Order') }}">รายการสินค้า</a></li>
-                                <li class="breadcrumb-item active text-truncate" aria-current="page"> ยืนยันรายการสินค้า
+                                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('Order') }}">Product List</a></li>
+                                <li class="breadcrumb-item active text-truncate" aria-current="page"> Confirm Product List
                                 </li>
                             </ol>
                         </nav>
@@ -34,7 +34,7 @@
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                <h4 class="card-title">รูปแบบการจัดส่ง</h4>
+                                                <h4 class="card-title">Delivery</h4>
                                                 <div class="row g-3">
                                                     <div class="col-md-12 col-xl-12 mb-3">
                                                         <div class="form-check form-check-inline">
@@ -43,7 +43,7 @@
                                                                 onclick="sent_type('customer')" value="sent_type_customer"
                                                                 checked="checked">
                                                             <label class="form-check-label"
-                                                                for="option1R">ซื้อให้ตัวเอง</label>
+                                                                for="option1R">Buy ownself</label>
                                                         </div>
                                                         {{-- <div class="form-check form-check-inline">
                                                             <input class="form-check-input radio" type="radio"
@@ -98,17 +98,17 @@
                                                         <div class="card">
 
                                                             <div class="card-body">
-                                                                <h6>รหัสของลูกทีมซื้อสินค้า(PV เป็นของลูกทีม)</h6>
+                                                                <h6>Username of the member purchasing the product (PV belongs to the member)</h6>
                                                                 <div class="input-group mb-3">
                                                                     <input type="text" id="username"
-                                                                        class="form-control" placeholder="รหัสสมาชิก"
+                                                                        class="form-control" placeholder="Username"
                                                                         aria-label="Username"
                                                                         aria-describedby="button-addon2">
                                                                     <button class="btn btn-primary" type="button"
-                                                                        onclick="check()">ยืนยันรหัสสมาชิก</button>
+                                                                        onclick="check()">Confirm Username</button>
                                                                 </div>
                                                                 <span style="font-size: 12px"
-                                                                    class="text-danger">*คะแนนการสั่งซื้อจะถูกใช้ให้กับลูกทีมที่เลือก</span>
+                                                                    class="text-danger">*PT will be spent on the selected member.</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -129,7 +129,7 @@
                                                                     </div>
                                                                     <div class="col-8 col-xxl-9">
 
-                                                                        <p id="text_username">รหัสสมาชิก : PS97 (ตำแหน่ง)
+                                                                        <p id="text_username">Username : PS97 (Position)
                                                                         </p>
                                                                         <p id="text_name"> จันทราวรรณ</p>
                                                                             {{-- <p class="fs-12">
@@ -155,20 +155,20 @@
                                                 </div>
 
 
-                                                <h4 class="card-title">ที่อยู่ผู้รับสินค้า</h4>
+                                                <h4 class="card-title">Receiver's Address</h4>
                                                 <div class="row g-3">
                                                         <div class="col-md-12 col-xl-12 mb-3">
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input radio" type="radio" onchange="sent_address('sent_address')"
                                                                 id="sent_address_check" name="receive" value="sent_address"
                                                                 checked="checked">
-                                                                <label class="form-check-label" for="option1R">จัดส่ง</label>
+                                                                <label class="form-check-label" for="option1R">Delivery</label>
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input radio" type="radio" id="sent_other"
                                                                 onchange="sent_address('sent_other')" name="receive"
                                                                 value="sent_address_other">
-                                                                <label class="form-check-label" for="option2R">อื่นๆ</label>
+                                                                <label class="form-check-label" for="option2R">Others</label>
                                                             </div>
 
                                                         </div>
@@ -177,14 +177,14 @@
                                                     <div id="i_sent_address">
                                                         <div class="row g-3" >
                                                             <div class="col-md-4 col-xl-4">
-                                                                <label for="" class="form-label">ชื่อผู้รับ <span
+                                                                <label for="" class="form-label">First Name <span
                                                                         class="text-danger same_address_err _err">*</span></label>
                                                                 <input type="text" name="name" class="form-control "
                                                                     id="" value="{{ $customer->prefix_name }} {{ $customer->name }} {{ $customer->last_name }}" required>
                                                             </div>
 
                                                             <div class="col-md-4 col-xl-4">
-                                                                <label for="" class="form-label">โทรศัพท์ <span class="text-danger phone_err _err">*</span></label>
+                                                                <label for="" class="form-label">Phone <span class="text-danger phone_err _err">*</span></label>
                                                                 <input name="phone" type="text" class="form-control" name="phone" value="{{ @$address->phone }}">
                                                             </div>
 
@@ -192,31 +192,31 @@
                                                             </div>
 
                                                             <div class="col-md-3 col-xl-3">
-                                                                <label for="" class="form-label">ที่อยู่ <span
+                                                                <label for="" class="form-label">Address<span
                                                                         class="text-danger same_address_err _err">*</span></label>
                                                                 <input type="text" name="house_no" class="form-control"
                                                                 value="{{ @$address->address }}" readonly="">
                                                             </div>
                                                             <div class="col-md-2 col-xl-2">
-                                                                <label for="" class="form-label">หมู่ที่ <span
+                                                                <label for="" class="form-label">Moo <span
                                                                         class="text-danger same_moo_err _err">*</span></label>
                                                                 <input type="text" name="moo" class="form-control"
                                                                 value="{{ @$address->moo }}" readonly="">
                                                             </div>
                                                             <div class="col-md-3 col-xl-3">
-                                                                <label for="" class="form-label">ซอย <span
+                                                                <label for="" class="form-label">Soi <span
                                                                         class="text-danger same_soi_err _err">*</span></label>
                                                                 <input type="text" name="soi" value="{{ @$address->soi }}" class="form-control"
                                                                 readonly="">
                                                             </div>
                                                             <div class="col-md-4 col-xl-4">
-                                                                <label for="" class="form-label">ถนน <span
+                                                                <label for="" class="form-label">Road <span
                                                                         class="text-danger same_road_err _err">*</span></label>
                                                                 <input type="text" name="road" class="form-control"
                                                                 value="{{ @$address->road }}" readonly="">
                                                             </div>
                                                             <div class="col-md-6 col-xl-4">
-                                                                <label for="province" class="form-label">จังหวัด</label>
+                                                                <label for="province" class="form-label">Province</label>
                                                                 <label class="form-label text-danger same_province_err _err"></label>
 
 
@@ -229,7 +229,7 @@
                                                             </div>
                                                             <div class="col-md-6 col-xl-4">
 
-                                                                <label for="district" class="form-label">อำเภอ/เขต</label>
+                                                                <label for="district" class="form-label">District</label>
                                                                 <label class="form-label text-danger same_district_err _err"></label>
 
 
@@ -239,7 +239,7 @@
                                                                 value="{{@$address->district_name}}" readonly="">
                                                             </div>
                                                             <div class="col-md-6 col-xl-4">
-                                                                <label for="tambon" class="form-label">ตำบล</label>
+                                                                <label for="tambon" class="form-label">Subdistrict</label>
                                                                 <label class="form-label text-danger same_tambon_err _err"></label>
 
                                                                 <input name="tambon_id" type="hidden" class="form-control"
@@ -248,7 +248,7 @@
                                                                 value="{{@$address->tambon_name}}" readonly="">
                                                             </div>
                                                             <div class="col-md-6 col-xl-4">
-                                                                <label for="" class="form-label">รหัสไปรษณีย์ <span
+                                                                <label for="" class="form-label">Zipcode <span
                                                                         class="text-danger same_zipcode_err _err ">*</span></label>
                                                                 <input id="zipcode" name="zipcode" type="text"
                                                                     class="form-control"  value="{{ @$address->zipcode }}"  readonly>
@@ -263,10 +263,10 @@
 
                                                         <div class="alert alert-warning icons-alert">
 
-                                                            <p><strong>Warning!</strong> <code>ไม่มีข้อมูลที่อยู่การจัดส่งสินค้า
-                                                                    กรุณาตั้งค่าก่อนชำระเงิน</code> <a
+                                                            <p><strong>Warning!</strong> <code>There is no shipping address,
+                                                                Please setting before paying.</code> <a
                                                                     href="{{ route('editprofile') }}"
-                                                                    class="pcoded-badge label label-warning ">ตั้งค่า คลิ๊ก!!</a></p>
+                                                                    class="pcoded-badge label label-warning ">Setting CLICK!!</a></p>
                                                         </div>
 
                                                     </div>
@@ -277,7 +277,7 @@
 
                                                     <div class="row g-3" >
                                                         <div class="col-md-4 col-xl-4">
-                                                            <label for="" class="form-label">ชื่อผู้รับ <span
+                                                            <label for="" class="form-label">First Name <span
                                                                     class="text-danger same_address_err _err">*</span></label>
                                                             <input type="text" name="sam_name" class="form-control "
                                                                 id="" >
@@ -285,36 +285,36 @@
 
 
                                                         <div class="col-md-6 col-xl-4 mb-3">
-                                                            <label for="" class="form-label">โทรศัพท์ </label>
+                                                            <label for="" class="form-label">Phone </label>
                                                             <input type="text" name="same_phone" class="form-control address_same_card"
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-5">
-                                                            <label for="" class="form-label">ที่อยู่ <span
+                                                            <label for="" class="form-label">Address <span
                                                                     class="text-danger same_address_err _err">*</span></label>
                                                             <input type="text" name="same_address" class="form-control address_same_card"
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-3">
-                                                            <label for="" class="form-label">หมู่ที่ <span
+                                                            <label for="" class="form-label">Moo <span
                                                                     class="text-danger same_moo_err _err">*</span></label>
                                                             <input type="text" name="same_moo" class="form-control address_same_card"
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
-                                                            <label for="" class="form-label">ซอย <span
+                                                            <label for="" class="form-label">Soi <span
                                                                     class="text-danger same_soi_err _err">*</span></label>
                                                             <input type="text" name="same_soi" class="form-control address_same_card"
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
-                                                            <label for="" class="form-label">ถนน <span
+                                                            <label for="" class="form-label">Road <span
                                                                     class="text-danger same_road_err _err">*</span></label>
                                                             <input type="text" name="same_road" class="form-control address_same_card"
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
-                                                            <label for="province" class="form-label">จังหวัด</label>
+                                                            <label for="province" class="form-label">Province</label>
                                                             <label class="form-label text-danger same_province_err _err"></label>
                                                             <select class="form-select address_same_card select_same" name="same_province"
                                                                 id="same_province">
@@ -329,7 +329,7 @@
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
 
-                                                            <label for="district" class="form-label">อำเภอ/เขต</label>
+                                                            <label for="district" class="form-label">District</label>
                                                             <label class="form-label text-danger same_district_err _err"></label>
                                                             <select class="form-select address_same_card select_same" name="same_district"
                                                                 id="same_district" disabled readonly>
@@ -337,7 +337,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
-                                                            <label for="tambon" class="form-label">ตำบล</label>
+                                                            <label for="tambon" class="form-label">Subdistrict</label>
                                                             <label class="form-label text-danger same_tambon_err _err"></label>
                                                             <select class="form-select address_same_card select_same" name="same_tambon"
                                                                 id="same_tambon" disabled readonly>
@@ -345,7 +345,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
-                                                            <label for="" class="form-label">รหัสไปรษณีย์ <span
+                                                            <label for="" class="form-label">Zipcode <span
                                                                     class="text-danger same_zipcode_err _err ">*</span></label>
                                                             <input id="same_zipcode" name="same_zipcode" type="text"
                                                                 class="form-control address_same_card" id="">
@@ -365,13 +365,13 @@
                                             <div class="card-body">
                                                 <div class="row">
 
-                                                        <h4>วิธีการชำระเงิน</h4>
+                                                        <h4>Payment Mothod</h4>
                                                         <div class="col-12 col-md-12">
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="radio" name="type_pay"
                                                                 id="flexRadioDefault1" value="e-wallet" checked>
                                                             <label class="form-check-label" for="flexRadioDefault1">
-                                                                หักเงิน eWallet
+                                                                eWallet
                                                             </label>
                                                         </div>
                                                     </div>
@@ -385,7 +385,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="flex-grow-1 ms-3">
-                                                                        <h5>eWallet  คงเหลือ</h5>
+                                                                        <h5>eWallet balance</h5>
                                                                         <h5 class="text-p1  mb-0 fw-bold">{{number_format(Auth::guard('c_user')->user()->ewallet,2)}}</h5>
                                                                     </div>
                                                                 </div>
@@ -394,19 +394,19 @@
                                                     </div>
                                                     </div>
 
-                                                <h4>สรุปรายการสั่งซื้อ</h4>
+                                                <h4>ORDER SUMMARY</h4>
                                                 <hr>
 
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <p class="mb-2">มูลค่าสินค้า ({{Cart::session(1)->getTotalQuantity()}}) ชิ้น</p>
+                                                        <p class="mb-2">Price ({{Cart::session(1)->getTotalQuantity()}}) Piece</p>
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
                                                         <p class="mb-2">{{ number_format(Cart::session(1)->getTotal(),2) }} {!!$dataset_currency->icon!!}</p>
                                                     </div>
 
                                                     <div class="col-md-6">
-                                                        <p class="mb-2">PV รวม</p>
+                                                        <p class="mb-2">Total PT</p>
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
                                                         <?php
@@ -425,7 +425,7 @@
                                                         <p class="mb-2">{{ number_format($pv_total) }} PT</p>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <p class="mb-2">ค่าส่ง</p>
+                                                        <p class="mb-2">Shipping cost</p>
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
                                                         @if($dataset_currency->id == 1)
@@ -447,7 +447,7 @@
                                                 <hr>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <p class="mb-2">ราคาสุทธิ</p>
+                                                        <p class="mb-2">Grand Total</p>
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
 
@@ -462,9 +462,9 @@
                                                 <div class="text-center">
 
                                                     <button type="submit"
-                                                    class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center">ยืนยันคำสั่งซื้อ</button>
+                                                    class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center">Confirm Order</button>
                                                 <a href="{{ route('cancel_order') }}" type="button"
-                                                    class="btn btn-outline-dark rounded-pill w-100 mb-2 justify-content-center">ยกเลิก</a>
+                                                    class="btn btn-outline-dark rounded-pill w-100 mb-2 justify-content-center">Cancel</a>
 
 
 
@@ -490,7 +490,7 @@
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                 <div class="modal-content borderR25">
                     <div class="modal-header justify-content-center">
-                        <h5 class="modal-title" id="depositModal3Label">ซื้อให้ลูกทีม</h5>
+                        <h5 class="modal-title" id="depositModal3Label">Buy to member</h5>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -506,7 +506,7 @@
 
 
 
-                                <p id="modal_text_username">รหัสสมาชิก : PS97 (ตำแหน่ง)</p>
+                                <p id="modal_text_username">Username : PS97 (Position)</p>
                                 <p id="modal_name"> จันทราวรรณ
                                 </p>
                                 {{-- <p class="fs-12">
@@ -562,17 +562,17 @@
 
                         if (data['status'] == 'success') {
 
-                            document.getElementById("modal_text_username").innerHTML = 'รหัสสมาชิก : ' + data['data'][
+                            document.getElementById("modal_text_username").innerHTML = 'Username : ' + data['data'][
                                 'user_name'
                             ] + ' (' + data['data']['qualification_name'] + ')';
-                            document.getElementById("modal_name").innerHTML = 'คุณ ' + data['data']['name'] + ' ' + data[
+                            document.getElementById("modal_name").innerHTML = 'K. ' + data['data']['name'] + ' ' + data[
                                 'data']['last_name'];
 
 
                             var sent_to_customer_username = data['data']['user_name'];
                             document.getElementById("confirm_pay_sent_customer").innerHTML =
                                 '<button type="button" class="btn btn-p1 rounded-pill"  onclick="data_direct_confirm(\'' +
-                                sent_to_customer_username + '\')">ยืนยันรหัสสมาชิก</button>';
+                                sent_to_customer_username + '\')">Confirm Username</button>';
 
 
                             $("#modal_check").modal('show');
@@ -608,9 +608,9 @@
 
                         if (data['status'] == 'success') {
 
-                            document.getElementById("text_username").innerHTML = 'รหัสสมาชิก : ' + data['data'][
+                            document.getElementById("text_username").innerHTML = 'Username : ' + data['data'][
                                 'user_name'] + ' (' + data['data']['qualification_name'] + ')';
-                            document.getElementById("text_name").innerHTML = 'คุณ ' + data['data']['name'] + ' ' + data[
+                            document.getElementById("text_name").innerHTML = 'K. ' + data['data']['name'] + ' ' + data[
                                 'data']['last_name'];
 
                             $('#customers_sent_user_name').val(data['data']['user_name']);

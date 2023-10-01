@@ -71,7 +71,7 @@ Vrich herbal coffee
                   <div class="justify-content-center" style="margin-top: 10px">
 
                     <b style="color: #fff">Interested in becoming a member? Contact</b>
-                    <p style="color: #fff">{{ $rs['data']->name }} {{ $rs['data']->last_name }} รหัส {{ $rs['data']->user_name }}
+                    <p style="color: #fff">{{ $rs['data']->name }} {{ $rs['data']->last_name }}, Username {{ $rs['data']->user_name }}
                     @if ($rs['data']->email)
                     <br><b>Email :</b> {{ $rs['data']->email }}
                     @endif
@@ -85,7 +85,7 @@ Vrich herbal coffee
                             style="margin: 5px;" class="img-fluid" width="30" alt="..."> </a>
                 @endif
                 @if ($rs['data']->line_id)
-                <a href="https://line.me/ti/p/{{ $rs['data']->line_id }}" > <img
+                <a href="https://line.me/ti/p/~{{ $rs['data']->line_id }}" > <img
                             src="{{ asset('frontend/salepage/img/line.png') }}" style="margin: 5px;"
                             class="img-fluid" width="30" alt="..."> </a>
                 @endif
@@ -124,7 +124,7 @@ Vrich herbal coffee
               </a>
           @endif
           @if ($rs['data']->line_id)
-              <a href="https://line.me/ti/p/{{ $rs['data']->line_id }}" class="buttons" title="line" data-toggle="tooltip"
+              <a href="https://line.me/ti/p/~{{ $rs['data']->line_id }}" class="buttons" title="line" data-toggle="tooltip"
                   data-placement="left">
                   <img src="{{ asset('frontend/salepage/img/line.png') }}" style="margin-top: -16px;" class="img-fluid"
                       width="50" alt="...">

@@ -8,8 +8,8 @@
                     <div class="col-lg-12">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('home')}}">{{ __('text.Home') }}</a></li>
-                                <li class="breadcrumb-item active text-truncate" aria-current="page"> {{ __('text.BuyProduct') }}</li>
+                                <li class="breadcrumb-item"><a href="{{route('home')}}"> Home </a></li>
+                                <li class="breadcrumb-item active text-truncate" aria-current="page"> Buy Product </li>
                             </ol>
                         </nav>
                     </div>
@@ -20,7 +20,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <h4 class="card-title mb-0">{{ __('text.Productlist') }}</h4>
+                                        <h4 class="card-title mb-0"> Productlist </h4>
 
                                         <hr class="mt-0">
 
@@ -28,7 +28,7 @@
 
                                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                                 <li class="nav-item" role="presentation">
-                                                  <button class="nav-link active" id="all" data-bs-toggle="tab" data-bs-target="#all-pane" type="button" role="tab" aria-controls="all-pane" aria-selected="true">ทังหมด</button>
+                                                  <button class="nav-link active" id="all" data-bs-toggle="tab" data-bs-target="#all-pane" type="button" role="tab" aria-controls="all-pane" aria-selected="true">ALL Product</button>
                                                 </li>
                                                 {{-- <li class="nav-item" role="presentation">
                                                   <button class="nav-link" id="one-tab" data-bs-toggle="tab" data-bs-target="#one-tab-pane" type="button" role="tab" aria-controls="one-tab-pane" aria-selected="false">สินค้าแยกชิ้น</button>
@@ -80,7 +80,7 @@
                                                                             <button type="button"
                                                                                 onclick="view_detail({{ $value->products_id }});"
                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
-                                                                                {{ __('text.Addtocard') }} <i
+                                                                                Add Product <i
                                                                                     class="fa fa-cart-plus f-20"></i></button>
                                                                         </div>
                                                                     </div>
@@ -132,7 +132,7 @@
                                                                                             <button type="button"
                                                                                                 onclick="view_detail({{ $value->products_id }});"
                                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
-                                                                                                {{ __('text.Addtocard') }} <i
+                                                                                                Add Product <i
                                                                                                     class="fa fa-cart-plus f-20"></i></button>
                                                                                         </div>
                                                                                     </div>
@@ -186,7 +186,7 @@
                                                                                             <button type="button"
                                                                                                 onclick="view_detail({{ $value->products_id }});"
                                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
-                                                                                                {{ __('text.Addtocard') }} <i
+                                                                                                Add Product <i
                                                                                                     class="fa fa-cart-plus f-20"></i></button>
                                                                                         </div>
                                                                                     </div>
@@ -239,7 +239,7 @@
                                                                                             <button type="button"
                                                                                                 onclick="view_detail({{ $value->products_id }});"
                                                                                                 class="btn btn-sm w-100 btn-p1 rounded-pill  mb-2 justify-content-center">
-                                                                                                {{ __('text.Addtocard') }} <i
+                                                                                                Add Product <i
                                                                                                     class="fa fa-cart-plus f-20"></i></button>
                                                                                         </div>
                                                                                     </div>
@@ -303,7 +303,7 @@
             <div class="modal-dialog">
                 <div class="modal-content borderR25">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="ProductDetailLabel">รายละเอียดสินค้า</h5>
+                        <h5 class="modal-title" id="ProductDetailLabel">Detail</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -337,8 +337,8 @@
 
 
                         <button type="button" class="btn btn-outline-dark rounded-pill"
-                            data-bs-dismiss="modal">ยกเลิก</button>
-                        <button type="button" class="btn btn-p1 rounded-pill" onclick="addcart()">ยืนยัน</button>
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-p1 rounded-pill" onclick="addcart()">Confirm</button>
                     </div>
                 </div>
             </div>
@@ -395,7 +395,7 @@
                             $('#member_price').html(data['product']['product_price_member_usd']+' $');
                         }
 
-                        $('#pv').html(data['product']['pv'] + ' PV');
+                        $('#pv').html(data['product']['pv'] + ' PT');
                         $('#product_id').val(product_id);
                         uel_link= url_asset+''+data['product']['product_image_url']+''+data['product']['product_image_name'];
                         var url = '<img id="img" src="'+uel_link+'" class="mw-100 mb-2">';

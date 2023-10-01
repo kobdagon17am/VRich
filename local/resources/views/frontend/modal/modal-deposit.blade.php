@@ -5,7 +5,7 @@
             @csrf
             <div class="modal-content borderR25">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="depositModalLabel">ฝากเงินเข้า eWallet</h5>
+                    <h5 class="modal-title" id="depositModalLabel">Deposit eWallet</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="alert alert-purple p-2 h-82 borderR10">
-                                <p class="small">eWallet คงเหลือ</p>
+                                <p class="small">eWallet balance</p>
                                 <p class="text-end mb-0"><span class="h5 text-purple1 bg-opacity-100">
                                         {{ Auth::guard('c_user')->user()->ewallet }} </span>฿</p>
                             </div>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="row gx-3 mb-3">
                                 <span class="text-danger amt_err _err"></span>
-                                <label for="" class="col-sm-4 col-md-5 col-form-label">ยอดที่ต้องการเติมเงิน
+                                <label for="" class="col-sm-4 col-md-5 col-form-label">eWallet Deposit Amount
                                     <span class="text-danger">*</span></label>
                                 <div class="col-sm-8 col-md-6">
                                     <input type="text" name="amt" step="0.01"
@@ -59,7 +59,7 @@
                             </div>
                             <div class="row gx-3 mb-3">
                                 <span class="text-danger upload_err _err"></span>
-                                <label for="" class="col-sm-4 col-form-label">แนบสลิปโอนเงิน <span
+                                <label for="" class="col-sm-4 col-form-label">Attach money transfer slip <span
                                         class="text-danger ">*</span></label>
                                 <div class="col-sm-8">
 
@@ -71,11 +71,11 @@
                                                 </div>
                                             </div>
                                             <div class="upload__mess">
-                                                <p class="count_img hidden_ms">จำนวนรูปภาพสูงสุด:<strong
+                                                <p class="count_img hidden_ms">Maximum number of pictures:<strong
                                                         class="count_img_var">1</strong></p>
-                                                <p class="size_img hidden_ms">ขนาดรูปภาพสูงสุด:<strong
+                                                <p class="size_img hidden_ms">Maximum image size:<strong
                                                         class="size_img_var">5 Mb</strong></p>
-                                                <p class="file_types hidden_ms">ประเภทไฟล์ที่อนุญาต:<strong
+                                                <p class="file_types hidden_ms">File Type:<strong
                                                         class="file_types_var">jpg, png</strong></p>
                                             </div>
                                         </div>
@@ -87,7 +87,7 @@
                     <div class="alert alert-warning d-flex align-items-center" role="alert">
                         <i class='bx bxs-info-circle me-2'></i>
                         <div>
-                            การฝากเงิน eWallet ขั้นต่ำ = 10 USD
+                            Minimum eWallet deposit = 10 USD
                         </div>
                     </div>
                     <!--
@@ -101,9 +101,9 @@
                 </div>
                 <div class="modal-footer justify-content-between border-0">
                     <button type="button" class="btn btn-outline-dark rounded-pill"
-                        data-bs-dismiss="modal">ยกเลิก</button>
+                        data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" disabled class="btn btn-p1 rounded-pill d-flex align-items-center"><i
-                            class='bx bxs-check-circle me-2'></i>ทำรายการ</button>
+                            class='bx bxs-check-circle me-2'></i>Submut</button>
                 </div>
             </div>
         </form>
@@ -114,12 +114,12 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content borderR25">
             <div class="modal-header justify-content-center">
-                <h5 class="modal-title" id="depositModal2Label">ยืนยันการฝากเงินเข้า eWallet</h5>
+                <h5 class="modal-title" id="depositModal2Label">Confirm Deposit eWallet</h5>
             </div>
             <div class="modal-body">
                 <div class="row gx-2 justify-content-center">
                     <div class="col-sm-8">
-                        <p class="mb-0 text-center">ยืนยันรหัสสมาชิก</p>
+                        <p class="mb-0 text-center">Confirm Username</p>
                         <div class="alert alert-white p-2 borderR10">
                             <div class="d-flex">
                                 <div class="flex-shrink-0">
@@ -135,9 +135,9 @@
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-12">
-                        <h5 class="text-center">จำนวน eWallet ที่ต้องการจะฝาก</h5>
+                        <h5 class="text-center">eWallet Deposit Amount</h5>
                         <div class="card p-2 borderR10 mb-3 text-center">
-                            <h4 class="mb-0 text-purple1 bg-opacity-100">4,000.00 บาท</h4>
+                            <h4 class="mb-0 text-purple1 bg-opacity-100">4,000.00 baht</h4>
                         </div>
                     </div>
                 </div>
@@ -151,10 +151,10 @@
             </div>
             <div class="modal-footer justify-content-between border-0">
                 <button type="button" class="btn btn-outline-dark rounded-pill" data-bs-target="#depositModal2"
-                    data-bs-toggle="modal">ยกเลิก</button>
+                    data-bs-toggle="modal">Cancel</button>
                 <button type="button" class="btn btn-p1 rounded-pill d-flex align-items-center"
                     data-bs-target="#depositModal3" data-bs-toggle="modal"><i
-                        class='bx bxs-check-circle me-2'></i>ยืนยันทำรายการ</button>
+                        class='bx bxs-check-circle me-2'></i>Submit</button>
             </div>
         </div>
     </div>
@@ -164,26 +164,26 @@
     <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content borderR25">
             <div class="modal-header justify-content-center">
-                <h5 class="modal-title" id="depositModal3Label">คุณได้ทำรายการฝากเงินเรียบร้อยแล้ว</h5>
+                <h5 class="modal-title" id="depositModal3Label">You have completed eWallet deposit</h5>
             </div>
             <div class="modal-body">
                 <div class="row gx-2">
                     <div class="col-sm-12">
-                        <h5 class="text-center">จำนวน eWallet ที่ทำรายการฝาก</h5>
+                        <h5 class="text-center">eWallet Deposit Amount</h5>
                         <div class="card p-2 borderR10 mb-3 text-center">
-                            <h4 class="mb-0 text-purple1 bg-opacity-100">4,000.00 บาท</h4>
+                            <h4 class="mb-0 text-purple1 bg-opacity-100">4,000.00 baht</h4>
                         </div>
                     </div>
                 </div>
                 <div class="row gx-2">
                     <div class="col-sm-12 text-center">
                         <i class='far fa-check-circle text-success fa-5x mb-3'></i>
-                        <h5 class="text-center">รอการตรวจสอบรายการ<br>และอนุมัติจากแอดมิน</h5>
+                        <h5 class="text-center">Waiting for verification<br>and approved by admin</h5>
                     </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-center border-0">
-                <button type="button" class="btn btn-p1 rounded-pill" data-bs-dismiss="modal">ตกลง</button>
+                <button type="button" class="btn btn-p1 rounded-pill" data-bs-dismiss="modal">Submit</button>
             </div>
         </div>
     </div>
@@ -353,10 +353,10 @@
 
                     Swal.fire({
                         icon: 'success',
-                        title: 'บันทึกสำเร็จ',
+                        title: 'Success',
                         showCancelButton: false,
                         confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'ปิด',
+                        confirmButtonText: 'Close',
 
                     }).then((result) => {
                         location.href = "eWallet-TranferHistory";

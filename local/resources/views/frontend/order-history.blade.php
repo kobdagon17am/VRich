@@ -11,8 +11,8 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('home')}}">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active text-truncate" aria-current="page">ประวัติการสั่งซื้อ</li>
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                            <li class="breadcrumb-item active text-truncate" aria-current="page">Order History</li>
                         </ol>
                     </nav>
                 </div>
@@ -48,7 +48,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <h4 class="card-title mb-0">ประวัติการสั่งซื้อ</h4>
+                                    <h4 class="card-title mb-0">Order History</h4>
                                 </div>
                                 <div class="col-sm-6 text-md-end">
                                     {{-- <button type="button" class="btn btn-info rounded-pill mb-2"><i
@@ -58,7 +58,7 @@
                             <div class="row justify-content-md-end">
                                 <div class="col-lg-4 col-xl-3 ">
                                     <div class="alert alert-success p-2 mb-0" role="alert">
-                                        <p class="mb-0 text-lg-end">PV สั่งซื้อสินค้าสะสม <b>{{number_format(Auth::guard('c_user')->user()->pv_all)}}</b> PV</p>
+                                        <p class="mb-0 text-lg-end">Total PT <b>{{number_format(Auth::guard('c_user')->user()->pv_all)}}</b> PT</p>
                                     </div>
                                 </div>
                             </div>
@@ -105,16 +105,16 @@
                 "lengthMenu": "แสดง _MENU_ แถว",
                 "zeroRecords": "ไม่พบข้อมูล",
                 "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
-                "search": "ค้นหา",
+                "search": "Search",
                 "infoEmpty": "",
                 "infoFiltered": "",
                 "paginate": {
-                    "first": "หน้าแรก",
-                    "previous": "ย้อนกลับ",
-                    "next": "ถัดไป",
-                    "last": "หน้าสุดท้าย"
+                    "first": "First",
+                    "previous": "Previous",
+                    "next": "Next",
+                    "last": "Last"
                 },
-                'processing': "กำลังโหลดข้อมูล",
+                'processing': "Loading",
             },
             ajax: {
                 url: '{{ route('history_datable') }}',
@@ -157,24 +157,24 @@
                 // },
                 {
                     data: "date",
-                    title: "วันที่ทำรายการ",
+                    title: "Transaction Date",
                     className: "w-10 text-center",
                 },
                 {
                     data: "code_order",
-                    title: "เลขที่ออเดอร์",
+                    title: "Order No.",
                     className: "w-10 text-center",
 
                 },
                 {
                     data: "user",
-                    title: "ผู้รับสินค้า",
+                    title: "Receiver",
                     className: "w-10 text-center",
 
                 },
                 {
                     data: "quantity",
-                    title: "จำนวน",
+                    title: "Amount",
                     className: "w-10 text-center",
 
                 },
@@ -186,7 +186,7 @@
                 },
                 {
                     data: "total_price",
-                    title: "ราคา",
+                    title: "Price",
                     className: "w-10 text-end",
 
                 },
@@ -198,7 +198,7 @@
                 },
                 {
                     data: "tracking",
-                    title: "เช็คสถานะการจัดส่ง",
+                    title: "Tracking No.",
                     className: "w-10 text-center",
 
                     // className: "table-report__action w-10 text-center",

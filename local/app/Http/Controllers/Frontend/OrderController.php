@@ -47,7 +47,7 @@ class OrderController extends Controller
     {
 
          Cart::session(1)->clear();
-         return redirect('Order')->withSuccess('ยกเลิกรายการสั่งซื้อเรียบร้อย');
+         return redirect('Order')->withSuccess('Order canceled successfully');
 
     }
 
@@ -233,7 +233,7 @@ class OrderController extends Controller
         $quantity = Cart::session(1)->getTotalQuantity();
 
         if($quantity  == 0){
-            return redirect('Order')->withWarning('ไม่มีสินค้าในตะกร้าสินค้า กรุณาเลือกสินค้า');
+            return redirect('Order')->withWarning('There is no any product in the shopping cart, Please Select!');
         }
 
 
@@ -342,9 +342,9 @@ class OrderController extends Controller
                     'value' => $request->productQty,
                 ),
             ));
-            return redirect('cart')->withSuccess('แก้ไขจำนวนสำเร็จ');
+            return redirect('cart')->withSuccess('Number edited successfully');
         }else{
-            return redirect('cart')->withError('ไม่สามารถแก้ไขจำนวนสินค้าได้');
+            return redirect('cart')->withError('Unable to edit product quantity');
 
         }
 
@@ -420,7 +420,7 @@ class OrderController extends Controller
         // dd($orders_detail);
 
         if(count($orders_detail) <= 0){
-            return redirect('order_history')->withWarning('ไม่มีข้อมูลการสั่งซื้อเลขบิลนี้');
+            return redirect('order_history')->withWarning('There is no ordering information for this tracking number.');
         }
 
         return view('frontend/order-detail',compact('orders_detail'));

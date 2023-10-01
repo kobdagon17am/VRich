@@ -528,7 +528,7 @@ class ConfirmCartController extends Controller
             $order_update->order_status_id_fk = 5;
 
 
-            $resule = ['status' => 'success', 'message' => 'สั่งซื้อสินค้าสำเร็จ'];
+            $resule = ['status' => 'success', 'message' => 'Order Success'];
 
             $order_update->save();
             $customer_update->save();

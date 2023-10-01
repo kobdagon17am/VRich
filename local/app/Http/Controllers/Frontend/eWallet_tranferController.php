@@ -192,77 +192,81 @@ class eWallet_tranferController extends Controller
              $text_type = "";
              if($query->customers_id_receive == Auth::guard('c_user')->user()->id){
                  if ($type  == 1) {
-                     $text_type = "ฝากเงิน";
+                     $text_type = "Deposit";
                  }
                  if ($type  == 2) {
-                     $text_type = "รับเงิน";
+                     $text_type = "Receive";
                  }
                  if ($type  == 3) {
-                     $text_type = "ถอนเงิน";
+                     $text_type = "Withdraw";
                  }
                  if ($type  == 4) {
-                     $text_type = "ซื้อสินค้า";
+                     $text_type = "Buy products";
                  }
                  if ($type  == 5) {
-                     $text_type = "แจงลูกค้าประจำ";
+                     $text_type = "Jang regular customers";
                  }
                  if ($type  == 6) {
-                     $text_type = "บริหารทีมลูกค้าประจำ";
+                     $text_type = "
+                     Manage a team of regular customers";
                  }
                  if ($type  == 7) {
-                     $text_type = "สนับสนุนสินค้า";
+                     $text_type = "
+                     Product support";
                  }
                  if ($type  == 8) {
-                     $text_type = "โบนัสบริหารทีม";
+                     $text_type = "
+                     Team management bonus";
                  }
                  if ($type  == 9) {
-                     $text_type = "โบนัสเจ้าของลิขสิทธิ์";
+                     $text_type = "Copyright owner bonus";
                  }
 
                  if ($type  == 10) {
-                     $text_type = "โบนัสโบนัสขยายธุรกิจ";
+                     $text_type = "Business expansion bonus";
                  }
 
                  if ($type  == 11) {
-                     $text_type = "โบนัสสร้างทีม";
+                     $text_type = "
+                     Team building bonus";
                  }
 
              }else{
 
                  if ($type  == 1) {
-                     $text_type = "ฝากเงิน";
+                     $text_type = "Deposit";
                  }
                  if ($type  == 2) {
-                     $text_type = "โอนเงิน";
+                     $text_type = "Receive";
                  }
                  if ($type  == 3) {
-                     $text_type = "ถอนเงิน";
+                     $text_type = "Withdraw";
                  }
                  if ($type  == 4) {
-                     $text_type = "ซื้อสินค้า";
+                     $text_type = "Buy products";
                  }
                  if ($type  == 5) {
-                     $text_type = "แจงลูกค้าประจำ";
+                     $text_type = "Jang regular customer";
                  }
                  if ($type  == 6) {
-                     $text_type = "บริหารทีมลูกค้าประจำ";
+                     $text_type = "Manage a team of regular customers";
                  }
                  if ($type  == 7) {
-                     $text_type = "สนับสนุนสินค้า";
+                     $text_type = "Product support";
                  }
                  if ($type  == 8) {
-                     $text_type = "โบนัสบริหารทีม";
+                     $text_type = "Team management bonus";
                  }
                  if ($type  == 9) {
-                     $text_type = "โบนัสเจ้าของลิขสิทธิ์";
+                     $text_type = "Copyright owner bonus";
                  }
 
                  if ($type  == 10) {
-                     $text_type = "โบนัสโบนัสขยายธุรกิจ";
+                     $text_type = "Business expansion bonus";
                  }
 
                  if ($type  == 11) {
-                     $text_type = "โบนัสสร้างทีม";
+                     $text_type = "Team building bonus";
                  }
 
 
@@ -274,21 +278,21 @@ class eWallet_tranferController extends Controller
              $status = $query->status;
 
              if ($status == 1) {
-                 $status = "รออนุมัติ";
+                 $status = "Waiting for approval";
                  $status_bg = "warning";
 
              }
              if ($status == 2) {
-                 $status = "อนุมัติ";
+                 $status = "Approved";
                  $status_bg = "success";
 
              }
              if ($status == 3) {
-                 $status = "ไม่อนุมัติ";
+                 $status = "Not approved";
                  $status_bg = "danger";
              }
              if ($status == 4) {
-                 $status = "ยกเลิก";
+                 $status = "Cancel";
                  $status_bg = "danger";
              }
              $html ='<span class="badge bg-'.$status_bg.'">'.$status.'</span>';

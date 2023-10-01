@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="card-footer bg-transparent">
-                            <span class="label-xs">{{ __('text.Business Opportunnity') }}</span>
+                            <span class="label-xs">{{ __('Sponsor') }}</span>
                             @if(Auth::guard('c_user')->user()->introduce_id != 'AA')
                             <?php
 
@@ -110,7 +110,7 @@
                                 {{ @$upline->name }} {{ @$upline->last_name }}</span>
                             @else
 
-                            <span class="badge bg-light text-dark fw-light"> It's the starting code (no suggestions)
+                            <span class="badge bg-light text-dark fw-light">First Member (No Sponser)
 
 
                             @endif
@@ -133,10 +133,10 @@
                                     </div>
                                     <div class="flex-grow-1 ms-3 text-start">
                                         <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">{{ __('text.Income') }}</h5>
+                                            <h5 class="mb-0">Income</h5>
                                             <h5 class="text-p1 text-end mb-0 fw-bold">  {{ number_format(Auth::guard('c_user')->user()->bonus_total, 2) }} </h5>
                                         </div>
-                                        <p class="fs-12 text-secondary mb-0">{{ __('text.Bonus Management') }}</p>
+                                        <p class="fs-12 text-secondary mb-0">Income</p>
                                     </div>
                                 </div>
                             </button>
@@ -169,24 +169,24 @@
                                             <h5 class="text-p1 text-end mb-0 fw-bold">
                                                 {{ number_format(Auth::guard('c_user')->user()->ewallet, 2) }}</h5>
                                         </div>
-                                        <p class="fs-12 text-secondary mb-0">{{ __('text.Ewallet Mangament') }}</p>
+                                        <p class="fs-12 text-secondary mb-0">Wallet Mangament</p>
                                     </div>
                                 </div>
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li><a onclick="resetForm()" class="dropdown-item" type="button" data-bs-toggle="modal"
-                                        data-bs-target="#depositModal">{{ __('text.Depositewallet') }}</a></li>
+                                        data-bs-target="#depositModal"> Deposit ewallet </a></li>
                                 {{-- <li><a class="dropdown-item" type="button" data-bs-toggle="modal"
                                         data-bs-target="#transferModal">{{ __('text.Transferewallet') }}</a></li> --}}
                                 <li><a class="dropdown-item" type="button"
-                                        id="withdraw">{{ __('text.Withdrawewallet') }}</a></li>
+                                        id="withdraw_2">Withdraw eWallet</a></li>
                                 <li><a class="dropdown-item"
-                                        href="{{ route('eWallet_history') }}">{{ __('text.Historyewallet') }}</a></li>
+                                        href="{{ route('eWallet_history') }}">History eWallet</a></li>
 
 
                                 <li><a class="dropdown-item"
-                                    href="{{ route('eWallet-TranferHistory') }}"> Deposit history eWallet </a></li>
+                                    href="{{ route('eWallet-TranferHistory') }}">History Deposit eWallet</a></li>
                             </ul>
                         </div>
                     </div>
@@ -263,7 +263,7 @@
                                 <li><a class="dropdown-item" target="_blank" href="{{url($user_name.'/2')}}"">Vrich herbal coffee</a></li>
 
                                 <li><a class="dropdown-item"
-                                        href="!#"> Sale Page Setting </a></li>
+                                        href="{{route('SalepageSetting')}}"> Sale Page Setting </a></li>
                             </ul>
                         </div>
                     </div>
@@ -626,24 +626,24 @@
                                         <h5 class="text-p1 text-end mb-0 fw-bold">
                                             {{ number_format(Auth::guard('c_user')->user()->ewallet, 2) }}</h5>
                                     </div>
-                                    <p class="fs-12 text-secondary mb-0">{{ __('text.Ewallet Mangament') }}</p>
+                                    <p class="fs-12 text-secondary mb-0">Wallet Mangament</p>
                                 </div>
                             </div>
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <li><a onclick="resetForm()" class="dropdown-item" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#depositModal">{{ __('text.Depositewallet') }}</a></li>
+                                    data-bs-target="#depositModal">Deposit eWallet</a></li>
                             {{-- <li><a class="dropdown-item" type="button" data-bs-toggle="modal"
                                     data-bs-target="#transferModal">{{ __('text.Transferewallet') }}</a></li> --}}
                             <li><a class="dropdown-item" type="button"
-                                    id="withdraw">{{ __('text.Withdrawewallet') }}</a></li>
+                                    id="withdraw">Withdraw eWallet</a></li>
                             <li><a class="dropdown-item"
-                                    href="{{ route('eWallet_history') }}">{{ __('text.Historyewallet') }}</a></li>
+                                    href="{{ route('eWallet_history') }}">History eWallet</a></li>
 
 
                             <li><a class="dropdown-item"
-                                href="{{ route('eWallet-TranferHistory') }}"> deposit history eWallet </a></li>
+                                href="{{ route('eWallet-TranferHistory') }}">History Deposit eWallet</a></li>
                         </ul>
                     </div>
                 </div>
@@ -659,10 +659,10 @@
                                 </div>
                                 <div class="flex-grow-1 ms-3 text-start">
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="mb-0">{{ __('text.Income') }}</h5>
+                                        <h5 class="mb-0">Income</h5>
                                         <h5 class="text-p1 text-end mb-0 fw-bold">  {{ number_format(Auth::guard('c_user')->user()->bonus_total, 2) }} </h5>
                                     </div>
-                                    <p class="fs-12 text-secondary mb-0">{{ __('text.Bonus Management') }}</p>
+                                    <p class="fs-12 text-secondary mb-0">Bonus Management</p>
                                 </div>
                             </div>
                         </button>
@@ -849,11 +849,12 @@
     </script>
     <script>
         $('#withdraw').click(function() {
-            $('#withdrawModal').modal('hide')
+
+            $('#withdrawModal').modal('hide');
             id = <?= Auth::guard('c_user')->user()->id ?>;
             $.ajax({
                 type: "post",
-                url: '{{ route('check_customerbank') }}',
+                url: "{{ route('check_customerbank') }}",
                 asyns: true,
                 data: {
                     _token: "{{ csrf_token() }}",
@@ -866,14 +867,42 @@
                             title: 'An error occurred',
                             text: 'Please fill in bank information!',
                         }).then((result) => {
-                            location.href = '{{ route('editprofile') }}';
+                            location.href = "{{ route('editprofile') }}";
                         });
                     } else {
-                        $('#withdrawModal').modal('show')
+                        $('#withdrawModal').modal('show');
                     }
                 }
             });
         })
+
+        $('#withdraw_2').click(function() {
+
+            $('#withdrawModal').modal('hide');
+            id = <?= Auth::guard('c_user')->user()->id ?>;
+            $.ajax({
+                type: "post",
+                url: "{{ route('check_customerbank') }}",
+                asyns: true,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    id: id,
+                },
+                success: function(data) {
+                    if (data == "fail") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'An error occurred',
+                            text: 'Please fill in bank information!',
+                        }).then((result) => {
+                            location.href = "{{ route('editprofile') }}";
+                        });
+                    } else {
+                        $('#withdrawModal').modal('show');
+                    }
+                }
+            });
+            })
     </script>
     <script>
         $('#customers_id_receive').change(function() {

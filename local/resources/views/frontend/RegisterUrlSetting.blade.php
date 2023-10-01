@@ -8,7 +8,7 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Register Url</li>
                         </ol>
                     </nav>
@@ -66,7 +66,7 @@
                                                 </div>
 
 
-                                                <h5>{{ __('text.MemberID') }} :
+                                                <h5>USERNAME :
                                                     {{ Auth::guard('c_user')->user()->user_name }}
                                                     <?php
                                                      $position = \App\Http\Controllers\Frontend\FC\AllFunctionController::position(Auth::guard('c_user')->user()->qualification_id);
@@ -98,9 +98,10 @@
                                         </div>
                                     </div>
                                     <div class="card-footer bg-transparent">
-                                        <span class="label-xs">ผู้มอบโอกาสทางธุรกิจ</span>
+                                        <span class="label-xs">
+                                            Sponser</span>
 
-                                        <span class="badge bg-light text-dark fw-light"> เป็นรหัสต้นสาย(ไม่มีผู้แนะนำ)
+                                        <span class="badge bg-light text-dark fw-light"> First Member (NO Sponser)
 
 
                                         </span>

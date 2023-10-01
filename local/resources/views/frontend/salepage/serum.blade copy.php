@@ -73,7 +73,7 @@ Vrich Smooth&Bright up Serum
                 <div class="justify-content-center" style="margin-top: 10px">
 
                   <b style="color: #fff">สนใจสมัครสมาชิกติดต่อ</b>
-                  <p style="color: #fff">คุณ {{ $rs['data']->name }} {{ $rs['data']->last_name }} รหัส {{ $rs['data']->user_name }}
+                  <p style="color: #fff">คุณ {{ $rs['data']->name }} {{ $rs['data']->last_name }}, Username {{ $rs['data']->user_name }}
                   @if ($rs['data']->email)
                   <br><b>Email :</b> {{ $rs['data']->email }}
                   @endif
