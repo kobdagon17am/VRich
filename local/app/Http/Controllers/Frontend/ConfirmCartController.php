@@ -185,7 +185,7 @@ class ConfirmCartController extends Controller
 
 
         if(empty(@$rs->user_name)){
-            $data = array('status' => 'fail','ms'=>'กรุณากรอกข้อมูลรหัสที่สั่งซื้อให้ลูกทีม');
+            $data = array('status' => 'fail','ms'=>'Please fill in the code you ordered for your team member.');
             return $data;
         }else{
             $sent_user_name = $rs->user_name ;
@@ -194,7 +194,7 @@ class ConfirmCartController extends Controller
         $user_name = Auth::guard('c_user')->user()->user_name;
 
         if(strtoupper($user_name) == strtoupper($rs->user_name) ){
-            $data = array('status' => 'fail','ms'=>'สั่งซื้อให้เฉพาะลูกทีมเท่านั้น');
+            $data = array('status' => 'fail','ms'=>'Order for only team members.');
             return $data;
         }
 
@@ -261,7 +261,7 @@ class ConfirmCartController extends Controller
             $insert_db_orders->address_sent = 'system';
 
             if(empty($rs->province_id) || empty($rs->zipcode)){
-                return redirect('confirm_cart')->withError('กรุณากรอกที่อยู่ก่อนทำการซื้อสินค้า');
+                return redirect('confirm_cart')->withError('Please enter your address before purchasing.');
 
             }
             $insert_db_orders->delivery_province_id = $rs->province_id;
@@ -280,7 +280,7 @@ class ConfirmCartController extends Controller
 
         }else{
             if(empty($rs->same_province) || empty($rs->same_zipcode)){
-                return redirect('confirm_cart')->withError('กรุณากรอกที่อยู่ก่อนทำการซื้อสินค้า');
+                return redirect('confirm_cart')->withError('Please enter your address before purchasing.');
 
             }
 
@@ -309,7 +309,7 @@ class ConfirmCartController extends Controller
         $quantity = Cart::session(1)->getTotalQuantity();
 
         if($quantity  == 0){
-            return redirect('Order')->withWarning('สั่งซื้อไม่เสร็จ กรุณาทำรายการไหม่');
+            return redirect('Order')->withWarning('Order not completed Please make a new transaction.');
         }
         $i=0;
         $products_list = array();
@@ -356,6 +356,102 @@ class ConfirmCartController extends Controller
                     $shipping_arr_th[] = 0;
                     $shipping_arr_th[] = 0;
                 }
+
+
+                $db_stock_members = DB::table('db_stock_members')
+                ->where('product_id', '=', $value['id'])
+                ->where('customers_id_fk', '=', $customer_id)
+                ->first();
+                if($db_stock_members){
+                    $amt = $db_stock_members->amt;
+
+                }else{
+                    $amt = 0;
+
+                }
+                $q = $amt+  $value['quantity'];
+                $pv_total =  $value['attributes']['pv'] * $q ;
+                $total_price = $q * $value['price'];
+
+                if($db_stock_members){
+
+
+                    DB::table('db_log_stock_members')->insert([
+
+                        'code_order' => $code_order,
+                        'order_id_fk' => '',
+                        'product_id' => $value['id'],
+                        'user_name' =>$user_name,
+                        'customers_id_fk' =>$customer_id,
+                        'distribution_channel_id_fk' => 3,
+                        'amt_old' => $amt,
+                        'amt' => $value['quantity'],
+                        'amt_new' => $q,
+                        'pv' =>  $value['attributes']['pv'] ,
+                        'pv_total' =>  $pv_total,
+                        'price' => $value['price'],
+                        'price_total' => $total_price,
+                        'product_unit_id_fk' =>@$value['product_unit_id'],
+                        'type'=>'add',
+                        'status'=>'success',
+                        'note' => 'from ordering products',
+
+                    ]);
+
+                        $update_q = DB::table('db_stock_members')
+                            ->where('id',  $db_stock_members->id)
+                            ->update(['amt' => $q,
+                            'price' =>  $value['price'],
+                            'price_total' => $total_price ,
+                            'pv' => $value['attributes']['pv'] ,
+                            'pv_total' => $pv_total ,
+                        ]);
+
+
+
+
+                    }else{
+                        $q = $value['quantity'];
+
+                        DB::table('db_log_stock_members')->insert([
+                            'code_order' => $code_order,
+                            'order_id_fk' => '',
+                            'product_id' => $value['id'],
+                            'user_name' =>$user_name,
+                            'customers_id_fk' =>$customer_id,
+                            'distribution_channel_id_fk' => 3,
+                            'product_name' =>  $value['name'],
+                            'amt_old' => 0,
+                            'amt' => $value['quantity'],
+                            'amt_new' => $q,
+                            'pv' =>  $value['attributes']['pv'] ,
+                            'pv_total' =>  $pv_total,
+                            'price' => $value['price'],
+                            'price_total' => $total_price,
+                            'product_unit_id_fk' =>@$value['product_unit_id'],
+                            'type'=>'add',
+                            'status'=>'success',
+                            'note' => 'from ordering products',
+
+                        ]);
+
+
+                        DB::table('db_stock_members')->insert([
+                        'product_id' => $value['id'],
+                        'user_name' => $user_name,
+                        'customers_id_fk' =>$customer_id,
+                        'distribution_channel_id_fk' => 3,
+                        'product_name' =>  $value['name'],
+                        'amt' =>$q,
+                        'pv' => $value['attributes']['pv'] ,
+                        'pv_total' =>  $pv_total,
+                        'price' => $value['price'],
+                        'price_total' => $total_price,
+                        'product_unit_id_fk' =>@$value['product_unit_id'],
+
+                    ]);
+
+                    }
 
             }
             $shipping_th = array_sum($shipping_arr_th);
@@ -413,7 +509,7 @@ class ConfirmCartController extends Controller
         $total_price = $price + $shipping_total;
 
         if(Auth::guard('c_user')->user()->ewallet <  $total_price){
-            return redirect('cart')->withWarning('ไม่สามารถชำระเงินได้เนื่องจาก Ewallet ไม่พอสำหรับการจ่าย');
+            return redirect('cart')->withWarning('Unable to pay because Ewallet does not have enough money to pay.');
 
         }
         $insert_db_orders->shipping_price = $shipping_total;
@@ -515,7 +611,7 @@ class ConfirmCartController extends Controller
             $ewallet = $ewallet_old-$order->total_price;
 
             if($ewallet < 0){
-                $resule = ['status' => 'fail', 'message' => 'สั่งซื้อสินค้าไม่สำเร็จ ewallet ของคุณมีไม่เพียงพอ'];
+                $resule = ['status' => 'fail', 'message' => 'Your order was unsuccessful. Your ewallet does not have enough space'];
                 return $resule;
             }else{
                 $customer_update->ewallet =  $ewallet;
@@ -550,7 +646,7 @@ class ConfirmCartController extends Controller
             return $resule;
 
         }else{
-            $resule = ['status' => 'fail', 'message' => 'สั่งซื้อสินค้าไม่สำเร็จ กรุณาเช็ครายการสินค้าในหน้าประวิตสินค้า'];
+            $resule = ['status' => 'fail', 'message' => 'Unsuccessful ordering Please check the product list on the product history page.'];
             return $resule;
         }
 

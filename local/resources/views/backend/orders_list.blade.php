@@ -98,8 +98,11 @@
 
                                         <select class="form-control" name="tracking_type"
                                         id="tracking_type">
-                                        <option value="EMS">EMS</option>
-                                        <option value="Kerry">Kerry</option>
+                                        <option value="EMS"> J&T Express</option>
+                                        <option value="VET Express">VET Express</option>
+                                        <option value="CE Express"> CE Express</option>
+
+
                                     </select>
                                     </div>
 

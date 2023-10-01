@@ -219,11 +219,11 @@
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
-                                <li><a class="dropdown-item" href="{{ route('eWallet_history') }}"> private warehouse</a></li>
+                                <li><a class="dropdown-item" href="{{ route('StockMember') }}"> private warehouse</a></li>
 
-                                <li><a class="dropdown-item"
+                                {{-- <li><a class="dropdown-item"
                                         href="{{ route('eWallet_history') }}">
-                                        List of movements behind the product </a></li>
+                                        List of movements behind the product </a></li> --}}
                             </ul>
                         </div>
                     </div>
@@ -574,11 +574,11 @@
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
-                            <li><a class="dropdown-item" href="{{ route('eWallet_history') }}">
+                            <li><a class="dropdown-item" href="{{ route('StockMember') }}">
                                 private warehouse</a></li>
 
-                            <li><a class="dropdown-item"
-                                    href="{{ route('eWallet_history') }}"> List of movements behind the product </a></li>
+                            {{-- <li><a class="dropdown-item"
+                                    href="{{ route('eWallet_history') }}"> List of movements behind the product </a></li> --}}
                         </ul>
                     </div>
                 </div>

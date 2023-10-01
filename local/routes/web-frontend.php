@@ -110,7 +110,7 @@ Route::get('order_history', 'Frontend\OrderHistoryController@index')->name('orde
 
 Route::get('history_datable', 'Frontend\OrderHistoryController@history_datable')->name('history_datable');
 Route::get('order_detail/{code_order}', 'Frontend\OrderController@order_detail')->name('order_detail');
-
+Route::get('StockMember', 'Frontend\StockMemberController@index')->name('StockMember');
 
 Route::get('cart', 'Frontend\OrderController@cart')->name('cart');
 Route::post('cart_delete', 'Frontend\OrderController@cart_delete')->name('cart_delete');
