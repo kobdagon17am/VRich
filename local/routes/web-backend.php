@@ -69,6 +69,12 @@ Route::get('admin/Blank', function () {
   Route::post('admin/edit_products','Admin\ProductsController@edit_products')->name('admin/edit_products');
 
 
+  Route::get('admin/Products_promotion','Admin\ProductsController@index_promotion')->name('admin/Products_promotion');
+  Route::post('admin/Products_insert_promotion','Admin\ProductsController@insert_promotion')->name('admin/Products_insert_promotion');
+  Route::get('admin/view_products_promotion','Admin\ProductsController@view_products_promotion')->name('admin/view_products_promotion');
+  Route::post('admin/edit_products_promotion','Admin\ProductsController@edit_products_promotion')->name('admin/edit_products_promotion');
+
+
   Route::get('admin/EditProfile', function () {
     return view('backend.admin_edit_member');
   })->name('admin/EditProfile');

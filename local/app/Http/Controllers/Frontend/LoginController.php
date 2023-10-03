@@ -36,7 +36,7 @@ class LoginController extends Controller
             Auth::guard('c_user')->login($get_users);
             return redirect('home');
         }else{
-            return redirect('/')->withError('ไม่มีรหัส '.$req->username.' ในระบบกรุณาเช็ค UserName อีกครั้ง');
+            return redirect('/')->withError('Not UserName '.$req->username.' In the system, please check UserName again');
         }
 
 
@@ -58,7 +58,7 @@ class LoginController extends Controller
     } else if ($get_member) {
 
     if(empty($get_member->name)){
-        return redirect('/')->withError('รหัสของคุณไม่สามารถใช้งานระบบได้ กรุณาติดต่อเจ้าหน้าที่');
+        return redirect('/')->withError('Your code cannot be used by the system. Please contact the staff.');
     }
 
       session()->forget('access_from_admin');

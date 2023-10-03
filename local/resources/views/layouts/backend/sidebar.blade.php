@@ -49,7 +49,10 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="a2" data-parent="#accordionExample">
                     <li>
-                        <a href="{{ route('admin/Products') }}"> สินค้า </a>
+                        <a href="{{ route('admin/Products') }}"> สินค้าทั่วไป </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin/Products_promotion') }}"> สินค้าโปร </a>
                     </li>
                     <li>
                         <a href="{{ route('admin/Category') }}"> หมวดสินค้า </a>
