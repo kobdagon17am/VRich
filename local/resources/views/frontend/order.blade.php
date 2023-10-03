@@ -93,7 +93,7 @@
                                                 </div>
                                                 <div class="tab-pane fade" id="one-tab-pane" role="tabpanel" aria-labelledby="one-tab" tabindex="0">
                                                     <?php
-                                                    $one = \App\Http\Controllers\Frontend\OrderController::product_list(2);
+                                                    $one = \App\Http\Controllers\Frontend\OrderController::product_list('other',2);
 
                                                     ?>
                                                                      <div class="row p-2" >
@@ -147,7 +147,7 @@
 
                                                 <div class="tab-pane fade" id="set-tab-pane" role="tabpanel" aria-labelledby="set-tab" tabindex="0">
                                                     <?php
-                                                    $one = \App\Http\Controllers\Frontend\OrderController::product_list(3);
+                                                    $one = \App\Http\Controllers\Frontend\OrderController::product_list('other',3);
 
                                                     ?>
                                                                      <div class="row p-2" >
@@ -200,7 +200,7 @@
                                                 </div>
                                                 <div class="tab-pane fade" id="promotion-tab-pane" role="tabpanel" aria-labelledby="promotion-tab" tabindex="0">
                                                     <?php
-                                                    $one = \App\Http\Controllers\Frontend\OrderController::product_list(8);
+                                                    $one = \App\Http\Controllers\Frontend\OrderController::product_list('other',8);
 
                                                     ?>
                                                                      <div class="row p-2" >
@@ -424,7 +424,8 @@
                         // dataType: 'json',
                         data: {
                             id: id,
-                            quantity: quantity
+                            quantity: quantity,
+                            type: 'other'
                         },
                     })
                     .done(function(data) {

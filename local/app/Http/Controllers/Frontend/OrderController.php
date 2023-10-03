@@ -36,23 +36,56 @@ class OrderController extends Controller
             ->where('status', '=', 1)
             ->get();
 
-        $product_all = OrderController::product_list();
+        $product_all = OrderController::product_list('other');
 
 
         return view('frontend/order', compact('product_all', 'categories','dataset_currency'));
     }
 
 
-    public function cancel_order()
+
+    public function index_promotion()
+    {
+        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+            $dataset_currency =  1;
+        }else{
+            $dataset_currency =  2;
+        }
+
+        $dataset_currency = DB::table('dataset_currency')
+        ->where('id', '=',$dataset_currency)
+        ->first();
+
+
+        // Cart::session(1)->clear();
+
+        $categories = DB::table('categories')
+            // ->where('lang_id', '=', 1)
+            ->where('status', '=', 1)
+            ->get();
+
+        $product_all = OrderController::product_list('promotion');
+
+
+        return view('frontend/order_promotion', compact('product_all', 'categories','dataset_currency'));
+    }
+
+
+    public function cancel_order($type)
     {
 
-         Cart::session(1)->clear();
-         return redirect('Order')->withSuccess('Order canceled successfully');
+
+         Cart::session($type)->clear();
+         if($type == 'other'){
+            return redirect('Order')->withSuccess('Order canceled successfully');
+         }else{
+            return redirect('Orderpromotion')->withSuccess('Order canceled successfully');
+         }
 
     }
 
 
-    public static function product_list($categories = '')
+    public static function product_list($type,$categories = '')
     {
         if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
             $dataset_currency =  1;
@@ -78,6 +111,7 @@ class OrderController extends Controller
             )
             ->leftjoin('product_images', 'products.id', '=', 'product_images.product_id_fk')
             ->where('products.status', '=', 1)
+            ->where('products.type', '=', $type)
             // ->where('products_cost.business_location_id', '=', 1)
             ->groupby('products.id')
             ->orderby('products.product_price_member_usd')
@@ -177,6 +211,7 @@ class OrderController extends Controller
 
 
 
+
             if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
                 $dataset_currency =  1;
                 $price = $product->product_price_member_th;
@@ -192,7 +227,7 @@ class OrderController extends Controller
             ->first();
 
         if ($product) {
-            Cart::session(1)->add(array(
+            Cart::session($rs->type)->add(array(
                 'id' => $product->products_id, // inique row ID
                 'name' => $product->product_name,
                 'price' =>  $price,
@@ -210,7 +245,7 @@ class OrderController extends Controller
                 ),
             ));
 
-            $getTotalQuantity = Cart::session(1)->getTotalQuantity();
+            $getTotalQuantity = Cart::session($rs->type)->getTotalQuantity();
 
             // $item = Cart::session($request->type)->getContent();
             $data = ['status' => 'success', 'qty' => $getTotalQuantity];
@@ -222,18 +257,26 @@ class OrderController extends Controller
         return $data;
     }
 
-    public function cart()
+    public function cart($type)
     {
 
 
-        $cartCollection = Cart::session(1)->getContent();
+        $cartCollection = Cart::session($type)->getContent();
         $data = $cartCollection->toArray();
 
 
-        $quantity = Cart::session(1)->getTotalQuantity();
+
+        $quantity = Cart::session($type)->getTotalQuantity();
 
         if($quantity  == 0){
-            return redirect('Order')->withWarning('There is no any product in the shopping cart, Please Select!');
+
+            if($type == 'other'){
+                return redirect('Order')->withWarning('There is no any product in the shopping cart, Please Select!');
+            }else{
+                return redirect('Orderpromotion')->withWarning('There is no any product in the shopping cart, Please Select!');
+
+            }
+
         }
 
 
@@ -257,12 +300,10 @@ class OrderController extends Controller
                     $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'] ;
                 }else{
                     $shipping_arr_th[] = 0;
-                    $shipping_arr_th[] = 0;
+                    $shipping_arr_usd[] = 0;
                 }
 
             }
-
-
 
 
             $shipping_th = array_sum($shipping_arr_th);
@@ -285,7 +326,7 @@ class OrderController extends Controller
         ->where('user_name','=',Auth::guard('c_user')->user()->user_name)
         ->first();
 
-        $price = Cart::session(1)->getTotal();
+        $price = Cart::session($type)->getTotal();
         if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
             $dataset_currency =  1;
             $price_total = number_format($price+$shipping_th, 2);
@@ -315,36 +356,49 @@ class OrderController extends Controller
         );
 
 
-
         $dataset_currency = DB::table('dataset_currency')
         ->where('id', '=',$dataset_currency)
         ->first();
 
+        if($type == 'other'){
+            return view('frontend/cart',['type'=>'other'], compact('bill','dataset_currency'));
+        }else{
+            return view('frontend/cart_promotion',['type'=>'promotion'], compact('bill','dataset_currency'));
 
-        return view('frontend/cart', compact('bill','dataset_currency'));
+        }
+
+
     }
 
     public function cart_delete(Request $request)
     {
-        //dd($request->all());
-        Cart::session(1)->remove($request->data_id);
-        return redirect('cart')->withSuccess('Deleted Success');
+
+        Cart::session($request->type)->remove($request->data_id);
+        if( $request->type == 'other'){
+            return redirect('cart/other')->withSuccess('Deleted Success');
+        }else{
+            return redirect('cart/promotion')->withSuccess('Deleted Success');
+        }
+
     }
-
-
 
 
     public function quantity_change(Request $request){
         if ($request->product_id) {
-            Cart::session(1)->update($request->product_id, array(
+            Cart::session($request->type)->update($request->product_id, array(
                 'quantity' => array(
                     'relative' => false,
                     'value' => $request->productQty,
                 ),
             ));
-            return redirect('cart')->withSuccess('Number edited successfully');
+            if( $request->type == 'other'){
+                return redirect('cart/other')->withSuccess('Number edited successfully');
+            }else{
+                return redirect('cart/promotion')->withSuccess('Number edited successfully');
+            }
+
         }else{
-            return redirect('cart')->withError('Unable to edit product quantity');
+            return redirect('cart/other')->withError('Unable to edit product quantity');
 
         }
 

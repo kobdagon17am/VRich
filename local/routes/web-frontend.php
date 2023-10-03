@@ -104,6 +104,9 @@ Route::get('/getZipcode', 'Frontend\AddressController@getZipcode')->name('getZip
 
 // BEGIN หน้า Order
 Route::get('Order', 'Frontend\OrderController@index')->name('Order');
+Route::get('Orderpromotion', 'Frontend\OrderController@index_promotion')->name('Orderpromotion');
+
+
 Route::get('add_cart', 'Frontend\OrderController@add_cart')->name('add_cart');
 
 Route::get('order_history', 'Frontend\OrderHistoryController@index')->name('order_history');
@@ -112,13 +115,13 @@ Route::get('history_datable', 'Frontend\OrderHistoryController@history_datable')
 Route::get('order_detail/{code_order}', 'Frontend\OrderController@order_detail')->name('order_detail');
 Route::get('StockMember', 'Frontend\StockMemberController@index')->name('StockMember');
 
-Route::get('cart', 'Frontend\OrderController@cart')->name('cart');
+Route::get('cart/{type}', 'Frontend\OrderController@cart')->name('cart');
 Route::post('cart_delete', 'Frontend\OrderController@cart_delete')->name('cart_delete');
 Route::get('get_product', 'Frontend\OrderController@get_product')->name('get_product');
 Route::post('quantity_change', 'Frontend\OrderController@quantity_change')->name('quantity_change');
-Route::get('cancel_order', 'Frontend\OrderController@cancel_order')->name('cancel_order');
+Route::get('cancel_order/{type}', 'Frontend\OrderController@cancel_order')->name('cancel_order');
 
-Route::get('confirm_cart', 'Frontend\ConfirmCartController@index')->name('confirm_cart');
+Route::get('confirm_cart/{type}', 'Frontend\ConfirmCartController@index')->name('confirm_cart');
 
 Route::post('check_custome_unline', 'Frontend\ConfirmCartController@check_custome_unline')->name('check_custome_unline');
 

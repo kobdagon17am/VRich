@@ -72,10 +72,10 @@
 
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <p class="mb-2">Price ({{Cart::session('other')->getTotalQuantity()}}) Piece</p>
+                                                            <p class="mb-2">Price ({{Cart::session('promotion')->getTotalQuantity()}}) Piece</p>
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
-                                                            <p class="mb-2">{{ number_format(Cart::session('other')->getTotal(),2) }} {!!$dataset_currency->icon!!}</p>
+                                                            <p class="mb-2">{{ number_format(Cart::session('promotion')->getTotal(),2) }} {!!$dataset_currency->icon!!}</p>
                                                         </div>
 
 
@@ -85,7 +85,7 @@
                                                         </div>
                                                         <div class="col-md-6 text-md-end">
                                                             <?php
-                                                            $cartCollection = Cart::session('other')->getContent();
+                                                            $cartCollection = Cart::session('promotion')->getContent();
                                                             $data = $cartCollection->toArray();
 
                                                             if ($data) {
@@ -127,18 +127,18 @@
                                                         <div class="col-md-6 text-md-end">
 
                                                             @if($dataset_currency->id == 1)
-                                                            <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session('other')->getTotal()+$bill['shipping_th']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                            <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session('promotion')->getTotal()+$bill['shipping_th']) }}</span> {!!$dataset_currency->icon!!}</p>
                                                             @else
-                                                            <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session('other')->getTotal()+$bill['shipping_usd']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                            <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session('promotion')->getTotal()+$bill['shipping_usd']) }}</span> {!!$dataset_currency->icon!!}</p>
                                                             @endif
 
                                                         </div>
                                                     </div>
                                                     <div class="text-center">
 
-                                                        <a href="{{route('confirm_cart',['type'=>'other'])}}" type="button"
+                                                        <a href="{{route('confirm_cart',['type'=>'promotion'])}}" type="button"
                                                             class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center">Confirm Order</a>
-                                                        <a href="{{route('cancel_order',['type'=>'other'])}}" type="button"
+                                                        <a href="{{route('cancel_order',['type'=>'promotion'])}}" type="button"
                                                             class="btn btn-outline-dark rounded-pill w-100 mb-2 justify-content-center">Cancel</a>
                                                     </div>
                                                 </div>
@@ -171,7 +171,7 @@
                             <button type="button  <input " class="btnquantity"></button>
                             <input type="number" name="productQty" id="productQty" class="numQty" value="1" min="1">
                             <input type="hidden" name="product_id" id="product_id">
-                            <input type="hidden" name="type" value="other">
+                            <input type="hidden" name="type" value="promotion">
                             <button type="button" class="btnquantity sp-plus"></button>
                         </div>
                     </div>
@@ -189,7 +189,7 @@
     <form action="" method="POST" id="cart_delete">
         @csrf
         <input type="hidden" id="data_id" name="data_id">
-        <input type="hidden" name="type" value="other">
+        <input type="hidden" name="type" value="promotion">
 
     </form>
 

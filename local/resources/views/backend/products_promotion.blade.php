@@ -13,7 +13,7 @@
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">ระบบสินค้า</li>
-            <li class="breadcrumb-item active" aria-current="page"><span>สินค้า</span></li>
+            <li class="breadcrumb-item active" aria-current="page"><span>สินค้าโปร</span></li>
         </ol>
     </nav>
 @endsection

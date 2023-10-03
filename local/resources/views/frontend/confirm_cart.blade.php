@@ -399,10 +399,10 @@
 
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <p class="mb-2">Price ({{Cart::session(1)->getTotalQuantity()}}) Piece</p>
+                                                        <p class="mb-2">Price ({{Cart::session($bill['type'])->getTotalQuantity()}}) Piece</p>
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
-                                                        <p class="mb-2">{{ number_format(Cart::session(1)->getTotal(),2) }} {!!$dataset_currency->icon!!}</p>
+                                                        <p class="mb-2">{{ number_format(Cart::session($bill['type'])->getTotal(),2) }} {!!$dataset_currency->icon!!}</p>
                                                     </div>
 
                                                     <div class="col-md-6">
@@ -410,7 +410,7 @@
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
                                                         <?php
-                                                        $cartCollection = Cart::session(1)->getContent();
+                                                        $cartCollection = Cart::session($bill['type'])->getContent();
                                                         $data = $cartCollection->toArray();
                                                         if ($data) {
                                                             foreach ($data as $value) {
@@ -452,18 +452,18 @@
                                                     <div class="col-md-6 text-md-end">
 
                                                         @if($dataset_currency->id == 1)
-                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session(1)->getTotal()+$bill['shipping_th']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session($bill['type'])->getTotal()+$bill['shipping_th']) }}</span> {!!$dataset_currency->icon!!}</p>
                                                         @else
-                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session(1)->getTotal()+$bill['shipping_usd']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session($bill['type'])->getTotal()+$bill['shipping_usd']) }}</span> {!!$dataset_currency->icon!!}</p>
                                                         @endif
 
                                                     </div>
                                                 </div>
                                                 <div class="text-center">
-
+                                                    <input type="hidden" name="type" value="{{$bill['type']}}">
                                                     <button type="submit"
                                                     class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center">Confirm Order</button>
-                                                <a href="{{ route('cancel_order') }}" type="button"
+                                                <a href="{{ route('cancel_order',['type'=>$bill['type']]) }}" type="button"
                                                     class="btn btn-outline-dark rounded-pill w-100 mb-2 justify-content-center">Cancel</a>
 
 

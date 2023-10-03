@@ -7,20 +7,25 @@
         </div>
         <div class="order-2 order-md-3 d-inline-flex align-items-center">
 
-
-            <a href="{{route('cart')}}" class="btn btn-outline-light rounded-circle btn-icon position-relative" style="margin-right: 10px">
+            @if(request()->is('Orderpromotion'))
+            <a href="{{route('cart',['type'=>'promotion'])}}" class="btn btn-outline-light rounded-circle btn-icon position-relative" style="margin-right: 10px">
                 <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="count_cart">
-                    {{Cart::session(1)->getTotalQuantity() }}
+                    {{Cart::session('promotion')->getTotalQuantity() }}
                   {{-- <span class="visually-hidden">unread messages</span> --}}
                 </span>
               </a>
-{{--
-              <a type="button" class="btn btn-outline-light me-1 border-0" href="">
-                <i class='bx bxs-cart me-1 bx-sm'></i> <span class="badge bg-white text-p1 font-weight-light">4</span>
-              </a> --}}
 
+              @else
+              <a href="{{route('cart',['type'=>'other'])}}" class="btn btn-outline-light rounded-circle btn-icon position-relative" style="margin-right: 10px">
+                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="count_cart">
+                    {{Cart::session('other')->getTotalQuantity() }}
+                  {{-- <span class="visually-hidden">unread messages</span> --}}
+                </span>
+              </a>
 
+              @endif
 
 
 
@@ -61,6 +66,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{ route('Order') }}">Buy products</a></li>
+                        <li><a class="dropdown-item" href="{{ route('Orderpromotion') }}">Buy products Promotion</a></li>
                         <li><a class="dropdown-item" href="{{ route('order_history') }}">Order history</a></li>
                     </ul>
                 </li>

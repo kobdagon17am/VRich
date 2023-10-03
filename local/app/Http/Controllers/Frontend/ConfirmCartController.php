@@ -21,18 +21,18 @@ class ConfirmCartController extends Controller
     {
         $this->middleware('customer');
     }
-    public function index()
+    public function index($type)
     {
 
 
         $location = '';
-        $cartCollection = Cart::session(1)->getContent();
+        $cartCollection = Cart::session($type)->getContent();
         $data = $cartCollection->toArray();
-        $quantity = Cart::session(1)->getTotalQuantity();
+        $quantity = Cart::session($type)->getTotalQuantity();
         $customer_id = Auth::guard('c_user')->user()->id;
         $user_name = Auth::guard('c_user')->user()->user_name;
 
-        if($quantity  == 0){
+        if ($quantity  == 0) {
             return redirect('Order')->withWarning('There are no products in the shopping cart. Please select a product');
         }
 
@@ -41,40 +41,37 @@ class ConfirmCartController extends Controller
             foreach ($data as $value) {
                 $pv[] = $value['quantity'] * $value['attributes']['pv'];
                 $product_shipping = DB::table('products')
-                ->where('id',$value['id'])
-                ->where('status_shipping','Y')
-                ->first();
+                    ->where('id', $value['id'])
+                    ->where('status_shipping', 'Y')
+                    ->first();
 
 
 
-                if($product_shipping){
+                if ($product_shipping) {
                     //$pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
-                     $product_shipping_th = $product_shipping->shipping_th  ?? '0';
-                     $product_shipping_usd = $product_shipping->shipping_usd  ?? '0';
+                    $product_shipping_th = $product_shipping->shipping_th  ?? '0';
+                    $product_shipping_usd = $product_shipping->shipping_usd  ?? '0';
 
 
-                    $shipping_arr_th[] =  $product_shipping_th * $value['quantity'] ;
-                    $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'] ;
-                }else{
+                    $shipping_arr_th[] =  $product_shipping_th * $value['quantity'];
+                    $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'];
+                } else {
                     $shipping_arr_th[] = 0;
-                    $shipping_arr_th[] = 0;
+                    $shipping_arr_usd[] = 0;
                 }
-
             }
             $shipping_th = array_sum($shipping_arr_th);
             $shipping_usd = array_sum($shipping_arr_usd);
             $pv_total = array_sum($pv);
-
         } else {
 
             $pv_total = 0;
             $shipping_th = 0;
             $shipping_usd = 0;
-
         }
 
         //ราคาสินค้า
-        $price = Cart::session(1)->getTotal();
+        $price = Cart::session($type)->getTotal();
 
         // $province_data = DB::table('customers_address_delivery')
         //     ->select('province_id_fk')
@@ -83,7 +80,7 @@ class ConfirmCartController extends Controller
         // if($province_data){
         //   $data_shipping = ShippingCosController::fc_check_shipping_cos($business_location_id, $province_data->province_id_fk, $price);
         //   if($type == '3'){
-            // $shipping = 0;
+        // $shipping = 0;
         //   }else{
         //     $shipping = $data_shipping['data']->shipping_cost;
         //   }
@@ -93,22 +90,22 @@ class ConfirmCartController extends Controller
         // }
 
         $address = DB::table('customers_address_delivery')
-        ->select('customers_address_delivery.*', 'dataset_provinces.id as province_id', 'dataset_provinces.name_th as province_name', 'dataset_amphures.name_th as tambon_name', 'dataset_amphures.id as tambon_id', 'dataset_districts.id as district_id', 'dataset_districts.name_th as district_name')
-        ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'customers_address_delivery.province')
-        ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'customers_address_delivery.tambon')
-        ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'customers_address_delivery.district')
-        ->where('user_name', '=', $user_name)
-        ->first();
+            ->select('customers_address_delivery.*', 'dataset_provinces.id as province_id', 'dataset_provinces.name_th as province_name', 'dataset_amphures.name_th as tambon_name', 'dataset_amphures.id as tambon_id', 'dataset_districts.id as district_id', 'dataset_districts.name_th as district_name')
+            ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'customers_address_delivery.province')
+            ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'customers_address_delivery.tambon')
+            ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'customers_address_delivery.district')
+            ->where('user_name', '=', $user_name)
+            ->first();
 
 
 
-    //     $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
+        //     $shipping = \App\Http\Controllers\Frontend\ShippingController::fc_shipping($pv_shipping);
 
-    // if($address){
-    //     $shipping_zipcode = \App\Http\Controllers\Frontend\ShippingController::fc_shipping_zip_code($address->zipcode);
-    // }else{
-    //     $shipping_zipcode = ['status'=>'fail','price'=>0,'ms'=>''];
-    // }
+        // if($address){
+        //     $shipping_zipcode = \App\Http\Controllers\Frontend\ShippingController::fc_shipping_zip_code($address->zipcode);
+        // }else{
+        //     $shipping_zipcode = ['status'=>'fail','price'=>0,'ms'=>''];
+        // }
 
 
 
@@ -130,100 +127,109 @@ class ConfirmCartController extends Controller
 
 
         $data_user =  DB::table('customers')
-        ->select('customers.*','dataset_qualification.business_qualifications as qualification_name','dataset_qualification.bonus')
-        ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
-        ->where('user_name','=',Auth::guard('c_user')->user()->user_name)
-        ->first();
+            ->select('customers.*', 'dataset_qualification.business_qualifications as qualification_name', 'dataset_qualification.bonus')
+            ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+            ->where('user_name', '=', Auth::guard('c_user')->user()->user_name)
+            ->first();
         //$discount = floor($pv_total * $data_user->bonus/100);
 
 
 
-        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+        if (Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id)) {
             $dataset_currency =  1;
             $business_location_id = 1;
-            $price_total = number_format($price+$shipping_th, 2);
-        }else{
+            $price_total = number_format($price + $shipping_th, 2);
+        } else {
             $dataset_currency =  2;
-            $business_location_id =Auth::guard('c_user')->user()->business_location_id;
-            $price_total = number_format($price+$shipping_usd, 2);
+            $business_location_id = Auth::guard('c_user')->user()->business_location_id;
+            $price_total = number_format($price + $shipping_usd, 2);
         }
 
         $dataset_currency = DB::table('dataset_currency')
-        ->where('id', '=',$dataset_currency)
-        ->first();
+            ->where('id', '=', $dataset_currency)
+            ->first();
 
         $bill = array(
             'price_total' => $price_total,
-            'shipping_th'=>$shipping_th,
-            'shipping_usd'=>$shipping_usd,
+            'shipping_th' => $shipping_th,
+            'shipping_usd' => $shipping_usd,
             'price' => $price,
             'price_vat' => $price_vat,
             'pv_total' => $pv_total,
             'data' => $data,
-            'bonus'=>$data_user->bonus,
+            'bonus' => $data_user->bonus,
             'price_discount' => $price,
             // 'discount'=>$discount,
-            'position'=>$data_user->qualification_name,
+            'position' => $data_user->qualification_name,
             'quantity' => $quantity,
             'location_id' => $business_location_id,
             'status' => 'success',
+            'type' => $type,
         );
 
         $customer = DB::table('customers')
             ->where('id', '=', Auth::guard('c_user')->user()->id)
             ->first();
 
-            $province = DB::table('dataset_provinces')
+        $province = DB::table('dataset_provinces')
             ->select('*')
-            ->where('business_location_id',$business_location_id)
+            ->where('business_location_id', $business_location_id)
             ->get();
 
-        return view('frontend/confirm_cart', compact('customer', 'address', 'location', 'province', 'bill','dataset_currency'));
+        return view('frontend/confirm_cart', compact('customer', 'address', 'location', 'province', 'bill', 'dataset_currency'));
     }
 
-    public static function check_custome_unline(Request $rs){
+    public static function check_custome_unline(Request $rs)
+    {
 
 
-        if(empty(@$rs->user_name)){
-            $data = array('status' => 'fail','ms'=>'Please fill in the code you ordered for your team member.');
+        if (empty(@$rs->user_name)) {
+            $data = array('status' => 'fail', 'ms' => 'Please fill in the code you ordered for your team member.');
             return $data;
-        }else{
-            $sent_user_name = $rs->user_name ;
+        } else {
+            $sent_user_name = $rs->user_name;
         }
 
         $user_name = Auth::guard('c_user')->user()->user_name;
 
-        if(strtoupper($user_name) == strtoupper($rs->user_name) ){
-            $data = array('status' => 'fail','ms'=>'Order for only team members.');
+        if (strtoupper($user_name) == strtoupper($rs->user_name)) {
+            $data = array('status' => 'fail', 'ms' => 'Order for only team members.');
             return $data;
         }
 
         $data_user =  DB::table('customers')
-        ->select('customers.id','customers.upline_id','customers.user_name','customers.name','customers.last_name','customers.pv','dataset_qualification.business_qualifications as qualification_name',
-      'business_name')
-        ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
-        ->where('user_name','=',$sent_user_name)
-        ->first();
+            ->select(
+                'customers.id',
+                'customers.upline_id',
+                'customers.user_name',
+                'customers.name',
+                'customers.last_name',
+                'customers.pv',
+                'dataset_qualification.business_qualifications as qualification_name',
+                'business_name'
+            )
+            ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+            ->where('user_name', '=', $sent_user_name)
+            ->first();
 
 
 
 
         if ($data_user) {
-          $data = array('status' => 'success', 'data' => $data_user);
+            $data = array('status' => 'success', 'data' => $data_user);
         } else {
-          $data = array('status' => 'fail', 'data' => '','ms'=>'No Username:'.$sent_user_name);
+            $data = array('status' => 'fail', 'data' => '', 'ms' => 'No Username:' . $sent_user_name);
         }
 
 
         return $data;
-
     }
     public function payment_submit(Request $rs)
     {
 
         $insert_db_orders = new Orders();
-        $insert_order_products_list= new Order_products_list();
-        $quantity = Cart::session(1)->getTotalQuantity();
+        $insert_order_products_list = new Order_products_list();
+        $quantity = Cart::session($rs->type)->getTotalQuantity();
         $insert_db_orders->quantity = $quantity;
         $customer_id = Auth::guard('c_user')->user()->id;
 
@@ -233,36 +239,33 @@ class ConfirmCartController extends Controller
 
 
         $insert_db_orders->customers_id_fk = $customer_id;
-        $insert_db_orders->tracking_type =$rs->tracking_type;
+        $insert_db_orders->tracking_type = $rs->tracking_type;
 
         $user_name = Auth::guard('c_user')->user()->user_name;
         $insert_db_orders->customers_user_name = $user_name;
-        if( Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id) ){
+        if (Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id)) {
             $dataset_currency =  1;
             $business_location_id = 1;
-
-        }else{
+        } else {
             $dataset_currency =  2;
-            $business_location_id =Auth::guard('c_user')->user()->business_location_id;
-
+            $business_location_id = Auth::guard('c_user')->user()->business_location_id;
         }
 
         $insert_db_orders->business_location_id_fk =  $business_location_id;
 
-        if($insert_db_orders->sent_type_to_customer =='sent_type_other'){
+        if ($insert_db_orders->sent_type_to_customer == 'sent_type_other') {
             $insert_db_orders->customers_sent_id_fk = $rs->customers_sent_id_fk;
             $insert_db_orders->customers_sent_user_name = $rs->customers_sent_user_name;
             $insert_db_orders->status_payment_sent_other = 1;
-        }else{
+        } else {
             $insert_db_orders->status_payment_sent_other = 0;
         }
 
-        if($rs->receive == 'sent_address'){
+        if ($rs->receive == 'sent_address') {
             $insert_db_orders->address_sent = 'system';
 
-            if(empty($rs->province_id) || empty($rs->zipcode)){
+            if (empty($rs->province_id) || empty($rs->zipcode)) {
                 return redirect('confirm_cart')->withError('Please enter your address before purchasing.');
-
             }
             $insert_db_orders->delivery_province_id = $rs->province_id;
             $insert_db_orders->house_no = $rs->house_no;
@@ -277,11 +280,9 @@ class ConfirmCartController extends Controller
 
             $insert_db_orders->tel = $rs->phone;
             $insert_db_orders->name = $rs->name;
-
-        }else{
-            if(empty($rs->same_province) || empty($rs->same_zipcode)){
+        } else {
+            if (empty($rs->same_province) || empty($rs->same_zipcode)) {
                 return redirect('confirm_cart')->withError('Please enter your address before purchasing.');
-
             }
 
             $insert_db_orders->address_sent = 'other';
@@ -304,25 +305,25 @@ class ConfirmCartController extends Controller
 
         // $location = Location::location($business_location_id, $business_location_id);
         // $location = '';
-        $cartCollection = Cart::session(1)->getContent();
+        $cartCollection = Cart::session($rs->type)->getContent();
         $data = $cartCollection->toArray();
-        $quantity = Cart::session(1)->getTotalQuantity();
+        $quantity = Cart::session($rs->type)->getTotalQuantity();
 
-        if($quantity  == 0){
+        if ($quantity  == 0) {
             return redirect('Order')->withWarning('Order not completed Please make a new transaction.');
         }
-        $i=0;
+        $i = 0;
         $products_list = array();
         if ($data) {
             foreach ($data as $value) {
                 $i++;
                 $total_pv = $value['attributes']['pv'] * $value['quantity'];
-				$total_price = $value['price'] * $value['quantity'];
+                $total_price = $value['price'] * $value['quantity'];
 
                 $insert_db_products_list[] = [
-                    'code_order'=>$code_order,
-                    'product_id_fk'=>$value['id'],
-                    'product_unit_id_fk'=>@$value['product_unit_id'],
+                    'code_order' => $code_order,
+                    'product_id_fk' => $value['id'],
+                    'product_unit_id_fk' => @$value['product_unit_id'],
                     'customers_username' =>  $user_name,
                     'selling_price' =>  $value['price'],
                     'product_name' =>  $value['name'],
@@ -337,12 +338,12 @@ class ConfirmCartController extends Controller
 
 
                 $product_shipping = DB::table('products')
-                ->where('id',$value['id'])
-                ->where('status_shipping','Y')
-                ->first();
+                    ->where('id', $value['id'])
+                    ->where('status_shipping', 'Y')
+                    ->first();
 
 
-                if($product_shipping){
+                if ($product_shipping) {
                     //$pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
 
 
@@ -350,125 +351,119 @@ class ConfirmCartController extends Controller
                     $product_shipping_usd = $product_shipping->shipping_usd  ?? '0';
 
 
-                   $shipping_arr_th[] =  $product_shipping_th * $value['quantity'] ;
-                   $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'] ;
-                }else{
+                    $shipping_arr_th[] =  $product_shipping_th * $value['quantity'];
+                    $shipping_arr_usd[] = $product_shipping_usd * $value['quantity'];
+                } else {
                     $shipping_arr_th[] = 0;
-                    $shipping_arr_th[] = 0;
+                    $shipping_arr_usd[] = 0;
                 }
 
 
                 $db_stock_members = DB::table('db_stock_members')
-                ->where('product_id', '=', $value['id'])
-                ->where('customers_id_fk', '=', $customer_id)
-                ->first();
-                if($db_stock_members){
+                    ->where('product_id', '=', $value['id'])
+                    ->where('customers_id_fk', '=', $customer_id)
+                    ->first();
+                if ($db_stock_members) {
                     $amt = $db_stock_members->amt;
-
-                }else{
+                } else {
                     $amt = 0;
-
                 }
-                $q = $amt+  $value['quantity'];
-                $pv_total =  $value['attributes']['pv'] * $q ;
+                $q = $amt +  $value['quantity'];
+                $pv_total =  $value['attributes']['pv'] * $q;
                 $total_price = $q * $value['price'];
 
-                if($db_stock_members){
+                if ($db_stock_members) {
 
+                    if ($rs->type == 'promotion') {
+                        DB::table('db_log_stock_members')->insert([
 
-                    DB::table('db_log_stock_members')->insert([
+                            'code_order' => $code_order,
+                            'order_id_fk' => '',
+                            'product_id' => $value['id'],
+                            'user_name' => $user_name,
+                            'customers_id_fk' => $customer_id,
+                            'distribution_channel_id_fk' => 3,
+                            'amt_old' => $amt,
+                            'amt' => $value['quantity'],
+                            'amt_new' => $q,
+                            'pv' =>  $value['attributes']['pv'],
+                            'pv_total' =>  $pv_total,
+                            'price' => $value['price'],
+                            'price_total' => $total_price,
+                            'product_unit_id_fk' => @$value['product_unit_id'],
+                            'type' => 'add',
+                            'status' => 'success',
+                            'note' => 'from ordering products',
 
-                        'code_order' => $code_order,
-                        'order_id_fk' => '',
-                        'product_id' => $value['id'],
-                        'user_name' =>$user_name,
-                        'customers_id_fk' =>$customer_id,
-                        'distribution_channel_id_fk' => 3,
-                        'amt_old' => $amt,
-                        'amt' => $value['quantity'],
-                        'amt_new' => $q,
-                        'pv' =>  $value['attributes']['pv'] ,
-                        'pv_total' =>  $pv_total,
-                        'price' => $value['price'],
-                        'price_total' => $total_price,
-                        'product_unit_id_fk' =>@$value['product_unit_id'],
-                        'type'=>'add',
-                        'status'=>'success',
-                        'note' => 'from ordering products',
-
-                    ]);
+                        ]);
 
                         $update_q = DB::table('db_stock_members')
                             ->where('id',  $db_stock_members->id)
-                            ->update(['amt' => $q,
-                            'price' =>  $value['price'],
-                            'price_total' => $total_price ,
-                            'pv' => $value['attributes']['pv'] ,
-                            'pv_total' => $pv_total ,
-                        ]);
+                            ->update([
+                                'amt' => $q,
+                                'price' =>  $value['price'],
+                                'price_total' => $total_price,
+                                'pv' => $value['attributes']['pv'],
+                                'pv_total' => $pv_total,
+                            ]);
+                    }
+                } else {
+                    $q = $value['quantity'];
 
-
-
-
-                    }else{
-                        $q = $value['quantity'];
-
+                    if ($rs->type == 'promotion') {
                         DB::table('db_log_stock_members')->insert([
                             'code_order' => $code_order,
                             'order_id_fk' => '',
                             'product_id' => $value['id'],
-                            'user_name' =>$user_name,
-                            'customers_id_fk' =>$customer_id,
+                            'user_name' => $user_name,
+                            'customers_id_fk' => $customer_id,
                             'distribution_channel_id_fk' => 3,
                             'product_name' =>  $value['name'],
                             'amt_old' => 0,
                             'amt' => $value['quantity'],
                             'amt_new' => $q,
-                            'pv' =>  $value['attributes']['pv'] ,
+                            'pv' =>  $value['attributes']['pv'],
                             'pv_total' =>  $pv_total,
                             'price' => $value['price'],
                             'price_total' => $total_price,
-                            'product_unit_id_fk' =>@$value['product_unit_id'],
-                            'type'=>'add',
-                            'status'=>'success',
+                            'product_unit_id_fk' => @$value['product_unit_id'],
+                            'type' => 'add',
+                            'status' => 'success',
                             'note' => 'from ordering products',
 
                         ]);
 
 
                         DB::table('db_stock_members')->insert([
-                        'product_id' => $value['id'],
-                        'user_name' => $user_name,
-                        'customers_id_fk' =>$customer_id,
-                        'distribution_channel_id_fk' => 3,
-                        'product_name' =>  $value['name'],
-                        'amt' =>$q,
-                        'pv' => $value['attributes']['pv'] ,
-                        'pv_total' =>  $pv_total,
-                        'price' => $value['price'],
-                        'price_total' => $total_price,
-                        'product_unit_id_fk' =>@$value['product_unit_id'],
+                            'product_id' => $value['id'],
+                            'user_name' => $user_name,
+                            'customers_id_fk' => $customer_id,
+                            'distribution_channel_id_fk' => 3,
+                            'product_name' =>  $value['name'],
+                            'amt' => $q,
+                            'pv' => $value['attributes']['pv'],
+                            'pv_total' =>  $pv_total,
+                            'price' => $value['price'],
+                            'price_total' => $total_price,
+                            'product_unit_id_fk' => @$value['product_unit_id'],
 
-                    ]);
-
+                        ]);
                     }
-
+                }
             }
             $shipping_th = array_sum($shipping_arr_th);
             $shipping_usd = array_sum($shipping_arr_usd);
             $pv_total = array_sum($pv);
-
         } else {
             $shipping_th = 0;
             $shipping_usd = 0;
             $pv_total = 0;
-
         }
 
 
 
         //ราคาสินค้า
-        $price = Cart::session(1)->getTotal();
+        $price = Cart::session($rs->type)->getTotal();
 
         // $vat = DB::table('dataset_vat')
         // ->where('business_location_id_fk', '=', $business_location_id)
@@ -477,14 +472,12 @@ class ConfirmCartController extends Controller
 
 
 
-        $insert_db_orders->product_value = $price ;
+        $insert_db_orders->product_value = $price;
 
-        if( $dataset_currency ==  1){
+        if ($dataset_currency ==  1) {
             $shipping_total = $shipping_th;
-
-        }else{
+        } else {
             $shipping_total = $shipping_usd;
-
         }
 
 
@@ -496,10 +489,10 @@ class ConfirmCartController extends Controller
         $insert_db_orders->sum_price = $price;
 
         $data_user =  DB::table('customers')
-        ->select('dataset_qualification.business_qualifications as qualification_name','dataset_qualification.bonus')
-        ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
-        ->where('user_name','=',Auth::guard('c_user')->user()->user_name)
-        ->first();
+            ->select('dataset_qualification.business_qualifications as qualification_name', 'dataset_qualification.bonus')
+            ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+            ->where('user_name', '=', Auth::guard('c_user')->user()->user_name)
+            ->first();
 
         $insert_db_orders->position = $data_user->qualification_name;
         $insert_db_orders->bonus_percent = $data_user->bonus;
@@ -508,17 +501,19 @@ class ConfirmCartController extends Controller
         $insert_db_orders->discount = 0;
         $total_price = $price + $shipping_total;
 
-        if(Auth::guard('c_user')->user()->ewallet <  $total_price){
+        if (Auth::guard('c_user')->user()->ewallet <  $total_price) {
             return redirect('cart')->withWarning('Unable to pay because Ewallet does not have enough money to pay.');
-
         }
         $insert_db_orders->shipping_price = $shipping_total;
         $insert_db_orders->total_price = $total_price;
         $insert_db_orders->pv_total = $pv_total;
         $insert_db_orders->tax = 0;
         $insert_db_orders->tax_total = 0;
+        $insert_db_orders->type = $rs->type;
+
+
         $insert_db_orders->order_status_id_fk = 2;
-        $insert_db_orders->quantity = $quantity ;
+        $insert_db_orders->quantity = $quantity;
         $insert_db_orders->code_order = $code_order;
 
 
@@ -526,43 +521,41 @@ class ConfirmCartController extends Controller
         try {
             DB::BeginTransaction();
 
-        $insert_db_orders->save();
+            $insert_db_orders->save();
 
-        $insert_order_products_list::insert($insert_db_products_list);
+            $insert_order_products_list::insert($insert_db_products_list);
 
-         $run_payment = ConfirmCartController::run_payment($code_order);
+            $run_payment = ConfirmCartController::run_payment($code_order);
 
 
-         Cart::session(1)->clear();
+            Cart::session($rs->type)->clear();
 
-         if($run_payment['status'] == 'success'){
-            DB::commit();
-            return redirect('order_history')->withSuccess($run_payment['message']);
-         }else{
+            if ($run_payment['status'] == 'success') {
+                DB::commit();
+                return redirect('order_history')->withSuccess($run_payment['message']);
+            } else {
+                DB::rollback();
+                return redirect('order_history')->withError($run_payment['message']);
+            }
+        } catch (\Exception $e) {
+
             DB::rollback();
-            return redirect('order_history')->withError($run_payment['message']);
-         }
-
-         } catch (\Exception $e) {
-
-        DB::rollback();
-        // dd($e);
-        // info($e->getMessage());
-        $resule = ['status' => 'fail', 'message' => 'Order Update Fail', 'id' => $insert_db_orders->id];
-        return redirect('Order')->withError('Order Update Fail');
+            // dd($e);
+            // info($e->getMessage());
+            $resule = ['status' => 'fail', 'message' => 'Order Update Fail', 'id' => $insert_db_orders->id];
+            return redirect('Order')->withError('Order Update Fail');
         }
-
-
     }
 
-    public function run_payment($code_order){
+    public function run_payment($code_order)
+    {
         $order = DB::table('db_orders')
-        ->where('code_order', '=',$code_order)
-        ->where('order_status_id_fk', '=',2)
-        ->first();
+            ->where('code_order', '=', $code_order)
+            ->where('order_status_id_fk', '=', 2)
+            ->first();
 
 
-        if($order){
+        if ($order) {
 
             $order_update = Orders::find($order->id);
 
@@ -602,23 +595,23 @@ class ConfirmCartController extends Controller
             $pv_old = $customer_update->pv;
             $order_update->pv_old = $customer_update->pv;
             $ewallet_old = $customer_update->ewallet;
-            $order_update->ewallet_old =$ewallet_old;
+            $order_update->ewallet_old = $ewallet_old;
             $order_update->ewallet_price = $order->total_price;
 
-            $customer_update->pv_all = $pv_all+$order->pv_total;
-            $pv_balance = $customer_update->pv+$order->pv_total;
+            $customer_update->pv_all = $pv_all + $order->pv_total;
+            $pv_balance = $customer_update->pv + $order->pv_total;
             $customer_update->pv = $pv_balance;
-            $ewallet = $ewallet_old-$order->total_price;
+            $ewallet = $ewallet_old - $order->total_price;
 
-            if($ewallet < 0){
+            if ($ewallet < 0) {
                 $resule = ['status' => 'fail', 'message' => 'Your order was unsuccessful. Your ewallet does not have enough space'];
                 return $resule;
-            }else{
+            } else {
                 $customer_update->ewallet =  $ewallet;
             }
 
 
-            $pv_banlance = $customer_update->pv+$order->pv_total;
+            $pv_banlance = $customer_update->pv + $order->pv_total;
             $order_update->pv_banlance = $pv_banlance;
             $order_update->ewallet_banlance = $ewallet;
             $order_update->order_status_id_fk = 5;
@@ -644,15 +637,9 @@ class ConfirmCartController extends Controller
 
             $query =  eWallet::create($dataPrepare);
             return $resule;
-
-        }else{
+        } else {
             $resule = ['status' => 'fail', 'message' => 'Unsuccessful ordering Please check the product list on the product history page.'];
             return $resule;
         }
-
     }
-
-
-
-
 }

@@ -191,11 +191,18 @@
 
                 },
                 {
+                    data: "type",
+                    title: "Type Bill",
+                    className: "w-10 text-center",
+
+                },
+                {
                     data: "detail",
                     title: "Status",
                     className: "w-10 text-center",
 
                 },
+
                 {
                     data: "tracking",
                     title: "Tracking No.",
