@@ -469,6 +469,17 @@
                                                                                 id="product_pv" name="product_pv"
                                                                                 placeholder="คะแนน PV">
                                                                         </div>
+
+                                                                             <div class="col-lg-6 mt-2">
+                                                                        <label><b>ค่าขนส่ง:</b></label>
+                                                                        <select class="form-control"
+                                                                            name="status_shipping" id="status_shipping">
+                                                                            <option value="Y">คิดค่าส่ง
+                                                                            </option>
+                                                                            <option value="N">ไม่คิดค่าส่ง
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
                                                                         <div class="col-lg-6 mt-2">
                                                                             <label><b>สถานะสินค้า:</b></label>
                                                                             <select class="form-control"
@@ -691,6 +702,7 @@
                     $("#product_pv").val(data['data']['product_pv']);
                     $("#product_status").val(data['data']['status']);
                     $("#product_detail").val(data['data']['product_detail']);
+                    $("#status_shipping").val(data['data']['status_shipping']);
 
 
                     $.each(data['img'], function(index, value) {

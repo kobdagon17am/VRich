@@ -266,6 +266,7 @@ class OrderController extends Controller
 
 
 
+
         $quantity = Cart::session($type)->getTotalQuantity();
 
         if($quantity  == 0){
@@ -354,6 +355,7 @@ class OrderController extends Controller
             'status' => 'success',
 
         );
+
 
 
         $dataset_currency = DB::table('dataset_currency')

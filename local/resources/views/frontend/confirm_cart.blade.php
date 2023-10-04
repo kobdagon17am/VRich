@@ -33,18 +33,23 @@
                                         <div class="card card-box borderR10 mb-2 mb-md-0">
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <input type="hidden" name="sent_type_to_customer" value="sent_type_customer">
+
+                                                    @if($bill['type'] == 'promotion')
+                                                <div class="col-md-6">
+
                                                 <h4 class="card-title">Delivery</h4>
+
                                                 <div class="row g-3">
                                                     <div class="col-md-12 col-xl-12 mb-3">
-                                                        <div class="form-check form-check-inline">
+                                                        {{-- <div class="form-check form-check-inline">
                                                             <input class="form-check-input radio" type="radio"
                                                                 name="sent_type_to_customer" id="sent_type_customer"
                                                                 onclick="sent_type('customer')" value="sent_type_customer"
                                                                 checked="checked">
                                                             <label class="form-check-label"
                                                                 for="option1R">Buy ownself</label>
-                                                        </div>
+                                                        </div> --}}
                                                         {{-- <div class="form-check form-check-inline">
                                                             <input class="form-check-input radio" type="radio"
                                                                 name="sent_type_to_customer" value="sent_type_other"
@@ -53,9 +58,28 @@
                                                                 for="option2R">ซื้อให้ลูกทีม</label>
                                                         </div> --}}
 
+
+                                                     <div class="form-check form-check-inline">
+                                                            <input class="form-check-input radio" type="radio"
+                                                                name="sent_stock_type"
+                                                                onclick="sent_stock('send')" value="send"
+                                                                checked="checked">
+                                                            <label class="form-check-label"
+                                                                for="option1R">Send to address</label>
+                                                        </div>
+                                                       <div class="form-check form-check-inline">
+                                                            <input class="form-check-input radio" type="radio"
+                                                                name="sent_stock_type" value="add"
+                                                                 onclick="sent_stock('add')">
+                                                            <label class="form-check-label"
+                                                                for="option2R">Add to Stock</label>
+                                                        </div>
+
                                                     </div>
+
                                                 </div>
                                                     </div>
+                                                    @endif
 {{--
                                                     <div class="col-md-6">
                                                         <h4 class="card-title">เลือกจัดส่งสินค้าโดย </h4>
@@ -429,9 +453,9 @@
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
                                                         @if($dataset_currency->id == 1)
-                                                        <p class="mb-2">{{$bill['shipping_th']}}  {!!$dataset_currency->icon!!}</p>
+                                                        <p class="mb-2" id="shipping">{{$bill['shipping_th']}}  {!!$dataset_currency->icon!!}</p>
                                                         @else
-                                                        <p class="mb-2">{{$bill['shipping_usd']}}  {!!$dataset_currency->icon!!}</p>
+                                                        <p class="mb-2" id="shipping">{{$bill['shipping_usd']}}  {!!$dataset_currency->icon!!}</p>
                                                         @endif
                                                     </div>
 
@@ -452,9 +476,9 @@
                                                     <div class="col-md-6 text-md-end">
 
                                                         @if($dataset_currency->id == 1)
-                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session($bill['type'])->getTotal()+$bill['shipping_th']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5" id="total">{{ number_format(Cart::session($bill['type'])->getTotal()+$bill['shipping_th']) }}</span> {!!$dataset_currency->icon!!}</p>
                                                         @else
-                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5">{{ number_format(Cart::session($bill['type'])->getTotal()+$bill['shipping_usd']) }}</span> {!!$dataset_currency->icon!!}</p>
+                                                        <p class="mb-2 text-purple1"><span class="text-p1 h5" id="total">{{ number_format(Cart::session($bill['type'])->getTotal()+$bill['shipping_usd']) }}</span> {!!$dataset_currency->icon!!}</p>
                                                         @endif
 
                                                     </div>
@@ -731,6 +755,17 @@
             error: function() {}
         })
     });
+
+    function sent_stock(type){
+        if(type == 'add'){
+            $("#shipping").html('0');
+            var total = '{{ number_format(Cart::session($bill['type'])->getTotal()) }}';
+             $("#total").html(total);
+
+        }else{
+            location.reload();
+        }
+    }
     //  END tambon
 </script>
     @endsection

@@ -241,6 +241,8 @@ class ConfirmCartController extends Controller
         $insert_db_orders->customers_id_fk = $customer_id;
         $insert_db_orders->tracking_type = $rs->tracking_type;
 
+
+
         $user_name = Auth::guard('c_user')->user()->user_name;
         $insert_db_orders->customers_user_name = $user_name;
         if (Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id)) {
@@ -375,79 +377,93 @@ class ConfirmCartController extends Controller
                 if ($db_stock_members) {
 
                     if ($rs->type == 'promotion') {
-                        DB::table('db_log_stock_members')->insert([
 
-                            'code_order' => $code_order,
-                            'order_id_fk' => '',
-                            'product_id' => $value['id'],
-                            'user_name' => $user_name,
-                            'customers_id_fk' => $customer_id,
-                            'distribution_channel_id_fk' => 3,
-                            'amt_old' => $amt,
-                            'amt' => $value['quantity'],
-                            'amt_new' => $q,
-                            'pv' =>  $value['attributes']['pv'],
-                            'pv_total' =>  $pv_total,
-                            'price' => $value['price'],
-                            'price_total' => $total_price,
-                            'product_unit_id_fk' => @$value['product_unit_id'],
-                            'type' => 'add',
-                            'status' => 'success',
-                            'note' => 'from ordering products',
-
-                        ]);
-
-                        $update_q = DB::table('db_stock_members')
-                            ->where('id',  $db_stock_members->id)
-                            ->update([
-                                'amt' => $q,
-                                'price' =>  $value['price'],
+                        $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
+                        if($rs->sent_stock_type == 'add'){
+                            DB::table('db_log_stock_members')->insert([
+                                'code_order' => $code_order,
+                                'order_id_fk' => '',
+                                'product_id' => $value['id'],
+                                'user_name' => $user_name,
+                                'customers_id_fk' => $customer_id,
+                                'distribution_channel_id_fk' => 3,
+                                'amt_old' => $amt,
+                                'amt' => $value['quantity'],
+                                'amt_new' => $q,
+                                'pv' =>  $value['attributes']['pv'],
+                                'pv_total' =>  $pv_total,
+                                'price' => $value['price'],
                                 'price_total' => $total_price,
-                                'pv' => $value['attributes']['pv'],
-                                'pv_total' => $pv_total,
+                                'product_unit_id_fk' => @$value['product_unit_id'],
+                                'type' => 'add',
+                                'status' => 'success',
+                                'note' => 'from ordering products',
+
                             ]);
+
+                            $update_q = DB::table('db_stock_members')
+                                ->where('id',  $db_stock_members->id)
+                                ->update([
+                                    'amt' => $q,
+                                    'price' =>  $value['price'],
+                                    'price_total' => $total_price,
+                                    'pv' => $value['attributes']['pv'],
+                                    'pv_total' => $pv_total,
+                                ]);
+                        }
+
+                    }else{
+                        $insert_db_orders->sent_stock_type ='send';
                     }
                 } else {
                     $q = $value['quantity'];
 
                     if ($rs->type == 'promotion') {
-                        DB::table('db_log_stock_members')->insert([
-                            'code_order' => $code_order,
-                            'order_id_fk' => '',
-                            'product_id' => $value['id'],
-                            'user_name' => $user_name,
-                            'customers_id_fk' => $customer_id,
-                            'distribution_channel_id_fk' => 3,
-                            'product_name' =>  $value['name'],
-                            'amt_old' => 0,
-                            'amt' => $value['quantity'],
-                            'amt_new' => $q,
-                            'pv' =>  $value['attributes']['pv'],
-                            'pv_total' =>  $pv_total,
-                            'price' => $value['price'],
-                            'price_total' => $total_price,
-                            'product_unit_id_fk' => @$value['product_unit_id'],
-                            'type' => 'add',
-                            'status' => 'success',
-                            'note' => 'from ordering products',
+                        $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
+                        if($rs->sent_stock_type == 'add'){
+                            DB::table('db_log_stock_members')->insert([
+                                'code_order' => $code_order,
+                                'order_id_fk' => '',
+                                'product_id' => $value['id'],
+                                'user_name' => $user_name,
+                                'customers_id_fk' => $customer_id,
+                                'distribution_channel_id_fk' => 3,
+                                'product_name' =>  $value['name'],
+                                'amt_old' => 0,
+                                'amt' => $value['quantity'],
+                                'amt_new' => $q,
+                                'pv' =>  $value['attributes']['pv'],
+                                'pv_total' =>  $pv_total,
+                                'price' => $value['price'],
+                                'price_total' => $total_price,
+                                'product_unit_id_fk' => @$value['product_unit_id'],
+                                'type' => 'add',
+                                'status' => 'success',
+                                'note' => 'from ordering products',
 
-                        ]);
+                            ]);
 
 
-                        DB::table('db_stock_members')->insert([
-                            'product_id' => $value['id'],
-                            'user_name' => $user_name,
-                            'customers_id_fk' => $customer_id,
-                            'distribution_channel_id_fk' => 3,
-                            'product_name' =>  $value['name'],
-                            'amt' => $q,
-                            'pv' => $value['attributes']['pv'],
-                            'pv_total' =>  $pv_total,
-                            'price' => $value['price'],
-                            'price_total' => $total_price,
-                            'product_unit_id_fk' => @$value['product_unit_id'],
+                            DB::table('db_stock_members')->insert([
+                                'product_id' => $value['id'],
+                                'user_name' => $user_name,
+                                'customers_id_fk' => $customer_id,
+                                'distribution_channel_id_fk' => 3,
+                                'product_name' =>  $value['name'],
+                                'amt' => $q,
+                                'pv' => $value['attributes']['pv'],
+                                'pv_total' =>  $pv_total,
+                                'price' => $value['price'],
+                                'price_total' => $total_price,
+                                'product_unit_id_fk' => @$value['product_unit_id'],
 
-                        ]);
+                            ]);
+
+                        }
+
+                    }else{
+                        $insert_db_orders->sent_stock_type ='send';
+
                     }
                 }
             }
@@ -480,7 +496,9 @@ class ConfirmCartController extends Controller
             $shipping_total = $shipping_usd;
         }
 
-
+        if($rs->sent_stock_type == 'add' and $rs->type == 'promotion'){
+            $shipping_total = 0;
+        }
 
 
 

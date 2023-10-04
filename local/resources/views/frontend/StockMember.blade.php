@@ -44,6 +44,7 @@
                                     <?php
                                     $arr_pv = array();
                                     $arr_pri =  array();
+ 
                                     ?>
                                       @foreach($stock as $value)
                                       <tr id="items">
@@ -61,7 +62,7 @@
                                           <td class="text-center">{{ number_format($value->price_total,2) }}</td>
 
                                           <td class="text-center">{{number_format($value->pv)}}</td>
-                                          <td class="text-center">{{number_format($value->pv)*$value->amt}}</td>
+                                          <td class="text-center">{{number_format($value->pv*$value->amt)}}</td>
                                           <?php
                                           $arr_pv[] = $value->pv*$value->amt;
                                           $arr_pri[] = $value->price_total;
