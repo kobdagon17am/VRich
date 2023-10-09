@@ -235,6 +235,8 @@ class ConfirmCartController extends Controller
 
 
 
+
+
         $code_order = \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order();
 
 
@@ -344,6 +346,11 @@ class ConfirmCartController extends Controller
                     ->where('status_shipping', 'Y')
                     ->first();
 
+                $product_data = DB::table('products')
+                    ->where('id', $value['id'])
+                    ->first();
+
+
 
                 if ($product_shipping) {
                     //$pv_shipping_arr[] = $value['quantity'] * $product_shipping->pv;
@@ -374,6 +381,8 @@ class ConfirmCartController extends Controller
                 $pv_total =  $value['attributes']['pv'] * $q;
                 $total_price = $q * $value['price'];
 
+                $q_promotion = $amt +  ($value['quantity']*$product_data->pack_qty);
+
                 if ($db_stock_members) {
 
                     if ($rs->type == 'promotion') {
@@ -388,8 +397,9 @@ class ConfirmCartController extends Controller
                                 'customers_id_fk' => $customer_id,
                                 'distribution_channel_id_fk' => 3,
                                 'amt_old' => $amt,
-                                'amt' => $value['quantity'],
-                                'amt_new' => $q,
+                                'amt' => $value['quantity']*$product_data->pack_qty,
+                                'amt_new' => $q_promotion,
+                                'amt_order' => $value['quantity'],
                                 'pv' =>  $value['attributes']['pv'],
                                 'pv_total' =>  $pv_total,
                                 'price' => $value['price'],
@@ -405,6 +415,7 @@ class ConfirmCartController extends Controller
                                 ->where('id',  $db_stock_members->id)
                                 ->update([
                                     'amt' => $q,
+                                    'pack_amt' => $q_promotion,
                                     'price' =>  $value['price'],
                                     'price_total' => $total_price,
                                     'pv' => $value['attributes']['pv'],
@@ -430,8 +441,9 @@ class ConfirmCartController extends Controller
                                 'distribution_channel_id_fk' => 3,
                                 'product_name' =>  $value['name'],
                                 'amt_old' => 0,
-                                'amt' => $value['quantity'],
-                                'amt_new' => $q,
+                                'amt' => $value['quantity']*$product_data->pack_qty,
+                                'amt_new' => $q_promotion,
+                                'amt_order' => $value['quantity'],
                                 'pv' =>  $value['attributes']['pv'],
                                 'pv_total' =>  $pv_total,
                                 'price' => $value['price'],
@@ -451,6 +463,7 @@ class ConfirmCartController extends Controller
                                 'distribution_channel_id_fk' => 3,
                                 'product_name' =>  $value['name'],
                                 'amt' => $q,
+                                'pack_amt' => $value['quantity']*$product_data->pack_qty,
                                 'pv' => $value['attributes']['pv'],
                                 'pv_total' =>  $pv_total,
                                 'price' => $value['price'],
