@@ -36,6 +36,15 @@
                     <input type="taxt" class="form-control  myCustom code_order" name="code_order" placeholder="Code Order">
                 </div>
 
+                <div class="col-lg-2 mt-2">
+                    <label>ประเภทการสั่งซื้อ</label>
+                    <select class="form-control myWhere type" name="type" id="type">
+                        <option selected="" value=""> ทั้งหมด </option>
+                        <option value="other">ทั่วไป</option>
+                        <option value="promotion">โปรโมชั่น</option>
+                    </select>
+                </div>
+
                 <div class="col-lg-4 mb-2 " style="margin-top: 42px">
                     {{-- <button type="button" class="btn btn-outline-success btn-rounded" id="search-form"><i class="las la-search font-15"></i>
                         สืบค้น</button> --}}
@@ -102,6 +111,7 @@
                                         <option value="Kerry">Kerry</option>
                                     </select>
                                     </div>
+                                    <input type="hidden" name="page_type" value="success">
 
                                 </div>
 
@@ -493,8 +503,8 @@
                     className: "table-report__action  text-center whitespace-nowrap",
                 },
                 {
-                    data: "count_print_detail",
-                    title: "จำนวนปริ้น",
+                    data: "type",
+                    title: "ประเภท",
                     className: "table-report__action  text-center whitespace-nowrap",
                 },
                 {

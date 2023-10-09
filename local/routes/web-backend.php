@@ -202,6 +202,9 @@ Route::get('admin/Blank', function () {
     Route::get('admin/orders/list_success', 'Admin\OrderController@orders_success')->name('admin/orders/list_success');
     Route::get('admin/orders/get_data_order_list_success', 'Admin\OrderController@get_data_order_list_success')->name('admin/orders/get_data_order_list_success');
 
+    Route::get('admin/orders/list_stock', 'Admin\OrderController@list_stock')->name('admin/orders/list_stock');
+    Route::get('admin/orders/get_data_order_list_stock', 'Admin\OrderController@get_data_order_list_stock')->name('admin/orders/get_data_order_list_stock');
+
 
 
     Route::post('admin/orders/tracking_no', 'Admin\OrderController@tracking_no')->name('admin/orders/tracking_no');

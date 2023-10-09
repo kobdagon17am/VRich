@@ -315,8 +315,9 @@
                                 </div>
                                 <div class="col-8">
                                     {{-- <h6 id="size">Size XL (20+1), Pure</h6> --}}
-                                    <div id="descriptions" class="fs-12 text-muted mb-0"></div>
+
                                     <p id="member_price" class="mb-0"></p>
+                                    <div id="descriptions" class="fs-12 text-muted mb-0"></div>
                                     <p id="pv" class="mb-0"></p>
                                     <br>
                                     <div class="plusminus horiz">
@@ -388,14 +389,16 @@
                         console.log(data);
                         // $('#modal_tree').html(data);
                         $('#ProductDetailLabel').html(data['product']['product_name']);
-                        $('#descriptions').html(data['product']['descriptions']);
-                        if(data['dataset_currency'] == 1){
-                            $('#member_price').html(data['product']['product_price_member_th']+' ฿');
-                        }else{
-                            $('#member_price').html(data['product']['product_price_member_usd']+' $');
-                        }
 
-                        $('#pv').html(data['product']['pv'] + ' PT');
+                        if(data['dataset_currency'] == 1){
+                        $('#member_price').html('฿'+data['product']['product_price_member_th']+' | '+data['product']['pv']+' PT');
+                        }else{
+                            $('#member_price').html('$'+data['product']['product_price_member_usd']+' | '+data['product']['pv']+' PT');
+                        }
+                        $('#descriptions').html(data['product']['product_detail']);
+
+
+                        // $('#pv').html(data['product']['pv'] + ' PT');
                         $('#product_id').val(product_id);
                         uel_link= url_asset+''+data['product']['product_image_url']+''+data['product']['product_image_name'];
                         var url = '<img id="img" src="'+uel_link+'" class="mw-100 mb-2">';

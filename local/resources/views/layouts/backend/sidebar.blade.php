@@ -100,6 +100,9 @@
                     <li>
                         <a href="{{route('admin/orders/list_success')}}"> รายการจัดส่งสำเร็จ </a>
                     </li>
+                    <li>
+                        <a href="{{route('admin/orders/list_stock')}}"> รายการสั่งซื้อเข้า Stock </a>
+                    </li>
                     {{-- <li>
                         <a href="#"> รายงานสรุปยอดขาย </a>
                     </li>

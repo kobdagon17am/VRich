@@ -1,4 +1,4 @@
-     <title>บริษัท มารวยด้วยกัน จำกัด</title>
+     <title>VRich</title>
 
 
      @extends('layouts.frontend.app')
@@ -38,13 +38,14 @@
                                         <th>Total price</th>
                                         <th>PT</th>
                                         <th>PT total</th>
+                                        <th>Action</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $arr_pv = array();
                                     $arr_pri =  array();
- 
+
                                     ?>
                                       @foreach($stock as $value)
                                       <tr id="items">
@@ -63,6 +64,9 @@
 
                                           <td class="text-center">{{number_format($value->pv)}}</td>
                                           <td class="text-center">{{number_format($value->pv*$value->amt)}}</td>
+                                          <td class="text-center">
+                                          <button type="button" class="btn btn-p2 rounded-pill"> <i class="fa fa-paper-plane"></i></button>
+                                        </td>
                                           <?php
                                           $arr_pv[] = $value->pv*$value->amt;
                                           $arr_pri[] = $value->price_total;
@@ -85,6 +89,7 @@
 
                                         <td class="text-center">PT Total </td>
                                         <td class="text-center"><b>{{number_format(array_sum($arr_pv))}}</b></td>
+                                        <td class="text-center"> </td>
 
                                     </tr>
                                   </tbody>
