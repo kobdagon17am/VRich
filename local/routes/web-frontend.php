@@ -115,6 +115,9 @@ Route::get('history_datable', 'Frontend\OrderHistoryController@history_datable')
 Route::get('order_detail/{code_order}', 'Frontend\OrderController@order_detail')->name('order_detail');
 Route::get('StockMember', 'Frontend\StockMemberController@index')->name('StockMember');
 
+Route::post('stock_tranfer', 'Frontend\StockMemberController@stock_tranfer')->name('stock_tranfer');
+
+
 Route::get('cart/{type}', 'Frontend\OrderController@cart')->name('cart');
 Route::post('cart_delete', 'Frontend\OrderController@cart_delete')->name('cart_delete');
 Route::get('get_product', 'Frontend\OrderController@get_product')->name('get_product');

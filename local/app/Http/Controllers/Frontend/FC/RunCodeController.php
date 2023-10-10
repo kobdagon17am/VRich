@@ -76,34 +76,34 @@ class RunCodeController extends Controller
 
 
 
-    public static function db_code_pv()
+    public static function db_code_stock()
     {
         $y = date('Y') + 543;
         $y = substr($y, -2);
         $code =  IdGenerator::generate([
-            'table' => 'db_code_pv',
+            'table' => 'db_code_stock',
             'field' => 'code',
             'length' => 15,
-            'prefix' => 'PJ' . $y . '' . date("m") . '-',
+            'prefix' => 'ST' . $y . '' . date("m") . '-',
             'reset_on_prefix_change' => true
         ]);
 
-        $ck_code = DB::table('db_code_pv')
+        $ck_code = DB::table('db_code_stock')
         ->where('code','=',$code)
         ->first();
 
         if(empty($ck_code)){
 
-            $rs_code_order = DB::table('db_code_pv')
+            $rs_code_order = DB::table('db_code_stock')
             ->Insert(['code' => $code]);
             if ($rs_code_order == true) {
                 return  $code;
               } else {
-                \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_pv();
+                \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_stock();
               }
 
         }else{
-             \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_pv();
+             \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_stock();
         }
 
     }

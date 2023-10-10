@@ -25,16 +25,27 @@ class StockMemberController extends Controller
     public function index()
     {
         $stock = DB::table('db_stock_members')
-        ->leftjoin('product_images', 'product_images.product_id_fk', '=', 'db_stock_members.product_id')
-        ->where('db_stock_members.customers_id_fk', '=', Auth::guard('c_user')->user()->id)
-        ->where('product_image_orderby','=',1)
-        ->get();
+            ->select(
+                'db_stock_members.id',
+                'product_images.product_image_url',
+                'product_images.product_image_name',
+                'db_stock_members.product_name',
+                'db_stock_members.pack_amt',
+                'db_stock_members.price',
+                'db_stock_members.price_total',
+                'db_stock_members.pv',
+                'db_stock_members.amt'
+            )
+            ->leftjoin('product_images', 'product_images.product_id_fk', '=', 'db_stock_members.product_id')
+            ->where('db_stock_members.customers_id_fk', '=', Auth::guard('c_user')->user()->id)
+            ->where('product_image_orderby', '=', 1)
+            ->get();
 
         $stock_pv = DB::table('db_stock_members')
-        ->select(DB::raw('sum(pv_total) as pv_total'))
-        ->where('pv_total','>',0)
-        ->where('db_stock_members.customers_id_fk', '=', Auth::guard('c_user')->user()->id)
-        ->first();
+            ->select(DB::raw('sum(pv_total) as pv_total'))
+            ->where('pv_total', '>', 0)
+            ->where('db_stock_members.customers_id_fk', '=', Auth::guard('c_user')->user()->id)
+            ->first();
 
         // if ($sql_reservations) {
         //   $poin = $sql_reservations->point;
@@ -43,14 +54,196 @@ class StockMemberController extends Controller
         // }
 
         if ($stock_pv) {
-          $point = $stock_pv->pv_total;
+            $point = $stock_pv->pv_total;
         } else {
-          $point = 0;
+            $point = 0;
         }
 
 
-        return view('frontend/StockMember',compact('stock'));
+        return view('frontend/StockMember', compact('stock'));
     }
 
+    public function stock_tranfer(Request $rs)
+    {
+        $stock = DB::table('db_stock_members')
+            ->select(
+                'db_stock_members.product_id',
+                'db_stock_members.id',
+                'db_stock_members.product_name',
+                'db_stock_members.pack_amt',
+                'db_stock_members.price',
+                'db_stock_members.price_total',
+                'db_stock_members.pv',
+                'db_stock_members.amt',
+                'db_stock_members.product_unit_id_fk'
+            )
+            ->where('db_stock_members.customers_id_fk', '=', Auth::guard('c_user')->user()->id)
+            ->where('id', $rs->stock_id)
+            ->where('pack_amt','>',0)
+            ->first();
 
+        // dd($rs->all());
+
+        if ($stock) {
+            if ($stock->pack_amt < $rs->amt) {
+                return redirect('StockMember')->withError('There is not enough product for transfer.');
+            } else {
+                // dd($stock->pack_amt,$rs->amt);
+
+                $db_stock_members = DB::table('db_stock_members')
+                    ->where('product_id', '=', $stock->product_id)
+                    ->where('user_name', '=', $rs->username_receive)
+                    ->first();
+
+                if ($db_stock_members) {
+                    $amt = $db_stock_members->pack_amt;
+                } else {
+                    $amt = 0;
+                }
+                $code_stock = \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_stock();
+
+
+                try {
+                    DB::BeginTransaction();
+
+                    if ($db_stock_members) {
+
+                        DB::table('db_log_stock_members')->insert([
+                            'code_order' => $code_stock,
+
+                            'product_id' => $stock->product_id,
+                            'user_name' => Auth::guard('c_user')->user()->user_name,
+                            'customers_id_fk' => Auth::guard('c_user')->user()->id,
+                            'user_name_tranfer' => Auth::guard('c_user')->user()->user_name,
+                            'user_name_recive' => $rs->username_receive,
+                            'distribution_channel_id_fk' => 3,
+                            'amt_old' => $stock->pack_amt,
+                            'amt' => $rs->amt,
+                            'amt_new' => $stock->pack_amt - $rs->amt,
+                            'pv' =>  $stock->pv,
+                            'price' =>  $stock->pv,
+                            'product_unit_id_fk' => $stock->product_unit_id_fk,
+                            'type' => 'remove',
+                            'type_action' => 'tranfer',
+                            'status' => 'success',
+                            'note' => 'tranfer',
+
+                        ]);
+
+                        DB::table('db_log_stock_members')->insert([
+                            'code_order' => $code_stock,
+
+                            'product_id' => $stock->product_id,
+                            'user_name' => $rs->username_receive,
+                            // 'customers_id_fk' => $rs->username_receive_id_fk,
+                            'user_name_tranfer' => Auth::guard('c_user')->user()->user_name,
+                            'user_name_recive' => $rs->username_receive,
+                            'distribution_channel_id_fk' => 3,
+                            'amt_old' => $db_stock_members->pack_amt,
+                            'amt' => $rs->amt,
+                            'amt_new' => $db_stock_members->pack_amt + $rs->amt,
+                            'pv' =>  $stock->pv,
+                            'price' =>  $stock->pv,
+                            'product_unit_id_fk' => $stock->product_unit_id_fk,
+                            'type' => 'add',
+                            'type_action' => 'tranfer',
+                            'status' => 'success',
+                            'note' => 'tranfer',
+
+                        ]);
+
+                        $update_tranfer = DB::table('db_stock_members')
+                            ->where('id', $stock->id)
+                            ->update([
+                                'pack_amt' => $stock->pack_amt - $rs->amt
+                            ]);
+
+                        $update_recive = DB::table('db_stock_members')
+                            ->where('id', $db_stock_members->id)
+                            ->update([
+                                'pack_amt' => $db_stock_members->pack_amt + $rs->amt
+                            ]);
+                            DB::commit();
+                        return redirect('StockMember')->withSuccess('Tranfer Success');
+                    } else {
+
+                        DB::table('db_log_stock_members')->insert([
+                            'code_order' => $code_stock,
+
+                            'product_id' => $stock->product_id,
+                            'user_name' => Auth::guard('c_user')->user()->user_name,
+                            'customers_id_fk' => Auth::guard('c_user')->user()->id,
+                            'user_name_tranfer' => Auth::guard('c_user')->user()->user_name,
+                            'user_name_recive' => $rs->username_receive,
+                            'distribution_channel_id_fk' => 3,
+                            'amt_old' => $stock->pack_amt,
+                            'amt' => $rs->amt,
+                            'amt_new' => $stock->pack_amt - $rs->amt,
+                            'pv' =>  $stock->pv,
+                            'price' =>  $stock->pv,
+                            'product_unit_id_fk' => $stock->product_unit_id_fk,
+                            'type' => 'remove',
+                            'type_action' => 'tranfer',
+                            'status' => 'success',
+                            'note' => 'tranfer',
+
+                        ]);
+
+                        DB::table('db_log_stock_members')->insert([
+                            'code_order' => $code_stock,
+
+                            'product_id' => $stock->product_id,
+                            'user_name' => $rs->username_receive,
+                            'product_name' => $stock->product_name,
+                            // 'customers_id_fk' => $rs->username_receive_id_fk,
+                            'user_name_tranfer' => Auth::guard('c_user')->user()->user_name,
+                            'user_name_recive' => $rs->username_receive,
+                            'distribution_channel_id_fk' => 3,
+                            'amt_old' => 0,
+                            'amt' => $rs->amt,
+                            'amt_new' => $rs->amt,
+                            'pv' =>  $stock->pv,
+                            'price' =>  $stock->pv,
+                            'product_unit_id_fk' => $stock->product_unit_id_fk,
+                            'type' => 'add',
+                            'type_action' => 'tranfer',
+                            'status' => 'success',
+                            'note' => 'tranfer',
+
+                        ]);
+
+
+                        $tranfer = DB::table('db_stock_members')
+                        ->where('id',  $stock->id)
+                        ->update([
+                            'pack_amt' => $stock->pack_amt - $rs->amt,
+                        ]);
+
+                        $recive = DB::table('db_stock_members')->insert([
+                            'product_id' => $stock->product_id,
+                            'user_name' => $rs->username_receive,
+                            'distribution_channel_id_fk' => 3,
+                            'product_name' => $stock->product_name,
+                            'pack_amt' => $rs->amt,
+                            'pv' =>  $stock->pv,
+                            'price' =>  $stock->price,
+                            'product_unit_id_fk' => $stock->product_unit_id_fk,
+
+                        ]);
+                        DB::commit();
+
+                        return redirect('StockMember')->withSuccess('Tranfer Success');
+                    }
+
+                } catch (\Exception $e) {
+                    DB::rollback();
+                    return redirect('StockMember')->withError('Tranfer stock Fail ');
+                }
+
+
+            }
+        } else {
+            return redirect('StockMember')->withError('Fail Stock is Null.');
+        }
+    }
 }

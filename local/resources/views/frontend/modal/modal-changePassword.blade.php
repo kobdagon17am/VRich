@@ -18,12 +18,12 @@
                     <div class="mb-3">
                         <label for="" class="form-label">New Password</label>
                         <small for="" class="fs-12 text-danger password_new_err  _err"></small>
-                        <input type="password" class="form-control" id="" name="password_new" placeholder="">
+                        <input type="password" class="form-control" name="password_new" placeholder="">
                     </div>
                     <div class="mb-3">
                         <label for="" class="form-label">Confirm New Password</label>
                         <small for="" class="fs-12 text-danger password_new_comfirm_err  _err"></small>
-                        <input type="password" class="form-control" id="" name="password_new_comfirm"
+                        <input type="password" class="form-control" name="password_new_comfirm"
                             placeholder="">
                     </div>
                     <small for="" class="fs-12 text-danger check_comfirm_err  _err"></small>
