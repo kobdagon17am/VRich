@@ -221,9 +221,9 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
                                 <li><a class="dropdown-item" href="{{ route('StockMember') }}"> private warehouse</a></li>
 
-                                {{-- <li><a class="dropdown-item"
-                                        href="{{ route('eWallet_history') }}">
-                                        List of movements behind the product </a></li> --}}
+                                <li><a class="dropdown-item"
+                                        href="{{ route('Stock-history') }}">
+                                        List of movements behind the product </a></li>
                             </ul>
                         </div>
                     </div>
@@ -359,6 +359,23 @@
                                         </div>
                                         <div class="flex-grow-1 ms-3">
                                             <h5>Buy products</h5>
+                                            <p class="fs-12 text-info">Ordering products online</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-4 col-lg-6 d-block d-lg-none">
+                            <a href="{{ route('Orderpromotion') }}">
+                                <div class="card cardL card-body borderR10 bg-info bg-opacity-20 mb-2 mb-md-3">
+                                    <div class="d-flex">
+                                        <div class="flex-shrink-0">
+                                            <div class="bg-info borderR8 iconFlex">
+                                                <i class='bx bx-cart'></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <h5>Buy Promotion</h5>
                                             <p class="fs-12 text-info">Ordering products online</p>
                                         </div>
                                     </div>
@@ -545,7 +562,7 @@
 
             </div>
 
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-md-6 col-xl-3 d-none d-lg-block">
                     <div class="dropdown mb-3">
                         <button class="card card-boxDrp dropdown-toggle" href="#"  id="dropdownMenuLinkStock" data-bs-toggle="dropdown" aria-expanded="false">
@@ -577,8 +594,8 @@
                             <li><a class="dropdown-item" href="{{ route('StockMember') }}">
                                 private warehouse</a></li>
 
-                            {{-- <li><a class="dropdown-item"
-                                    href="{{ route('eWallet_history') }}"> List of movements behind the product </a></li> --}}
+                           <li><a class="dropdown-item"
+                                    href="{{ route('Stock-history') }}"> List of movements behind the product </a></li>
                         </ul>
                     </div>
                 </div>

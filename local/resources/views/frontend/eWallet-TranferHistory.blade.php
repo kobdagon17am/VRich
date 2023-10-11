@@ -1,5 +1,3 @@
-     <title>บริษัท มารวยด้วยกัน จำกัด</title>
-
 
      @extends('layouts.frontend.app')
      @section('css')
@@ -26,7 +24,6 @@
                         <div class=" table-responsive">
 
                             <table id="workL" class="table table-bordered nowrap">
-
 
                             </table>
                         </div>

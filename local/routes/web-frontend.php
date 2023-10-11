@@ -117,6 +117,11 @@ Route::get('StockMember', 'Frontend\StockMemberController@index')->name('StockMe
 
 Route::post('stock_tranfer', 'Frontend\StockMemberController@stock_tranfer')->name('stock_tranfer');
 
+Route::get('Stock-history', 'Frontend\StockMemberController@Stock_history')->name('Stock-history');
+Route::get('Stock-history-datatable', 'Frontend\StockMemberController@datatable')->name('Stock-history-datatable');
+
+
+
 
 Route::get('cart/{type}', 'Frontend\OrderController@cart')->name('cart');
 Route::post('cart_delete', 'Frontend\OrderController@cart_delete')->name('cart_delete');
