@@ -2,6 +2,21 @@
 
     @extends('layouts.frontend.app')
     @section('conten')
+    <?php
+
+    $cartCollection = Cart::session($bill['type'])->getContent();
+    $data = $cartCollection->toArray();
+
+    if ($data) {
+        foreach ($data as $value) {
+            $pv[] = $value['quantity'] * $value['attributes']['pv'];
+        }
+        $pv_total = array_sum($pv);
+    } else {
+        $pv_total = 0;
+    }
+
+    ?>
         <div class="bg-whiteLight page-content">
             <div class="container-fluid">
                 <div class="row">
@@ -67,19 +82,7 @@
                                                             <label class="form-check-label"
                                                                 for="option1R">Send to address</label>
                                                         </div>
-                                                        <?php
-                                                        $cartCollection = Cart::session($bill['type'])->getContent();
-                                                        $data = $cartCollection->toArray();
-                                                        if ($data) {
-                                                            foreach ($data as $value) {
-                                                                $pv[] = $value['quantity'] * $value['attributes']['pv'];
-                                                            }
-                                                            $pv_total = array_sum($pv);
-                                                        } else {
-                                                            $pv_total = 0;
-                                                        }
 
-                                                        ?>
                                                         @if($pv_total >= 1000)
                                                        <div class="form-check form-check-inline">
                                                             <input class="form-check-input radio" type="radio"
