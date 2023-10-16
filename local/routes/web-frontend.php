@@ -120,6 +120,10 @@ Route::post('stock_tranfer', 'Frontend\StockMemberController@stock_tranfer')->na
 Route::get('Stock-history', 'Frontend\StockMemberController@Stock_history')->name('Stock-history');
 Route::get('Stock-history-datatable', 'Frontend\StockMemberController@datatable')->name('Stock-history-datatable');
 
+Route::post('stock_delivery', 'Frontend\StockMemberController@stock_delivery')->name('stock_delivery');
+
+
+
 
 
 

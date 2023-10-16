@@ -763,14 +763,14 @@
     });
 
     function sent_stock(type){
-        if(type == 'add'){
-            $("#shipping").html('0');
-            var total = '{{ number_format(Cart::session($bill['type'])->getTotal()) }}';
-             $("#total").html(total);
+        // if(type == 'add'){
+        //     $("#shipping").html('0');
+        //     var total = '{{ number_format(Cart::session($bill['type'])->getTotal()) }}';
+        //      $("#total").html(total);
 
-        }else{
-            location.reload();
-        }
+        // }else{
+        //     location.reload();
+        // }
     }
     //  END tambon
 </script>

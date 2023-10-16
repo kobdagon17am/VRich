@@ -42,6 +42,34 @@ class StockMemberController extends Controller
             ->where('db_stock_members.pack_amt', '>', 0)
             ->get();
 
+            $address = DB::table('customers_address_delivery')
+            ->select('customers_address_delivery.*', 'dataset_provinces.id as province_id', 'dataset_provinces.name_th as province_name', 'dataset_amphures.name_th as tambon_name', 'dataset_amphures.id as tambon_id', 'dataset_districts.id as district_id', 'dataset_districts.name_th as district_name')
+            ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'customers_address_delivery.province')
+            ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'customers_address_delivery.tambon')
+            ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'customers_address_delivery.district')
+            ->where('user_name', '=',  Auth::guard('c_user')->user()->user_name)
+            ->first();
+
+
+            if (Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id)) {
+
+                $business_location_id = 1;
+
+            } else {
+
+                $business_location_id = Auth::guard('c_user')->user()->business_location_id;
+
+            }
+
+            $province = DB::table('dataset_provinces')
+            ->select('*')
+            ->where('business_location_id', $business_location_id)
+            ->get();
+
+            $customer = DB::table('customers')
+            ->where('id', '=', Auth::guard('c_user')->user()->id)
+            ->first();
+
         // $stock_pv = DB::table('db_stock_members')
         //     ->select(DB::raw('sum(pv_total) as pv_total'))
         //     ->where('pv_total', '>', 0)
@@ -63,7 +91,7 @@ class StockMemberController extends Controller
         // }
 
 
-        return view('frontend/StockMember', compact('stock'));
+        return view('frontend/StockMember', compact('stock','address','province','customer'));
     }
 
     public function Stock_history()
@@ -188,7 +216,7 @@ class StockMemberController extends Controller
                                 'pack_amt' => $db_stock_members->pack_amt + $rs->amt
                             ]);
                             DB::commit();
-                        return redirect('StockMember')->withSuccess('Tranfer Success');
+                        return redirect('Stock-history')->withSuccess('Tranfer Success');
                     } else {
 
                         DB::table('db_log_stock_members')->insert([
@@ -216,7 +244,6 @@ class StockMemberController extends Controller
 
                         DB::table('db_log_stock_members')->insert([
                             'code_order' => $code_stock,
-
                             'product_id' => $stock->product_id,
                             'user_name' => $rs->username_receive,
                             'product_name' => $stock->product_name,
@@ -257,7 +284,7 @@ class StockMemberController extends Controller
                         ]);
                         DB::commit();
 
-                        return redirect('StockMember')->withSuccess('Tranfer Success');
+                        return redirect('Stock-history')->withSuccess('Tranfer Success');
                     }
 
                 } catch (\Exception $e) {
@@ -348,4 +375,84 @@ class StockMemberController extends Controller
             ->rawColumns(['type_action'])
             ->make(true);
     }
+
+    public function stock_delivery(Request $rs)
+    {
+
+
+        $stock = DB::table('db_stock_members')
+        ->select(
+            'db_stock_members.product_id',
+            'db_stock_members.id',
+            'db_stock_members.product_name',
+            'db_stock_members.pack_amt',
+            'db_stock_members.price',
+            'db_stock_members.price_total',
+            'db_stock_members.pv',
+
+            'db_stock_members.product_unit_id_fk'
+        )
+        ->where('db_stock_members.customers_id_fk', '=', Auth::guard('c_user')->user()->id)
+        ->where('id', $rs->stock_id)
+        ->where('pack_amt','>',0)
+        ->first();
+
+
+    // dd($rs->all());
+
+    if ($stock) {
+        if ($stock->pack_amt < $rs->amt) {
+            return redirect('StockMember')->withError('There is not enough product for transfer.');
+        } else {
+            // dd($stock->pack_amt,$rs->amt);
+
+            $code_stock = \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order();
+
+            try {
+                DB::BeginTransaction();
+
+                    DB::table('db_log_stock_members')->insert([
+                        'code_order' => $code_stock,
+                        'product_id' => $stock->product_id,
+                        'user_name' => Auth::guard('c_user')->user()->user_name,
+                        'customers_id_fk' => Auth::guard('c_user')->user()->id,
+                        'user_name_tranfer' => Auth::guard('c_user')->user()->user_name,
+                        'distribution_channel_id_fk' => 3,
+                        'amt_old' => $stock->pack_amt,
+                        'product_name' => $stock->product_name,
+                        'amt' => $rs->amt,
+                        'amt_new' => $stock->pack_amt - $rs->amt,
+                        'pv' =>  $stock->pv,
+                        'price' =>  $stock->pv,
+                        'product_unit_id_fk' => $stock->product_unit_id_fk,
+                        'type' => 'remove',
+                        'type_action' => 'delivery',
+                        'status' => 'success',
+                        'note' => 'Delivery',
+
+                    ]);
+
+                    $update_tranfer = DB::table('db_stock_members')
+                        ->where('id', $stock->id)
+                        ->update([
+                            'pack_amt' => $stock->pack_amt - $rs->amt
+                        ]);
+                        DB::commit();
+                    return redirect('StockMember')->withSuccess('Tranfer Success');
+
+
+            } catch (\Exception $e) {
+                DB::rollback();
+                return redirect('StockMember')->withError('Tranfer stock Fail ');
+            }
+
+        }
+    } else {
+        return redirect('StockMember')->withError('Fail Stock is Null.');
+    }
+
+    }
+
+
+
 }
