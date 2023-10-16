@@ -67,6 +67,20 @@
                                                             <label class="form-check-label"
                                                                 for="option1R">Send to address</label>
                                                         </div>
+                                                        <?php
+                                                        $cartCollection = Cart::session($bill['type'])->getContent();
+                                                        $data = $cartCollection->toArray();
+                                                        if ($data) {
+                                                            foreach ($data as $value) {
+                                                                $pv[] = $value['quantity'] * $value['attributes']['pv'];
+                                                            }
+                                                            $pv_total = array_sum($pv);
+                                                        } else {
+                                                            $pv_total = 0;
+                                                        }
+
+                                                        ?>
+                                                        @if($pv_total >= 1000)
                                                        <div class="form-check form-check-inline">
                                                             <input class="form-check-input radio" type="radio"
                                                                 name="sent_stock_type" value="add"
@@ -74,6 +88,7 @@
                                                             <label class="form-check-label"
                                                                 for="option2R">Add to Stock</label>
                                                         </div>
+                                                        @endif
 
                                                     </div>
 
@@ -433,19 +448,7 @@
                                                         <p class="mb-2">Total PT</p>
                                                     </div>
                                                     <div class="col-md-6 text-md-end">
-                                                        <?php
-                                                        $cartCollection = Cart::session($bill['type'])->getContent();
-                                                        $data = $cartCollection->toArray();
-                                                        if ($data) {
-                                                            foreach ($data as $value) {
-                                                                $pv[] = $value['quantity'] * $value['attributes']['pv'];
-                                                            }
-                                                            $pv_total = array_sum($pv);
-                                                        } else {
-                                                            $pv_total = 0;
-                                                        }
 
-                                                        ?>
                                                         <p class="mb-2">{{ number_format($pv_total) }} PT</p>
                                                     </div>
                                                     <div class="col-md-6">

@@ -92,6 +92,17 @@ class StockMemberController extends Controller
             ->where('pack_amt','>',0)
             ->first();
 
+
+            $username_receive = DB::table('customers')
+            ->where('user_name', '=', $rs->username_receive)
+            ->first();
+
+            if(empty($username_receive)){
+                return redirect('StockMember')->withError('Invalid recipient username receive');
+
+            }
+
+
         // dd($rs->all());
 
         if ($stock) {

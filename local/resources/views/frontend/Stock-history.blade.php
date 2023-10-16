@@ -14,7 +14,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active text-truncate" aria-current="page">History Stock</li>
+                            <li class="breadcrumb-item active text-truncate" aria-current="page">History Stocks</li>
                         </ol>
                     </nav>
                 </div>
