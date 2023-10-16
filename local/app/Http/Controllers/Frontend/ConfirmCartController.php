@@ -320,6 +320,7 @@ class ConfirmCartController extends Controller
         $products_list = array();
         if ($data) {
             foreach ($data as $value) {
+
                 $i++;
                 $total_pv = $value['attributes']['pv'] * $value['quantity'];
                 $total_price = $value['price'] * $value['quantity'];
@@ -373,13 +374,10 @@ class ConfirmCartController extends Controller
                     ->where('customers_id_fk', '=', $customer_id)
                     ->first();
                 if ($db_stock_members) {
-                    $amt = $db_stock_members->amt;
+                    $amt = $db_stock_members->pack_amt;
                 } else {
                     $amt = 0;
                 }
-                $q = $amt +  $value['quantity'];
-                $pv_total =  $value['attributes']['pv'] * $q;
-                $total_price = $q * $value['price'];
 
                 $q_promotion = $amt +  ($value['quantity']*$product_data->pack_qty);
 
@@ -393,6 +391,7 @@ class ConfirmCartController extends Controller
                                 'code_order' => $code_order,
                                 'order_id_fk' => '',
                                 'product_id' => $value['id'],
+                                'product_name' =>  $value['name'],
                                 'user_name' => $user_name,
                                 'customers_id_fk' => $customer_id,
                                 'distribution_channel_id_fk' => 3,
@@ -401,7 +400,7 @@ class ConfirmCartController extends Controller
                                 'amt_new' => $q_promotion,
                                 'amt_order' => $value['quantity'],
                                 'pv' =>  $value['attributes']['pv'],
-                                'pv_total' =>  $pv_total,
+
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
                                 'product_unit_id_fk' => @$value['product_unit_id'],
@@ -414,12 +413,13 @@ class ConfirmCartController extends Controller
                             $update_q = DB::table('db_stock_members')
                                 ->where('id',  $db_stock_members->id)
                                 ->update([
-                                    'amt' => $q,
+
                                     'pack_amt' => $q_promotion,
+                                    'product_name' =>  $value['name'],
                                     'price' =>  $value['price'],
                                     'price_total' => $total_price,
                                     'pv' => $value['attributes']['pv'],
-                                    'pv_total' => $pv_total,
+
                                 ]);
                         }
 
@@ -427,7 +427,7 @@ class ConfirmCartController extends Controller
                         $insert_db_orders->sent_stock_type ='send';
                     }
                 } else {
-                    $q = $value['quantity'];
+
 
                     if ($rs->type == 'promotion') {
                         $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
@@ -445,7 +445,7 @@ class ConfirmCartController extends Controller
                                 'amt_new' => $q_promotion,
                                 'amt_order' => $value['quantity'],
                                 'pv' =>  $value['attributes']['pv'],
-                                'pv_total' =>  $pv_total,
+
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
                                 'product_unit_id_fk' => @$value['product_unit_id'],
@@ -462,10 +462,8 @@ class ConfirmCartController extends Controller
                                 'customers_id_fk' => $customer_id,
                                 'distribution_channel_id_fk' => 3,
                                 'product_name' =>  $value['name'],
-                                'amt' => $q,
                                 'pack_amt' => $value['quantity']*$product_data->pack_qty,
                                 'pv' => $value['attributes']['pv'],
-                                'pv_total' =>  $pv_total,
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
                                 'product_unit_id_fk' => @$value['product_unit_id'],

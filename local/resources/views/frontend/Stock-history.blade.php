@@ -76,9 +76,11 @@
                             </div>
                             <hr>
                             <div class="table-responsive">
-                                <table id="workL" class="table table-bordered"></table>
+                                <table id="workL" class="table table-bordered nowrap"></table>
 
                                 </table>
+
+
                             </div>
                         </div>
                     </div>
@@ -98,134 +100,81 @@
             'min-height': $(window).height() - $('.navbar').height()
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $(function() {
-                table_ewallet = $('#workL').DataTable({
-                    lengthChange: false,
-                    pageLength: 20,
-                    processing: true,
-                    serverSide: true,
-                    responsive: true,
 
-                    "language": {
-                        "lengthMenu": "แสดง _MENU_ แถว",
-                        "zeroRecords": "ไม่พบข้อมูล",
-                        "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
-                        "search": "Search",
-                        "infoEmpty": "",
-                        "infoFiltered": "",
-                        "paginate": {
-                            "first": "First",
-                            "previous": "Previous",
-                            "next": "Next",
-                            "last": "Last"
-                        },
-                        'processing': "Loading",
-                    },
-                    ajax: {
-                        url: '{{ route('Stock-history-datatable') }}',
-                        data: function(d) {
-                            d.Where = {};
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script>
+    $('.page-content').css({
+        'min-height': $(window).height() - $('.navbar').height()
+    });
+</script>
+<script>
+    $(document).ready(function() {
+   $(function() {
+        oTable = $('#workL').DataTable({
+            processing: true,
+            serverSide: true,
+            searching: true,
+            pageLength: 25,
+            ajax: {
+                url: '{{ route('Stock-history-datatable') }}',
 
-                            $('.myWhere').each(function() {
-                                if ($.trim($(this).val()) && $.trim($(this).val()) !=
-                                    '0') {
-                                    d.Where[$(this).attr('name')] = $.trim($(this)
-                                        .val());
-                                    if ($('#Search').val() == '') $('#btn-Excel').css(
-                                        "display",
-                                        "initial");
-                                }
-                            });
-                            d.Like = {};
-                            $('.myLike').each(function() {
-                                if ($.trim($(this).val()) && $.trim($(this).val()) !=
-                                    '0') {
-                                    d.Like[$(this).attr('name')] = $.trim($(this)
-                                        .val());
-                                }
-                            });
-                            d.Custom = {};
-                            $('.myCustom').each(function() {
-                                if ($.trim($(this).val()) && $.trim($(this).val()) !=
-                                    '0' && $(this)
-                                    .attr('type') != 'checkbox') {
-                                    d.Custom[$(this).attr('name')] = $.trim($(this)
-                                        .val());
-                                }
-                                if ($.trim($(this).val()) && $.trim($(this).val()) !=
-                                    '0' && $(this)
-                                    .is(':checked')) {
-                                    d.Custom[$(this).attr('name')] = $.trim($(this)
-                                        .val());
-                                }
-                            });
-                        },
-                    },
-                    columns: [{
-                            data: "id",
-                            title: "NO.",
-                            className: "table-report__action w-10 text-center",
-                        },
-                        {
-                            data: "transaction_code",
-                            title: "Transaction No.",
-                            className: "table-report__action w-10 ",
-                        },
+                method: 'get'
+            },
+
+
+            columns: [
+                //   {
+                //             data: "",
+                //             title: "#",
+                //             className: "table-report__action w-10 text-center",
+                //         },
                         {
                             data: "created_at",
                             title: "Created Date",
-                            className: "table-report__action w-10 text-center whitespace-nowrap",
+                            className: "table-report__action w-10 text-center",
                         },
                         {
-                            data: "customer_username",
+                            data: "code_order",
+                            title: "Transaction No.",
+                            className: "table-report__action w-10 text-center",
+                        },
+
+                        {
+                            data: "user_name_tranfer",
                             title: "Username",
                             className: "table-report__action w-24 whitespace-nowrap text-center",
                         },
                         {
-                            data: "bonus_full",
-                            title: "Amount received",
-                            className: "table-report__action w-10 text-end",
-                        },
-                        {
-                            data: "tax_total",
-                            title: "Tax 3%",
-                            className: "table-report__action w-10 text-end",
-                        },
-                        {
-                            data: "amt",
-                            title: "Total",
-                            className: "table-report__action w-10 text-end",
-                        },
-
-                        // {
-                        //     data: "edit_amt",
-                        //     title: "จำนวนเงินที่แก้ไข",
-                        //     className: "table-report__action w-12 text-end",
-                        // },
-                        {
-                            data: "balance",
-                            title: "eWallet Balance",
-                            className: "table-report__action w-12 text-end",
-                        },
-                        // {
-                        //     data: "customers_id_receive",
-                        //     title: "รหัสผู้รับ",
-                        //     className: "table-report__action w-12 text-end",
-                        // },
-                        {
-                            data: "customers_name_receive",
+                            data: "user_name_recive",
                             title: "Receiver Name",
                             className: "table-report__action w-12 text-center",
                         },
                         {
-                            data: "note_orther",
+                            data: "product_name",
+                            title: "Product Name",
+                            className: "table-report__action w-10 text-end",
+                        },
+                        {
+                            data: "amt",
+                            title: "Amt",
+                            className: "table-report__action w-10 text-end",
+                        },
+                        {
+                            data: "amt_new",
+                            title: "Amt Balance",
+                            className: "table-report__action w-10 text-end",
+                        },
+
+
+
+                        {
+                            data: "note",
                             title: "Detail",
                             className: "table-report__action w-10 text-center",
                         },
                         {
-                            data: "type",
+                            data: "type_action",
                             title: "Type",
                             className: "table-report__action w-10 text-center",
                         },
@@ -234,73 +183,22 @@
                             title: "Status",
                             className: "table-report__action w-10 text-center whitespace-nowrap",
                         },
-                        // {
-                        //     data: "id",
-                        //     title: "",
-                        //     className: "table-report__action w-10 text-center",
-                        // },
 
-
-                    ],
-                    order: [
-                        [1, 'DESC']
-                    ],
-                    rowCallback: function(nRow, aData, dataIndex) {
-                        //คำนวนลำดับของ รายการที่แสดง
-                        var info = table_ewallet.page.info();
-                        var page = info.page;
-                        var length = info.length;
-                        var index = (page * length + (dataIndex + 1));
-
-                        // แสดงเลขลำดับ
-                        $('td:nth-child(1)', nRow).html(`${index}`);
-                    },
-                });
-                $('.myWhere,.myLike,.datepicker,.iSort,.myCustom').on('change', function(e) {
-                    table_ewallet.draw();
-                });
-            });
+            ],
+        });
+        $('.myWhere,.myLike,.myCustom,#onlyTrashed').on('change', function(e) {
+            oTable.draw();
         });
 
+        $('#search-form').on('click', function(e) {
+            oTable.draw();
+            e.preventDefault();
+        });
+    });
+
+   });
+
+</script>
 
 
-        function get_data_info_ewallet(id) {
-            $.ajax({
-                url: '',
-                method: 'POST',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'id': id
-                },
-                success: function(data) {
-                    create_info_modal(data)
-                }
-            });
-        }
-
-
-
-        function create_info_modal(data) {
-
-            $('#info_ewallet').find('.box_info').show();
-            data.data.forEach((val, key) => {
-
-                let amt_bath = new Intl.NumberFormat('en-US').format(val.amt);
-                if (val.type == 1) {
-                    $('.ewallet_id').val(val.ewallet_id);
-                    $('#customers_id_fk').val(val.customers_id_fk);
-                    $('#amt').val(val.amt);
-
-                    $('#transaction_code').text(val.transaction_code);
-                    $('#ewallet_created_at').text(val.ewallet_created_at);
-                    $('#name').text(val.name);
-                    $('.amt').text(data.data_amt);
-                    $(".img_doc_info").attr("src", `{{ asset('') }}/${val.url}/${val.file_ewllet}`);
-                    $('#changePassModalLabel').text('eWallet รายการฝากเงิน');
-
-                }
-            });
-
-        }
-    </script>
 @endsection

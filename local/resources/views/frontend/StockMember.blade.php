@@ -31,20 +31,13 @@
                                     <th>Picture</th>
                                     <th>Product name</th>
                                     <th width="10">Quantity</th>
-                                    <th>Price</th>
-                                    {{-- <th>Total price</th> --}}
-                                    <th>PT</th>
-                                    {{-- <th>PT total</th> --}}
+
                                     <th>Tranfer</th>
                                     <th>Recive</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                $arr_pv = [];
-                                $arr_pri = [];
 
-                                ?>
                                 @foreach ($stock as $value)
                                     <tr id="items">
                                         <td class="text-center">
@@ -58,11 +51,6 @@
                                         <td class="text-center">
                                             {{ $value->pack_amt }}
                                         </td>
-                                        <td class="text-center">{{ number_format($value->price, 2) }}</td>
-
-
-                                        <td class="text-center">{{ number_format($value->pv) }}</td>
-
                                         <td class="text-center">
 
 
@@ -73,10 +61,7 @@
                                         </td>
                                         <td class="text-center">
                                         </td>
-                                        <?php
-                                        $arr_pv[] = $value->pv * $value->amt;
-                                        $arr_pri[] = $value->price_total;
-                                        ?>
+
 
                                     </tr>
 
