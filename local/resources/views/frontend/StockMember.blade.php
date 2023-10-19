@@ -53,10 +53,11 @@
                                         </td>
                                         <td class="text-center">
 
-
-                                            <button type="button" data-bs-toggle="modal"
+                                            @if(Auth::guard('c_user')->user()->qualification_id >= 3)
+                                                <button type="button" data-bs-toggle="modal"
                                                 data-bs-target="#transferstockModal_{{ $value->id }}"
                                                 class="btn btn-p2 rounded-pill"> <i class="fa fa-retweet"></i></button>
+                                            @endif
 
                                         </td>
                                         <td class="text-center">

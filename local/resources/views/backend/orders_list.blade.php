@@ -45,6 +45,8 @@
                         <option selected="" value=""> ทั้งหมด </option>
                         <option value="other">ทั่วไป</option>
                         <option value="promotion">โปรโมชั่น</option>
+                        <option value="send_stock">StockMember</option>
+
                     </select>
                 </div>
 

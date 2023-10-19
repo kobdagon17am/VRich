@@ -479,7 +479,7 @@ class StockMemberController extends Controller
             $insert_db_orders->name = $rs->sam_name;
         }
 
-            $insert_db_orders->order_status_id_fk = 2;
+            $insert_db_orders->order_status_id_fk = 5;
             $insert_db_orders->code_order = $code_stock;
             $insert_db_orders->type = 'send_stock';
 

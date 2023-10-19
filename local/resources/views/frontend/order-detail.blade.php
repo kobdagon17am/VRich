@@ -152,7 +152,11 @@
                             <div class="row">
                                 <div class="col-12">
                                     <h5>Payment Method</h5>
-                                    <p class="text-muted mb-0">eWallet</p>
+                                    @if($orders_detail[0]->type == 'send_stock')
+                                    <p class="text-muted mb-0">Stock Member</p>
+                                    @else
+                                    <p class="text-muted mb-0">{{$orders_detail[0]->type}}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
