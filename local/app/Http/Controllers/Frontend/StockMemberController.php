@@ -15,7 +15,8 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use DB;
-
+use App\Orders;
+use App\Order_products_list;
 class StockMemberController extends Controller
 {
     public function __construct()
@@ -331,6 +332,16 @@ class StockMemberController extends Controller
 
         })
 
+        ->addColumn('code_order', function ($row) {
+            if ($row->code_order) {
+            $data = '<a href="' . route('order_detail', ['code_order' => $row->code_order]) . '" class="btn btn-outline-primary">' . $row->code_order . '</a>';
+
+                return  $data ;
+            } else {
+                return '-';
+            }
+        })
+
         ->addColumn('type_action', function ($row) { //การรักษาสภำพ
                 if($row->type_action == 'tranfer'){
 
@@ -372,7 +383,7 @@ class StockMemberController extends Controller
 
 
 
-            ->rawColumns(['type_action'])
+            ->rawColumns(['type_action','code_order'])
             ->make(true);
     }
 
@@ -411,6 +422,84 @@ class StockMemberController extends Controller
             try {
                 DB::BeginTransaction();
 
+
+                $insert_db_orders = new Orders();
+                $insert_order_products_list = new Order_products_list();
+                $insert_db_orders->quantity = $rs->amt;
+                $insert_db_orders->customers_id_fk = Auth::guard('c_user')->user()->id;
+                $insert_db_orders->customers_user_name =  Auth::guard('c_user')->user()->user_name;
+                if (Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id)) {
+                    $dataset_currency =  1;
+                    $business_location_id = 1;
+                } else {
+                    $dataset_currency =  2;
+                    $business_location_id = Auth::guard('c_user')->user()->business_location_id;
+                }
+
+                $insert_db_orders->business_location_id_fk =  $business_location_id;
+                $insert_db_orders->status_payment_sent_other = 0;
+                $insert_db_orders->pay_type = 'StockMember';
+
+        if ($rs->receive == 'sent_address') {
+            $insert_db_orders->address_sent = 'system';
+
+            if (empty($rs->province_id) ) {
+                return redirect('StockMember')->withError('Please enter your address before purchasing.');
+            }
+            $insert_db_orders->delivery_province_id = $rs->province_id;
+            $insert_db_orders->house_no = $rs->house_no;
+            // $insert_db_orders->house_name = 'system';
+            $insert_db_orders->moo = $rs->moo;
+            $insert_db_orders->soi = $rs->soi;
+            $insert_db_orders->road = $rs->road;
+            $insert_db_orders->tambon_id = $rs->tambon_id;
+            $insert_db_orders->district_id = $rs->district_id;
+            $insert_db_orders->province_id = $rs->province_id;
+            $insert_db_orders->zipcode = $rs->zipcode;
+
+            $insert_db_orders->tel = $rs->phone;
+            $insert_db_orders->name = $rs->name;
+        } else {
+            if (empty($rs->same_province) ) {
+                return redirect('StockMember')->withError('Please enter your address before purchasing.');
+            }
+
+            $insert_db_orders->address_sent = 'other';
+            $insert_db_orders->delivery_province_id = $rs->same_province;
+            $insert_db_orders->house_no = $rs->same_address;
+            // $insert_db_orders->house_name = 'system';
+            $insert_db_orders->moo = $rs->same_moo;
+            $insert_db_orders->soi = $rs->same_soi;
+            $insert_db_orders->road = $rs->same_road;
+            $insert_db_orders->tambon_id = $rs->same_tambon;
+            $insert_db_orders->district_id = $rs->same_district;
+            $insert_db_orders->province_id = $rs->same_province;
+            $insert_db_orders->zipcode = $rs->same_zipcode;
+            $insert_db_orders->tel = $rs->same_phone;
+            $insert_db_orders->name = $rs->sam_name;
+        }
+
+            $insert_db_orders->order_status_id_fk = 2;
+            $insert_db_orders->code_order = $code_stock;
+            $insert_db_orders->type = 'send_stock';
+
+
+            $insert_db_products_list[] = [
+                'code_order' => $code_stock,
+                'product_id_fk' => $stock->product_id,
+                'product_unit_id_fk' => $stock->product_unit_id_fk,
+                'customers_username' => Auth::guard('c_user')->user()->user_name,
+                'selling_price' => 0,
+                'product_name' => $stock->product_name,
+                'amt' =>   $rs->amt,
+                'pv' =>  0,
+                'total_pv' => 0,
+                'total_price' => 0,
+            ];
+
+                // $insert_db_orders->tracking_type = $rs->tracking_type;;
+                ///// ---------- stock -------------///
+
                     DB::table('db_log_stock_members')->insert([
                         'code_order' => $code_stock,
                         'product_id' => $stock->product_id,
@@ -437,8 +526,11 @@ class StockMemberController extends Controller
                         ->update([
                             'pack_amt' => $stock->pack_amt - $rs->amt
                         ]);
+
+                        $insert_db_orders->save();
+                        $insert_order_products_list::insert($insert_db_products_list);
                         DB::commit();
-                    return redirect('StockMember')->withSuccess('Tranfer Success');
+                    return redirect('order_history')->withSuccess('Tranfer Success');
 
 
             } catch (\Exception $e) {

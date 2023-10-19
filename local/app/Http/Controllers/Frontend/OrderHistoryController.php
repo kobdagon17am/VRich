@@ -117,10 +117,24 @@ class OrderHistoryController extends Controller
             })
 
 
+            ->addColumn('type', function ($row) {
+                if($row->type == 'send_stock'){
+                    $data = '<span class="badge bg-' . $row->css_class . ' fw-light"> Stock Member </span>';
+                }else{
+                    $data = '<span class="badge bg-' . $row->css_class . ' fw-light">' . $row->type . '</span>';
+                }
+
+                return $data;
+            })
 
 
 
-            ->rawColumns(['detail', 'pv_total', 'date', 'code_order','tracking'])
+
+
+
+
+
+            ->rawColumns(['detail', 'pv_total', 'date', 'code_order','tracking','type'])
 
             ->make(true);
     }
