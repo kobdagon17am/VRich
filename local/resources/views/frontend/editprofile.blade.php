@@ -195,9 +195,11 @@
                                         <div class="col-md-12 text-center">
                                             <div class="file-upload">
                                                 <span class="text-danger file_card_err _err"></span>
+                                                @if($customers_info->regis_doc1_status == 0 || $customers_info->regis_doc1_status == 2)
                                                 <label for="file_card" class="file-upload__label"><i
                                                         class='bx bx-upload'></i>
                                                     Upload</label>
+                                                @endif
                                                 <input id="file_card" class="file-upload__input" type="file"
                                                     accept="image/*" name="file_card">
                                             </div>
@@ -211,6 +213,11 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8 my-auto">
+                                        @if($customers_info->regis_doc1_status == 0 || $customers_info->regis_doc1_status == 2)
+                                           <?php $class = ''; ?>
+                                        @else
+                                        <?php $class = 'readonly'; ?>
+                                        @endif
                                         <div id="group_data_card_address" class="row ">
 
                                             <div class="col-md-6 col-xl-5 ">
@@ -219,42 +226,42 @@
                                                 <input type="text" name="card_address"
                                                     value="{{ @$address_card->address }}"
                                                     class="form-control card_address" id=""
-                                                    @if ($address_card != null) readonly @endif>
+                                                    {{$class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-3">
                                                 <label for="" class="form-label">Moo <span
                                                         class="text-danger card_moo_err _err">*</span></label>
                                                 <input type="text" name="card_moo" class="form-control card_address"
                                                     id=""
-                                                    value="{{ @$address_card->moo }}"@if ($address_card != null) readonly @endif>
+                                                    value="{{ @$address_card->moo }}" {{ $class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-4">
                                                 <label for="" class="form-label">Soi <span
                                                         class="text-danger card_soi_err _err">*</span></label>
                                                 <input type="text" name="card_soi" class="form-control card_address"
                                                     id=""
-                                                    value="{{ @$address_card->soi }}"@if ($address_card != null) readonly @endif>
+                                                    value="{{ @$address_card->soi }}" {{ $class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-4">
                                                 <label for="" class="form-label">Road <span
                                                         class="text-danger card_road_err _err">*</span></label>
                                                 <input type="text" name="card_road" class="form-control card_address"
                                                     id=""
-                                                    value="{{ @$address_card->road }}"@if ($address_card != null) readonly @endif>
+                                                    value="{{ @$address_card->road }}" {{$class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-4">
                                                 <label for="province" class="form-label">Province</label>
                                                 <label class="form-label text-danger card_province_err _err"></label>
 
                                                 <select
-                                                    class="form-select card_address @if ($address_card != null) disabled_select @endif "
+                                                    class="form-select card_address @if($customers_info->regis_doc1_status == 0 || $customers_info->regis_doc1_status == 2 ) @else disabled_select @endif "
                                                     name="card_province" id="province">
 
                                                     @foreach ($province as $item)
                                                         <option
                                                             {{ @$address_card->province == $item->id ? 'selected' : '' }}
                                                             value="{{ $item->id }}">
-                                                            {{ $item->name_th }}</option>
+                                                            {{ $item->name_en }}</option>
                                                     @endforeach
                                                 </select>
 
@@ -264,8 +271,8 @@
                                                 <label for="district" class="form-label">District</label>
                                                 <label class="form-label text-danger card_district_err _err"></label>
                                                 <select
-                                                    class="form-select card_address @if ($address_card != null) disabled_select @endif"
-                                                    name="card_district" id="district" disabled>
+                                                    class="form-select card_address  @if($customers_info->regis_doc1_status == 0 || $customers_info->regis_doc1_status == 2 ) @else disabled_select @endif"
+                                                    name="card_district" id="district" {{$class}}>
                                                     <option value="{{@$address_card->district}}">{{@$address_card->amphure_name}}</option>
                                                 </select>
                                             </div>
@@ -273,8 +280,8 @@
                                                 <label for="tambon" class="form-label">Sub-district</label>
                                                 <label class="form-label text-danger tambon_err _err"></label>
                                                 <select
-                                                    class="form-select card_address @if ($address_card != null) disabled_select @endif"
-                                                    name="card_tambon" id="tambon" disabled>
+                                                    class="form-select card_address @if($customers_info->regis_doc1_status == 0 || $customers_info->regis_doc1_status == 2 ) @else disabled_select @endif"
+                                                    name="card_tambon" id="tambon" {{$class}}>
 
                                                     <option value="{{@$address_card->tambon}}">{{@$address_card->tambon_name}}</option>
                                                 </select>
@@ -285,28 +292,29 @@
                                                         class="text-danger card_zipcode_err _err">*</span></label>
                                                 <input id="zipcode" name="card_zipcode" type="text"
                                                     class="form-control card_address" id="" value="{{@$address_card->zipcode}}"
-                                                    @if ($address_card != null) readonly @endif>
+                                                    {{$class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-4 mb-3">
                                                 <label for="" class="form-label">Mobile Number</label>
                                                 <input type="text" name="card_phone" class="form-control card_address"
                                                     id="" value="{{ @$address_card->phone }}"
-                                                    @if ($address_card != null) readonly @endif>
+                                                    {{$class}} >
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
 
-
-
-                                <div class="row text-center mb-2">
-                                    <div class="col-md-12 col-xl-12">
-                                        <button type="submit" class="btn btn-success rounded-pill">Submit</button>
-                                        <button class="btn btn-danger rounded-pill">Cancel</button>
+                             @if($customers_info->regis_doc1_status == 0 || $customers_info->regis_doc1_status == 2)
+                                    <div class="row text-center mb-2">
+                                        <div class="col-md-12 col-xl-12">
+                                            <button type="submit" class="btn btn-success rounded-pill">Submit</button>
+                                            <button class="btn btn-danger rounded-pill">Cancel</button>
+                                        </div>
                                     </div>
 
-                                </div>
+                             @endif
+
 
 
                             </form>
@@ -318,7 +326,7 @@
                                     Shipping address
                                     <div class="form-check form-check-inline h6 fw-normal">
                                         <input class="form-check-input" name="status_address" id="status_address"
-                                            type="checkbox" value="1" id="flexCheckDefault">
+                                            type="checkbox" value="1" >
                                         <label class="form-check-label" for="status_address">
                                             In the same address as the ID card
                                         </label>
@@ -359,7 +367,7 @@
                                                 <option
                                                     {{ @$address_delivery->province == $item->id ? 'selected' : '' }}
                                                     value="{{ $item->id }}">
-                                                    {{ $item->name_th }}</option>
+                                                    {{ $item->name_en }}</option>
                                             @endforeach
                                         </select>
 
@@ -790,10 +798,10 @@
 
                     data.forEach((item) => {
                         $("#district").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                         $("#same_district").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#district").attr('disabled', false);
@@ -822,10 +830,10 @@
 
                     data.forEach((item) => {
                         $("#tambon").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                         $("#same_tambon").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#tambon").attr('disabled', false);
@@ -879,7 +887,7 @@
                     data.forEach((item) => {
                         $("#same_district").append(
 
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#same_district").attr('disabled', false);
@@ -912,7 +920,7 @@
 
                         $("#same_tambon").append(
 
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#same_tambon").attr('disabled', false);

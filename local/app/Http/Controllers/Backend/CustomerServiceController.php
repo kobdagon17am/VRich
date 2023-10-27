@@ -131,8 +131,8 @@ class CustomerServiceController extends Controller
         $data = CustomersAddressCard::select(
             'customers_address_card.*',
             'dataset_districts.name_th as district',
-            'dataset_provinces.name_th as province',
-            'dataset_amphures.name_th as tambon',
+            'dataset_provinces.name_en as province',
+            'dataset_amphures.name_en as tambon',
             'regis_doc1_status',
         )
             ->leftjoin('customers', 'customers.user_name', 'customers_address_card.user_name')

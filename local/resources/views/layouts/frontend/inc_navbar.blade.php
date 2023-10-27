@@ -7,7 +7,7 @@
         </div>
         <div class="order-2 order-md-3 d-inline-flex align-items-center">
 
-            @if(request()->is('Orderpromotion'))
+            @if(request()->is('Orderpromotion') || request()->is('cart/promotion') )
             <a href="{{route('cart',['type'=>'promotion'])}}" class="btn btn-outline-light rounded-circle btn-icon position-relative" style="margin-right: 10px">
                 <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="count_cart">
@@ -26,8 +26,6 @@
               </a>
 
               @endif
-
-
 
             <input type="radio" class="btn-check changeLang" name="options" value="en" id="option2" autocomplete="off"  {{ session()->get('locale') == 'en' ? 'checked' : '' }}>
             <label class="btn btnFlag" for="option2"><img src="{{ asset('frontend/images/united-kingdom.png') }}"

@@ -31,8 +31,8 @@ class ReportWalletController extends Controller
 
         $ewallet = DB::table('ewallet')
         ->select('ewallet.*','customers.id_card','customers_address_card.address','customers_address_card.moo'
-        ,'customers_address_card.soi','customers_address_card.road','dataset_districts.name_th as district','dataset_provinces.name_th as province',
-        'dataset_amphures.name_th as tambon','customers_address_card.zipcode','customers.name as c_name','customers.last_name','customers.qualification_id')
+        ,'customers_address_card.soi','customers_address_card.road','dataset_districts.name_th as district','dataset_provinces.name_en as province',
+        'dataset_amphures.name_en as tambon','customers_address_card.zipcode','customers.name as c_name','customers.last_name','customers.qualification_id')
 
         ->leftjoin('customers', 'ewallet.customer_username', '=', 'customers.user_name')
         ->leftjoin('customers_address_card', 'ewallet.customer_username', '=', 'customers_address_card.user_name')

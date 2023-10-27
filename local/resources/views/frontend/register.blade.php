@@ -247,7 +247,7 @@
                                                     id="province">
                                                     <option value="">--Please Select--</option>
                                                     @foreach ($province as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name_th }}</option>
+                                                        <option value="{{ $item->id }}">{{ $item->name_en }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -321,7 +321,7 @@
                                             id="same_province">
                                             <option value="">--Please Select--</option>
                                             @foreach ($province as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name_th }}</option>
+                                                <option value="{{ $item->id }}">{{ $item->name_en }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -750,10 +750,10 @@
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#district").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                         $("#same_district").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#district").attr('disabled', false);
@@ -781,10 +781,10 @@
                     $("#zipcode").val("");
                     data.forEach((item) => {
                         $("#tambon").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                         $("#same_tambon").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#tambon").attr('disabled', false);
@@ -834,7 +834,7 @@
                     $("#same_zipcode").val("");
                     data.forEach((item) => {
                         $("#same_district").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#same_district").attr('disabled', false);
@@ -862,7 +862,7 @@
                     $("#same_zipcode").val("");
                     data.forEach((item) => {
                         $("#same_tambon").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#same_tambon").attr('disabled', false);

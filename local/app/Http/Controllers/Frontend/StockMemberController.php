@@ -44,12 +44,17 @@ class StockMemberController extends Controller
             ->get();
 
             $address = DB::table('customers_address_delivery')
-            ->select('customers_address_delivery.*', 'dataset_provinces.id as province_id', 'dataset_provinces.name_th as province_name', 'dataset_amphures.name_th as tambon_name', 'dataset_amphures.id as tambon_id', 'dataset_districts.id as district_id', 'dataset_districts.name_th as district_name')
+            ->select('customers_address_delivery.*', 'dataset_provinces.id as province_id', 'dataset_provinces.name_en as province_name', 'dataset_amphures.name_en as tambon_name', 'dataset_amphures.id as tambon_id', 'dataset_districts.id as district_id', 'dataset_districts.name_en as district_name')
             ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'customers_address_delivery.province')
-            ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'customers_address_delivery.tambon')
-            ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'customers_address_delivery.district')
+            ->leftJoin('dataset_districts', 'customers_address_delivery.tambon', '=', 'dataset_districts.id')
+            ->leftJoin('dataset_amphures', 'customers_address_delivery.district', '=', 'dataset_amphures.id')
+
+
             ->where('user_name', '=',  Auth::guard('c_user')->user()->user_name)
             ->first();
+
+
+
 
 
             if (Auth::guard('c_user')->user()->business_location_id == 1 || empty(Auth::guard('c_user')->user()->business_location_id)) {

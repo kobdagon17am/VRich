@@ -75,7 +75,8 @@ class OrderHistoryController extends Controller
             })
             ->addColumn('tracking', function ($row) {
                 if ($row->tracking_no) {
-                $data = '<a href="' . route('order_detail', ['code_order' => $row->tracking_no]) . '" class="btn btn-outline-primary">' . $row->tracking_no . '</a>';
+               // $data = '<a href="' . route('order_detail', ['code_order' => $row->tracking_no]) . '" class="btn btn-outline-primary">' . $row->tracking_no . '</a>';
+                $data = $row->tracking_no;
 
                     return  $data ;
                 } else {

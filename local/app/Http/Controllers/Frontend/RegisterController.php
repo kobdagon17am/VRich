@@ -330,6 +330,7 @@ class RegisterController extends Controller
                         'username' =>  $user_name,
                         'type' =>1,
                         'url' =>$url,
+                        'regis_doc_status'=>1,
                         'file' => $filenametostore,
                     ];
 

@@ -55,7 +55,7 @@ class ProfileController extends Controller
 
         // BEGIN ข้อมูลบัตรประชาชน
         $address_card = DB::table('customers_address_card')
-        ->select('customers_address_card.*', 'dataset_districts.name_th as tambon_name','dataset_amphures.name_th as amphure_name')
+        ->select('customers_address_card.*', 'dataset_districts.name_th as tambon_name','dataset_amphures.name_en as amphure_name')
         ->leftJoin('dataset_districts', 'customers_address_card.tambon', '=', 'dataset_districts.id')
         ->leftJoin('dataset_amphures', 'customers_address_card.district', '=', 'dataset_amphures.id')
         ->where('customers_address_card.customers_id', $customers_id)
@@ -68,7 +68,7 @@ class ProfileController extends Controller
 
 
         $address_delivery = DB::table('customers_address_delivery')
-        ->select('customers_address_delivery.*', 'dataset_districts.name_th as tambon_name','dataset_amphures.name_th as amphure_name')
+        ->select('customers_address_delivery.*', 'dataset_districts.name_th as tambon_name','dataset_amphures.name_en as amphure_name')
         ->leftJoin('dataset_districts', 'customers_address_delivery.tambon', '=', 'dataset_districts.id')
         ->leftJoin('dataset_amphures', 'customers_address_delivery.district', '=', 'dataset_amphures.id')
         ->where('customers_address_delivery.customers_id', $customers_id)
@@ -281,16 +281,16 @@ class ProfileController extends Controller
                 'card_zipcode' => 'required',
             ],
             [
-                'file_card.required' => 'กรุณากรอกข้อมูล',
-                'file_card.mimes' => 'รองรับไฟล์นามสกุล jpeg,jpg,png เท่านั้น',
-                'card_address.required' => 'กรุณากรอกข้อมูล',
-                'card_moo.required' => 'กรุณากรอกข้อมูล',
-                'card_soi.required' => 'กรุณากรอกข้อมูล',
-                'card_road.required' => 'กรุณากรอกข้อมูล',
-                'card_province.required' => 'กรุณากรอกข้อมูล',
-                'card_district.required' => 'กรุณากรอกข้อมูล',
-                'card_tambon.required' => 'กรุณากรอกข้อมูล',
-                'card_zipcode.required' => 'กรุณากรอกข้อมูล',
+                'file_card.required' => 'Please enter the information.',
+                'file_card.mimes' => 'Only jpeg, jpg, and png file types are supported.',
+                'card_address.required' => 'Please enter the information.',
+                'card_moo.required' => 'Please enter the information.',
+                'card_soi.required' => 'Please enter the information.',
+                'card_road.required' => 'Please enter the information.',
+                'card_province.required' => 'Please enter the information.',
+                'card_district.required' => 'Please enter the information.',
+                'card_tambon.required' => 'Please enter the information.',
+                'card_zipcode.required' => 'Please enter the information.',
             ]
         );
 
@@ -323,6 +323,21 @@ class ProfileController extends Controller
             $query = CustomersAddressCard::updateOrInsert([
                 'customers_id' =>    $customers_id
             ], $CustomersAddressCard);
+
+            $file_idcard = [
+                'business_location_id_fk' =>  3,
+                'customer_id' => $customers_id,
+                'username' =>  $user_name,
+                'type' =>1,
+                'url' =>$url,
+                'file' => $filenametostore,
+            ];
+
+            DB::table('register_files')
+            ->updateOrInsert(
+                ['username' => $user_name, 'type' => 1],
+                $file_idcard
+            );
 
             $query_update_customer = Customers::where('user_name', $user_name)->update(['regis_doc1_status' => 3]);
             return response()->json(['status' => 'success'], 200);

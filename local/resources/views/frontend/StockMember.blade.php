@@ -21,9 +21,6 @@
                 <div class="card-body">
 
                     <div class=" table-responsive">
-
-
-
                         <table class="table">
                             <thead>
                                 <tr>
@@ -532,7 +529,7 @@
                                                                                         @foreach ($province as $item)
                                                                                             <option
                                                                                                 value="{{ $item->id }}">
-                                                                                                {{ $item->name_th }}
+                                                                                                {{ $item->name_en }}
                                                                                             </option>
                                                                                         @endforeach
                                                                                     </select>
@@ -685,7 +682,7 @@
                     $(".same_zipcode").val("");
                     data.forEach((item) => {
                         $(".same_district").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $(".same_district").attr('disabled', false);
@@ -715,7 +712,7 @@
                     $(".same_zipcode").val("");
                     data.forEach((item) => {
                         $(".same_tambon").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $(".same_tambon").attr('disabled', false);

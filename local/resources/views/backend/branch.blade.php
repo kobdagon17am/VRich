@@ -409,7 +409,7 @@
                     $("#card_zipcode").val("");
                     data.forEach((item) => {
                         $("#card_amphur").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
 
                     });
@@ -436,7 +436,7 @@
                     $("#card_zipcode").val("");
                     data.forEach((item) => {
                         $("#card_tambon").append(
-                            `<option value="${item.id}">${item.name_th}</option>`
+                            `<option value="${item.id}">${item.name_en}</option>`
                         );
                     });
                     $("#card_tambon").attr('disabled', false);

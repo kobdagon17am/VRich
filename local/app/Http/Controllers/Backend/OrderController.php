@@ -194,8 +194,8 @@ class OrderController extends Controller
                         'soi',
                         'road',
                         'dataset_districts.name_th as district',
-                        'dataset_provinces.name_th as province',
-                        'dataset_amphures.name_th as tambon',
+                        'dataset_provinces.name_en as province',
+                        'dataset_amphures.name_en as tambon',
                         'db_orders.zipcode',
                         'email',
                         'tel',
@@ -248,8 +248,8 @@ class OrderController extends Controller
             ->select(
                 'db_orders.*',
                 'dataset_districts.name_th as district',
-                'dataset_provinces.name_th as province',
-                'dataset_amphures.name_th as tambon',
+                'dataset_provinces.name_en as province',
+                'dataset_amphures.name_en as tambon',
                 'customers.name as customers_name',
                 'customers.last_name as customers_last_name',
             )
@@ -525,8 +525,8 @@ class OrderController extends Controller
                             'soi',
                             'road',
                             'dataset_districts.name_th as district',
-                            'dataset_provinces.name_th as province',
-                            'dataset_amphures.name_th as tambon',
+                            'dataset_provinces.name_en as province',
+                            'dataset_amphures.name_en as tambon',
                             'db_orders.zipcode',
                             'tel',
                         )

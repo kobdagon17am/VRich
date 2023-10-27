@@ -277,6 +277,7 @@
 
                                                                 <input name="district_id" type="hidden" class="form-control"
                                                                 value="{{ @$address->district_id }}">
+
                                                                 <input type="text"  class="form-control"
                                                                 value="{{@$address->district_name}}" readonly="">
                                                             </div>
@@ -363,7 +364,7 @@
                                                                 <option value="">--please select--</option>
                                                                 @foreach ($province as $item)
                                                                     <option value="{{ $item->id }}">
-                                                                        {{ $item->name_th }}</option>
+                                                                        {{ $item->name_en }}</option>
                                                                 @endforeach
                                                             </select>
 
@@ -703,7 +704,7 @@
                 $("#same_zipcode").val("");
                 data.forEach((item) => {
                     $("#same_district").append(
-                        `<option value="${item.id}">${item.name_th}</option>`
+                        `<option value="${item.id}">${item.name_en}</option>`
                     );
                 });
                 $("#same_district").attr('disabled', false);
@@ -733,7 +734,7 @@
                 $("#same_zipcode").val("");
                 data.forEach((item) => {
                     $("#same_tambon").append(
-                        `<option value="${item.id}">${item.name_th}</option>`
+                        `<option value="${item.id}">${item.name_en}</option>`
                     );
                 });
                 $("#same_tambon").attr('disabled', false);

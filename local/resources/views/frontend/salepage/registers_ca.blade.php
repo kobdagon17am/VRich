@@ -599,7 +599,7 @@
                                                                 ธนาคารยูโอบี </option>
                                                         </select>
 
-                                                        <select class="form-control" id="bank_name_cam"
+                                                        <select class="form-control" id="bank_name_en"
                                                             name="bank_name">
                                                             <option value=""> Select </option>
                                                             <option value="ABA Bank"
