@@ -550,7 +550,13 @@ class ConfirmCartController extends Controller
         $total_price = $price + $shipping_total;
 
         if (Auth::guard('c_user')->user()->ewallet <  $total_price) {
-            return redirect('cart')->withWarning('Unable to pay because Ewallet does not have enough money to pay.');
+            if ($rs->type == 'promotion') {
+                return redirect('cart/promotion')->withError('Unable to pay because Ewallet does not have enough money to pay.');
+            }else{
+                return redirect('cart/other')->withError('Unable to pay because Ewallet does not have enough money to pay.');
+            }
+
+
         }
         $insert_db_orders->shipping_price = $shipping_total;
         $insert_db_orders->total_price = $total_price;
