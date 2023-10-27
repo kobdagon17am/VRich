@@ -238,9 +238,19 @@ class ConfirmCartController extends Controller
         $quantity = Cart::session($rs->type)->getTotalQuantity();
         $insert_db_orders->quantity = $quantity;
         $customer_id = Auth::guard('c_user')->user()->id;
+        $price_check = Cart::session($rs->type)->getTotal();
+         $price_total_check = $price_check;
 
 
-
+        if (Auth::guard('c_user')->user()->ewallet < $price_total_check) {
+            if ($rs->type == 'promotion') {
+                DB::rollback();
+                return redirect('cart/promotion')->withError('Unable to pay because Ewallet does not have enough money to pay.');
+            }else{
+                DB::rollback();
+                return redirect('cart/other')->withError('Unable to pay because Ewallet does not have enough money to pay.');
+            }
+        }
 
 
         $code_order = \App\Http\Controllers\Frontend\FC\RunCodeController::db_code_order();
@@ -531,7 +541,6 @@ class ConfirmCartController extends Controller
         }
 
 
-
         $insert_db_orders->shipping_cost_name = '';
 
         $insert_db_orders->sum_price = $price;
@@ -551,8 +560,10 @@ class ConfirmCartController extends Controller
 
         if (Auth::guard('c_user')->user()->ewallet <  $total_price) {
             if ($rs->type == 'promotion') {
+                DB::rollback();
                 return redirect('cart/promotion')->withError('Unable to pay because Ewallet does not have enough money to pay.');
             }else{
+                DB::rollback();
                 return redirect('cart/other')->withError('Unable to pay because Ewallet does not have enough money to pay.');
             }
 
