@@ -47,6 +47,8 @@
                 </div>
             </div>
 
+
+
             <div class="row">
                 <div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog"
                     aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -114,7 +116,9 @@
                         </div>
                     </div>
                 </div>
+
             </div>
+
 
             <div class="row">
                 <div class="modal fade bd-example-modal-lg" id="cancel_member" tabindex="-1" role="dialog"
@@ -174,12 +178,88 @@
                     </div>
                 </div>
             </div>
+
+
+
+        </div>
+
+
+
+
+    </div>
+    <div class="row">
+        <div class="table-responsive mt-2 mb-2">
+            <table id="basic-dt" class="table table-hover" style="width:100%">
+            </table>
         </div>
     </div>
-    <div class="table-responsive mt-2 mb-2">
-        <table id="basic-dt" class="table table-hover" style="width:100%">
-        </table>
+
+
+    <div class="modal fade bd-example-modal-lg" id="edit_position" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header ml-4">
+                <h5 class="modal-title" id="myLargeModalLabel"><b>ปรับตำแหน่ง</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="las la-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">
+                <div class="widget-content widget-content-area">
+                    <div class="form-group row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <form method="post" action="{{ route('admin/edit_position') }}">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-lg-6 mt-2">
+                                        <label><b>รหัสสมาชิก:</b></label>
+                                        <input type="hidden" name="id_customer" id="id_customer">
+                                        <input type="text" name="username_position" id="username_position"
+                                            class="form-control" placeholder="รหัสสมาชิก" disabled>
+                                    </div>
+                                    <div class="col-lg-6  mt-2">
+                                        <label><b>ชื่อ:</b></label>
+                                        <input type="text" name="fisrt_name_position" id="fisrt_name_position"
+                                            class="form-control" placeholder="ชื่อ" disabled>
+                                    </div>
+                                    <div class="col-lg-6  mt-2">
+                                        <label><b>นามสกุล:</b></label>
+                                        <input type="text" name="last_name_position" id="last_name_position"
+                                            class="form-control" placeholder="นามสกุล" disabled>
+                                    </div>
+
+                                    <div class="col-lg-6  mt-2">
+                                        <label><b>ตำแหน่งปัจจุบัน :</b></label>
+                                        <input type="text" id="old_position"
+                                            class="form-control"  value="dddddd">
+                                    </div>
+                                    <div class="col-lg-6  mt-2">
+                                        <label><b>ตำแหน่งที่ต้องการปรับ:</b></label>
+                                        <select class="form-control" name="new_position" required>
+                                            <option value=""> เลือกตำแหน่ง </option>
+                                            @foreach($position as $value)
+                                            <option value="{{$value->code}}">{{$value->business_qualifications}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="info-area col-md-12 text-center mt-4 ">
+                                        <button type="submit" class="btn btn-info btn-rounded">
+                                            <i class="las la-save"></i>
+                                            บันทึก</button>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </p>
+            </div>
+
+        </div>
     </div>
+</div>
+
 
 @endsection
 @section('js')
@@ -355,6 +435,34 @@
                 })
         }
 
+        function edit_position(id) {
+
+            $.ajax({
+                    url: '{{ route('admin/view_password') }}',
+                    type: 'GET',
+                    data: {
+                        id
+                    }
+                })
+                .done(function(data) {
+                    console.log(data);
+
+                    $("#edit_position").modal();
+                    $("#id_customer").val(data['data']['id']);
+                    $("#username_position").val(data['data']['user_name']);
+                    $("#first_name_position").val(data['data']['name']);
+                    $("#last_name_position").val(data['data']['last_name']);
+                    $("#old_position").val(data['data']['business_qualifications']);
+
+                        })
+                        .fail(function() {
+                            console.log("error");
+                        })
+            }
+
+
+
+
         function cancel_member(id) {
 
             $.ajax({
@@ -368,8 +476,8 @@
                     console.log(data);
                     $("#cancel_member").modal();
                     $("#id_cancel").val(data['data']['id']);
-                    $("#username_cancel").val(data['data']['username']);
-                    $("#fisrt_name_cancel").val(data['data']['first_name']);
+                    $("#username_cancel").val(data['data']['user_name']);
+                    $("#fisrt_name_cancel").val(data['data']['name']);
                     $("#last_name_cancel").val(data['data']['last_name']);
                     $("#id_card_cancel").val(data['data']['id_card']);
 

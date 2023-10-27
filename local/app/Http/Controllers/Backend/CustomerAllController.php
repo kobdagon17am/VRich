@@ -116,6 +116,7 @@ class CustomerAllController extends Controller
     public function update_position(Request $request)
     {
 
+
         $user_action = DB::table('customers')
         ->select( 'id', 'user_name','pv_upgrad', 'name', 'last_name','qualification_id','introduce_id')
         ->where('user_name','=',$request->user_name_upgrad)

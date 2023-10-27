@@ -20,13 +20,15 @@ class MemberRigisterController extends Controller
   public function index()
   {
     $get_member_data = DB::table('customers')
-
       ->where('regis_doc_status', '=', 'approve')
+      ->get();
+
+    $position = DB::table('dataset_qualification')
       ->get();
 
     // dd($get_member_data);
 
-    return view('backend/member_regis', compact('get_member_data'));
+    return view('backend/member_regis', compact('get_member_data','position'));
   }
 
   public function MemberRegister_datatable(Request $rs)
@@ -122,6 +124,7 @@ class MemberRigisterController extends Controller
         //       <i class="lab la-whmcs font-25 text-warning"></i></a>';
         $html2 = '<i class="lab la-whmcs font-25 text-warning" id="btnGroupDrop1" data-toggle="dropdown"></i>
               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" >
+              <a class="dropdown-item" href="#!" onclick="edit_position(' . $row->id . ')" class="p-2">ปรับตำแหน่ง</a>
                 <a class="dropdown-item" href="#!" onclick="edit(' . $row->id . ')" class="p-2">แก้ไขรหัสผ่าน</a>
                 <a class="dropdown-item" href="#!" onclick="cancel_member(' . $row->id . ')" class="p-2">ยกเลิกรหัส</a>
               </div>';
@@ -196,7 +199,9 @@ class MemberRigisterController extends Controller
   {
 
     $get_customer = DB::table('customers')
-      ->where('id', '=', $rs->id)
+       ->select('customers.*','dataset_qualification.business_qualifications')
+       ->leftjoin('dataset_qualification', 'customers.qualification_id', '=', 'dataset_qualification.id')
+      ->where('customers.id', '=', $rs->id)
       ->first();
 
     $data = ['status' => 'success', 'data' => $get_customer];
@@ -204,4 +209,47 @@ class MemberRigisterController extends Controller
 
     return $data;
   }
+
+  public function edit_position(Request $request)
+  {
+
+
+    $user_action = DB::table('customers')
+    ->select( 'id', 'user_name','name', 'last_name','qualification_id','introduce_id')
+    ->where('id','=',$request->id_customer)
+    ->first();
+    if(empty($user_action)){
+        return redirect('admin/MemberRegister')->withError('ไม่พบผู้ใช้งาน กรุณาทำรายการไหม่');
+    }
+
+    if($user_action->qualification_id == $request->new_position){
+        return redirect('admin/MemberRegister')->withError('สมาชิกเป็น '.$request->new_position.' อยู่แล้วไม่สามารถปรับตำแหน่งได้');
+    }
+
+    try {
+
+        DB::BeginTransaction();
+
+        DB::table('log_up_vl')->insert([
+            'user_name' => $user_action->user_name,'introduce_id' => $user_action->introduce_id,
+            'old_lavel' => $user_action->qualification_id, 'new_lavel' =>$request->new_position,'pv_upgrad'=>0, 'status' => 'success', 'type' => 'jangpv','note'=>'ปรับตำแหน่งโดย Admin'
+        ]);
+
+        DB::table('customers')
+        ->where('user_name', $user_action->user_name)
+        ->update(['qualification_id' => $request->new_position, 'pv_upgrad' => 0]);
+        DB::commit();
+
+        return redirect('admin/MemberRegister')->withSuccess('ปรับตำแหน่งสำเร็จ');
+
+} catch (Exception $e) {
+     DB::rollback();
+     return redirect('admin/MemberRegister')->withError('ผิดพลาดกรุณาทำรายการไหม่อีกครั้ง');
+}
+
+
+
+  }
+
+
 }
