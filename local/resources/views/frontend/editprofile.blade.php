@@ -417,7 +417,7 @@
 
                             <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">
                                 Bank account information for receiving income</div>
-                            @if ($info_bank != null)
+                            @if ($customers_info->regis_doc2_status == 1 || $customers_info->regis_doc2_status == 3)
                                 <div class="row g-3">
                                     <div class="alert alert-danger d-flex align-items-center" role="alert">
                                         <i class='bx bxs-error me-2'></i>
@@ -472,9 +472,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
-
-                            @if ($info_bank == null)
+                            @else
                                 <form id="form_cerate_info_bank_last" method="post">
                                     @csrf
                                     <div class="row g-3">

@@ -213,13 +213,13 @@ class ProfileController extends Controller
                 'account_name' => 'required',
             ],
             [
-                'file_bank.required' => 'กรุณาแนบเอกสาร',
-                'file_bank.mimes' => 'รองรับไฟล์นามสกุล jpeg,jpg,png เท่านั้น',
-                'bank_name.required' => 'กรุณากรอกข้อมูล',
-                'bank_branch.required' => 'กรุณากรอกข้อมูล',
-                'bank_no.required' => 'กรุณากรอกข้อมูล ',
-                'bank_no.numeric' => 'ใส่เฉพาะตัวเลขเท่านั้น',
-                'account_name.required' => 'กรุณากรอกข้อมูล',
+                'file_bank.required' => 'Please attach the document.',
+                'file_bank.mimes' => 'Only jpeg, jpg, and png file types are supported.',
+                'bank_name.required' => 'Please enter the information.',
+                'bank_branch.required' => 'Please enter the information.',
+                'bank_no.required' => 'Please enter the information.',
+                'bank_no.numeric' => 'Please enter only numeric characters.',
+                'account_name.required' => 'Please enter the information.',
             ]
         );
 
@@ -255,7 +255,23 @@ class ProfileController extends Controller
 
             Customers::where('id', $customers_id)->update(['regis_doc2_status' => 3]);
 
-            // create($dataPrepare);
+            $file_bank = [
+                'business_location_id_fk' =>  3,
+                'customer_id' =>$customers_id,
+                'username' =>  $customers_user_name,
+                'type' =>2,
+                'url' =>$url,
+                'regis_doc_status'=>1,
+                'file' => $filenametostore,
+            ];
+
+            DB::table('register_files')
+            ->updateOrInsert(
+                ['username' => $customers_user_name, 'type' => 2],
+                $file_bank
+            );
+
+
 
             return response()->json(['status' => 'success'], 200);
         }
@@ -330,6 +346,7 @@ class ProfileController extends Controller
                 'username' =>  $user_name,
                 'type' =>1,
                 'url' =>$url,
+                'regis_doc_status'=>1,
                 'file' => $filenametostore,
             ];
 
