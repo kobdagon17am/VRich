@@ -493,7 +493,7 @@
                                                 <div class="text-center">
                                                     <input type="hidden" name="type" value="{{$bill['type']}}">
                                                     <button type="submit"
-                                                    class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center">Confirm Order</button>
+                                                    class="btn btn-p1 rounded-pill w-100 mb-2 justify-content-center" onclick="return confirm('Confirm Order ?')">Confirm Order</button>
                                                 <a href="{{ route('cancel_order',['type'=>$bill['type']]) }}" type="button"
                                                     class="btn btn-outline-dark rounded-pill w-100 mb-2 justify-content-center">Cancel</a>
 

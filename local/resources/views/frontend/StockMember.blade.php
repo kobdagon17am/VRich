@@ -69,7 +69,7 @@
                                     <div class="modal fade" id="transferstockModal_{{ $value->id }}" tabindex="-1"
                                         aria-labelledby="transferstockModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-                                            <form method="post" action="{{ route('stock_tranfer') }}">
+                                            <form method="post" action="{{ route('stock_tranfer') }}" id=form_{{ $value->id }}">
                                                 @csrf
                                                 <div class="modal-content borderR25">
                                                     <div class="modal-header">
@@ -181,9 +181,11 @@
                                                     <div class="modal-footer justify-content-between border-0">
                                                         <button type="button" class="btn btn-outline-dark rounded-pill"
                                                             data-bs-dismiss="modal">Cancel</button>
-                                                        <button type="submit"
-                                                            class="btn btn-p1 rounded-pill d-flex align-items-center confirm"><i
-                                                                class='bx bxs-check-circle me-2'></i>Confirm</button>
+
+                                                            <button type="submit" class="btn btn-p1 rounded-pill d-flex align-items-center confirm" onclick="return confirm('Confirm the transaction ?')">
+                                                                <i class='bx bxs-check-circle me-2'></i>Confirm
+                                                              </button>
+
                                                     </div>
                                                 </div>
                                             </form>
@@ -589,7 +591,7 @@
                                                         <button type="button" class="btn btn-outline-dark rounded-pill"
                                                             data-bs-dismiss="modal">Cancel</button>
                                                         <button type="submit"
-                                                            class="btn btn-p1 rounded-pill d-flex align-items-center confirm"><i
+                                                            class="btn btn-p1 rounded-pill d-flex align-items-center confirm" onclick="return confirm('Confirm the transaction ?')" ><i
                                                                 class='bx bxs-check-circle me-2'></i>Confirm</button>
                                                     </div>
                                                 </div>
@@ -758,4 +760,11 @@
 
             }
     </script>
+
+
+
+
+
+
+
 @endsection
