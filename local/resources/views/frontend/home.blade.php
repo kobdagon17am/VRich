@@ -202,28 +202,28 @@
                                     </div>
                                     {{-- <div class="d-flex w-100 pe-4">
                                         <h4 class="mb-0 text-purple1 bg-opacity-100 fw-bold">
-                                            <h5 class="mb-0"> MY STOCK </h5>
+                                            <h5 class="mb-0">My Cloud </h5>
                                             </h4>
                                         <p class="fs-12 text-secondary mb-0"> คลังสินค้าส่วนตัว </p>
                                     </div> --}}
 
                                     <div class="flex-grow-1 ms-3 text-start">
                                         <div class="d-flex justify-content-between">
-                                            <h5 class="mb-0">  MY STOCK</h5>
+                                            <h5 class="mb-0"> My Cloud</h5>
 
                                         </div>
                                         <p class="fs-12 text-secondary mb-0">
-                                            private warehouse</p>
+                                            Warehouse</p>
                                     </div>
                                 </div>
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
-                                <li><a class="dropdown-item" href="{{ route('StockMember') }}"> private warehouse</a></li>
+                                <li><a class="dropdown-item" href="{{ route('StockMember') }}"> Warehouse</a></li>
 
                                 <li><a class="dropdown-item"
                                         href="{{ route('Stock-history') }}">
-                                        List of movements behind the product </a></li>
+                                        Stock Movement</a></li>
                             </ul>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                                     </div>
                                     {{-- <div class="d-flex w-100 pe-4">
                                         <h4 class="mb-0 text-purple1 bg-opacity-100 fw-bold">
-                                            <h5 class="mb-0"> MY STOCK </h5>
+                                            <h5 class="mb-0">My Cloud </h5>
                                             </h4>
                                         <p class="fs-12 text-secondary mb-0"> คลังสินค้าส่วนตัว </p>
                                     </div> --}}
@@ -574,28 +574,28 @@
                                 </div>
                                 {{-- <div class="d-flex w-100 pe-4">
                                     <h4 class="mb-0 text-purple1 bg-opacity-100 fw-bold">
-                                        <h5 class="mb-0"> MY STOCK </h5>
+                                        <h5 class="mb-0">My Cloud </h5>
                                         </h4>
                                     <p class="fs-12 text-secondary mb-0"> คลังสินค้าส่วนตัว </p>
                                 </div> --}}
 
                                 <div class="flex-grow-1 ms-3 text-start">
                                     <div class="d-flex justify-content-between">
-                                        <h5 class="mb-0">  MY STOCK</h5>
+                                        <h5 class="mb-0"> My Cloud</h5>
 
                                     </div>
                                     <p class="fs-12 text-secondary mb-0">
-                                        private warehouse</p>
+                                        Warehouse</p>
                                 </div>
                             </div>
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkStock">
                             <li><a class="dropdown-item" href="{{ route('StockMember') }}">
-                                private warehouse</a></li>
+                                Warehouse</a></li>
 
                            <li><a class="dropdown-item"
-                                    href="{{ route('Stock-history') }}"> List of movements behind the product </a></li>
+                                    href="{{ route('Stock-history') }}"> Stock Movement</a></li>
                         </ul>
                     </div>
                 </div>

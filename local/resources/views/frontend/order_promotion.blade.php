@@ -55,6 +55,7 @@
                                                             </div>
                                                             <div class="col-12 col-md-12  text-md-center">
                                                                 <h6 class="mb-0">{{ $value->product_name }}</h6>
+                                                                <div class="fs-12 text-muted mb-0">{{ $value->product_detail }} </div>
                                                                 @if($product_all['currency']->id == 1)
                                                                 <p class="mb-1"> {!! $dataset_currency->icon !!}
                                                                     {{ number_format($value->product_price_member_th, 2) }} <span
@@ -107,6 +108,7 @@
                                                                             </div>
                                                                             <div class="col-12 col-md-12 text-start text-md-center">
                                                                                 <h6 class="mb-0">{{ $value->product_name }}</h6>
+                                                                                <div class="fs-12 text-muted mb-0">{{ $value->product_detail }} </div>
                                                                                 @if($product_all['currency']->id == 1)
                                                                                 <p class="mb-1"> {!! $dataset_currency->icon !!}
                                                                                     {{ number_format($value->product_price_member_th, 2) }} <span
@@ -161,6 +163,7 @@
                                                                             </div>
                                                                             <div class="col-12 col-md-12 text-start text-md-center">
                                                                                 <h6 class="mb-0">{{ $value->product_name }}</h6>
+                                                                                <div class="fs-12 text-muted mb-0">{{ $value->product_detail }} </div>
                                                                                 @if($product_all['currency']->id == 1)
                                                                                 <p class="mb-1"> {!! $dataset_currency->icon !!}
                                                                                     {{ number_format($value->product_price_member_th, 2) }} <span
@@ -214,6 +217,7 @@
                                                                             </div>
                                                                             <div class="col-12 col-md-12 text-start text-md-center">
                                                                                 <h6 class="mb-0">{{ $value->product_name }}</h6>
+                                                                                <div class="fs-12 text-muted mb-0">{{ $value->product_detail }} </div>
                                                                                 @if($product_all['currency']->id == 1)
                                                                                 <p class="mb-1"> {!! $dataset_currency->icon !!}
                                                                                     {{ number_format($value->product_price_member_th, 2) }} <span

@@ -226,8 +226,8 @@
                                                             </div>
 
                                                             <div class="col-md-4 col-xl-4">
-                                                                <label for="" class="form-label">Phone <span class="text-danger phone_err _err">*</span></label>
-                                                                <input name="phone" type="text" class="form-control" name="phone" value="{{ @$address->phone }}">
+                                                                <label for="" class="form-label">Phone  <span class="text-danger phone_err _err">*</span></label>
+                                                                <input name="phone" type="text" class="form-control" name="phone" value="{{ @$address->phone }}" id="phoneInput" onchange="validatePhoneNumber()">
                                                             </div>
 
                                                             <div class="col-md-4 col-xl-4">
@@ -329,8 +329,8 @@
 
                                                         <div class="col-md-6 col-xl-4 mb-3">
                                                             <label for="" class="form-label">Phone </label>
-                                                            <input type="text" name="same_phone" class="form-control address_same_card"
-                                                                id="">
+                                                            <input type="number" name="same_phone"  class="form-control address_same_card"
+                                                            id="phoneInput2" onchange="validatePhoneNumber2()">
                                                         </div>
                                                         <div class="col-md-6 col-xl-5">
                                                             <label for="" class="form-label">Address <span
@@ -774,5 +774,47 @@
         // }
     }
     //  END tambon
+
+</script>
+
+<script>
+     input = document.getElementById("phoneInput");
+     var phoneNumber = input.value;
+     if (!/^\d{9,10}$/.test(phoneNumber)) {
+        input.value = ''; // ล้างค่าในช่อง input
+      }
+    function validatePhoneNumber() {
+      var input = document.getElementById("phoneInput");
+      var phoneNumber = input.value;
+
+      if (!/^\d{9,10}$/.test(phoneNumber)) {
+        input.value = '';
+
+        Swal.fire({
+            icon: 'error',
+        title:'Error !',
+        text:"'Please enter a phone number that consists of digits and is at least 9-10 digits long.",
+
+    })
+        // ล้างค่าในช่อง input
+      }
+    }
+
+    function validatePhoneNumber2() {
+      var input = document.getElementById("phoneInput2");
+      var phoneNumber = input.value;
+
+      if (!/^\d{9,10}$/.test(phoneNumber)) {
+        input.value = '';
+
+        Swal.fire({
+            icon: 'error',
+        title:'Error !',
+        text:"'Please enter a phone number that consists of digits and is at least 9-10 digits long.",
+
+    })
+        // ล้างค่าในช่อง input
+      }
+    }
 </script>
     @endsection
