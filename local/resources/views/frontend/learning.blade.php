@@ -11,50 +11,19 @@
                 <div class="col-lg-12">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('home')}}">หน้าแรก</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">MDK Learning</li>
+                            <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Vrich Learning</li>
                         </ol>
                     </nav>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <ul class="nav nav-pills mb-3">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ route('Learning') }}">เรียนรู้</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('ct') }}">CT</a>
-                        </li>
-                    </ul>
-                    <div class="card card-box borderR10 mb-3">
-                        <div class="card-body">
-                            <h4 class="card-title">ค้นหา</h4>
-                            <hr>
-                            <form action="{{ route('search_lrn') }}" method="GET">
-                                <div class="row g-3">
-                                    <div class="col-md-5 col-lg-3">
-                                        <label for="" class="form-label">เรียงโดย</label>
-                                        <select class="form-select" id="">
-                                            <option>รายการล่าสุด</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 col-lg-8">
-                                        <label for="" class="form-label">คำค้นหา</label>
-                                        <input type="text" class="form-control" name="search_lrn" required>
-                                    </div>
-                                    <div class="col-md-1 col-lg-1">
-                                        <label for="" class="form-label d-none d-md-block">&nbsp;</label>
-                                        <button type="submit" class="btn btn-dark rounded-circle btn-icon"><i
-                                                class="bx bx-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+
+
                     <div class="card card-box borderR10 mb-2 mb-md-0">
                         <div class="card-body">
-                            <h4 class="card-title">รายการเรียนรู้</h4>
+                            <h4 class="card-title">Vrich Learning</h4>
                             <hr>
                             <div class="row">
                                 @if (isset($Lrn))
@@ -63,13 +32,13 @@
                                             $date = new DateTime();
                                             $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
                                         @endphp
-                                        @if ($value->end_date_lrn >= $date->format('Y-m-d'))
+                                        @if ($value->created_at >= $date->format('Y-m-d'))
                                             <div class="col-md-6">
                                                 <div class="card cardNewsH mb-3">
                                                     <div class="row g-0">
                                                         <div class="col-md-5">
                                                             <div class="box-imageNews">
-                                                                <img src="{{ isset($value->image_lrn) ? asset('local/public/upload/lrn/image/' . $value->image_lrn) : '' }}"
+                                                                <img src="{{ isset($value->learning_image_url) ? asset("$value->learning_image_url/$value->learning_image_name") : '' }}"ห
                                                                     class="img-fluid rounded-start" alt="">
                                                             </div>
                                                         </div>
@@ -77,15 +46,15 @@
                                                             <div class="card-body">
                                                                 <span
                                                                     class="badge rounded-pill bg-purple2 bg-opacity-20 text-p1 fw-light mb-1">
-                                                                    {{ $value->start_date_lrn }} to
-                                                                    {{ $value->end_date_lrn }}
+                                                                    {{ $value->created_at }}
+
                                                                 </span>
-                                                                <h5 class="card-title">{{ $value->title_lrn }}</h5>
+                                                                <h5 class="card-title">{{ $value->learning_name }}</h5>
                                                                 <p class="card-text">
-                                                                    {{ isset($value->detail_lrn) ? $value->detail_lrn : '' }}
+                                                                    {{ isset($value->learning_title) ? $value->learning_title : '' }}
                                                                 </p>
                                                                 <a href="{{ url('learning_detail') }}/{{ $value->id }}"
-                                                                    class="linkNews stretched-link"><span>อ่านเพิ่มเติม</span><i
+                                                                    class="linkNews stretched-link"><span>Read more</span><i
                                                                         class='bx bxs-right-arrow-circle'></i></a>
                                                             </div>
                                                         </div>

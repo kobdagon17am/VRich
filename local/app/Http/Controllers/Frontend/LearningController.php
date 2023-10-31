@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Mdk_ct;
 use App\Mdk_lrn;
-
+use DB;
 class LearningController extends Controller
 {
     public function __construct()
@@ -16,7 +16,16 @@ class LearningController extends Controller
 
     public function index()
     {
-        $Lrn = Mdk_lrn::orderBy('id', 'DESC')->paginate(4);
+
+
+        $Lrn = DB::table('learning')
+        ->select('learning.*', 'learning_images.learning_image_url','learning_images.learning_image_name')
+        ->leftjoin('learning_images', 'learning_images.learning_id_fk', '=', 'learning.id')
+        ->where('learning.learning_status','=',1)
+        // ->orderby('id','DESC')
+        ->paginate(6);
+
+
         $data = array(
             'Lrn' => $Lrn
         );
@@ -44,7 +53,12 @@ class LearningController extends Controller
 
     public function learning_detail($id)
     {
-        $Lrn = Mdk_lrn::find($id);
+        $Lrn = DB::table('learning')
+        ->select('learning.*', 'learning_images.learning_image_url','learning_images.learning_image_name')
+        ->leftjoin('learning_images', 'learning_images.learning_id_fk', '=', 'learning.id')
+        ->where('learning.id','=',$id)
+        // ->orderby('id','DESC')
+        ->first();
         $data = array(
             'Lrn' => $Lrn
         );

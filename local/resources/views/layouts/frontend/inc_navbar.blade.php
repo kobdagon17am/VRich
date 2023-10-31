@@ -86,9 +86,9 @@
                         <li><a class="dropdown-item" href="{{ route('SalepageSetting') }}">Sale Page Setting</a></li>
                     </ul>
                 </li>
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('Contact') }}">{{__('text.Contact')}}</a>
-                </li> --}}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('Learning') }}">Learning</a>
+                </li>
             </ul>
         </div>
     </div>

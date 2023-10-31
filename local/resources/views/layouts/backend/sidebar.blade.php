@@ -169,6 +169,27 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="menu main-single-menu">
+                <a href="#a7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="las la-newspaper"></i>
+                        <span> ระบบข่าวสารและสือการเรียนรู้ </span>
+                    </div>
+                    <div>
+                        <i class="las la-angle-right sidemenu-right-icon"></i>
+                    </div>
+                </a>
+                <ul class="collapse submenu list-unstyled" id="a4" data-parent="#accordionExample">
+                    <li>
+                        <a href="{{ route('admin/News') }}"> ข่าวสารและกิจกรรม </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin/Learning') }}"> สื่อการเรียนรู้ </a>
+                    </li>
+
+                </ul>
+            </li>
             <li class="menu main-single-menu">
                 <a href="#a8" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <div class="">

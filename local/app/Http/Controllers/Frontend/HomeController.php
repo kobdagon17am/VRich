@@ -23,7 +23,14 @@ class HomeController extends Controller
 
   public function index()
   {
-    $News = News::paginate(6);
+    $News = DB::table('news')
+    ->select('news.*', 'news_images.news_image_url','news_images.news_image_name')
+    ->leftjoin('news_images', 'news_images.news_id_fk', '=', 'news.id')
+    ->where('news.news_status','=',1)
+    // ->orderby('id','DESC')
+    ->paginate(6);
+
+
     $data = array(
         'News' => $News
     );
@@ -34,7 +41,7 @@ class HomeController extends Controller
     {
         App::setLocale($request->lang);
         session()->put('locale', $request->lang);
-  
+
         return redirect()->back();
     }
 

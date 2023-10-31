@@ -331,7 +331,7 @@
                             </a>
                         </div>
                         <div class="col-4 col-lg-6 d-block d-lg-none">
-                            <a href="๒">
+                            <a href="{{ route('Learning') }}">
                                 <div class="card cardL card-body borderR10 bg-pink bg-opacity-20 mb-2 mb-md-3">
                                     <div class="d-flex">
                                         <div class="flex-shrink-0">
@@ -340,8 +340,8 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <h5>{{ __('text.MdkLerning') }}</h5>
-                                            <p class="fs-12 text-pink">{{ __('text.Learning/CT') }}</p>
+                                            <h5>  Vrich Leening </h5>
+                                            <p class="fs-12 text-pink"> learning media </p>
                                         </div>
                                     </div>
                                 </div>
@@ -784,17 +784,18 @@
                             <div class="row">
                                 @if (isset($News))
                                     @foreach ($News as $item => $value)
+
                                         @php
                                             $date = new DateTime();
                                             $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
                                         @endphp
-                                        @if ($value->end_date_news >= $date->format('Y-m-d'))
+                                        {{-- @if ($value->end_date_news >= $date->format('Y-m-d')) --}}
                                             <div class="col-md-6 col-xl-4">
                                                 <div class="card cardNewsH mb-3">
                                                     <div class="row g-0">
                                                         <div class="col-md-4">
                                                             <div class="box-imageNews">
-                                                                <img src="{{ isset($value->image_news) ? asset('local/public/upload/news/image/' . $value->image_news) : '' }}"
+                                                                <img src="{{ isset($value->news_image_url) ? asset("$value->news_image_url/$value->news_image_name") : '' }}"
                                                                     class="img-fluid rounded-start" alt="">
                                                             </div>
                                                         </div>
@@ -802,12 +803,11 @@
                                                             <div class="card-body">
                                                                 <span
                                                                     class="badge rounded-pill bg-purple2 bg-opacity-20 text-p1 fw-light mb-1">
-                                                                    {{ $value->start_date_news }} to
-                                                                    {{ $value->end_date_news }}
+                                                                    {{ $value->created_at }}
                                                                 </span>
-                                                                <h5 class="card-title">{{ $value->title_news }}</h5>
+                                                                <h5 class="card-title">{{ $value->news_name }}</h5>
                                                                 <p class="card-text">
-                                                                    {{ isset($value->detail_news) ? $value->detail_news : '' }}
+                                                                    {{ isset($value->news_title) ? $value->news_title : '' }}
                                                                 </p>
                                                                 <a href="{{ url('news_detail') }}/{{ $value->id }}"
                                                                     class="linkNews stretched-link"><span>Read more</span><i
@@ -817,7 +817,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endif
+                                        {{-- @endif --}}
                                     @endforeach
                                 @endif
                             </div>
