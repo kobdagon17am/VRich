@@ -7,6 +7,9 @@
         height: 90%;
     }
 </style>
+@section('css')
+<link href='https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css' rel='stylesheet'>
+@endsection
 
 @extends('layouts.frontend.app')
 @section('conten')
@@ -114,7 +117,7 @@
                                     <p class="mt-2 text-left">Create Date <span id="ewallet_created_at"></span> </p>
                                     <P class="mt-2 text-left">Username <span id="name"></span> </P>
                                     <p class="text-xl mt-2"> Amount <span class="text-danger amt"></span>
-                                        บาท</p>
+                                        $</p>
                                 </div>
                             </div>
                         </div>
@@ -128,6 +131,8 @@
 @endsection
 
 @section('script')
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script>
         $('.page-content').css({
             'min-height': $(window).height() - $('.navbar').height()
@@ -144,9 +149,9 @@
                     responsive: true,
 
                     "language": {
-                        "lengthMenu": "แสดง _MENU_ แถว",
-                        "zeroRecords": "ไม่พบข้อมูล",
-                        "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                        "lengthMenu": "Show _MENU_ Raw",
+                        "zeroRecords": "No information",
+                        "info": "Show page _PAGE_ From _PAGES_ Page",
                         "search": "Search",
                         "infoEmpty": "",
                         "infoFiltered": "",
@@ -158,6 +163,8 @@
                         },
                         'processing': "Loading",
                     },
+
+
                     ajax: {
                         url: '{{ route('front_end_get_ewallet') }}',
                         data: function(d) {
@@ -201,78 +208,78 @@
                     columns: [{
                             data: "id",
                             title: "NO.",
-                            className: "table-report__action w-10 text-center",
+                            className: " w-10 text-center",
                         },
                         {
                             data: "transaction_code",
                             title: "Transaction No.",
-                            className: "table-report__action w-10 ",
+                            className: " w-10 ",
                         },
                         {
                             data: "created_at",
                             title: "Created Date",
-                            className: "table-report__action w-10 text-center whitespace-nowrap",
+                            className: " w-10 text-center",
                         },
                         {
                             data: "customer_username",
                             title: "Username",
-                            className: "table-report__action w-24 whitespace-nowrap text-center",
+                            className: " w-24 text-center",
                         },
                         {
                             data: "bonus_full",
                             title: "Amount received",
-                            className: "table-report__action w-10 text-end",
+                            className: "text-end",
                         },
                         {
                             data: "tax_total",
                             title: "Tax 3%",
-                            className: "table-report__action w-10 text-end",
+                            className: " w-10 text-end",
                         },
                         {
                             data: "amt",
                             title: "Total",
-                            className: "table-report__action w-10 text-end",
+                            className: " w-10 text-end",
                         },
 
                         // {
                         //     data: "edit_amt",
                         //     title: "จำนวนเงินที่แก้ไข",
-                        //     className: "table-report__action w-12 text-end",
+                        //     className: " w-12 text-end",
                         // },
                         {
                             data: "balance",
                             title: "eWallet Balance",
-                            className: "table-report__action w-12 text-end",
+                            className: " w-12 text-end",
                         },
                         // {
                         //     data: "customers_id_receive",
                         //     title: "รหัสผู้รับ",
-                        //     className: "table-report__action w-12 text-end",
+                        //     className: " w-12 text-end",
                         // },
                         {
                             data: "customers_name_receive",
                             title: "Receiver Name",
-                            className: "table-report__action w-12 text-center",
+                            className: "w-12 text-center",
                         },
                         {
                             data: "note_orther",
                             title: "Detail",
-                            className: "table-report__action w-10 text-center",
+                            className: " w-10 text-center",
                         },
                         {
                             data: "type",
                             title: "Type",
-                            className: "table-report__action w-10 text-center",
+                            className: " w-10 text-center",
                         },
                         {
                             data: "status",
                             title: "Status",
-                            className: "table-report__action w-10 text-center whitespace-nowrap",
+                            className: " w-10 text-center",
                         },
                         // {
                         //     data: "id",
                         //     title: "",
-                        //     className: "table-report__action w-10 text-center",
+                        //     className: " w-10 text-center",
                         // },
 
 

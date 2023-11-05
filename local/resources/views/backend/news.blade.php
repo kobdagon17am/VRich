@@ -82,7 +82,7 @@
                                                                         <textarea class="form-control" rows="9" name="news_detail" placeholder="รายละเอียดข่าวสาร"></textarea>
                                                                     </div>
                                                                     <div class="col-lg-6 mt-2 text-left">
-                                                                        <label for="news_image1"><b>รูปภาพ: สูง 500 px กว้าง 1300 px</b></label
+                                                                        <label for="news_image1"><b>รูปภาพ: กว้าง 1200 px สูง 800 px</b></label
                                                                         <div class="upload text-center img-thumbnail">
                                                                             <input type="file"
                                                                                 name="news_image1" class="dropify"
@@ -281,9 +281,9 @@
                 processing: true,
                 serverSide: true,
                 "language": {
-                    "lengthMenu": "แสดง _MENU_ แถว",
-                    "zeroRecords": "ไม่พบข้อมูล",
-                    "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                    "lengthMenu": "Show _MENU_ Raw",
+                    "zeroRecords": "No information",
+                    "info": "Show page _PAGE_ From _PAGES_ Page",
                     "search": "ค้นหา",
                     "infoEmpty": "",
                     "infoFiltered": "",

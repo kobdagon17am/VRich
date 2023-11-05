@@ -20,15 +20,15 @@
                         <h5><b>STOCK CARD : {{ $get_stock_movement->lot_number }}</b></h6>
                             <h6><b>ยอดคงเหลือ : {{ $get_stock_movement->lot_balance }}</b></h6>
                     </div>
-                    
+
                     <div class="table-responsive mt-4 mb-2">
                         <h6>รายงานการเคลื่อนไหวสต๊อกสินค้า</h6>
                         <table id="basic-dt" class="table table-hover" style="width:100%">
 
                         </table>
                     </div>
-                   
-                    
+
+
                 </div>
             </div>
         </div>
@@ -58,9 +58,9 @@
                 processing: true,
                 serverSide: true,
                 "language": {
-                    "lengthMenu": "แสดง _MENU_ แถว",
-                    "zeroRecords": "ไม่พบข้อมูล",
-                    "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                    "lengthMenu": "Show _MENU_ Raw",
+                    "zeroRecords": "No information",
+                    "info": "Show page _PAGE_ From _PAGES_ Page",
                     "search": "ค้นหา",
                     "infoEmpty": "",
                     "infoFiltered": "",
@@ -134,7 +134,7 @@
 
                     },
 
-                   
+
                     {
                         data: "amt",
                         title: "จำนวนสินค้า",
@@ -168,7 +168,7 @@
                         className: "w-10",
                     },
 
-                    
+
                     // {
                     //     data: "action",
                     //     title: "Action",

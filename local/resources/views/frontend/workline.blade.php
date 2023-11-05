@@ -13,8 +13,8 @@
                      <div class="col-lg-12">
                          <nav aria-label="breadcrumb">
                              <ol class="breadcrumb">
-                                 <li class="breadcrumb-item"><a href="{{ route('home') }}">หน้าแรก</a></li>
-                                 <li class="breadcrumb-item active text-truncate" aria-current="page">สายงาน</li>
+                                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                                 <li class="breadcrumb-item active text-truncate" aria-current="page">Agent</li>
                              </ol>
                          </nav>
                      </div>
@@ -100,12 +100,12 @@
 
 
                                      <div class="col-sm-4">
-                                         <h4 class="card-title mb-2">ข้อมูลสายงานแนะนำ</h4>
-                                         <p class="mb-2">รหัสสมาชิก {{ @$usr_name->user_name }} | {{ @$usr_name->name }} {{ @$usr_name->last_name }}</ย>
+                                         <h4 class="card-title mb-2">Data Agent</h4>
+                                         <p class="mb-2">UserName {{ @$usr_name->user_name }} | {{ @$usr_name->name }} {{ @$usr_name->last_name }}</ย>
                                      </div>
                                      <div class="col-sm-8 text-md-end">
-                                         <div><span>สถานะการแจ้งเตือน: </span> <i class="fas fa-circle text-success"></i>
-                                             Active <i class="fas fa-circle text-warning"></i> กรุณายืนยันสิทธิ <i
+                                         <div><span>Notification: </span> <i class="fas fa-circle text-success"></i>
+                                             Active <i class="fas fa-circle text-warning"></i> Please confirm your rights. <i
                                                  class="fas fa-circle text-danger"></i> Not Active</div>
                                      </div>
                                  </div>
@@ -586,57 +586,57 @@
 
                      columns: [{
                              data: 'status_active',
-                             title: '<center>การรักษาสภาพ</center>',
+                             title: '<center>Condition</center>',
                              className: 'text-center'
                          },
 
                          {
                              data: 'created_at',
-                             title: '<center>วันที่สมัคร</center> ',
+                             title: '<center>Application </center> ',
                              className: 'text-center'
                          },
                          {
                              data: 'user_name',
-                             title: '<center>รหัสสมาชิก</center>',
+                             title: '<center>Member ID</center>',
                              className: 'text-center'
                          },
                          {
                              data: 'name',
-                             title: '<center>ชื่อสมาชิก</center>',
+                             title: '<center>Name</center>',
                              className: 'text-center'
                          },
 
 
                          {
                              data: 'business_qualifications',
-                             title: '<center>ตำแหน่ง</center>',
+                             title: '<center>Position</center>',
                              className: 'text-center'
                          },
                          {
                              data: 'expire_date',
-                             title: '<center>วัน Active(วัน)</center>',
+                             title: '<center>Date Active(Day)</center>',
                              className: 'text-center'
                          },
                          {
                              data: 'introduce_id',
-                             title: '<center>รหัสผู้แนะนำ</center>',
+                             title: '<center>Sponsor ID</center>',
                              className: 'text-center'
                          },
                          {
                              data: 'introduce_name',
-                             title: '<center>ชื่อผู้แนะนำ</center>',
+                             title: '<center>Sponsor Name</center>',
                              className: 'text-center'
                          },
                          {
                              data: 'sponsor_lv',
-                             title: '<center>ชั้นการแนะนำ<br>(Sponsor)</center>',
+                             title: '<center>Lv.<br>(Sponsor)</center>',
                              className: 'text-center'
                          },
 
 
                          {
                              data: 'view',
-                             title: '<center>ดูสายงาน</center>',
+                             title: '<center>View</center>',
                              className: 'text-center'
                          },
                          {

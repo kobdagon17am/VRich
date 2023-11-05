@@ -146,7 +146,7 @@ class NewsController extends Controller
     ->select('news.*', 'news_images.news_image_url', 'news_images.news_image_name')
     ->leftJoin('news_images', 'news_images.news_id_fk', '=', 'news.id')
     ->where('news_images.news_image_orderby', '=', '1')
-    ->orderByDesc('learning.id')
+    ->orderByDesc('news.id')
     ->get();
 
     $sQuery = Datatables::of($get_news);

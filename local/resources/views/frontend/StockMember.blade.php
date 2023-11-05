@@ -332,7 +332,7 @@
                                                                                             class="form-label">Phone <span
                                                                                                 class="text-danger phone_err _err">*</span></label>
                                                                                         <input name="phone"
-                                                                                            type="text"
+                                                                                            type="number"
                                                                                             class="form-control"
                                                                                             name="phone"
                                                                                             value="{{ @$address->phone }}">
@@ -480,7 +480,7 @@
                                                                                 <div class="col-md-6 col-xl-4 mb-3">
                                                                                     <label for=""
                                                                                         class="form-label">Phone </label>
-                                                                                    <input type="text"
+                                                                                    <input type="number"
                                                                                         name="same_phone"
                                                                                         class="form-control address_same_card"
                                                                                         id="">
@@ -570,7 +570,7 @@
                                                                                         class="form-label">Zipcode <span
                                                                                             class="text-danger same_zipcode_err _err ">*</span></label>
                                                                                     <input name="same_zipcode"
-                                                                                        type="text"
+                                                                                        type="number"
                                                                                         class="form-control address_same_card same_zipcode">
                                                                                 </div>
 

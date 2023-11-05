@@ -536,9 +536,9 @@ class ConfirmCartController extends Controller
             $shipping_total = $shipping_usd;
         }
 
-        if($rs->sent_stock_type == 'add' and $rs->type == 'promotion'){
-            $shipping_total = 0;
-        }
+        // if($rs->sent_stock_type == 'add' and $rs->type == 'promotion'){
+        //     $shipping_total = 0;
+        // }
 
 
         $insert_db_orders->shipping_cost_name = '';

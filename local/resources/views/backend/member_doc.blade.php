@@ -339,9 +339,9 @@
                 processing: true,
                 serverSide: true,
                 "language": {
-                    "lengthMenu": "แสดง _MENU_ แถว",
-                    "zeroRecords": "ไม่พบข้อมูล",
-                    "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                    "lengthMenu": "Show _MENU_ Raw",
+                    "zeroRecords": "No information",
+                    "info": "Show page _PAGE_ From _PAGES_ Page",
                     "search": "ค้นหา",
                     "infoEmpty": "",
                     "infoFiltered": "",

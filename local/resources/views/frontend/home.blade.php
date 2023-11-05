@@ -340,7 +340,7 @@
                                             </div>
                                         </div>
                                         <div class="flex-grow-1 ms-3">
-                                            <h5>  Vrich Leening </h5>
+                                            <h5> Leening </h5>
                                             <p class="fs-12 text-pink"> learning media </p>
                                         </div>
                                     </div>
