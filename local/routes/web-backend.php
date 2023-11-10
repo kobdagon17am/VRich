@@ -170,7 +170,7 @@ Route::get('admin/Blank', function () {
   // })->name('admin/Stock_out');
   Route::get('admin/Stock_out','Admin\StockOutController@index')->name('admin/Stock_out');
   Route::get('admin/Stock_out_detail/{id}','Admin\StockOutController@view_modal')->name('admin/Stock_out_detail');
-  Route::get('admin/get_data_warehouse_out_select', 'Admin\StockOutController@get_data_warehouse_out_select')->name('get_data_warehouse_out_select');
+  Route::get('admin/get_data_warehouse_out_select', 'Admin\StockOutController@get_data_warehouse_out_select')->name('admin/get_data_warehouse_out_select');
   Route::post('admin/Stockout_insert','Admin\StockOutController@insert')->name('admin/Stockout_insert');
   Route::get('admin/view_stock_out','Admin\StockOutController@view_stock_out')->name('admin/view_stock_out');
   Route::post('admin/update_stock_out','Admin\StockOutController@update_stock_out')->name('admin/update_stock_out');
@@ -216,6 +216,9 @@ Route::get('admin/Blank', function () {
 
       // BEGIN Order
     Route::get('admin/orders/list', 'Admin\OrderController@orders_list')->name('admin/orders/list');
+    Route::get('admin/orders/product_list_view', 'Admin\OrderController@product_list_view')->name('admin/orders/product_list_view');
+
+
     Route::get('admin/orders/get_data_order_list', 'Admin\OrderController@get_data_order_list')->name('admin/orders/get_data_order_list');
 
     Route::get('admin/orders/list_success', 'Admin\OrderController@orders_success')->name('admin/orders/list_success');

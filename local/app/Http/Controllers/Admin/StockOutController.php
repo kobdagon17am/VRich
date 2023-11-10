@@ -100,6 +100,7 @@ class StockOutController extends Controller
       ->where('branch_id_fk', $request->id)
       ->get();
 
+
     return response()->json($get_warehouse_out);
   }
 
@@ -115,6 +116,7 @@ class StockOutController extends Controller
 
     $get_stock_data = DB::table('db_stock_lot')
       ->where('branch_id_fk', '=', $rs->branch_id_fk)
+      ->orderBy('lot_expired_date')
       ->first();
 
     // dd($get_stock_data);

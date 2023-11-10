@@ -348,6 +348,7 @@ class ConfirmCartController extends Controller
         $i = 0;
         $products_list = array();
         if ($data) {
+
             foreach ($data as $value) {
 
                 $i++;
@@ -357,15 +358,19 @@ class ConfirmCartController extends Controller
                 $insert_db_products_list[] = [
                     'code_order' => $code_order,
                     'product_id_fk' => $value['id'],
-                    'product_unit_id_fk' => @$value['product_unit_id'],
+                    'product_unit_id_fk' => $value['attributes']['product_unit_id'],
+                    'product_unit_name' =>$value['attributes']['product_unit_name'],
                     'customers_username' =>  $user_name,
                     'selling_price' =>  $value['price'],
                     'product_name' =>  $value['name'],
                     'amt' =>  $value['quantity'],
+                    'amt_out_stock' =>  $value['quantity'],
                     'pv' =>   $value['attributes']['pv'],
                     'total_pv' => $total_pv,
                     'total_price' => $total_price,
                 ];
+
+
                 $product_id[] = $value['id'];
 
                 $pv[] = $value['quantity'] * $value['attributes']['pv'];

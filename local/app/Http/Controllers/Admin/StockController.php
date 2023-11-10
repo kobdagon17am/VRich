@@ -332,9 +332,9 @@ class StockController extends Controller
       ->select('db_stock_lot.*', 'products.product_name', 'products.product_unit_name', 'db_warehouse.branch_name', 'db_warehouse.warehouse_name')
       ->leftJoin('products', 'products.id', '=', 'db_stock_lot.product_id_fk')
       ->leftJoin('db_warehouse', 'db_warehouse.id', '=', 'db_stock_lot.warehouse_id_fk')
-      ->where('db_stock_lot.stock_type','=','in')
-      ->orwhere('db_stock_lot.stock_type','=','in_transfer')
+
       ->where('db_stock_lot.stock_status','=','confirm')
+      ->wherein('db_stock_lot.stock_type',['in','in_transfer'])
 
 
       ->whereRaw(("case WHEN  '{$rs->s_branch_id_fk}' != ''  THEN  db_stock_lot.branch_id_fk = '{$rs->s_branch_id_fk}' else 1 END"))

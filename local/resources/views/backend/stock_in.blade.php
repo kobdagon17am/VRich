@@ -59,8 +59,8 @@
                                                                         <span
                                                                             class="form-label text-danger branch_id_fk_err _err"></span>
                                                                         <select class="form-control branch_select"
-                                                                            name="branch_id_fk">
-                                                                            <option selected disabled> เลือกสาขา
+                                                                            name="branch_id_fk" required>
+                                                                            <option selected disabled value=""> เลือกสาขา
                                                                             </option>
                                                                             @foreach ($get_branch as $val)
                                                                                 <option value="{{ $val->id }}">
@@ -75,7 +75,7 @@
                                                                         <span
                                                                             class="form-label text-danger warehouse_id_fk_err _err"></span>
                                                                         <select class="form-control warehouse_select"
-                                                                            name="warehouse_id_fk" disabled>
+                                                                            name="warehouse_id_fk" disabled required>
                                                                             <option selected disabled> เลือกคลัง
                                                                             </option>
                                                                         </select>
@@ -85,8 +85,8 @@
                                                                         <span
                                                                             class="form-label text-danger product_id_fk_err _err"></span>
                                                                         <select class="form-control product_select"
-                                                                            name="product_id_fk">
-                                                                            <option selected disabled> เลือกสินค้า
+                                                                            name="product_id_fk" required>
+                                                                            <option selected disabled value=""> เลือกสินค้า
                                                                             </option>
                                                                             @foreach ($get_product as $key => $val)
                                                                                 <option value="{{ $val->id }}"
@@ -100,7 +100,7 @@
                                                                     <div class="col-lg-6  mt-2 text-left">
                                                                         <label><b>หมายเลขล๊อตสินค้า:</b></label>
                                                                         <input type="hidden" name="lot_number"
-                                                                            id="lot_number" value="{{ $code }}">
+                                                                             value="{{ $code }}">
                                                                         <span
                                                                             class="form-label text-danger lot_number_err _err"></span>
                                                                         <input type="text" name="lot_number"
@@ -114,7 +114,7 @@
                                                                             class="form-label text-danger product_amount_err _err"></span>
                                                                         <input type="number" min="1"
                                                                             name="product_amount" class="form-control"
-                                                                            placeholder="จำนวนสินค้า">
+                                                                            placeholder="จำนวนสินค้า" required>
                                                                     </div>
                                                                     <div class="col-lg-6  mt-2 text-left">
                                                                         <label><b>หน่วยสินค้า:</b></label>
@@ -199,7 +199,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header ml-4">
-                            <h5 class="modal-title" id="myLargeModalLabel"><b>รับเข้าสินค้า</b></h5>
+                            <h5 class="modal-title" id="myLargeModalLabel"><b>ยืนยันรับเข้าสินค้า</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <i class="las la-times"></i>
                             </button>
@@ -245,7 +245,7 @@
                                                                         <input type="text" class="form-control"
                                                                             id="lot_number" name="lot_number"
                                                                             placeholder="หมายเลขล๊อตสินค้า"
-                                                                            value="{{ $code }}" disabled>
+                                                                            value="" disabled>
 
                                                                     </div>
                                                                     <div class="col-lg-6  mt-2 text-left">
@@ -525,7 +525,7 @@
                     }
                 })
                 .done(function(data) {
-                    // console.log(data);
+                     console.log(data);
                     $("#edit").modal();
                     $("#id").val(data['data']['id']);
                     $("#branch_id_fk").val(data['data']['branch_name']);

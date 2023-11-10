@@ -121,6 +121,12 @@
                         title: "สินค้า",
                         className: "w-10",
                     },
+
+                    {
+                        data: "code_order",
+                        title: "รหัสสั่งซื้อ",
+                        className: "w-10",
+                    },
                     {
                         data: "product_unit_name",
                         title: "หน่วย",

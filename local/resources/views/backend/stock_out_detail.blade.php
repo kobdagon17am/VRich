@@ -448,7 +448,7 @@
 
             const id = $(this).val();
             $.ajax({
-                url: '{{ route('get_data_warehouse_out_select') }}',
+                url: '{{ route('admin/get_data_warehouse_out_select') }}',
                 type: 'GET',
                 dataType: 'json',
                 async: false,

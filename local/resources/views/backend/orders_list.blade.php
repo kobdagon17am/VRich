@@ -98,10 +98,12 @@
                         <div class="modal-content">
                             <!-- BEGIN: Modal Header -->
                             <div class="modal-header">
-                                <h2 class="font-medium text-base mr-auto">อัพเดทรหัสจัดส่งสินค้า</h2>
+                                <h3 class="font-medium text-base mr-auto">อัพเดทรหัสจัดส่งสินค้าและตัดคลัง</h3>
                             </div>
                             <!-- END: Modal Header -->
                             <!-- BEGIN: Modal Body -->
+                            <input id="order_id" name="order_id" type="hidden" class="form-control">
+
 
                             <div class="modal-body">
                                 <div class="row col-md-12">
@@ -115,6 +117,7 @@
                                         <input id="tracking_no" name="tracking_no" type="text" required
                                             class="form-control">
                                     </div>
+
                                     <div class="col-md-4 col-lg-4">
                                         <label for="modal-form-6" class="form-label">ขนส่ง</label>
 
@@ -127,7 +130,55 @@
                                         </select>
                                     </div>
 
+
+
+                                    <div class="col-lg-4  mt-2 text-left">
+                                        <label><b>สาขา:</b></label>
+                                        <span class="form-label text-danger branch_out_id_fk_err _err"></span>
+                                        <select class="form-control branch_out_select" name="branch_out_id_fk"  required>
+                                            <option selected disabled value=""> เลือกสาขา  </option>
+                                            @foreach ($branch as $val)
+                                                <option value="{{ $val->id }}">
+                                                    {{ $val->branch_name }}
+                                                    ({{ $val->branch_code }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4  mt-2 text-left">
+                                        <label><b>คลังสินค้า:</b></label>
+                                        <span class="form-label text-danger warehouse_out_id_fk_err _err"></span>
+                                        <select class="form-control warehouse_out_select" name="warehouse_out_id_fk" disabled required>
+                                            <option selected value=""> เลือกคลังปลายทาง
+                                            </option>
+                                        </select>
+                                    </div>
+
                                     <input type="hidden" name="page_type" value="process">
+                                    <div class="col-lg-12 mt-2">
+                                    <div class="widget-content widget-content-area">
+                                        <p class="sub-header">
+                                          รายการสินค้า
+                                        </p>
+                                        <br>
+                                        <div class="table-responsive">
+                                            <table class="table mb-0">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>ชื่อสินค้า</th>
+                                                    <th>จำนวน</th>
+                                                    <th>หน่วยนับ</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="product_list">
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    </div>
 
                                 </div>
 
@@ -559,8 +610,9 @@
 
                     // Action
                     var code_order = aData['code_order'];
+
                     $('td:nth-last-child(2)', nRow).html(
-                        `<a   onclick="updatestatus('${code_order}')" class="btn btn-sm btn-success mr-2"> Tracking </a>`
+                        `<a   onclick="updatestatus('${code_order}','${id}')" class="btn btn-sm btn-success mr-2"> Tracking </a>`
                     );
                     // $('td:nth-last-child(2)', nRow).html(
                     //     `<a  onclick="view_detail_oeder('${code_order}')" class="btn btn-sm btn-warning mr-2 "> Print </a>`
@@ -584,11 +636,24 @@
             window.open(`view_detail_oeder/${code_order}`)
         }
 
-        function updatestatus(code_order) {
+        function updatestatus(code_order,id) {
             $('#code_order').val(code_order);
+            $('#order_id').val(id);
             $('#tracking_no').val('');
 
-            $("#updatestatus").modal();
+
+            $.ajax({
+                url: "{{ route('admin/orders/product_list_view') }}",
+                type: 'get',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'code_order': code_order
+                },
+                success: function(data) {
+                    $('#product_list').html(data);
+                    $("#updatestatus").modal();
+                }
+            })
 
 
         }
@@ -634,6 +699,40 @@
 
 
 
+        }
+
+
+                //เลือกสาขาปลายทางแล้วเปิดคลังปลายทาง
+      $('.branch_out_select').change(function() {
+            $('.warehouse_out_select').prop('disabled', false);
+
+            const id = $(this).val();
+            $.ajax({
+                url: '{{ route('admin/get_data_warehouse_out_select') }}',
+                type: 'GET',
+                dataType: 'json',
+                async: false,
+                data: {
+                    id: id,
+                },
+                success: function(data) {
+                    append_warehouse_out_select(data);
+                },
+            });
+        });
+
+
+        function append_warehouse_out_select(data) {
+            $('.warehouse_out_select').empty();
+            $('.warehouse_out_select').append(`
+                <option disabled selected value=""> เลือกคลัง </option>
+                `);
+            data.forEach((val, key) => {
+
+                $('.warehouse_out_select').append(`
+                <option value="${val.id}">${val.warehouse_name} (${val.warehouse_code})</option>
+                `);
+            });
         }
     </script>
 @endsection

@@ -34,6 +34,7 @@ class StockCardController extends Controller
       ->where('db_stock_movement.branch_id_fk', $get_stock_lot->branch_id_fk)
       ->where('db_stock_movement.warehouse_id_fk', $get_stock_lot->warehouse_id_fk)
       ->where('db_stock_movement.product_id_fk', $get_stock_lot->product_id_fk)
+      ->where('db_stock_movement.lot_number', $get_stock_lot->lot_number)
       ->orderByDesc('db_stock_movement.id')
       ->first();
 
@@ -69,8 +70,11 @@ class StockCardController extends Controller
       ->where('db_stock_movement.product_id_fk', $rs->s_product_id_fk)
       ->where('db_stock_movement.lot_number', $rs->s_lot_number)
       ->orderBy('db_stock_movement.id','DESC');
-      //->get();
- 
+
+    //   ->get();
+
+    //   dd($get_stock_movement);
+
 
     // ->whereRaw(("case WHEN  '{$rs->s_lot_number}' != ''  THEN  db_stock_lot.lot_number = '{$rs->s_lot_number}' else 1 END"))->get();
     // dd($rs->s_lot_number);
@@ -95,7 +99,7 @@ class StockCardController extends Controller
       })
 
       ->addColumn('branch_out_name', function ($row) {
-        if ($row->in_out == 'in'||$row->in_out == 'in_transfer') {
+        if ($row->in_out == 'in'||$row->in_out == 'in_transfer' || $row->in_out == 'order') {
           return '';
         } else {
           $get_branch = DB::table('branch')
@@ -107,7 +111,7 @@ class StockCardController extends Controller
       })
 
       ->addColumn('warehouse_out_name', function ($row) {
-        if ($row->in_out == 'in'||$row->in_out == 'in_transfer') {
+        if ($row->in_out == 'in'||$row->in_out == 'in_transfer' || $row->in_out == 'order') {
           return '';
         } else {
           $get_warehouse = DB::table('db_warehouse')
@@ -133,6 +137,8 @@ class StockCardController extends Controller
           $html = '<span class="badge badge-rounded outline-badge-danger">โอนย้ายระหว่างสาขา (ฝั่งโอน)</span>';
         } elseif ($row->in_out == 'in_transfer') {
           $html = '<span class="badge badge-rounded outline-badge-success">โอนย้ายระหว่างสาขา (ฝั่งรับโอน)</span>';
+        } elseif ($row->in_out == 'order') {
+            $html = '<span class="badge badge-rounded outline-badge-danger">สั่งซื้อสินค้า </span>';
         } else {
           $html = '';
         }
