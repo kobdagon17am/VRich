@@ -339,7 +339,12 @@ class StockMemberController extends Controller
 
         ->addColumn('code_order', function ($row) {
             if ($row->code_order) {
-            $data = '<a href="' . route('order_detail', ['code_order' => $row->code_order]) . '" class="btn btn-outline-primary">' . $row->code_order . '</a>';
+                if($row->type_action == 'tranfer'){
+                    $data = '<button class="btn btn-outline-dark">' . $row->code_order . '</button>';
+                }else{
+                    $data = '<a href="' . route('order_detail', ['code_order' => $row->code_order]) . '" class="btn btn-outline-primary">' . $row->code_order . '</a>';
+                }
+
 
                 return  $data ;
             } else {
@@ -497,10 +502,14 @@ class StockMemberController extends Controller
                 'selling_price' => 0,
                 'product_name' => $stock->product_name,
                 'amt' =>   $rs->amt,
+                'amt_out_stock' =>  $rs->amt,
                 'pv' =>  0,
                 'total_pv' => 0,
                 'total_price' => 0,
+                'type' => 'promotion',
             ];
+
+
 
                 // $insert_db_orders->tracking_type = $rs->tracking_type;;
                 ///// ---------- stock -------------///

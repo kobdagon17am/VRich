@@ -409,7 +409,7 @@
                                                                                         <input name="district_id"
                                                                                             type="hidden"
                                                                                             class="form-control"
-                                                                                            value="{{ @$address->district_id }}">
+                                                                                            value="{{ @$address->district_id }}" >
                                                                                         <input type="text"
                                                                                             class="form-control"
                                                                                             value="{{ @$address->district_name }}"

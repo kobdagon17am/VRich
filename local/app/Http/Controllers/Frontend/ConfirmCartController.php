@@ -361,20 +361,23 @@ class ConfirmCartController extends Controller
                     ->first();
 
                 if ($rs->type == 'promotion') {
+
+
+
                     $insert_db_products_list[$i] = [
                         'code_order' => $code_order,
                         'product_id_fk' => $value['id'],
+                        'product_id_fk_promotion' => $product_data->product_id_fk,
                         'product_unit_id_fk' => $value['attributes']['product_unit_id'],
                         'product_unit_name' =>$value['attributes']['product_unit_name'],
                         'customers_username' =>  $user_name,
                         'selling_price' =>  $value['price'],
                         'product_name' =>  $value['name'],
                         'amt' =>  $value['quantity'],
-                        'amt_out_stock' =>  $value['quantity'],
                         'pv' =>   $value['attributes']['pv'],
                         'total_pv' => $total_pv,
                         'total_price' => $total_price,
-                        'product_id_fk_promotion' => $product_data->product_id_fk,
+
                         'type' => 'promotion',
                         'amt_out_stock' =>  $value['quantity']* $product_data->pack_qty,
                     ];
@@ -427,10 +430,19 @@ class ConfirmCartController extends Controller
                 }
 
 
-                $db_stock_members = DB::table('db_stock_members')
+                if ($rs->type == 'promotion') {
+                    $db_stock_members = DB::table('db_stock_members')
+                    ->where('product_id', '=', $product_data->product_id_fk)
+                    ->where('customers_id_fk', '=', $customer_id)
+                    ->first();
+                }else{
+                    $db_stock_members = DB::table('db_stock_members')
                     ->where('product_id', '=', $value['id'])
                     ->where('customers_id_fk', '=', $customer_id)
                     ->first();
+
+                }
+
                 if ($db_stock_members) {
                     $amt = $db_stock_members->pack_amt;
                 } else {
@@ -443,6 +455,9 @@ class ConfirmCartController extends Controller
 
                     if ($rs->type == 'promotion') {
 
+                        $product_unit_id = DB::table('products')
+                        ->where('id', $product_data->product_id_fk)
+                        ->first();
 
 
                         $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
@@ -450,7 +465,7 @@ class ConfirmCartController extends Controller
                             DB::table('db_log_stock_members')->insert([
                                 'code_order' => $code_order,
                                 'order_id_fk' => '',
-                                'product_id' => $value['id'],
+                                'product_id' =>  $product_data->product_id_fk,
                                 'product_name' =>  $value['name'],
                                 'user_name' => $user_name,
                                 'customers_id_fk' => $customer_id,
@@ -463,7 +478,7 @@ class ConfirmCartController extends Controller
 
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
-                                'product_unit_id_fk' => @$value['product_unit_id'],
+                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
                                 'type' => 'add',
                                 'status' => 'success',
                                 'note' => 'from ordering products',
@@ -479,6 +494,7 @@ class ConfirmCartController extends Controller
                                     'price' =>  $value['price'],
                                     'price_total' => $total_price,
                                     'pv' => $value['attributes']['pv'],
+                                    'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
 
                                 ]);
                         }
@@ -493,7 +509,9 @@ class ConfirmCartController extends Controller
 
                     if ($rs->type == 'promotion') {
 
-
+                        $product_unit_id = DB::table('products')
+                        ->where('id', $product_data->product_id_fk)
+                        ->first();
 
 
                         $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
@@ -501,7 +519,7 @@ class ConfirmCartController extends Controller
                             DB::table('db_log_stock_members')->insert([
                                 'code_order' => $code_order,
                                 'order_id_fk' => '',
-                                'product_id' => $value['id'],
+                                'product_id' =>  $product_data->product_id_fk,
                                 'user_name' => $user_name,
                                 'customers_id_fk' => $customer_id,
                                 'distribution_channel_id_fk' => 3,
@@ -514,7 +532,8 @@ class ConfirmCartController extends Controller
 
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
-                                'product_unit_id_fk' => @$value['product_unit_id'],
+
+                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
                                 'type' => 'add',
                                 'status' => 'success',
                                 'note' => 'from ordering products',
@@ -523,7 +542,7 @@ class ConfirmCartController extends Controller
 
 
                             DB::table('db_stock_members')->insert([
-                                'product_id' => $value['id'],
+                                'product_id' =>  $product_data->product_id_fk,
                                 'user_name' => $user_name,
                                 'customers_id_fk' => $customer_id,
                                 'distribution_channel_id_fk' => 3,
@@ -532,7 +551,7 @@ class ConfirmCartController extends Controller
                                 'pv' => $value['attributes']['pv'],
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
-                                'product_unit_id_fk' => @$value['product_unit_id'],
+                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
 
                             ]);
 
