@@ -473,8 +473,6 @@ class OrderController extends Controller
             return $item;
         });
 
-        // dd($orders_detail);
-
         if(count($orders_detail) <= 0){
             return redirect('order_history')->withWarning('There is no ordering information for this tracking number.');
         }

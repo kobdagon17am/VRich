@@ -51,6 +51,12 @@ class ProductsController extends Controller
       ->where('product_images.product_image_orderby','=','1')
       ->where('products.type','=','promotion')
       ->get();
+
+      $product = DB::table('products')
+      ->where('status', 1)
+      ->where('type', 'other')
+      ->get();
+
 // dd($get_products);
 
     $get_categories = DB::table('categories')
@@ -61,7 +67,7 @@ class ProductsController extends Controller
     ->where('status', 1)
       ->get();
 
-    return view('backend/products_promotion', compact('get_products', 'get_categories', 'get_unit'));
+    return view('backend/products_promotion', compact('get_products','product','get_categories', 'get_unit'));
   }
   public function insert(Request $rs)
   {
@@ -216,8 +222,7 @@ class ProductsController extends Controller
     $dataPrepare = [
       'product_code' => $rs->product_code,
       'product_name' => $rs->product_name,
-
-
+      'product_id_fk' => $rs->product_id_fk,
 
       'product_category_name' => $get_categories->category_name,
       'product_category_id_fk' => $get_categories->id,
@@ -348,7 +353,6 @@ class ProductsController extends Controller
       ->where('id', '=', $rs->product_category_name)
       ->first();
 
-    // dd($rs->all());
 
     $get_unit = DB::table('dataset_product_unit')
       ->where('id', '=', $rs->product_unit_name)
@@ -509,6 +513,7 @@ class ProductsController extends Controller
       $dataPrepare = [
         'product_code' => $rs->product_code,
         'product_name' => $rs->product_name,
+        'product_id_fk' => $rs->product_id_fk,
         'pack_qty' => $rs->pack_qty,
         'product_category_name' => $get_categories->category_name,
         'product_category_id_fk' => $get_categories->id,

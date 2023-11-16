@@ -355,20 +355,48 @@ class ConfirmCartController extends Controller
                 $total_pv = $value['attributes']['pv'] * $value['quantity'];
                 $total_price = $value['price'] * $value['quantity'];
 
-                $insert_db_products_list[] = [
-                    'code_order' => $code_order,
-                    'product_id_fk' => $value['id'],
-                    'product_unit_id_fk' => $value['attributes']['product_unit_id'],
-                    'product_unit_name' =>$value['attributes']['product_unit_name'],
-                    'customers_username' =>  $user_name,
-                    'selling_price' =>  $value['price'],
-                    'product_name' =>  $value['name'],
-                    'amt' =>  $value['quantity'],
-                    'amt_out_stock' =>  $value['quantity'],
-                    'pv' =>   $value['attributes']['pv'],
-                    'total_pv' => $total_pv,
-                    'total_price' => $total_price,
-                ];
+
+                $product_data = DB::table('products')
+                    ->where('id', $value['id'])
+                    ->first();
+
+                if ($rs->type == 'promotion') {
+                    $insert_db_products_list[$i] = [
+                        'code_order' => $code_order,
+                        'product_id_fk' => $value['id'],
+                        'product_unit_id_fk' => $value['attributes']['product_unit_id'],
+                        'product_unit_name' =>$value['attributes']['product_unit_name'],
+                        'customers_username' =>  $user_name,
+                        'selling_price' =>  $value['price'],
+                        'product_name' =>  $value['name'],
+                        'amt' =>  $value['quantity'],
+                        'amt_out_stock' =>  $value['quantity'],
+                        'pv' =>   $value['attributes']['pv'],
+                        'total_pv' => $total_pv,
+                        'total_price' => $total_price,
+                        'product_id_fk_promotion' => $product_data->product_id_fk,
+                        'type' => 'promotion',
+                        'amt_out_stock' =>  $value['quantity']* $product_data->pack_qty,
+                    ];
+
+                }else{
+                    $insert_db_products_list[$i] = [
+                        'code_order' => $code_order,
+                        'product_id_fk' => $value['id'],
+                        'product_unit_id_fk' => $value['attributes']['product_unit_id'],
+                        'product_unit_name' =>$value['attributes']['product_unit_name'],
+                        'customers_username' =>  $user_name,
+                        'selling_price' =>  $value['price'],
+                        'product_name' =>  $value['name'],
+                        'amt' =>  $value['quantity'],
+                        'amt_out_stock' =>  $value['quantity'],
+                        'pv' =>   $value['attributes']['pv'],
+                        'total_pv' => $total_pv,
+                        'total_price' => $total_price,
+                    ];
+
+                }
+
 
 
                 $product_id[] = $value['id'];
@@ -379,10 +407,6 @@ class ConfirmCartController extends Controller
                 $product_shipping = DB::table('products')
                     ->where('id', $value['id'])
                     ->where('status_shipping', 'Y')
-                    ->first();
-
-                $product_data = DB::table('products')
-                    ->where('id', $value['id'])
                     ->first();
 
 
@@ -418,6 +442,8 @@ class ConfirmCartController extends Controller
                 if ($db_stock_members) {
 
                     if ($rs->type == 'promotion') {
+
+
 
                         $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
                         if($rs->sent_stock_type == 'add'){
@@ -458,12 +484,18 @@ class ConfirmCartController extends Controller
                         }
 
                     }else{
+
+
                         $insert_db_orders->sent_stock_type ='send';
                     }
                 } else {
 
 
                     if ($rs->type == 'promotion') {
+
+
+
+
                         $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
                         if($rs->sent_stock_type == 'add'){
                             DB::table('db_log_stock_members')->insert([
@@ -508,6 +540,7 @@ class ConfirmCartController extends Controller
 
                     }else{
                         $insert_db_orders->sent_stock_type ='send';
+
 
                     }
                 }

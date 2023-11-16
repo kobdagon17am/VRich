@@ -47,6 +47,8 @@ class ProductController extends Controller
         $pro_size = Product_Size::all()->where('status', '=', '1');
         $pro_unit = ProductsUnit::all()->where('status', '=', '1')->where('lang_id', '=', '1');
         $materials = Matreials::where('status', 1)->get();
+
+
         // dd($product);
         $data = array(
             'Product' => $product,

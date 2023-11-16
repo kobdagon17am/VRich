@@ -91,6 +91,19 @@
                                                                             placeholder="ชื่อสินค้าสินค้า">
                                                                     </div>
                                                                     <div class="col-lg-6 mt-2">
+                                                                        <label><b>สินค้าที่จัดโปร:</b></label>
+                                                                        <select class="form-control"
+                                                                            name="product_id_fk" required>
+                                                                            <option value=""> เลือกสินค้า </option>
+                                                                            @foreach ($product as $item)
+                                                                                <option value="{{ $item->id }}">
+                                                                                    {{ $item->product_name }}</option>
+                                                                            @endforeach
+
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6 mt-2">
                                                                         <label><b>หมวดสินค้า:</b></label>
                                                                         <select class="form-control"
                                                                             name="product_category_name">
@@ -359,6 +372,19 @@
                                                                                 id="product_name" name="product_name"
                                                                                 placeholder="ชื่อสินค้าสินค้า">
                                                                         </div>
+                                                                        <div class="col-lg-6 mt-2">
+                                                                            <label><b>สินค้าที่จัดโปร:</b></label>
+                                                                            <select class="form-control"
+                                                                                name="product_id_fk" id="product_id_fk" required>
+                                                                                <option value=""> เลือกสินค้า </option>
+                                                                                @foreach ($product as $item)
+                                                                                    <option value="{{ $item->id }}">
+                                                                                        {{ $item->product_name }}</option>
+                                                                                @endforeach
+
+                                                                            </select>
+                                                                        </div>
+
                                                                         <div class="col-lg-6 mt-2">
                                                                             <label><b>หมวดสินค้า:</b></label>
                                                                             <select class="form-control"
@@ -698,6 +724,9 @@
                     $("#product_price_member_usd").val(data['data']['product_price_member_usd']);
                     $("#shipping_th").val(data['data']['shipping_th']);
                     $("#shipping_usd").val(data['data']['shipping_usd']);
+                    $("#product_id_fk").val(data['data']['product_id_fk']);
+
+
 
                     $("#product_pv").val(data['data']['product_pv']);
                     $("#product_status").val(data['data']['status']);

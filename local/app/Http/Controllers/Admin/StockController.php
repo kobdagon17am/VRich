@@ -49,6 +49,7 @@ class StockController extends Controller
     // สินค้า
     $get_product = DB::table('products')
       ->where('status', 1)
+      ->where('type', 'other')
       ->get();
 
 

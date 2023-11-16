@@ -55,12 +55,15 @@ class OrderController extends Controller
         $i = 0;
         foreach ($products_list as $value) {
             $i++;
+
             $html .= "
             <tr>
             <td>$i</td>
             <td>$value->product_name</td>
             <td>$value->amt</td>
+            <td>$value->amt_out_stock</td>
             <td>$value->product_unit_name</td>
+            <td>$value->type</td>
         </tr>
             ";
         }
@@ -440,13 +443,7 @@ class OrderController extends Controller
             })
             ->get();
 
-
         // dd($orders_detail);
-
-
-
-
-
 
         $data = [
             'orders_detail' => $orders_detail,
@@ -518,12 +515,30 @@ class OrderController extends Controller
         //check ว่ามีสินค้าให้ตัดไหม
         foreach ($products_list as $value) {
 
-            $db_stocks = DB::table('db_stocks')
+            if($value->type = 'promotion'){
+
+                $db_stocks = DB::table('db_stocks')
+                ->where('product_id_fk', $value->product_id_fk_promotion)
+                ->where('branch_id_fk', $branch_id)
+                ->where('warehouse_id_fk', $warehouse_id)
+                ->where('stock_balance', '>=', $value->amt_out_stock)
+                ->first();
+
+            }else{
+
+
+                $db_stocks = DB::table('db_stocks')
                 ->where('product_id_fk', $value->product_id_fk)
                 ->where('branch_id_fk', $branch_id)
                 ->where('warehouse_id_fk', $warehouse_id)
                 ->where('stock_balance', '>=', $value->amt_out_stock)
                 ->first();
+
+            }
+
+
+
+
 
 
             if (empty($db_stocks)) {
@@ -539,12 +554,25 @@ class OrderController extends Controller
 
         foreach ($products_list as $value) {
 
+
+            if($value->type = 'promotion'){
+                $product_id_fk =  $value->product_id_fk_promotion;
+
+            }else{
+
+                $product_id_fk =  $value->product_id_fk;
+            }
+
+
             $db_stocks = DB::table('db_stocks')
-                ->where('product_id_fk', $value->product_id_fk)
+                ->where('product_id_fk', $product_id_fk)
                 ->where('branch_id_fk', $branch_id)
                 ->where('warehouse_id_fk', $warehouse_id)
                 ->where('stock_balance', '>=', $value->amt_out_stock)
                 ->first();
+
+
+
 
             if (empty($db_stocks)) {
                 $data = ['status' => 'fail', 'ms' => $value->product_name . ' มีสินค้าไม่พอตัดจ่าย'];
@@ -552,7 +580,7 @@ class OrderController extends Controller
             }
 
             $db_stock_lot = DB::table('db_stock_lot')
-                ->where('product_id_fk', $value->product_id_fk)
+                ->where('product_id_fk', $product_id_fk)
                 ->where('branch_id_fk', $branch_id)
                 ->where('warehouse_id_fk', $warehouse_id)
                 ->where('lot_balance','>', 0)
@@ -582,7 +610,7 @@ class OrderController extends Controller
                             'warehouse_id_fk' => $warehouse_id,
                             'code_order' => $code_order,
 
-                            'product_id_fk' =>$value->product_id_fk,
+                            'product_id_fk' => $product_id_fk,
                             'stock_lot_id_fk' => $value_stock_lot->id,
                             'lot_number' => $value_stock_lot->lot_number,
 
@@ -631,7 +659,7 @@ class OrderController extends Controller
                                 'warehouse_id_fk' => $warehouse_id,
                                 'code_order' => $code_order,
 
-                                'product_id_fk' =>$value->product_id_fk,
+                                'product_id_fk' => $product_id_fk,
                                 'stock_lot_id_fk' => $value_stock_lot->id,
                                 'lot_number' => $value_stock_lot->lot_number,
 
