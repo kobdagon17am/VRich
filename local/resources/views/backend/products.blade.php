@@ -170,14 +170,14 @@
 
                                                                         <div class="col-lg-3  mt-2">
                                                                             <label><b> Shipping-Price TH</b></label>
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number" class="form-control"
                                                                                 name="shipping_th"
                                                                                 placeholder=" Shipping-Price TH" >
                                                                         </div>
 
                                                                         <div class="col-lg-3  mt-2">
                                                                             <label><b> Shipping-Price USD</b></label>
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number" class="form-control"
                                                                                 name="shipping_usd"
                                                                                 placeholder="Shipping-Price USD" >
                                                                         </div>
@@ -434,14 +434,14 @@
 
                                                                         <div class="col-lg-3  mt-2">
                                                                             <label><b> Shipping-Price TH</b></label>
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number"  step="any" class="form-control"
                                                                                 id="shipping_th" name="shipping_th"
                                                                                 placeholder=" Shipping-Price TH" >
                                                                         </div>
 
                                                                         <div class="col-lg-3  mt-2">
                                                                             <label><b> Shipping-Price USD</b></label>
-                                                                            <input type="text" class="form-control"
+                                                                            <input type="number" step="any" class="form-control"
                                                                                 id="shipping_usd" name="shipping_usd"
                                                                                 placeholder="Shipping-Price USD" >
                                                                         </div>

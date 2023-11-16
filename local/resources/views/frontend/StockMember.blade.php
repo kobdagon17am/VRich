@@ -28,8 +28,7 @@
                                     <th>Picture</th>
                                     <th>Product name</th>
                                     <th width="10">Quantity</th>
-
-                                    <th>Tranfers </th>
+                                    <th>Transfer </th>
                                     <th>Delivery </th>
                                 </tr>
                             </thead>
