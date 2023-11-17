@@ -506,7 +506,7 @@ class StockMemberController extends Controller
                 'pv' =>  0,
                 'total_pv' => 0,
                 'total_price' => 0,
-                'type' => 'promotion',
+                'type' => 'stock',
             ];
 
 

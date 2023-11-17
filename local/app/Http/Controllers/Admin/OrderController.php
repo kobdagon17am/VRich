@@ -505,6 +505,7 @@ class OrderController extends Controller
             ->where('stock_status','pending')
             ->get();
 
+
         if (count($products_list) <= 0) {
             $data = ['status' => 'fail', 'ms' => 'ไม่พบสินค้าในบิล'];
             return $data;
@@ -515,7 +516,7 @@ class OrderController extends Controller
         //check ว่ามีสินค้าให้ตัดไหม
         foreach ($products_list as $value) {
 
-            if($value->type = 'promotion'){
+            if($value->type == 'promotion'){
 
                 $db_stocks = DB::table('db_stocks')
                 ->where('product_id_fk', $value->product_id_fk_promotion)
@@ -523,6 +524,7 @@ class OrderController extends Controller
                 ->where('warehouse_id_fk', $warehouse_id)
                 ->where('stock_balance', '>=', $value->amt_out_stock)
                 ->first();
+
 
             }else{
 
@@ -534,11 +536,10 @@ class OrderController extends Controller
                 ->where('stock_balance', '>=', $value->amt_out_stock)
                 ->first();
 
+
+
+
             }
-
-
-
-
 
 
             if (empty($db_stocks)) {
@@ -555,7 +556,7 @@ class OrderController extends Controller
         foreach ($products_list as $value) {
 
 
-            if($value->type = 'promotion'){
+            if($value->type == 'promotion'){
                 $product_id_fk =  $value->product_id_fk_promotion;
 
             }else{
@@ -570,6 +571,9 @@ class OrderController extends Controller
                 ->where('warehouse_id_fk', $warehouse_id)
                 ->where('stock_balance', '>=', $value->amt_out_stock)
                 ->first();
+
+
+
 
 
 

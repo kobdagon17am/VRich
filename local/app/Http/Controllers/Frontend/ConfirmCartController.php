@@ -460,6 +460,7 @@ class ConfirmCartController extends Controller
                         ->first();
 
 
+
                         $insert_db_orders->sent_stock_type = $rs->sent_stock_type;
                         if($rs->sent_stock_type == 'add'){
                             DB::table('db_log_stock_members')->insert([
@@ -478,7 +479,7 @@ class ConfirmCartController extends Controller
 
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
-                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
+                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id_fk,
                                 'type' => 'add',
                                 'status' => 'success',
                                 'note' => 'from ordering products',
@@ -494,7 +495,7 @@ class ConfirmCartController extends Controller
                                     'price' =>  $value['price'],
                                     'price_total' => $total_price,
                                     'pv' => $value['attributes']['pv'],
-                                    'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
+                                    'product_unit_id_fk' =>  $product_unit_id->product_unit_id_fk,
 
                                 ]);
                         }
@@ -533,7 +534,7 @@ class ConfirmCartController extends Controller
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
 
-                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
+                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id_fk,
                                 'type' => 'add',
                                 'status' => 'success',
                                 'note' => 'from ordering products',
@@ -551,7 +552,7 @@ class ConfirmCartController extends Controller
                                 'pv' => $value['attributes']['pv'],
                                 'price' => $value['price'],
                                 'price_total' => $total_price,
-                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id,
+                                'product_unit_id_fk' =>  $product_unit_id->product_unit_id_fk,
 
                             ]);
 
