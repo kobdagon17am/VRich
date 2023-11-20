@@ -236,7 +236,7 @@
                                                     id="">
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">Road </label>
+                                                <label for="" class="form-label">Street </label>
                                                 <input type="text" name="card_road" class="form-control card_address"
                                                     id="">
                                             </div>
@@ -310,7 +310,7 @@
                                             id="">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">Road </label>
+                                        <label for="" class="form-label">Street </label>
                                         <input type="text" name="same_road" class="form-control address_same_card"
                                             id="">
                                     </div>

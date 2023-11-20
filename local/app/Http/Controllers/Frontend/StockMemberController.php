@@ -279,6 +279,7 @@ class StockMemberController extends Controller
 
                         $recive = DB::table('db_stock_members')->insert([
                             'product_id' => $stock->product_id,
+                            'customers_id_fk' => $username_receive->id,
                             'user_name' => $rs->username_receive,
                             'distribution_channel_id_fk' => 3,
                             'product_name' => $stock->product_name,
@@ -413,15 +414,16 @@ class StockMemberController extends Controller
 
             'db_stock_members.product_unit_id_fk'
         )
-        ->where('db_stock_members.customers_id_fk', '=', Auth::guard('c_user')->user()->id)
-        ->where('id', $rs->stock_id)
+        ->where('db_stock_members.user_name', '=', Auth::guard('c_user')->user()->user_name)
+        //->where('id', $rs->stock_id)
         ->where('pack_amt','>',0)
         ->first();
 
 
-    // dd($rs->all());
+//dd($stock);
 
     if ($stock) {
+        dd('ff');
         if ($stock->pack_amt < $rs->amt) {
             return redirect('StockMember')->withError('There is not enough product for transfer.');
         } else {

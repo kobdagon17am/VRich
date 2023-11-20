@@ -11,6 +11,7 @@ class NewsController extends Controller
 {
   public function __construct()
   {
+
     $this->middleware('admin');
   }
 
@@ -30,6 +31,7 @@ class NewsController extends Controller
 
   public function insert(Request $rs)
   {
+    dd($rs->all());
 
     $dataPrepare = [
       'news_title' => $rs->news_title,
@@ -80,6 +82,8 @@ class NewsController extends Controller
 
   public function edit_news(Request $rs)
   {
+
+    dd($rs->all());
 
     $dataPrepare = [
       'news_title' => $rs->news_title,

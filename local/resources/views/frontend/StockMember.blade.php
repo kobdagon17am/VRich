@@ -352,7 +352,7 @@
                                                                                     </div>
                                                                                     <div class="col-md-2 col-xl-2">
                                                                                         <label for=""
-                                                                                            class="form-label">Moo <span
+                                                                                            class="form-label">Village No <span
                                                                                                 class="text-danger same_moo_err _err">*</span></label>
                                                                                         <input type="text"
                                                                                             name="moo"
@@ -362,7 +362,7 @@
                                                                                     </div>
                                                                                     <div class="col-md-3 col-xl-3">
                                                                                         <label for=""
-                                                                                            class="form-label">Soi <span
+                                                                                            class="form-label">Lane<span
                                                                                                 class="text-danger same_soi_err _err">*</span></label>
                                                                                         <input type="text"
                                                                                             name="soi"
@@ -372,7 +372,7 @@
                                                                                     </div>
                                                                                     <div class="col-md-4 col-xl-4">
                                                                                         <label for=""
-                                                                                            class="form-label">Road <span
+                                                                                            class="form-label">Street <span
                                                                                                 class="text-danger same_road_err _err">*</span></label>
                                                                                         <input type="text"
                                                                                             name="road"
@@ -495,7 +495,7 @@
                                                                                 </div>
                                                                                 <div class="col-md-6 col-xl-3">
                                                                                     <label for=""
-                                                                                        class="form-label">Moo <span
+                                                                                        class="form-label">Village No <span
                                                                                             class="text-danger same_moo_err _err">*</span></label>
                                                                                     <input type="text" name="same_moo"
                                                                                         class="form-control address_same_card"
@@ -503,7 +503,7 @@
                                                                                 </div>
                                                                                 <div class="col-md-6 col-xl-4">
                                                                                     <label for=""
-                                                                                        class="form-label">Soi <span
+                                                                                        class="form-label">Lane<span
                                                                                             class="text-danger same_soi_err _err">*</span></label>
                                                                                     <input type="text" name="same_soi"
                                                                                         class="form-control address_same_card"
@@ -511,7 +511,7 @@
                                                                                 </div>
                                                                                 <div class="col-md-6 col-xl-4">
                                                                                     <label for=""
-                                                                                        class="form-label">Road <span
+                                                                                        class="form-label">Street <span
                                                                                             class="text-danger same_road_err _err">*</span></label>
                                                                                     <input type="text" name="same_road"
                                                                                         class="form-control address_same_card"

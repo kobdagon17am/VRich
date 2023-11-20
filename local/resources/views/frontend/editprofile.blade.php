@@ -229,21 +229,21 @@
                                                     {{$class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-3">
-                                                <label for="" class="form-label">Moo <span
+                                                <label for="" class="form-label">Village No <span
                                                         class="text-danger card_moo_err _err">*</span></label>
                                                 <input type="text" name="card_moo" class="form-control card_address"
                                                     id=""
                                                     value="{{ @$address_card->moo }}" {{ $class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">Soi <span
+                                                <label for="" class="form-label">Lane<span
                                                         class="text-danger card_soi_err _err">*</span></label>
                                                 <input type="text" name="card_soi" class="form-control card_address"
                                                     id=""
                                                     value="{{ @$address_card->soi }}" {{ $class}} >
                                             </div>
                                             <div class="col-md-6 col-xl-4">
-                                                <label for="" class="form-label">Road <span
+                                                <label for="" class="form-label">Street <span
                                                         class="text-danger card_road_err _err">*</span></label>
                                                 <input type="text" name="card_road" class="form-control card_address"
                                                     id=""
@@ -340,19 +340,19 @@
                                             id="" value="{{ @$address_delivery->address }}">
                                     </div>
                                     <div class="col-md-6 col-xl-3">
-                                        <label for="" class="form-label">Moo <span
+                                        <label for="" class="form-label">Village No <span
                                                 class="text-danger same_moo_err _err">*</span></label>
                                         <input type="text" name="same_moo" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->moo }}">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">Soi <span
+                                        <label for="" class="form-label">Lane<span
                                                 class="text-danger same_soi_err _err">*</span></label>
                                         <input type="text" name="same_soi" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->soi }}">
                                     </div>
                                     <div class="col-md-6 col-xl-4">
-                                        <label for="" class="form-label">Road <span
+                                        <label for="" class="form-label">Street <span
                                                 class="text-danger same_road_err _err">*</span></label>
                                         <input type="text" name="same_road" class="form-control address_same_card"
                                             id="" value="{{ @$address_delivery->road }}">

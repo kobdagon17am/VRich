@@ -8,6 +8,8 @@
     <link href="{{ asset('backend/assets/css/forms/multiple-step.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/dropify/dropify.min.css') }}">
     <link href="{{ asset('backend/assets/css/pages/profile_edit.css') }}" rel="stylesheet" type="text/css" />
+
+
 @endsection
 @section('page-header')
     <nav class="breadcrumb-one" aria-label="breadcrumb">
@@ -63,13 +65,13 @@
                                                                         <label><b>หัวข้อข่าว:</b></label>
                                                                         <input type="text" name="news_title"
                                                                             class="form-control"
-                                                                            placeholder="หัวข้อข่าว">
+                                                                            placeholder="หัวข้อข่าว" required>
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
                                                                         <label><b>รายละเอียดอย่างย่อ:</b></label>
                                                                         <input type="text" name="news_name"
                                                                             class="form-control"
-                                                                            placeholder="รายละเอียดอย่างย่อ">
+                                                                            placeholder="รายละเอียดอย่างย่อ" required>
                                                                     </div>
                                                                     {{-- <div class="col-lg-6 mt-2 text-left">
                                                                         <label><b>URL:</b></label>
@@ -81,12 +83,33 @@
                                                                         <label><b>รายละเอียด:</b></label>
                                                                         <textarea class="form-control" rows="9" name="news_detail" placeholder="รายละเอียดข่าวสาร"></textarea>
                                                                     </div>
+
+                                                                    <div class="col-lg-12 layout-spacing">
+                                                                        <div class="statbox widget box box-shadow mb-4">
+
+                                                                            <div class="widget-content widget-content-area">
+                                                                                <div class="form-group row">
+                                                                                    <div class="col-lg-12 col-sm-12">
+                                                                                        <div id="editor">
+                                                                                            <p>Hello World!</p>
+                                                                                            <p>Some initial <strong>bold</strong> text</p>
+                                                                                            <p><br></p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+
+
                                                                     <div class="col-lg-6 mt-2 text-left">
                                                                         <label for="news_image1"><b>รูปภาพ: กว้าง 1200 px สูง 800 px</b></label
                                                                         <div class="upload text-center img-thumbnail">
                                                                             <input type="file"
                                                                                 name="news_image1" class="dropify"
-                                                                                data-default-file="">
+                                                                                data-default-file="" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">

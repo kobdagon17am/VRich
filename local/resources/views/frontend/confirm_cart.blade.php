@@ -240,19 +240,19 @@
                                                                 value="{{ @$address->address }}" readonly="">
                                                             </div>
                                                             <div class="col-md-2 col-xl-2">
-                                                                <label for="" class="form-label">Moo <span
+                                                                <label for="" class="form-label">Village No <span
                                                                         class="text-danger same_moo_err _err">*</span></label>
                                                                 <input type="text" name="moo" class="form-control"
                                                                 value="{{ @$address->moo }}" readonly="">
                                                             </div>
                                                             <div class="col-md-3 col-xl-3">
-                                                                <label for="" class="form-label">Soi <span
+                                                                <label for="" class="form-label">Lane<span
                                                                         class="text-danger same_soi_err _err">*</span></label>
                                                                 <input type="text" name="soi" value="{{ @$address->soi }}" class="form-control"
                                                                 readonly="">
                                                             </div>
                                                             <div class="col-md-4 col-xl-4">
-                                                                <label for="" class="form-label">Road <span
+                                                                <label for="" class="form-label">Street <span
                                                                         class="text-danger same_road_err _err">*</span></label>
                                                                 <input type="text" name="road" class="form-control"
                                                                 value="{{ @$address->road }}" readonly="">
@@ -339,19 +339,19 @@
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-3">
-                                                            <label for="" class="form-label">Moo <span
+                                                            <label for="" class="form-label">Village No <span
                                                                     class="text-danger same_moo_err _err">*</span></label>
                                                             <input type="text" name="same_moo" class="form-control address_same_card"
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
-                                                            <label for="" class="form-label">Soi <span
+                                                            <label for="" class="form-label">Lane<span
                                                                     class="text-danger same_soi_err _err">*</span></label>
                                                             <input type="text" name="same_soi" class="form-control address_same_card"
                                                                 id="">
                                                         </div>
                                                         <div class="col-md-6 col-xl-4">
-                                                            <label for="" class="form-label">Road <span
+                                                            <label for="" class="form-label">Street <span
                                                                     class="text-danger same_road_err _err">*</span></label>
                                                             <input type="text" name="same_road" class="form-control address_same_card"
                                                                 id="">
