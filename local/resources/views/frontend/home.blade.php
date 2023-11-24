@@ -79,17 +79,17 @@
                                             - Waiting to check ID card documents
                                         </p>
                                     @endif
-                                    @if (Auth::guard('c_user')->user()->regis_doc1_status == 4)
+                                    @if (Auth::guard('c_user')->user()->regis_doc1_status == 2)
                                         <p class="text-danger">
                                             - ID card is invalid Please send the document again.
                                         </p>
                                     @endif
-                                    @if (Auth::guard('c_user')->user()->regis_doc4_status == 3)
+                                    @if (Auth::guard('c_user')->user()->regis_doc2_status == 3)
                                         <p class="text-warning">
                                             - Waiting to check bank account documents
                                         </p>
                                     @endif
-                                    @if (Auth::guard('c_user')->user()->regis_doc4_status == 4)
+                                    @if (Auth::guard('c_user')->user()->regis_doc2_status == 2)
                                         <p class="text-danger">
                                             - Bank account is invalid Please send the document again
                                         </p>

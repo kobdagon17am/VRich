@@ -423,7 +423,7 @@ class StockMemberController extends Controller
 //dd($stock);
 
     if ($stock) {
-        dd('ff');
+
         if ($stock->pack_amt < $rs->amt) {
             return redirect('StockMember')->withError('There is not enough product for transfer.');
         } else {

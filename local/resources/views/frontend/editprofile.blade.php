@@ -184,9 +184,27 @@
                             </div>
                             <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Address Information
                             </div>
+                            @if($customers_info->regis_doc1_status == 2)
+                            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                                <i class='bx bxs-error me-2'></i>
+                                <div>
+                                    The document did not pass inspection. Please upload new documents.
+                                </div>
+                            </div>
+                            @endif
+
+                            @if($customers_info->regis_doc1_status == 3)
+                            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                <i class='bx bxs-error me-2'></i>
+                                <div>
+                                   <b>Status : </b>Checking documents.
+                                </div>
+                            </div>
+                            @endif
 
                             <form id="form_update_info_card">
                                 @csrf
+
                                 <div class="row g-3">
 
                                     <input type="hidden" name="customers_id"
@@ -213,12 +231,15 @@
                                         </div>
                                     </div>
                                     <div class="col-md-8 my-auto">
+
                                         @if($customers_info->regis_doc1_status == 0 || $customers_info->regis_doc1_status == 2)
                                            <?php $class = ''; ?>
                                         @else
                                         <?php $class = 'readonly'; ?>
                                         @endif
                                         <div id="group_data_card_address" class="row ">
+
+
 
                                             <div class="col-md-6 col-xl-5 ">
                                                 <label for="" class="form-label">Address <span

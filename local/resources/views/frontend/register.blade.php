@@ -170,7 +170,7 @@
                                     <div class="col-md-6 col-xl-5">
                                         <label for="" class="form-label">National ID Card Number <span
                                                 class="text-danger id_card_err _err">*</span></label>
-                                        <input name="id_card" type="text" class="form-control" maxlength="13"
+                                        <input name="id_card" type="text" class="form-control" maxlength="13" minlength="8"
                                             id="id_card">
                                         <span class="error text-danger"></span>
                                     </div>
@@ -911,7 +911,7 @@
         $(document).ready(function() {
 
 
-            $('#id_card').on('keyup', function() {
+            $('#id_card').change('keyup', function() {
                 nation_id = $('#nation_id').val();
                 if (nation_id == 1) {
                     if ($.trim($(this).val()) != '' && $(this).val().length == 13) {
@@ -919,12 +919,16 @@
                         var result = Script_checkID(id);
                         if (result === false) {
                             id_card = $('#id_card').val();
-                            $('span.error').removeClass('true').text('เลขบัตร' + id_card + ' ไม่ถูกต้อง');
+                            $('span.error').removeClass('text-success').text('');
+                            $('span.error').addClass('text-danger').text('เลขบัตร' + id_card + ' ไม่ถูกต้อง');
                             $('#id_card').val('');
                         } else {
-                            // $('span.error').addClass('true').text('เลขบัตรถูกต้อง');
+                            $('span.error').removeClass('text-danger').text('');
+                            $('span.error').addClass('text-success').text('เลขบัตรถูกต้อง');
+
                         }
                     } else {
+                        $('#id_card').val('');
                         $('span.error').removeClass('true').text('');
 
                     }
