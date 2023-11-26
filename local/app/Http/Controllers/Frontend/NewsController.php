@@ -8,6 +8,11 @@ use App\News;
 use DB;
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('customer');
+    }
+
     public function news_detail($id)
     {
 

@@ -28,6 +28,11 @@ class RegisterController extends Controller
 
     public function index()
     {
+
+        if(Auth::guard('c_user')->user()->qualification_id == 1 || empty(Auth::guard('c_user')->user()->qualification_id)){
+            return redirect('home')->withError('The DISTRIBUTOR position cannot apply for membership.');
+        }
+
         $yeay = date('Y');
         $age_min = 17;
         $yeay_thai = date("Y", strtotime($yeay)) - $age_min;

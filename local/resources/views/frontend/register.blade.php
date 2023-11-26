@@ -184,7 +184,7 @@
                                     <div class="col-md-3 col-xl-3">
                                         <label for="" class="form-label">E-mail <span
                                                 class="text-danger email_err _err"></span></label>
-                                        <input name="email" type="text" class="form-control" id="">
+                                        <input name="email" type="email" class="form-control" id="">
                                     </div>
                                     <div class="col-md-3 col-xl-3">
                                         <label for="" class="form-label">Line ID</label>
@@ -192,12 +192,12 @@
                                     </div>
                                     <div class="col-md-3 col-xl-3 mb-3">
                                         <label for="" class="form-label">Facebook</label>
-                                        <input name="facebook" type="text" class="form-control" id="">
+                                        <input name="facebook" type="text" class="form-control" id="" placeholder="https://www.facebook.com/">
                                     </div>
 
                                     <div class="col-md-6 col-xl-3 mb-3">
                                         <label for="" class="form-label">Telegrams</label>
-                                        <input name="telegrams" type="text" class="form-control" id="">
+                                        <input name="telegrams" type="text" class="form-control" id="" placeholder="https://t.me/username">
                                     </div>
                                 </div>
                                 <div class="borderR10 py-2 px-3 bg-purple3 bg-opacity-50 h5 mb-3">Address Information</div>

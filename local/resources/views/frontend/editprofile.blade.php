@@ -154,21 +154,26 @@
                                 <form id="form_customers_info" method="post">
                                     @csrf
                                     <div class="row">
-                                        <div class="col-md-6 col-xl-4">
+                                        <div class="col-md-3 col-xl-3">
                                             <label for="" class="form-label">E-mail <span
                                                     class="text-danger email_err _err"></span></label>
                                             <input name="email" type="text" class="form-control" id=""
-                                                value="{{ $customers_info->email }}">
+                                                value="{{ $customers_info->email }}" placeholder="email@gmail.com">
                                         </div>
-                                        <div class="col-md-6 col-xl-4">
+                                        <div class="col-md-3 col-xl-3">
                                             <label for="" class="form-label">Line ID</label>
                                             <input name="line_id" type="text" class="form-control" id=""
                                                 value="{{ $customers_info->line_id }}">
                                         </div>
-                                        <div class="col-md-6 col-xl-4 mb-3">
+                                        <div class="col-md-3 col-xl-3 mb-3">
                                             <label for="" class="form-label">Facebook</label>
-                                            <input name="facebook" type="text" class="form-control" id=""
+                                            <input name="facebook" type="text" placeholder="https://www.facebook.com/" class="form-control" id=""
                                                 value="{{ $customers_info->facebook }}">
+                                        </div>
+
+                                        <div class="col-md-3 col-xl-3 mb-3">
+                                            <label for="" class="form-label">Telegrams</label>
+                                            <input name="telegrams" value="{{ $customers_info->telegrams }}" placeholder="https://t.me/username" type="text" class="form-control" id="">
                                         </div>
                                     </div>
 

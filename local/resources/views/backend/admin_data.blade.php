@@ -53,52 +53,61 @@
                                                                 <div class="col-lg-6  mt-2">
                                                                     <label><b>USERNAME:</b></label>
                                                                     <input type="text" name="username"
-                                                                        class="form-control" placeholder="Uesrname">
+                                                                        class="form-control" placeholder="Uesrname" required>
                                                                 </div>
                                                                 <div class="col-lg-6  mt-2">
                                                                     <label><b>PASSWORD:</b></label>
                                                                     <input type="text" name="password"
-                                                                        class="form-control" placeholder="Password">
+                                                                        class="form-control" placeholder="Password" required>
                                                                 </div>
                                                                 <div class="col-lg-6  mt-2">
                                                                     <label><b>ชื่อ:</b></label>
                                                                     <input type="text" name="first_name"
-                                                                        class="form-control" placeholder="ชื่อ">
+                                                                        class="form-control" placeholder="ชื่อ" required>
                                                                 </div>
                                                                 <div class="col-lg-6  mt-2">
                                                                     <label><b>นามสกุล:</b></label>
                                                                     <input type="text" name="last_name"
-                                                                        class="form-control" placeholder="นามสกุล">
+                                                                        class="form-control" placeholder="นามสกุล" required>
                                                                 </div>
                                                                 <div class="col-lg-6  mt-2">
                                                                     <label><b>เบอร์ติดต่อ:</b></label>
                                                                     <input type="number" name="phone"
                                                                         class="form-control" placeholder="เบอร์ติดต่อ"
-                                                                        maxlength="10">
+                                                                        maxlength="10" >
                                                                 </div>
-                                                                <div class="col-lg-6  mt-2">
-                                                                    <label><b>ตำแหน่งงาน:</b></label>
-                                                                    <input type="text" name="role"
-                                                                        class="form-control" placeholder="ตำแหน่งงาน">
-                                                                </div>
+
                                                                 <div class="col-lg-6 mt-2">
-                                                                    <label><b>สถานะสมาชิก:</b></label>
-                                                                    <select class="form-control" name="member_type">
-                                                                        <option value="user">User</option>
-                                                                        <option value="admin">Admin</option>
+                                                                    <label><b>ระดับสมาชิก:</b></label>
+                                                                    <select class="form-control" name="admin_position">
+                                                                        @foreach ($admin_position as $val)
+                                                                        <option value="{{ $val->id }}">
+                                                                            {{ $val->name }}
+                                                                            ({{ $val->detail }})
+                                                                        </option>
+                                                                    @endforeach
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-lg-6  mt-2">
                                                                     <label><b>แผนก:</b></label>
-                                                                    <input type="text" name="department"
-                                                                        class="form-control"
-                                                                        placeholder="แผนก">
+                                                                        <select class="form-control"
+                                                                        name="department">
+
+                                                                        @foreach ($admin_department as $val)
+                                                                            <option value="{{ $val->id }}">
+                                                                                {{ $val->name }}
+
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+
+
                                                                 </div>
                                                                 <div class="col-lg-6  mt-2">
                                                                     <label><b>สาขาประจำ:</b></label>
                                                                     <select class="form-control branch_select"
-                                                                        name="branch_id_fk">
-                                                                        <option selected disabled> เลือกสาขา
+                                                                        name="branch_id_fk" required>
+                                                                        <option selected > เลือกสาขา
                                                                         </option>
                                                                         @foreach ($get_branch as $val)
                                                                             <option value="{{ $val->id }}">
@@ -143,7 +152,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header ml-4">
-                            <h5 class="modal-title" id="myLargeModalLabel"><b>เพิ่มข้อมูลผู้ใช้งาน</b></h5>
+                            <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขข้อมูลผู้ใช้งาน</b></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <i class="las la-times"></i>
                             </button>
@@ -166,7 +175,7 @@
                                                                             id="id">
                                                                         <label><b>USERNAME:</b></label>
                                                                         <input type="text" id="username"
-                                                                            class="form-control" placeholder="Uesrname">
+                                                                            class="form-control" placeholder="Uesrname" disabled>
                                                                     </div>
                                                                     <div class="col-lg-6  mt-2">
                                                                         <label><b>PASSWORD:</b></label>
@@ -189,24 +198,35 @@
                                                                             class="form-control" placeholder="เบอร์ติดต่อ"
                                                                             maxlength="10">
                                                                     </div>
-                                                                    <div class="col-lg-6  mt-2">
-                                                                        <label><b>ตำแหน่งงาน:</b></label>
-                                                                        <input type="text" id="role" name="role"
-                                                                            class="form-control" placeholder="ตำแหน่งงาน">
-                                                                    </div>
+
+
                                                                     <div class="col-lg-6 mt-2">
-                                                                        <label><b>สถานะสมาชิก:</b></label>
-                                                                        <select class="form-control" id="member_type" name="member_type">
-                                                                            <option value="user">User</option>
-                                                                            <option value="admin">Admin</option>
+                                                                        <label><b>ระดับสมาชิก:</b></label>
+                                                                        <select class="form-control" name="admin_position" id="admin_position">
+                                                                            @foreach ($admin_position as $val)
+                                                                            <option value="{{ $val->id }}">
+                                                                                {{ $val->name }}
+                                                                                ({{ $val->detail }})
+                                                                            </option>
+                                                                        @endforeach
                                                                         </select>
                                                                     </div>
+
                                                                     <div class="col-lg-6  mt-2">
                                                                         <label><b>แผนก:</b></label>
-                                                                        <input type="text" id="department" name="department"
-                                                                            class="form-control"
-                                                                            placeholder="แผนก">
+                                                                            <select class="form-control"
+                                                                            name="department" id="department">
+
+                                                                            @foreach ($admin_department as $val)
+                                                                                <option value="{{ $val->id }}">
+                                                                                    {{ $val->name }}
+
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+
                                                                     </div>
+
                                                                     <div class="col-lg-6  mt-2">
                                                                         <label><b>สาขาประจำ:</b></label>
                                                                         <select class="form-control branch_select"
@@ -229,14 +249,14 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-    
+
                                                             </div>
                                                         </div>
                                                         <div class="info-area col-md-12 text-center mt-4 ">
                                                             <button type="submit" class="btn btn-info btn-rounded">
                                                                 <i class="las la-save"></i> แก้ไขข้อมูลผู้ใช้งาน</button>
                                                         </div>
-    
+
                                                     </div>
                                                 </div>
                                             </form>
@@ -263,10 +283,9 @@
                         <th>ชื่อ</th>
                         <th>นามสกุล</th>
                         <th>เบอร์ติดต่อ</th>
-                        <th>ตำแหน่งงาน</th>
-                        <th>ตำแหน่งสมาชิก</th>
+                        <th>ระดับสมาชิก</th>
                         <th>แผนก</th>
-                        <th>สาขาประจำ</th>
+                        <th>สาขา</th>
                         <th>สถานะ</th>
                         <th>แก้ไข</th>
                     </tr>
@@ -281,9 +300,8 @@
                             <td>{{ $value->first_name }}</td>
                             <td>{{ $value->last_name }}</td>
                             <td>{{ $value->phone }}</td>
-                            <td>{{ $value->role }}</td>
-                            <td>{{ $value->member_type }}</td>
-                            <td>{{ $value->department }}</td>
+                            <td>{{ $value->admin_position_name }}</td>
+                            <td>{{ $value->department_name }}</td>
                             <td>{{ $value->branch_name }}</td>
                             <td>
                                 @if ($value->status == '1')
@@ -329,17 +347,17 @@
                     $("#id").val(data['data']['id']);
 
                     $("#username").val(data['data']['username']);
-                    $("#password").val(data['data']['password']);
+                    // $("#password").val(data['data']['password']);
                     $("#first_name").val(data['data']['first_name']);
                     $("#last_name").val(data['data']['last_name']);
                     $("#phone").val(data['data']['phone']);
-                    $("#role").val(data['data']['role']);
-                    $("#member_type").val(data['data']['member_type']);
-                    $("#department").val(data['data']['department']);
-                    $("#branch_id_fk").val(data['data']['branch_id_fk']);
-                    $("#status").val(data['data']['status']); 
+                    $("#admin_position").val(data['data']['admin_position']);
 
-                }) 
+                    $("#department").val(data['data']['department_id']);
+                    $("#branch_id_fk").val(data['data']['branch_id_fk']);
+                    $("#status").val(data['data']['status']);
+
+                })
                 .fail(function() {
                     console.log("error");
                 })

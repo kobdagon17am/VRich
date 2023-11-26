@@ -205,14 +205,14 @@
                         <a href="#"> ข้อมูลแผนกบริษัท </a>
                     </li> --}}
                     <li>
-                        <a href="{{ route('admin/AdminData') }}"> ข้อมูลผู้ใช้งาน </a>
+                        <a href="{{ route('admin/AdminData') }}"> กำหนดสิทธิ์ผู้ใช้งาน </a>
                     </li>
                     <li>
                         <a href="{{ route('admin/Bank') }}"> ข้อมูลบัญชีธนาคาร </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="#"> กำหนดสิทธิ์ผู้ใช้งาน </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="#"> เปลี่ยนแปลงรหัสผ่าน </a>
                     </li>

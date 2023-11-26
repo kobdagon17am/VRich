@@ -25,28 +25,59 @@ class AdminDataController extends Controller
       ->where('status', 1)
       ->get();
 
+      $admin_position = DB::table('admin_position')
+      ->where('status', 1)
+      ->get();
+
+      $admin_department = DB::table('admin_department')
+      ->where('status', 1)
+      ->get();
+
+
+
 
     // dd($get_admin_data);
 
-    return view('backend/admin_data', compact('get_admin_data', 'get_branch'));
+    return view('backend/admin_data', compact('get_admin_data', 'get_branch','admin_position','admin_department'));
   }
   public function insert(Request $rs)
   {
-    // dd($rs->all());
+
+
+
+    $admin = DB::table('admin')
+      ->where('username', '=', $rs->username)
+      ->first();
+
+      if($admin){
+        return redirect('admin/AdminData')->withError('มี UserName นี้ในระบบเเล้วไม่สามารถสร้างซ้ำได้');
+      }
+
 
     $get_branch = DB::table('branch')
       ->where('id', '=', $rs->branch_id_fk)
       ->first();
 
+
+      $admin_position = DB::table('admin_position')
+      ->where('id',$rs->admin_position)
+      ->first();
+
+      $admin_department = DB::table('admin_department')
+      ->where('id',$rs->department)
+      ->first();
+
+
     $dataPrepare = [
-      'username' => $rs->usermame,
-      'password' => $rs->password,
+      'username' => $rs->username,
+      'password' => md5($rs->password),
       'first_name' => $rs->first_name,
       'last_name' => $rs->last_name,
       'phone' => $rs->phone,
-      'role' => $rs->role,
-      'member_type' => $rs->member_type,
-      'department' => $rs->department,
+      'admin_position' => $rs->admin_position,
+      'admin_position_name' => $admin_position->name,
+      'department_id' => $rs->department,
+      'department_name' => $admin_department->name,
       'branch_id_fk' => $rs->branch_id_fk,
       'branch_name' => $get_branch->branch_name,
       'status' => $rs->status,
@@ -70,16 +101,33 @@ class AdminDataController extends Controller
   {
     // dd($rs->all());
 
+
+
+  $get_branch = DB::table('branch')
+    ->where('id', '=', $rs->branch_id_fk)
+    ->first();
+
+
+    $admin_position = DB::table('admin_position')
+    ->where('id',$rs->admin_position)
+    ->first();
+
+    $admin_department = DB::table('admin_department')
+    ->where('id',$rs->department)
+    ->first();
+
     $dataPrepare = [
-      'username' => $rs->usermame,
-      'password' => $rs->password,
+
+      'password' => md5($rs->password),
       'first_name' => $rs->first_name,
       'last_name' => $rs->last_name,
       'phone' => $rs->phone,
-      'role' => $rs->role,
-      'member_type' => $rs->member_type,
-      'department' => $rs->department,
+      'admin_position' => $rs->admin_position,
+      'admin_position_name' => $admin_position->name,
+      'department_id' => $rs->department,
+      'department_name' => $admin_department->name,
       'branch_id_fk' => $rs->branch_id_fk,
+      'branch_name' => $get_branch->branch_name,
       'status' => $rs->status,
     ];
 

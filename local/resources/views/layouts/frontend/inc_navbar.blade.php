@@ -115,9 +115,15 @@
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="modal" data-bs-target="#changePassModal">Change Password</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('RegisterUrlSetting') }}">  Register URL  </a>
-            </li>
+
+                @if(Auth::guard('c_user')->user()->qualification_id == 1 || empty(Auth::guard('c_user')->user()->qualification_id))
+
+                @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('RegisterUrlSetting') }}">  Register URL  </a>
+                </li>
+                @endif
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}"><i
                         class="fas fa-power-off me-1 text-danger"></i>Logout</a>
