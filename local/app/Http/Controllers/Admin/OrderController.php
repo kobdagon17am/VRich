@@ -473,9 +473,9 @@ class OrderController extends Controller
 
             $data =  OrderController::order_out_stock($request->order_id, $request->code_order, $request->branch_out_id_fk, $request->warehouse_out_id_fk);
 
-            if($data['status'] == 'fail'){
+            if ($data['status'] == 'fail') {
                 return redirect('admin/orders/list')->withError($data['ms']);
-            }else{
+            } else {
                 try {
                     DB::beginTransaction();
                     $order->save();
@@ -485,7 +485,6 @@ class OrderController extends Controller
                     DB::rollback();
                     return redirect('admin/orders/list')->withError('Update Tracking no Success');
                 }
-
             }
 
 
@@ -498,12 +497,13 @@ class OrderController extends Controller
         }
     }
 
-    public function order_out_stock($order_id, $code_order, $branch_id, $warehouse_id,$i = 0)
+    public function order_out_stock($order_id, $code_order, $branch_id, $warehouse_id, $i = 0)
     {
         $products_list = DB::table('db_order_products_list')
             ->where('code_order', $code_order)
-            ->where('stock_status','pending')
+            ->where('stock_status', 'pending')
             ->get();
+
 
 
         if (count($products_list) <= 0) {
@@ -516,27 +516,23 @@ class OrderController extends Controller
         //check ว่ามีสินค้าให้ตัดไหม
         foreach ($products_list as $value) {
 
-            if($value->type == 'promotion'){
+            if ($value->type == 'promotion') {
 
                 $db_stocks = DB::table('db_stocks')
-                ->where('product_id_fk', $value->product_id_fk_promotion)
-                ->where('branch_id_fk', $branch_id)
-                ->where('warehouse_id_fk', $warehouse_id)
-                ->where('stock_balance', '>=', $value->amt_out_stock)
-                ->first();
-
-
-            }else{
+                    ->where('product_id_fk', $value->product_id_fk_promotion)
+                    ->where('branch_id_fk', $branch_id)
+                    ->where('warehouse_id_fk', $warehouse_id)
+                    ->where('stock_balance', '>=', $value->amt_out_stock)
+                    ->first();
+            } else {
 
 
                 $db_stocks = DB::table('db_stocks')
-                ->where('product_id_fk', $value->product_id_fk)
-                ->where('branch_id_fk', $branch_id)
-                ->where('warehouse_id_fk', $warehouse_id)
-                ->where('stock_balance', '>=', $value->amt_out_stock)
-                ->first();
-
-
+                    ->where('product_id_fk', $value->product_id_fk)
+                    ->where('branch_id_fk', $branch_id)
+                    ->where('warehouse_id_fk', $warehouse_id)
+                    ->where('stock_balance', '>=', $value->amt_out_stock)
+                    ->first();
             }
 
 
@@ -549,61 +545,61 @@ class OrderController extends Controller
 
 
         //สามารถตัดจ่ายสินค้าได้
+        try {
+            DB::BeginTransaction();
 
 
-        foreach ($products_list as $value) {
+            foreach ($products_list as $value) {
 
 
-            if($value->type == 'promotion'){
-                $product_id_fk =  $value->product_id_fk_promotion;
+                if ($value->type == 'promotion') {
+                    $product_id_fk =  $value->product_id_fk_promotion;
+                } else {
 
-            }else{
-
-                $product_id_fk =  $value->product_id_fk;
-            }
-
-
-            $db_stocks = DB::table('db_stocks')
-                ->where('product_id_fk', $product_id_fk)
-                ->where('branch_id_fk', $branch_id)
-                ->where('warehouse_id_fk', $warehouse_id)
-                ->where('stock_balance', '>=', $value->amt_out_stock)
-                ->first();
+                    $product_id_fk =  $value->product_id_fk;
+                }
 
 
-
+                $db_stocks = DB::table('db_stocks')
+                    ->where('product_id_fk', $product_id_fk)
+                    ->where('branch_id_fk', $branch_id)
+                    ->where('warehouse_id_fk', $warehouse_id)
+                    ->where('stock_balance', '>=', $value->amt_out_stock)
+                    ->first();
 
 
 
 
-            if (empty($db_stocks)) {
-                $data = ['status' => 'fail', 'ms' => $value->product_name . ' มีสินค้าไม่พอตัดจ่าย'];
-                return $data;
-            }
+                if (empty($db_stocks)) {
+                    $data = ['status' => 'fail', 'ms' => $value->product_name . ' มีสินค้าไม่พอตัดจ่าย'];
+                    return $data;
+                }
 
-            $db_stock_lot = DB::table('db_stock_lot')
-                ->where('product_id_fk', $product_id_fk)
-                ->where('branch_id_fk', $branch_id)
-                ->where('warehouse_id_fk', $warehouse_id)
-                ->where('lot_balance','>', 0)
-                ->where('stock_type', 'in')
-                ->where('stock_status', 'confirm')
-                ->orderBy('lot_expired_date')
-                ->get();
-
-            if (count($db_stock_lot) <= 0) {
-                $data = ['status' => 'fail', 'ms' => 'ไม่มี lot สินค้าให้ตัดสินค้า'];
-                return $data;
-            }
+                $db_stock_lot = DB::table('db_stock_lot')
+                    ->where('product_id_fk', $product_id_fk)
+                    ->where('branch_id_fk', $branch_id)
+                    ->where('warehouse_id_fk', $warehouse_id)
+                    ->where('lot_balance', '>', 0)
+                    ->where('stock_type', 'in')
+                    ->where('stock_status', 'confirm')
+                    ->orderBy('lot_expired_date')
+                    ->get();
 
 
-            try {
-                DB::BeginTransaction();
+
+
+                if (count($db_stock_lot) <= 0) {
+                    $data = ['status' => 'fail', 'ms' => 'ไม่มี lot สินค้าให้ตัดสินค้า'];
+                    return $data;
+                }
+
+
+
                 //$price_log = $price_total - $gv_price;
 
                 foreach ($db_stock_lot as $value_stock_lot) {
 
-                    $lot_balance =  $value_stock_lot->lot_balance - $value->amt_out_stock ;
+                    $lot_balance =  $value_stock_lot->lot_balance - $value->amt_out_stock;
 
                     if ($lot_balance >= 0) {
                         $balance = $lot_balance;
@@ -627,97 +623,100 @@ class OrderController extends Controller
                             'approve_id_fk' => Auth::guard('admin')->user()->id,
                             'approve_name' => Auth::guard('admin')->user()->first_name,
                             'approve_date' => now(),
-                          ];
+                        ];
 
 
 
-                          DB::table('db_stock_movement')
+                        DB::table('db_stock_movement')
                             ->insert($updateMovement);
 
                         $db_stock_lot_update = DB::table('db_stock_lot')
-                        ->where('id', $value_stock_lot->id)
-                        ->where('stock_type', 'in')
-                        ->where('stock_status', 'confirm')
-                        ->update(['lot_balance' => $balance]);
+                            ->where('id', $value_stock_lot->id)
+                            ->where('stock_type', 'in')
+                            ->where('stock_status', 'confirm')
+                            ->update(['lot_balance' => $balance]);
 
 
-                        $db_order_products_list_update = DB::table('db_order_products_list')//จ่ายสินค้าเเล้ว
-                        ->where('id', $value->id)
-                        ->update(['stock_status' => 'success','amt_out_stock'=>0]);
+                        $db_order_products_list_update = DB::table('db_order_products_list') //จ่ายสินค้าเเล้ว
+                            ->where('id', $value->id)
+                            ->update(['stock_status' => 'success', 'amt_out_stock' => 0]);
 
 
                         $data = ['status' => 'success', 'ms' =>  'success'];
-                        DB::commit();
-                        return $data;
+
 
                     } else {
 
                         //ต้องไปตัด lot อื่นเพิ่ม
 
 
-                            $balance =  $value->amt_out_stock - $value_stock_lot->lot_balance ;
-                            $updateMovement = [
-                                'branch_id_fk' => $branch_id,
-                                'warehouse_id_fk' => $warehouse_id,
-                                'code_order' => $code_order,
+                        $balance =  $value->amt_out_stock - $value_stock_lot->lot_balance;
+                        $updateMovement = [
+                            'branch_id_fk' => $branch_id,
+                            'warehouse_id_fk' => $warehouse_id,
+                            'code_order' => $code_order,
 
-                                'product_id_fk' => $product_id_fk,
-                                'stock_lot_id_fk' => $value_stock_lot->id,
-                                'lot_number' => $value_stock_lot->lot_number,
+                            'product_id_fk' => $product_id_fk,
+                            'stock_lot_id_fk' => $value_stock_lot->id,
+                            'lot_number' => $value_stock_lot->lot_number,
 
-                                'lot_balance' => 0 ,
-                                'amt_balance' => $db_stocks->stock_balance - $value->amt_out_stock,
-                                'amt' => $value_stock_lot->lot_balance,
-                                'in_out' => 'order',
-                                'product_unit_id_fk' => $value_stock_lot->product_unit_id_fk,
-                                'product_unit_name' => $value_stock_lot->product_unit_id_fk,
-                                'stock_status' => 'confirm',
-                                'create_id_fk' => Auth::guard('admin')->user()->id,
-                                'create_name' => Auth::guard('admin')->user()->first_name,
-                                'approve_id_fk' => Auth::guard('admin')->user()->id,
-                                'approve_name' => Auth::guard('admin')->user()->first_name,
-                                'approve_date' => now(),
-                              ];
+                            'lot_balance' => 0,
+                            'amt_balance' => $db_stocks->stock_balance - $value->amt_out_stock,
+                            'amt' => $value_stock_lot->lot_balance,
+                            'in_out' => 'order',
+                            'product_unit_id_fk' => $value_stock_lot->product_unit_id_fk,
+                            'product_unit_name' => $value_stock_lot->product_unit_id_fk,
+                            'stock_status' => 'confirm',
+                            'create_id_fk' => Auth::guard('admin')->user()->id,
+                            'create_name' => Auth::guard('admin')->user()->first_name,
+                            'approve_id_fk' => Auth::guard('admin')->user()->id,
+                            'approve_name' => Auth::guard('admin')->user()->first_name,
+                            'approve_date' => now(),
+                        ];
 
-                              DB::table('db_stock_movement')
-                                ->insert($updateMovement);
+                        DB::table('db_stock_movement')
+                            ->insert($updateMovement);
 
-                            $db_stock_lot_update = DB::table('db_stock_lot')
+                        $db_stock_lot_update = DB::table('db_stock_lot')
                             ->where('id', $value_stock_lot->id)
                             ->where('stock_type', 'in')
                             ->where('stock_status', 'confirm')
-                            ->update(['lot_balance' => 0 ]);
+                            ->update(['lot_balance' => 0]);
 
-                            $db_order_products_list_update = DB::table('db_order_products_list')//จ่ายสินค้าเเล้ว
+                        $db_order_products_list_update = DB::table('db_order_products_list') //จ่ายสินค้าเเล้ว
                             ->where('id', $value->id)
-                            ->update(['amt_out_stock'=>$balance]);
+                            ->update(['amt_out_stock' => $balance]);
 
-                            $rs_data = OrderController::order_out_stock($order_id, $code_order, $branch_id, $warehouse_id,2);
-                            if($rs_data['status'] == 'success' ){
-                                $data = ['status' => 'success', 'ms' =>  'success'];
-                                DB::commit();
-                                return $data;
-
-                            }elseif($rs_data['status'] == 'fail'){
-                                DB::rollback();
-                                $data = ['status' => 'fail', 'message' => $rs_data['ms']];
-                                return $data;
-
-                            }else{
-                                $rs_data = OrderController::order_out_stock($order_id, $code_order, $branch_id, $warehouse_id,3);
-                            }
+                        $rs_data = OrderController::order_out_stock($order_id, $code_order, $branch_id, $warehouse_id, 2);
+                        if ($rs_data['status'] == 'success') {
+                            $data = ['status' => 'success', 'ms' =>  'success'];
 
 
+
+                        } elseif ($rs_data['status'] == 'fail') {
+
+                            $data = ['status' => 'fail', 'message' => $rs_data['ms']];
+
+
+                        } else {
+                            $rs_data = OrderController::order_out_stock($order_id, $code_order, $branch_id, $warehouse_id, 3);
+                        }
                     }
-
                 }
-
-
-            } catch (Exception $e) {
+            }
+            if($data['status'] == 'success'){
+                DB::commit();
+                return $data;
+            }else{
                 DB::rollback();
-                $data = ['status' => 'fail', 'message' => $e];
                 return $data;
             }
+
+
+        } catch (Exception $e) {
+            DB::rollback();
+            $data = ['status' => 'fail', 'message' => $e];
+            return $data;
         }
     }
 

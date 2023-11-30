@@ -24,7 +24,7 @@ class LoginController extends Controller
 
 
         if ($admin) {
-
+// dd(md5($req->password));
             if (md5($req->password) == $admin->password) {
                 Auth::guard('admin')->login($admin);
                 return redirect('admin/Dashboard');
