@@ -243,3 +243,14 @@ Route::get('admin/Blank', function () {
     Route::post('admin/orders/tracking_no_sort', 'Admin\OrderController@tracking_no_sort')->name('admin/orders/tracking_no_sort');
     Route::post('admin/orders/view_detail_oeder_pdf/', 'Admin\OrderController@view_detail_oeder_pdf')->name('admin/orders/view_detail_oeder_pdf');
 
+    Route::get('admin/bonus2', 'Admin\BonusController@bonus2')->name('admin/bonus2');
+    Route::get('admin/view_cashback', 'Admin\ProductsController@view_cashback')->name('admin/view_cashback');
+    Route::get('admin/add_cashback', 'Admin\ProductsController@add_cashback')->name('admin/add_cashback');
+    Route::get('admin/delete_cashback', 'Admin\ProductsController@delete_cashback')->name('admin/delete_cashback');
+
+
+
+
+
+
+

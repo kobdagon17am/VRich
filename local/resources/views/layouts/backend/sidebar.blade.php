@@ -159,7 +159,7 @@
                 </a>
                 <ul class="collapse submenu list-unstyled" id="a4" data-parent="#accordionExample">
                     <li>
-                        <a href="#"> รายงานรายสัปดาห์ </a>
+                        <a href="{{ route('admin/bonus2') }}"> Cash Back (ระบบคำนวน) </a>
                     </li>
                     <li>
                         <a href="#"> รายงานรายเดือน </a>

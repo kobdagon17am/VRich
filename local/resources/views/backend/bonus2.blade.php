@@ -11,8 +11,8 @@
 @section('page-header')
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">จัดการการขาย</li>
-            <li class="breadcrumb-item active" aria-current="page"><span>รายการคำสั่งซื้อ</span></li>
+            <li class="breadcrumb-item">ระบบคอมมิสชั่น</li>
+            <li class="breadcrumb-item active" aria-current="page"><span>ระบบคำนวน Cash Back </span></li>
         </ol>
     </nav>
 @endsection

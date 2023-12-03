@@ -579,6 +579,7 @@
                         <th>ค่าขนส่ง(TH/USD)</th>
                         <th>PT</th>
                         <th>สถานะ</th>
+                        <th>Set CashBack</th>
                         <th>แก้ไข</th>
                     </tr>
                 </thead>
@@ -609,6 +610,10 @@
                                     <span class="badge badge-pill badge-danger light">ปิดใช้งาน</span>
                                 @endif
                             </td>
+                            <td class="text-center">
+                                <a href="#!" onclick="cash_back({{ $value->id }})" class="p-2">
+                                    <i class="lab la-whmcs font-25 text-warning"></i></a>
+                            </td>
                             <td>
                                 <a href="#!" onclick="edit({{ $value->id }})" class="p-2">
                                     <i class="lab la-whmcs font-25 text-warning"></i></a>
@@ -637,6 +642,59 @@
                 </a>
             </ul>
         </div> --}}
+
+        <div class="modal fade" id="CashBack" tabindex="-1" role="dialog" aria-labelledby="CashBackTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="CashBackTitle">Set CashBack</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="las la-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="modal-heading mb-4 mt-2" id="c_product_name"></h4>
+                        <input type="hidden" id="product_name_cash" value="">
+
+                            <diV class="form-group row">
+                                <div class="col-md-3  mt-2">
+                                    <label><b>UNIT (AMT):</b></label>
+                                    <input type="number" class="form-control" name="amt" id="amt" placeholder="UNIT(AMT)">
+                                </div>
+                                <div class="col-md-3  mt-2">
+                                    <label><b>PRICE/UNIT (THAI)</b></label>
+                                    <input type="number" class="form-control" name="price_th" id="price_th" placeholder="PRICE/UNIT (THAI)">
+                                </div>
+                                <div class="col-md-3  mt-2">
+                                    <label><b>PRICE/UNIT (USD)</b></label>
+                                    <input type="number" class="form-control" name="price_usd" id="price_usd" placeholder="PRICE/UNIT (USD)">
+                                </div>
+                                <div class="col-md-3  mt-2">
+                                    <label><b>PROFIT (THAI)</b></label>
+                                    <input type="number" class="form-control" name="profit_th" id="profit_th" placeholder="PROFIT (THAI)">
+                                </div>
+                                <div class="col-md-3  mt-2">
+                                    <label><b>PROFIT (USD)</b></label>
+                                    <input type="number" class="form-control" name="profit_usd" id="profit_usd" placeholder="PROFIT (USD)">
+                                </div>
+
+                                <div class="col-md-3  mt-1">
+
+                                        <div id="add_cashback"></div>
+
+                                </div>
+                            </diV>
+                            <div class="table-responsive mb-4">
+                           <div id="table_cashback"></div>
+                        </div>
+                    </div>
+                    {{-- <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                        <button type="button" class="btn btn-primary">Save</button>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
 
 
 
@@ -714,6 +772,132 @@
                     });
 
                     //$('#product_image1').attr('data-default-file', 'เส้นทางไปยังรูปภาพใหม่');
+
+
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+        }
+
+        function cash_back(id) {
+            $.ajax({
+                    url: '{{ route('admin/view_cashback') }}',
+                    type: 'GET',
+                    data: {
+                        id
+                    }
+                })
+                .done(function(data) {
+                    $("#c_product_name").html(data['data']['product_name']);
+                    $("#product_name_cash").val(data['data']['product_name']);
+                    $("#table_cashback").html(data['html']);
+                    var add_bt ='<button type="button" onclick="add_cashback('+id+');" class="btn btn-success mt-4">ADD</button>';
+                    $("#add_cashback").html(add_bt);
+
+                    $("#CashBack").modal();
+
+
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+        }
+         function delete_cashback(dataset_casback_product_id_fk,product_id) {
+
+            $.ajax({
+                    url: '{{ route('admin/delete_cashback') }}',
+                    type: 'GET',
+                    data: {
+                        dataset_casback_product_id_fk: dataset_casback_product_id_fk,
+                        product_id:product_id,
+
+                    }
+                })
+    .done(function(data) {
+        if(data['status'] == 'success'){
+            console.log(data['html']);
+            $("#table_cashback").html(data['html']);
+
+        }else{
+
+                alert(data['ms']);
+        }
+        // $("#c_product_name").html(data['data']['product_name']);
+
+
+        // var add_bt ='<button type="button" onclick="add_cashback('+id+');" class="btn btn-success mt-4">ADD</button>';
+        // $("#add_cashback").html(add_bt);
+        // $("#CashBack").modal();
+
+
+    })
+    .fail(function() {
+        console.log("error");
+    })
+}
+        function add_cashback(id) {
+
+            var amt =  $("#amt").val();
+            var product_name_cash =  $("#product_name_cash").val();
+            var price_th =  $("#price_th").val();
+            var price_usd =  $("#price_usd").val();
+            var profit_th =  $("#profit_th").val();
+            var profit_usd =  $("#profit_usd").val();
+            if(amt == 0 || amt == null){
+                alert('UNIT Is Null');
+                return;
+
+            }
+
+            if(price_th == 0 || price_th == null){
+                alert('price_th Is Null');
+                return;
+
+            }
+            if(price_usd == 0 || price_usd == null){
+                alert('price_usd Is Null');
+                return;
+
+            }
+            if(profit_th == 0 || profit_th == null){
+                alert('profit_th Is Null');
+                return;
+
+            }
+            if(profit_usd == 0 || profit_usd == null){
+                alert('profit_usd Is Null');
+                return;
+
+            }
+
+            $.ajax({
+                    url: '{{ route('admin/add_cashback') }}',
+                    type: 'GET',
+                    data: {
+                        id: id,
+                        product_name_cash:product_name_cash,
+                        amt: amt,
+                        price_th: price_th,
+                        price_usd: price_usd,
+                        profit_th: profit_th,
+                        profit_usd: profit_usd,
+                    }
+                })
+                .done(function(data) {
+                    if(data['status'] == 'success'){
+                            $("#table_cashback").html(data['html']);
+                            // alert('Add Success');
+                    }else{
+
+                            alert(data['ms']);
+                    }
+                    // $("#c_product_name").html(data['data']['product_name']);
+
+
+                    // var add_bt ='<button type="button" onclick="add_cashback('+id+');" class="btn btn-success mt-4">ADD</button>';
+                    // $("#add_cashback").html(add_bt);
+                    // $("#CashBack").modal();
 
 
                 })
