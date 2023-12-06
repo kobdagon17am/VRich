@@ -83,8 +83,6 @@ class NewsController extends Controller
   public function edit_news(Request $rs)
   {
 
-    dd($rs->all());
-
     $dataPrepare = [
       'news_title' => $rs->news_title,
       'news_name' => $rs->news_name,

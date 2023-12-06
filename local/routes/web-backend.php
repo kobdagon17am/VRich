@@ -248,6 +248,11 @@ Route::get('admin/Blank', function () {
     Route::get('admin/add_cashback', 'Admin\ProductsController@add_cashback')->name('admin/add_cashback');
     Route::get('admin/delete_cashback', 'Admin\ProductsController@delete_cashback')->name('admin/delete_cashback');
 
+    Route::post('admin/run_bonus2', 'Admin\BonusController@run_bonus2')->name('admin/run_bonus2');
+    Route::get('admin/datatable_casback', 'Admin\BonusController@datatable_casback')->name('admin/datatable_casback');
+
+
+
 
 
 

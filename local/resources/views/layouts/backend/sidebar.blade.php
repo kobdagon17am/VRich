@@ -161,12 +161,12 @@
                     <li>
                         <a href="{{ route('admin/bonus2') }}"> Cash Back (ระบบคำนวน) </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="#"> รายงานรายเดือน </a>
                     </li>
                     <li>
                         <a href="#"> อัปโหลดใบทวิ 50 </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
 

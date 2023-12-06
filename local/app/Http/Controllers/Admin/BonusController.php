@@ -69,1145 +69,230 @@ class BonusController extends Controller
     }
 
 
-    public function orders_success(Request $request)
+    public function run_bonus2(Request $rs)
     {
-        $Shipping_type = Shipping_type::get();
+        $date_start = $rs->date_start.' 00:00:00';
+        $date_end = $rs->date_end.' 23:59:59';
+        $route =  $rs->route;
+        $month =  $rs->month;
+        $year =  $rs->year;
+        $note =  $rs->note;
+
+       $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+        ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
+        ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
+        ->where('db_orders.type','=','other')
+        ->wheredate('customers.expire_date','>=',$date_end)
+        ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
+        ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
+        ->whereRaw(("case WHEN '{$date_start}' = '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) = '{$date_end}' else 1 END"))
+        ->havingRaw('count(count_code) > 1 ')
+
+        ->groupby('db_orders.code_order')
+        ->get();
+
+
+        if(count($db_orders)>0){
+            DB::rollback();
+            return redirect('admin/bonus2')->withError('มีเลขออเดอซ้ำในระบบ');
 
-        return view('backend/orders_list_success')
-            ->with('Shipping_type', $Shipping_type);
-    }
-
-
-    public function list_stock(Request $request)
-    {
-        $Shipping_type = Shipping_type::get();
-
-        return view('backend/orders_list_stock')
-            ->with('Shipping_type', $Shipping_type);
-    }
-
-
-    public function get_data_order_list(Request $request)
-    {
-        $code_order = @$request['Custom']['code_order'];
-
-        // $type = @$request['Custom']['type'];
-
-        // dd( $type);
-
-        $date_start = null;
-
-        if (@request('Custom')['date_start']) {
-            $date_start = date('Y-m-d H:i:s', strtotime(@request('Custom')['date_start']));
-        }
-        $date_end = null;
-        if (@request('Custom')['date_end']) {
-            $date_end = date('Y-m-d H:i:s', strtotime(@request('Custom')['date_end']));
-        }
-        DB::enableQueryLog();
-        $orders = DB::table('db_orders')
-            ->select(
-                'db_orders.*',
-                'dataset_order_status.detail',
-                'dataset_order_status.css_class',
-            )
-            ->leftjoin('dataset_order_status', 'dataset_order_status.orderstatus_id', '=', 'db_orders.order_status_id_fk')
-            ->leftjoin('customers', 'customers.id', '=', 'db_orders.customers_id_fk')
-            ->where('dataset_order_status.lang_id', '=', 1)
-
-            ->where('db_orders.order_status_id_fk', '=', '5')
-            ->where('db_orders.sent_stock_type', '=', 'send')
-            ->whereRaw(("case WHEN '{$code_order}' != '' THEN  db_orders.code_order = '{$code_order}' else 1 END"))
-            //->whereRaw(("case WHEN '{$type}' != '' THEN  db_orders.type = '{$type}' else 1 END"))
-            ->where(function ($query) use ($date_start, $date_end) {
-                if ($date_start != null && $date_end != null) {
-                    $query->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)));
-                    $query->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)));
-                }
-            })
-
-            ->where(function ($query) use ($request) {
-                if ($request->has('Where')) {
-                    foreach (request('Where') as $key => $val) {
-                        if ($val) {
-                            if (strpos($val, ',')) {
-                                $query->whereIn($key, explode(',', $val));
-                            } else {
-                                $query->where($key, $val);
-                            }
-                        }
-                    }
-                }
-                if ($request->has('Like')) {
-                    foreach (request('Like') as $key => $val) {
-                        if ($val) {
-                            $query->where($key, 'like', '%' . $val . '%');
-                        }
-                    }
-                }
-            })
-            // ->where('db_orders.order_status_id_fk', ['2',])
-
-            // ->whereRaw(("case WHEN '{$request->s_date}' != '' and '{$request->e_date}' != ''  THEN  date(db_orders.created_at) >= '{$request->s_date}' and date(db_orders.created_at) <= '{$request->e_date}'else 1 END"))
-            // ->whereRaw(("case WHEN '{$request->s_date}' = '' and '{$request->e_date}' != ''  THEN  date(db_orders.created_at) = '{$request->e_date}' else 1 END"))
-            ->orderby('db_orders.updated_at', 'DESC');
-
-
-        // dd($date_start, $date_end);
-        return DataTables::of($orders)
-            ->setRowClass('intro-x py-4 h-20 zoom-in box ')
-
-            ->editColumn('total_price', function ($query) {
-                $price = $query->total_price;
-                return  number_format($price, 2) . ' USD';
-            })
-
-            // รวม รหัสกับชื่อสมาชิก
-            // ->editColumn('customers_user_name', function ($query) {
-
-            //     return   $customers;
-            // })
-            // ->editColumn('created_at', function ($query) {
-            //     $time =  date('d-m-Y h:i', strtotime($query->created_at));
-            //     return   $time . ' น';
-            // })
-            ->make(true);
-    }
-
-
-
-    public function get_data_order_list_success(Request $request)
-    {
-        $code_order = @$request['Custom']['code_order'];
-
-        $date_start = null;
-
-        if (@request('Custom')['date_start']) {
-            $date_start = date('Y-m-d H:i:s', strtotime(@request('Custom')['date_start']));
-        }
-        $date_end = null;
-        if (@request('Custom')['date_end']) {
-            $date_end = date('Y-m-d H:i:s', strtotime(@request('Custom')['date_end']));
-        }
-        DB::enableQueryLog();
-        $orders = DB::table('db_orders')
-            ->select(
-                'db_orders.*',
-                'dataset_order_status.detail',
-                'dataset_order_status.css_class',
-            )
-            ->leftjoin('dataset_order_status', 'dataset_order_status.orderstatus_id', '=', 'db_orders.order_status_id_fk')
-            ->leftjoin('customers', 'customers.id', '=', 'db_orders.customers_id_fk')
-            ->where('dataset_order_status.lang_id', '=', 1)
-            ->where('db_orders.order_status_id_fk', '=', '7')
-
-            ->where('db_orders.sent_stock_type', '=', 'send')
-            ->whereRaw(("case WHEN '{$code_order}' != '' THEN  date(db_orders.code_order) = '{$code_order}' else 1 END"))
-            ->where(function ($query) use ($date_start, $date_end) {
-                if ($date_start != null && $date_end != null) {
-                    $query->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)));
-                    $query->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)));
-                }
-            })
-
-            ->where(function ($query) use ($request) {
-                if ($request->has('Where')) {
-                    foreach (request('Where') as $key => $val) {
-                        if ($val) {
-                            if (strpos($val, ',')) {
-                                $query->whereIn($key, explode(',', $val));
-                            } else {
-                                $query->where($key, $val);
-                            }
-                        }
-                    }
-                }
-                if ($request->has('Like')) {
-                    foreach (request('Like') as $key => $val) {
-                        if ($val) {
-                            $query->where($key, 'like', '%' . $val . '%');
-                        }
-                    }
-                }
-            })
-            // ->where('db_orders.order_status_id_fk', ['2',])
-
-            // ->whereRaw(("case WHEN '{$request->s_date}' != '' and '{$request->e_date}' != ''  THEN  date(db_orders.created_at) >= '{$request->s_date}' and date(db_orders.created_at) <= '{$request->e_date}'else 1 END"))
-            // ->whereRaw(("case WHEN '{$request->s_date}' = '' and '{$request->e_date}' != ''  THEN  date(db_orders.created_at) = '{$request->e_date}' else 1 END"))
-            ->orderby('db_orders.updated_at', 'DESC');
-
-
-        // dd($date_start, $date_end);
-        return DataTables::of($orders)
-            ->setRowClass('intro-x py-4 h-20 zoom-in box ')
-
-            ->editColumn('total_price', function ($query) {
-                $price = $query->total_price;
-                return  number_format($price, 2) . ' USD';
-            })
-
-            // รวม รหัสกับชื่อสมาชิก
-            // ->editColumn('customers_user_name', function ($query) {
-
-            //     return   $customers;
-            // })
-            // ->editColumn('created_at', function ($query) {
-            //     $time =  date('d-m-Y h:i', strtotime($query->created_at));
-            //     return   $time . ' น';
-            // })
-            ->make(true);
-    }
-
-
-    public function get_data_order_list_stock(Request $request)
-    {
-        $code_order = @$request['Custom']['code_order'];
-
-        $date_start = null;
-
-        if (@request('Custom')['date_start']) {
-            $date_start = date('Y-m-d H:i:s', strtotime(@request('Custom')['date_start']));
-        }
-        $date_end = null;
-        if (@request('Custom')['date_end']) {
-            $date_end = date('Y-m-d H:i:s', strtotime(@request('Custom')['date_end']));
-        }
-        DB::enableQueryLog();
-        $orders = DB::table('db_orders')
-            ->select(
-                'db_orders.*',
-                'dataset_order_status.detail',
-                'dataset_order_status.css_class',
-            )
-            ->leftjoin('dataset_order_status', 'dataset_order_status.orderstatus_id', '=', 'db_orders.order_status_id_fk')
-            ->leftjoin('customers', 'customers.id', '=', 'db_orders.customers_id_fk')
-            ->where('dataset_order_status.lang_id', '=', 1)
-            // ->where('db_orders.order_status_id_fk', '=', '7')
-
-            ->where('db_orders.sent_stock_type', '=', 'add')
-            ->whereRaw(("case WHEN '{$code_order}' != '' THEN  date(db_orders.code_order) = '{$code_order}' else 1 END"))
-            ->where(function ($query) use ($date_start, $date_end) {
-                if ($date_start != null && $date_end != null) {
-                    $query->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)));
-                    $query->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)));
-                }
-            })
-
-            ->where(function ($query) use ($request) {
-                if ($request->has('Where')) {
-                    foreach (request('Where') as $key => $val) {
-                        if ($val) {
-                            if (strpos($val, ',')) {
-                                $query->whereIn($key, explode(',', $val));
-                            } else {
-                                $query->where($key, $val);
-                            }
-                        }
-                    }
-                }
-                if ($request->has('Like')) {
-                    foreach (request('Like') as $key => $val) {
-                        if ($val) {
-                            $query->where($key, 'like', '%' . $val . '%');
-                        }
-                    }
-                }
-            })
-            // ->where('db_orders.order_status_id_fk', ['2',])
-
-            // ->whereRaw(("case WHEN '{$request->s_date}' != '' and '{$request->e_date}' != ''  THEN  date(db_orders.created_at) >= '{$request->s_date}' and date(db_orders.created_at) <= '{$request->e_date}'else 1 END"))
-            // ->whereRaw(("case WHEN '{$request->s_date}' = '' and '{$request->e_date}' != ''  THEN  date(db_orders.created_at) = '{$request->e_date}' else 1 END"))
-            ->orderby('db_orders.updated_at', 'DESC');
-
-
-        // dd($date_start, $date_end);
-        return DataTables::of($orders)
-            ->setRowClass('intro-x py-4 h-20 zoom-in box ')
-
-            ->editColumn('total_price', function ($query) {
-                $price = $query->total_price;
-                return  number_format($price, 2) . ' USD';
-            })
-
-            // รวม รหัสกับชื่อสมาชิก
-            // ->editColumn('customers_user_name', function ($query) {
-
-            //     return   $customers;
-            // })
-            // ->editColumn('created_at', function ($query) {
-            //     $time =  date('d-m-Y h:i', strtotime($query->created_at));
-            //     return   $time . ' น';
-            // })
-            ->make(true);
-    }
-
-
-
-
-    public function view_detail_oeder($code_order)
-    {
-        $orders_detail = DB::table('db_orders')
-            ->select(
-                'customers.name as customers_name',
-                'customers.last_name',
-                'dataset_order_status.detail',
-                'dataset_order_status.css_class',
-                'db_orders.*',
-            )
-            ->leftjoin('customers', 'customers.id', 'db_orders.customers_id_fk')
-            ->leftjoin('dataset_order_status', 'dataset_order_status.orderstatus_id', 'db_orders.order_status_id_fk')
-            ->where('code_order', $code_order)
-            ->get()
-
-            ->map(function ($item) use ($code_order) {
-                $item->address = DB::table('db_orders')
-                    ->select(
-                        'house_no',
-                        'house_name',
-                        'moo',
-                        'soi',
-                        'road',
-                        'district_name as district',
-                        'province_name as province',
-                        'tambon_name as tambon',
-                        'db_orders.zipcode',
-                        'email',
-                        'tel',
-                    )
-                    ->leftjoin('address_districts', 'address_districts.district_id', 'db_orders.district_id')
-                    ->leftjoin('address_provinces', 'address_provinces.province_id', 'db_orders.province_id')
-                    ->leftjoin('address_tambons', 'address_tambons.tambon_id', 'db_orders.tambon_id')
-                    ->GroupBy('house_no')
-                    ->where('code_order', $code_order)
-                    ->get();
-                return $item;
-            })
-
-            // เอาข้อมูลสินค้าที่อยู่ในรายการ order
-            ->map(function ($item) use ($code_order) {
-                $item->product_detail = DB::table('db_order_products_list')
-                    ->leftjoin('products_details', 'products_details.product_id_fk', 'db_order_products_list.product_id_fk')
-                    ->leftjoin('products_images', 'products_images.product_id_fk', 'db_order_products_list.product_id_fk')
-                    ->where('products_details.lang_id', 1)
-                    ->where('code_order', $code_order)
-                    ->GroupBy('products_details.product_name')
-                    ->get();
-                return $item;
-            })
-            // sum total
-            ->map(function ($item) use ($code_order) {
-                $item->sum_total = DB::table('db_order_products_list')
-                    ->where('code_order', $code_order)
-                    ->get();
-                return $item;
-            });
-
-
-
-
-        // return $orders_detail;
-        return view('backend/orders_list/view_detail_oeder')
-            ->with('orders_detail', $orders_detail);
-    }
-
-
-    public function report_order_pdf($type, $date_start, $date_end)
-    {
-        $orders_detail = DB::table('db_orders')
-            ->select(
-                'db_orders.*',
-                'dataset_districts.name_th as district',
-                'dataset_provinces.name_en as province',
-                'dataset_amphures.name_en as tambon',
-                'customers.name as customers_name',
-                'customers.last_name as customers_last_name',
-            )
-            ->leftjoin('customers', 'customers.id', 'db_orders.customers_id_fk')
-
-
-            ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
-            ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
-            ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
-
-
-            ->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)))
-            ->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)))
-            ->where('db_orders.order_status_id_fk', '=', '5')
-            ->OrderBy('tracking_no_sort', 'asc')
-            ->where(function ($query) use ($type) {
-                if ($type != 'all') {
-                    $query->where('tracking_type', $type);
-                }
-            })
-            ->get();
-
-        // dd($orders_detail);
-
-        $data = [
-            'orders_detail' => $orders_detail,
-        ];
-
-
-
-
-
-        if ($orders_detail->count() > 0) {
-
-            $pdf = PDF::loadView('backend/PDF/report_order_pdf', $data);
-            return $pdf->stream('document.pdf');
-        } else {
-            $status = 'ยังไม่มีรายการสั่งซ์้อ';
-            return redirect('admin/orders/list')->withSuccess('Deleted Success');
-        }
-    }
-
-    public function tracking_no(Request $request)
-    {
-        $order = Orders::where('code_order', $request->code_order)->first();
-        if ($order) {
-            $order->tracking_type = $request->tracking_type;
-            $order->tracking_no = $request->tracking_no;
-            $order->order_status_id_fk = "7";
-
-            $data =  OrderController::order_out_stock($request->order_id, $request->code_order, $request->branch_out_id_fk, $request->warehouse_out_id_fk);
-
-            if ($data['status'] == 'fail') {
-                return redirect('admin/orders/list')->withError($data['ms']);
-            } else {
-                try {
-                    DB::beginTransaction();
-                    $order->save();
-                    DB::commit();
-                    return redirect('admin/orders/list')->withSuccess('Update Tracking no Success');
-                } catch (Exception $e) {
-                    DB::rollback();
-                    return redirect('admin/orders/list')->withError('Update Tracking no Success');
-                }
-            }
-
-
-
-            if ($request->page_type == 'success') {
-                return redirect('admin/orders/list')->withSuccess('Update Tracking no Success');
-            } else {
-                return redirect('admin/orders/list')->withSuccess('Update Tracking no Success');
-            }
-        }
-    }
-
-    public function order_out_stock($order_id, $code_order, $branch_id, $warehouse_id, $i = 0)
-    {
-        $products_list = DB::table('db_order_products_list')
-            ->where('code_order', $code_order)
-            ->where('stock_status', 'pending')
-            ->get();
-
-
-
-        if (count($products_list) <= 0) {
-            $data = ['status' => 'fail', 'ms' => 'ไม่พบสินค้าในบิล'];
-            return $data;
         }
 
+        $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+        ->selectRaw('db_orders.code_order,db_orders.customers_user_name,customers.name,customers.last_name,customers.expire_date,customers.qualification_id')
+        ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
+        ->where('db_orders.type','=','other')
+        ->whereBetween('db_orders.created_at', [$date_start, $date_end])
+        ->wherein('order_status_id_fk',[4,5,6,7])
+        ->get();
+        if(count($order)== 0){
+            DB::rollback();
+            return redirect('admin/bonus2')->withError('ไม่มีสินค้าในวันที่เลือก');
 
-
-        //check ว่ามีสินค้าให้ตัดไหม
-        foreach ($products_list as $value) {
-
-            if ($value->type == 'promotion') {
-
-                $db_stocks = DB::table('db_stocks')
-                    ->where('product_id_fk', $value->product_id_fk_promotion)
-                    ->where('branch_id_fk', $branch_id)
-                    ->where('warehouse_id_fk', $warehouse_id)
-                    ->where('stock_balance', '>=', $value->amt_out_stock)
-                    ->first();
-            } else {
-
-
-                $db_stocks = DB::table('db_stocks')
-                    ->where('product_id_fk', $value->product_id_fk)
-                    ->where('branch_id_fk', $branch_id)
-                    ->where('warehouse_id_fk', $warehouse_id)
-                    ->where('stock_balance', '>=', $value->amt_out_stock)
-                    ->first();
-            }
-
-
-            if (empty($db_stocks)) {
-
-                $data = ['status' => 'fail', 'ms' => $value->product_name . ' มีสินค้าไม่พอตัดจ่าย'];
-                return $data;
-            }
         }
+        $code_order = array();
+        foreach($order as $value){
+            $code_order[] = $value->code_order;
+        }
+        $db_order_products_list =  DB::table('db_order_products_list')
+        ->selectRaw('db_order_products_list.customers_username,customers.expire_date,customers.qualification_id,dataset_qualification.business_qualifications,
+        customers.name,customers.last_name,db_order_products_list.product_id_fk,db_order_products_list.product_name,sum(db_order_products_list.amt) as total_amt')
+        ->leftjoin('customers', 'db_order_products_list.customers_username', '=', 'customers.user_name')
+        ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
+        ->wherein('code_order',$code_order)
+        ->where('db_order_products_list.type','=','other')
+        ->groupby('product_id_fk')
+        ->get();
 
-
-        //สามารถตัดจ่ายสินค้าได้
         try {
             DB::BeginTransaction();
+            foreach($db_order_products_list as $value){
 
-
-            foreach ($products_list as $value) {
-
-
-                if ($value->type == 'promotion') {
-                    $product_id_fk =  $value->product_id_fk_promotion;
-                } else {
-
-                    $product_id_fk =  $value->product_id_fk;
-                }
-
-
-                $db_stocks = DB::table('db_stocks')
-                    ->where('product_id_fk', $product_id_fk)
-                    ->where('branch_id_fk', $branch_id)
-                    ->where('warehouse_id_fk', $warehouse_id)
-                    ->where('stock_balance', '>=', $value->amt_out_stock)
-                    ->first();
-
-
-
-
-                if (empty($db_stocks)) {
-                    $data = ['status' => 'fail', 'ms' => $value->product_name . ' มีสินค้าไม่พอตัดจ่าย'];
-                    return $data;
-                }
-
-                $db_stock_lot = DB::table('db_stock_lot')
-                    ->where('product_id_fk', $product_id_fk)
-                    ->where('branch_id_fk', $branch_id)
-                    ->where('warehouse_id_fk', $warehouse_id)
-                    ->where('lot_balance', '>', 0)
-                    ->where('stock_type', 'in')
-                    ->where('stock_status', 'confirm')
-                    ->orderBy('lot_expired_date')
-                    ->get();
-
-
-
-
-                if (count($db_stock_lot) <= 0) {
-                    $data = ['status' => 'fail', 'ms' => 'ไม่มี lot สินค้าให้ตัดสินค้า'];
-                    return $data;
+                $dataset_casback_product = DB::table('dataset_casback_product')
+                ->where('product_id', '=', $value->product_id_fk)
+                ->where('amt', '<=', $value->total_amt)
+                ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', [$value->total_amt])
+                ->first();
+                if($dataset_casback_product){
+                    $profit_usd = $dataset_casback_product->profit_usd;
+                }else{
+                    $profit_usd = 0;
                 }
 
 
 
-                //$price_log = $price_total - $gv_price;
-
-                foreach ($db_stock_lot as $value_stock_lot) {
-
-                    $lot_balance =  $value_stock_lot->lot_balance - $value->amt_out_stock;
-
-                    if ($lot_balance >= 0) {
-                        $balance = $lot_balance;
-                        $updateMovement = [
-                            'branch_id_fk' => $branch_id,
-                            'warehouse_id_fk' => $warehouse_id,
-                            'code_order' => $code_order,
-
-                            'product_id_fk' => $product_id_fk,
-                            'stock_lot_id_fk' => $value_stock_lot->id,
-                            'lot_number' => $value_stock_lot->lot_number,
-
-                            'lot_balance' => $balance,
-                            'amt_balance' => $db_stocks->stock_balance - $value->amt_out_stock,
-                            'amt' => $value->amt_out_stock,
-                            'in_out' => 'order',
-                            'product_unit_id_fk' => $value_stock_lot->product_unit_id_fk,
-                            'stock_status' => 'confirm',
-                            'create_id_fk' => Auth::guard('admin')->user()->id,
-                            'create_name' => Auth::guard('admin')->user()->first_name,
-                            'approve_id_fk' => Auth::guard('admin')->user()->id,
-                            'approve_name' => Auth::guard('admin')->user()->first_name,
-                            'approve_date' => now(),
-                        ];
+                $dataPrepare = [
+                    'user_name' => $value->customers_username,
+                    'name'=>$value->name,
+                    'last_name' =>$value->last_name,
+                    'qualification' =>  $value->business_qualifications,
+                    'product_name' =>  $value->product_name,
+                    'product_id' =>  $value->product_id_fk,
+                    'amt' =>  $value->total_amt,
+                    'profit_usd' =>  $profit_usd,
+                    'bonus_total_usd' =>  $value->total_amt*$profit_usd,
+                    'date_start' =>  $date_start,
+                    'date_end' =>  $date_end,
+                    'year' => $year,
+                    'month' => $month,
+                    'route'=>$route,
+                    'note'=>$note,
+                ];
 
 
-
-                        DB::table('db_stock_movement')
-                            ->insert($updateMovement);
-
-                        $db_stock_lot_update = DB::table('db_stock_lot')
-                            ->where('id', $value_stock_lot->id)
-                            ->where('stock_type', 'in')
-                            ->where('stock_status', 'confirm')
-                            ->update(['lot_balance' => $balance]);
+                    DB::table('report_cashback_orderlist')
+                        ->updateOrInsert(['user_name' => $value->customers_username,'product_id'=>$value->product_id_fk, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
 
 
-                        $db_order_products_list_update = DB::table('db_order_products_list') //จ่ายสินค้าเเล้ว
-                            ->where('id', $value->id)
-                            ->update(['stock_status' => 'success', 'amt_out_stock' => 0]);
-
-
-                        $data = ['status' => 'success', 'ms' =>  'success'];
-
-
-                    } else {
-
-                        //ต้องไปตัด lot อื่นเพิ่ม
-
-
-                        $balance =  $value->amt_out_stock - $value_stock_lot->lot_balance;
-                        $updateMovement = [
-                            'branch_id_fk' => $branch_id,
-                            'warehouse_id_fk' => $warehouse_id,
-                            'code_order' => $code_order,
-
-                            'product_id_fk' => $product_id_fk,
-                            'stock_lot_id_fk' => $value_stock_lot->id,
-                            'lot_number' => $value_stock_lot->lot_number,
-
-                            'lot_balance' => 0,
-                            'amt_balance' => $db_stocks->stock_balance - $value->amt_out_stock,
-                            'amt' => $value_stock_lot->lot_balance,
-                            'in_out' => 'order',
-                            'product_unit_id_fk' => $value_stock_lot->product_unit_id_fk,
-                            'product_unit_name' => $value_stock_lot->product_unit_id_fk,
-                            'stock_status' => 'confirm',
-                            'create_id_fk' => Auth::guard('admin')->user()->id,
-                            'create_name' => Auth::guard('admin')->user()->first_name,
-                            'approve_id_fk' => Auth::guard('admin')->user()->id,
-                            'approve_name' => Auth::guard('admin')->user()->first_name,
-                            'approve_date' => now(),
-                        ];
-
-                        DB::table('db_stock_movement')
-                            ->insert($updateMovement);
-
-                        $db_stock_lot_update = DB::table('db_stock_lot')
-                            ->where('id', $value_stock_lot->id)
-                            ->where('stock_type', 'in')
-                            ->where('stock_status', 'confirm')
-                            ->update(['lot_balance' => 0]);
-
-                        $db_order_products_list_update = DB::table('db_order_products_list') //จ่ายสินค้าเเล้ว
-                            ->where('id', $value->id)
-                            ->update(['amt_out_stock' => $balance]);
-
-                        $rs_data = OrderController::order_out_stock($order_id, $code_order, $branch_id, $warehouse_id, 2);
-                        if ($rs_data['status'] == 'success') {
-                            $data = ['status' => 'success', 'ms' =>  'success'];
-
-
-
-                        } elseif ($rs_data['status'] == 'fail') {
-
-                            $data = ['status' => 'fail', 'message' => $rs_data['ms']];
-
-
-                        } else {
-                            $rs_data = OrderController::order_out_stock($order_id, $code_order, $branch_id, $warehouse_id, 3);
-                        }
-                    }
-                }
-            }
-            if($data['status'] == 'success'){
-                DB::commit();
-                return $data;
-            }else{
-                DB::rollback();
-                return $data;
             }
 
-
-        } catch (Exception $e) {
-            DB::rollback();
-            $data = ['status' => 'fail', 'message' => $e];
-            return $data;
-        }
-    }
-
-
-    public function tracking_no_sort(Request $reques)
-    {
-
-        $date_start = null;
-        $date_end  = null;
-        $date_start = $reques->date_start;
-        $date_end = $reques->date_end;
-
-        $orders =  DB::table('db_orders')
-            ->select('id', 'code_order', 'tracking_type')
-            ->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)))
-            ->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)))
-            ->where('db_orders.order_status_id_fk', '=', '5')
-            // ->where('tracking_no_sort', null)
-            ->OrderBy('id', 'asc')
+            $report_cashback_orderlist_rs =  DB::table('report_cashback_orderlist')
+            ->selectRaw('report_cashback_orderlist.user_name,name,last_name,qualification,sum(bonus_total_usd) as bonus_total_usd')
+            ->where('year',$year)
+            ->where('month',$month)
+            ->where('route',$route)
+            ->where('bonus_total_usd','>',0)
+            ->groupby('user_name')
             ->get();
 
-        $data_orders =   collect($orders)->groupBy('tracking_type');
 
 
-
-
-        foreach ($data_orders as $val_order) {
-            foreach ($val_order as $key => $val) {
-                $dataPrepare = [
-                    'tracking_no_sort' => $key + 1
-                ];
-                DB::table('db_orders')->where('code_order', $val->code_order)->update($dataPrepare);
+            if(count($report_cashback_orderlist_rs)== 0){
+                DB::rollback();
+                return redirect('admin/bonus2')->withError('ไม่มีไครได้รับยอดเงินในรอบนี้');
             }
-        }
-    }
-
-    public function orderexport($date_start, $date_end)
-    {
-
-        $data = [
-            'date_start' => $date_start,
-            'date_end' => $date_end,
-        ];
-        return  Excel::download(new OrderExport($data), 'OrderExport-' . date("d-m-Y") . '.xlsx');
-        return redirect('admin/orders/list')->with('success', 'All good!');
-    }
-
-    public function importorder(Request $request)
-    {
-        // Excel::import(new OrderImport, request()->file('excel'));
-        // return redirect('admin/orders/list')->with('success', 'All good!');
-
-        $date_validator = [
-            'excel' => 'required',
-
-
-        ];
-        $err_validator =            [
-            'excel.required' => 'กรุณาแบบไฟล์ excel',
-
-        ];
-        $validator = Validator::make(
-            $request->all(),
-            $date_validator,
-            $err_validator
-        );
-
-        if (!$validator->fails()) {
-            $file = $request->file('excel');
-            $import = new OrderImport();
-            $import->import($file);
-
-            return $this->checkErrorImport($import);
-        }
-        return response()->json(['error' => $validator->errors()]);
-    }
-
-
-    public function checkErrorImport($import)
-    {
-        $checkError = $this->showErrorImport($import);
-
-        if (count($checkError) > 0) {
-
-            return response()->json(['error_excel' => $checkError], 200);
-        } else {
-            $get_data = $import->getdata();
-
-            foreach ($get_data as $val) {
-
+            foreach($report_cashback_orderlist_rs as $value){
 
                 $dataPrepare = [
-                    'tracking_no' => $val['tracking_no'],
-                    'order_status_id_fk' => 7
+                    'user_name' => $value->user_name,
+                    'name'=>$value->name,
+                    'last_name' =>$value->last_name,
+                    'qualification' =>  $value->qualification,
+                    'bonus_total_usd' =>  $value->bonus_total_usd,
+                    'date_start' =>  $date_start,
+                    'date_end' =>  $date_end,
+                    'year' => $year,
+                    'month' => $month,
+                    'route'=>$route,
+                    'note'=>$note,
                 ];
-                $query  = Orders::where('code_order', $val['code_order'])->update($dataPrepare);
+
+                DB::table('report_cashback')
+                ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
+
             }
-
-
-            $res_code_order = [];
-            foreach ($get_data as $val) {
-                $item = [
-                    'code_order' => $val['code_order']
-                ];
-                array_push($res_code_order, $item);
-            }
-
-
-            $this->get_material($res_code_order);
-            return response()->json(['status' => 'success'], 200);
+            DB::commit();
+                return redirect('admin/bonus2')->withSuccess('Success');
+        }catch (Exception $e) {
+            DB::rollback();
+            return redirect('admin/bonus2')->withError($e);
         }
-    }
 
-    public function showErrorImport($import)
-    {
-        $data = $import->failures();
-        // dd($data);
 
-        $res = [];
-        foreach ($data as $key => $val) {
 
-            $item = [
-                'row' => $val->row(),
-                'error' => $val->errors()[0],
-            ];
-            array_push($res, $item);
-        }
-        return $res;
     }
 
 
-
-    public function view_detail_oeder_pdf(Request $reques)
+    public function datatable_casback(Request $request)
     {
 
 
 
-        // ลบไฟล์ PDF ออกทั้งหมดแล้ววาดใหม่
-        $file = new Filesystem;
-        $file->cleanDirectory(public_path('pdf/'));
-
-        $date_start = null;
-        if ($reques->date_start) {
-            $date_start = date('Y-m-d', strtotime($reques->date_start));
-        }
-        $date_end = null;
-        if ($reques->date_end) {
-            $date_end = date('Y-m-d', strtotime($reques->date_end));
-        }
-
-        $arr_code_order = [];
-        if ($date_start != null && $date_end != null) {
-
-            $orders_date =  DB::table('db_orders')
-                ->select('id', 'code_order', 'tracking_type')
-                ->whereDate('db_orders.created_at', '>=', $date_start)
-                ->whereDate('db_orders.created_at', '<=', $date_end)
-                ->where('db_orders.order_status_id_fk', '=', '5')
-                ->OrderBy('tracking_type', 'asc')
-                ->get();
-
-            foreach ($orders_date as $val) {
-                $dataPrepare = [
-                    'code_order' => $val->code_order,
-                    'tracking_type' => $val->tracking_type
-                ];
-                array_push($arr_code_order,  $dataPrepare);
-            }
-        } else {
-            $dataPrepare = [
-                'code_order' => $reques->code_order,
-                'tracking_type' => 0,
-            ];
-            array_push($arr_code_order, $dataPrepare);
-        }
-
-
-        // $this->count_print_detail($arr_code_order);
-
-
-        // $res_orders_detail = [];
-        foreach ($arr_code_order as $key => $val) {
-
-            $orders_detail = DB::table('db_orders')
-                ->select(
-                    'db_orders.name as customers_name',
-                    'db_orders.customers_id_fk',
-                    'db_orders.code_order',
-                    'db_orders.tracking_type',
-                    'db_orders.tracking_no_sort',
-                    'db_orders.created_at',
-                    'db_orders.position',
-                    'db_orders.bonus_percent',
-                    'db_orders.sum_price',
-                    'db_orders.pv_total',
-                    'db_orders.shipping_price',
-                    'db_orders.discount',
-                    'db_orders.ewallet_price',
-
-                )
-                ->leftjoin('dataset_order_status', 'dataset_order_status.orderstatus_id', 'db_orders.order_status_id_fk')
-                ->where('db_orders.code_order', $val['code_order'])
-                // ->where('db_orders.order_status_id_fk', '=', '5')
-                ->OrderBy('tracking_type', 'asc')
-
-                ->get()
-
-                ->map(function ($item) {
-                    $item->address = DB::table('db_orders')
-                        ->select(
-                            'house_no',
-                            'house_name',
-                            'moo',
-                            'soi',
-                            'road',
-
-                            'dataset_districts.name_th as district',
-                            'dataset_provinces.name_en as province',
-                            'dataset_amphures.name_en as tambon',
-                            'db_orders.zipcode',
-                            'db_orders.zipcode',
-                            'tel',
-                        )
-                        ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
-                        ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
-                        ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
-
-                        ->where('code_order', $item->code_order)
-                        ->get();
-
-
-                    return $item;
-                })
-
-                // เอาข้อมูลสินค้าที่อยู่ในรายการ order
-                ->map(function ($item) {
-                    // $item->product_detail = DB::table('db_order_products_list')
-                    //     ->select('products_details.product_name', 'amt', 'product_unit')
-                    //     ->leftjoin('products_details', 'products_details.product_id_fk', 'db_order_products_list.product_id_fk')
-                    //     ->leftjoin('products_images', 'products_images.product_id_fk', 'db_order_products_list.product_id_fk')
-                    //     ->leftjoin('products', 'products.id', 'db_order_products_list.product_id_fk')
-                    //     ->leftjoin('dataset_product_unit', 'dataset_product_unit.product_unit_id', 'products.unit_id')
-                    //     ->where('dataset_product_unit.lang_id', 1)
-                    //     ->where('products_details.lang_id', 1)
-                    //     ->where('db_order_products_list.code_order', $item->code_order)
-                    //     ->GroupBy('products_details.product_name')
-                    //     ->get();
+        $report_cashback = DB::table('report_cashback')
 
-                    $item->product_detail = DB::table('db_order_products_list')
-                        ->select('db_order_products_list.*', 'dataset_product_unit.product_unit_en as product_unit')
-                        ->leftjoin('dataset_product_unit', 'dataset_product_unit.id', 'db_order_products_list.product_unit_id_fk')
-                        ->where('code_order', $item->code_order)
-                        // ->GroupBy('product_images.product_id_fk')
-                        ->get();
+        ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  user_name = '{$request->username}' else 1 END"))
+        ->whereRaw(("case WHEN  '{$request->route}' != ''  THEN  route = '{$request->route}' else 1 END"))
+        ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
+        ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
+        ->orderByDesc('id');
 
 
 
 
-                    return $item;
-                });
 
+        $sQuery = Datatables::of($report_cashback);
+        return $sQuery
 
 
-            $data = [
-                'orders_detail' => $orders_detail,
-            ];
+          ->addColumn('user_name', function ($row) {
+            return $row->user_name;
+          })
 
-            // return $data;
-            // dd($data);
+          ->addColumn('name', function ($row) {
+            return $row->name;
+          })
 
-            $number_file = '';
-            if ($key <= 9) {
-                $number_file  = '00' . $key;
-            } else if ($key <= 99) {
-                $number_file  = '0' . $key;
-            } else {
-                $number_file  = $key;
-            }
+          ->addColumn('last_name', function ($row) {
+            return $row->last_name;
+          })
 
 
+          ->addColumn('qualification', function ($row) {
+            return $row->qualification;
+          })
 
-            $pdf = PDF::loadView('backend/PDF/view_detail_oeder_pdf', $data);
-            $pathfile = public_path('pdf/' . 'detailproduct_' . $val['tracking_type'] . '_' . $number_file . '.pdf');
-            $pdf->save($pathfile);
-        }
+          ->addColumn('date_start', function ($row) {
+            return $row->date_start;
+          })
 
+          ->addColumn('date_end', function ($row) {
+            return $row->date_end;
+          })
 
+          ->addColumn('year', function ($row) {
+            return $row->year;
+          })
 
-        $this->merger_pdf();
+          ->addColumn('route', function ($row) {
+            return $row->route;
+          })
 
-
-
-        return  'result.pdf';
-
-        // $pdf = PDF::loadView('backend/PDF/view_detail_oeder_pdf', $data);
-        // return $pdf->stream('document.pdf');
-    }
-
-    public function view_detail_oeder_pdf_success(Request $reques)
-    {
+          ->addColumn('status', function ($row) {
+            return $row->status;
+          })
 
 
+          ->addColumn('note', function ($row) {
+            return $row->note;
+          })
+          ->addColumn('detail', function ($row) {
+            $detail = '<a href="#!" target="_blank"> <i class="las la-search font-25 text-warning" id="btnGroupDrop1" data-toggle="dropdown"></i> </a>';
+            return $detail;
+          })
 
-        // ลบไฟล์ PDF ออกทั้งหมดแล้ววาดใหม่
-        $file = new Filesystem;
-        $file->cleanDirectory(public_path('pdf/'));
 
-        $date_start = null;
-        if ($reques->date_start) {
-            $date_start = date('Y-m-d', strtotime($reques->date_start));
-        }
-        $date_end = null;
-        if ($reques->date_end) {
-            $date_end = date('Y-m-d', strtotime($reques->date_end));
-        }
 
-        $arr_code_order = [];
-        if ($date_start != null && $date_end != null) {
+          ->rawColumns(['detail'])
 
-            $orders_date =  DB::table('db_orders')
-                ->select('id', 'code_order', 'tracking_type')
-                ->whereDate('db_orders.created_at', '>=', $date_start)
-                ->whereDate('db_orders.created_at', '<=', $date_end)
-                // ->where('db_orders.order_status_id_fk', '=', '7')
-                ->OrderBy('tracking_type', 'asc')
-                ->get();
+          ->make(true);
+      }
 
-            foreach ($orders_date as $val) {
-                $dataPrepare = [
-                    'code_order' => $val->code_order,
-                    'tracking_type' => $val->tracking_type
-                ];
-                array_push($arr_code_order,  $dataPrepare);
-            }
-        } else {
-            $dataPrepare = [
-                'code_order' => $reques->code_order,
-                'tracking_type' => 0,
-            ];
-            array_push($arr_code_order, $dataPrepare);
-        }
 
-        // dd($arr_code_order);
 
 
-        // $this->count_print_detail($arr_code_order);
 
 
-        // $res_orders_detail = [];
-        foreach ($arr_code_order as $key => $val) {
 
-            $orders_detail = DB::table('db_orders')
-                ->select(
-                    'db_orders.name as customers_name',
-                    'db_orders.customers_id_fk',
-                    'db_orders.code_order',
-                    'db_orders.tracking_type',
-                    'db_orders.tracking_no_sort',
-                    'db_orders.created_at',
-                    'db_orders.position',
-                    'db_orders.bonus_percent',
-                    'db_orders.sum_price',
-                    'db_orders.pv_total',
-                    'db_orders.shipping_price',
-                    'db_orders.discount',
-                    'db_orders.ewallet_price',
 
-                )
-                ->leftjoin('dataset_order_status', 'dataset_order_status.orderstatus_id', 'db_orders.order_status_id_fk')
-                ->where('db_orders.code_order', $val['code_order'])
-                // ->where('db_orders.order_status_id_fk', '=', '7')
-                ->OrderBy('tracking_type', 'asc')
 
-                ->get()
-
-                ->map(function ($item) {
-                    $item->address = DB::table('db_orders')
-                        ->select(
-                            'house_no',
-                            'house_name',
-                            'moo',
-                            'soi',
-                            'road',
-
-                            'dataset_districts.name_th as district',
-                            'dataset_provinces.name_en as province',
-                            'dataset_amphures.name_en as tambon',
-                            'db_orders.zipcode',
-                            'db_orders.zipcode',
-                            'tel',
-                        )
-                        ->leftjoin('dataset_provinces', 'dataset_provinces.id', '=', 'db_orders.province_id')
-                        ->leftjoin('dataset_amphures', 'dataset_amphures.id', '=', 'db_orders.tambon_id')
-                        ->leftjoin('dataset_districts', 'dataset_districts.id', '=', 'db_orders.district_id')
-
-                        ->where('code_order', $item->code_order)
-                        ->get();
-
-
-                    return $item;
-                })
-
-                ->map(function ($item) {
-
-                    $item->product_detail = DB::table('db_order_products_list')
-                        ->select('db_order_products_list.*', 'dataset_product_unit.product_unit_en as product_unit')
-                        ->leftjoin('dataset_product_unit', 'dataset_product_unit.id', 'db_order_products_list.product_unit_id_fk')
-                        ->where('code_order', $item->code_order)
-                        ->get();
-
-                    return $item;
-                });
-
-
-
-            $data = [
-                'orders_detail' => $orders_detail,
-            ];
-
-            // dd($orders_detail);
-
-            // return $data;
-            // dd($data);
-
-            $number_file = '';
-            if ($key <= 9) {
-                $number_file  = '00' . $key;
-            } else if ($key <= 99) {
-                $number_file  = '0' . $key;
-            } else {
-                $number_file  = $key;
-            }
-
-
-
-            $pdf = PDF::loadView('backend/PDF/view_detail_oeder_pdf', $data);
-            $pathfile = public_path('pdf/' . 'detailproduct_' . $val['tracking_type'] . '_' . $number_file . '.pdf');
-            $pdf->save($pathfile);
-        }
-
-
-
-        $this->merger_pdf();
-
-
-
-        return  'result.pdf';
-
-        // $pdf = PDF::loadView('backend/PDF/view_detail_oeder_pdf', $data);
-        // return $pdf->stream('document.pdf');
-    }
-
-
-
-    public function merger_pdf()
-    {
-
-        $pdf = PDFMerger::init();
-        $files = scandir(public_path('pdf/'));
-
-        foreach ($files as $val) {
-
-
-            if ($val != '.' && $val != '..') {
-
-                $pdf->addPDF(public_path('pdf/' . $val), 'all');
-            }
-        }
-        $pdf->merge();
-        $fileName = public_path('pdf/' . 'result' . '.pdf');
-        // return $pdf->stream();
-        $pdf->save(($fileName));
-        // $pdf->save(public_path($path_file));
-        // $data_image = file_get_contents($path);
-    }
-
-
-
-    public function count_print_detail($code_order)
-    {
-
-        foreach ($code_order as $val) {
-
-
-            $order[] = DB::table('db_orders')->where('code_order', $val['code_order'])->first();
-        }
-
-
-        foreach ($order as $val) {
-            $dataPrepare = [
-                'count_print_detail' => $val->count_print_detail + 1
-            ];
-            $query_update_count_print = DB::table('db_orders')->where('code_order', $val->code_order)->update($dataPrepare);
-        }
-    }
 }
