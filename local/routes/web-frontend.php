@@ -189,7 +189,18 @@ Route::get('eWallet_TranferHistory_table', 'Frontend\eWallet_tranferController@e
 Route::get('bonus_all', 'Frontend\BonusController@bonus_all')->name('bonus_all');
 Route::get('bonus_fastStart', 'Frontend\BonusController@bonus_fastStart')->name('bonus_fastStart');
 Route::get('bonus_team', 'Frontend\BonusController@bonus_team')->name('bonus_team');
-Route::get('bonus_discount', 'Frontend\BonusController@bonus_discount')->name('bonus_discount');
+Route::get('bonus_cashback', 'Frontend\BonusController@bonus_cashback')->name('bonus_cashback');
+
+Route::get('bonus_cashback_detail/{user_name}', 'Frontend\BonusController@bonus_cashback_detail')->name('bonus_cashback_detail');
+
+
+Route::get('datatable_casback', 'Frontend\BonusController@datatable_casback')->name('datatable_casback');
+
+Route::get('datatable_casback_detail', 'Frontend\BonusController@datatable_casback_detail')->name('datatable_casback_detail');
+
+
+
+
 Route::get('bonus_matching', 'Frontend\BonusController@bonus_matching')->name('bonus_matching');
 Route::get('bonus_history', 'Frontend\BonusController@bonus_history')->name('bonus_history');
 // END หน้า  Bonus

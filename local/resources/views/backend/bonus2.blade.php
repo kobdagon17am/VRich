@@ -22,65 +22,71 @@
             <form method="post" action="{{ route('admin/run_bonus2') }}">
                 @csrf
 
-                    <div class="row mb-4 ml-2">
+                <div class="row mb-4 ml-2">
 
 
-                        <div class="col-lg-2 mt-2">
-                            <label>วันที่เริ่มต้นคำนวน</label>
-                            <input type="date" class="form-control" name="date_start"  placeholder="วันที่เริ่มต้น" value="{{date('Y-m-d')}}">
-                        </div>
+                    <div class="col-lg-2 mt-2">
+                        <label>วันที่เริ่มต้นคำนวน</label>
+                        <input type="date" class="form-control" name="date_start" placeholder="วันที่เริ่มต้น"
+                            value="{{ date('Y-m-d') }}">
+                    </div>
 
-                        <div class="col-lg-2 mt-2">
-                            <label>วันที่สิ้นสุดคำนวน</label>
-                            <input type="date" class="form-control" name="date_end" placeholder="วันที่สิ้นสุด" value="{{date('Y-m-d')}}">
-                        </div>
+                    <div class="col-lg-2 mt-2">
+                        <label>วันที่สิ้นสุดคำนวน</label>
+                        <input type="date" class="form-control" name="date_end" placeholder="วันที่สิ้นสุด"
+                            value="{{ date('Y-m-d') }}">
+                    </div>
 
-                        <div class="col-lg-1 mt-2">
-                            <label>รอบที่</label>
-                            <select class="form-control" name="route" >
-                                <option selected value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
+                    <div class="col-lg-1 mt-2">
+                        <label>รอบที่</label>
+                        <select class="form-control" name="route">
+                            <option selected value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
 
-                        <div class="col-lg-1 mt-2">
-                            <label>เดือน</label>
-                            <input type="taxt" class="form-control" name="month"   placeholder="month" value="{{date('m')}}">
-                        </div>
+                    <div class="col-lg-1 mt-2">
+                        <label>เดือน</label>
+                        <input type="taxt" class="form-control" name="month" placeholder="month"
+                            value="{{ date('m') }}">
+                    </div>
 
 
-                        <div class="col-lg-1 mt-2">
-                            <label>ปี</label>
-                            <input type="taxt" class="form-control" name="year"  placeholder="" value="{{date('Y')}}">
-                        </div>
+                    <div class="col-lg-1 mt-2">
+                        <label>ปี</label>
+                        <input type="taxt" class="form-control" name="year" placeholder=""
+                            value="{{ date('Y') }}">
+                    </div>
 
-                        <div class="col-lg-2 mt-2">
-                            <label>Note</label>
-                            <input type="taxt" class="form-control" name="note"  placeholder="Bonus CashBack route 01 {{date('Y-m-d')}}">
-                        </div>
-                        <div class="col-lg-2 mt-2">
-                            <div class="button-list mt-4">
-                                {{-- <button class="btn btn-sm btn-success btn-rounded" id="search-form" type="button">
+                    <div class="col-lg-2 mt-2">
+                        <label>Note</label>
+                        <input type="taxt" class="form-control" name="note"
+                            placeholder="Bonus CashBack route 01 {{ date('Y-m-d') }}">
+                    </div>
+                    <div class="col-lg-2 mt-2">
+                        <div class="button-list mt-4">
+                            {{-- <button class="btn btn-sm btn-success btn-rounded" id="search-form" type="button">
                                     <i class="las la-search font-20"></i>
                                     ค้นหา</button> --}}
-                                    <button class="btn  btn-sm btn-warning btn-rounded" type="submit" onclick="return confirm('Confirm Runbonus ?')"><i class="las la-plus-circle font-20"></i>
-                                        คำนวน</button>
-                            </div>
-
+                            <button class="btn  btn-sm btn-warning btn-rounded" type="submit"
+                                onclick="return confirm('Confirm Runbonus ?')"><i class="las la-plus-circle font-20"></i>
+                                คำนวน</button>
                         </div>
-
 
                     </div>
 
 
-        </form>
+                </div>
+
+
+            </form>
 
 
             <div class="row mb-4 ml-2">
                 <div class="col-lg-1 mt-2">
                     <label>Username</label>
-                    <input type="taxt" class="form-control" id="username"   placeholder="Username" >
+                    <input type="taxt" class="form-control" id="username" placeholder="Username">
                 </div>
 
 
@@ -95,13 +101,14 @@
 
                 <div class="col-lg-1 mt-2">
                     <label>เดือน</label>
-                    <input type="taxt" class="form-control" id="month"   placeholder="month" value="{{date('m')}}">
+                    <input type="taxt" class="form-control" id="month" placeholder="month"
+                        value="{{ date('m') }}">
                 </div>
 
 
                 <div class="col-lg-1 mt-2">
                     <label>ปี</label>
-                    <input type="taxt" class="form-control" id="year"  placeholder="" value="{{date('Y')}}">
+                    <input type="taxt" class="form-control" id="year" placeholder="" value="{{ date('Y') }}">
                 </div>
 
                 <div class="col-lg-2 mt-2">
@@ -109,7 +116,7 @@
                         <button class="btn btn-sm btn-success btn-rounded" id="search-form" type="button">
                             <i class="las la-search font-20"></i>
                             ค้นหา</button>
-                            {{-- <button class="btn  btn-sm btn-warning btn-rounded" type="submit" onclick="return confirm('Confirm Runbonus ?')"><i class="las la-plus-circle font-20"></i>
+                        {{-- <button class="btn  btn-sm btn-warning btn-rounded" type="submit" onclick="return confirm('Confirm Runbonus ?')"><i class="las la-plus-circle font-20"></i>
                                 คำนวน</button> --}}
                     </div>
 
@@ -143,36 +150,36 @@
 
 
 
-<script>
-             $(function() {
-                table_order = $('#table_orders').DataTable({
-                    dom: 'Bfrtip',
-                    buttons: ['excel'],
-                    searching: false,
-                    ordering: false,
-                    lengthChange: false,
-                    responsive: true,
-                    paging: false,
-                    processing: true,
-                    serverSide: true,
-                    "language": {
-                        "lengthMenu": "แสดง _MENU_ แถว",
-                        "zeroRecords": "ไม่พบข้อมูล",
-                        "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
-                        "search": "ค้นหา",
-                        "infoEmpty": "",
-                        "infoFiltered": "",
-                        "paginate": {
-                            "first": "หน้าแรก",
-                            "previous": "ย้อนกลับ",
-                            "next": "ถัดไป",
-                            "last": "หน้าสุดท้าย"
-                        },
-                        'processing': "กำลังโหลดข้อมูล",
+    <script>
+        $(function() {
+            table_order = $('#table_orders').DataTable({
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                searching: false,
+                ordering: false,
+                lengthChange: false,
+                responsive: true,
+                paging: false,
+                processing: true,
+                serverSide: true,
+                "language": {
+                    "lengthMenu": "แสดง _MENU_ แถว",
+                    "zeroRecords": "ไม่พบข้อมูล",
+                    "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                    "search": "ค้นหา",
+                    "infoEmpty": "",
+                    "infoFiltered": "",
+                    "paginate": {
+                        "first": "หน้าแรก",
+                        "previous": "ย้อนกลับ",
+                        "next": "ถัดไป",
+                        "last": "หน้าสุดท้าย"
                     },
-                    ajax: {
-                        url: '{{ route('admin/datatable_casback') }}',
-                        data: function(d) {
+                    'processing': "กำลังโหลดข้อมูล",
+                },
+                ajax: {
+                    url: '{{ route('admin/datatable_casback') }}',
+                    data: function(d) {
                         d.username = $('#username').val();
                         d.route = $('#route').val();
                         d.month = $('#month').val();
@@ -180,97 +187,97 @@
                         // d.position = $('#position').val();
                         // d.type = $('#type').val();
 
-                        },
+                    },
+                },
+
+
+                columns: [
+                    // {
+                    //     data: "id",
+                    //     title: "ลำดับ",
+                    //     className: "w-10 text-center",
+                    // },
+                    {
+                        data: "user_name",
+                        title: "user_name",
+                        className: "w-10",
+                    },
+                    {
+                        data: "name",
+                        title: "ชื่อ",
+                        className: "w-10",
+                    },
+
+                    {
+                        data: "last_name",
+                        title: "นามสกุล",
+                        className: "w-10",
+                    },
+
+                    {
+                        data: "qualification",
+                        title: "ตำแหน่ง",
+                        className: "w-1",
                     },
 
 
-                    columns: [
-                        // {
-                        //     data: "id",
-                        //     title: "ลำดับ",
-                        //     className: "w-10 text-center",
-                        // },
-                        {
-                            data: "user_name",
-                            title: "user_name",
-                            className: "w-10",
-                        },
-                        {
-                            data: "name",
-                            title: "ชื่อ",
-                            className: "w-10",
-                        },
 
-                        {
-                            data: "last_name",
-                            title: "นามสกุล",
-                            className: "w-10",
-                        },
+                    {
+                        data: "year",
+                        title: "ปี",
+                        className: "w-1",
+                    },
+                    {
+                        data: "month",
+                        title: "เดือน",
+                        className: "w-1",
 
-                        {
-                            data: "qualification",
-                            title: "ตำแหน่ง",
-                            className: "w-1",
-                        },
+                    },
+                    {
+                        data: "route",
+                        title: "รอบที่รันโบนัส",
+                        className: "w-1",
 
+                    },
+                    {
+                        data: "bonus_total_usd",
+                        title: "ยอดที่ได้รับ USD",
+                        className: "w-1",
 
+                    },
+                    {
+                        data: "note",
+                        title: "Note",
+                        className: "w-1",
 
-                        {
-                            data: "year",
-                            title: "ปี",
-                            className: "w-1",
-                        },
-                        {
-                            data: "month",
-                            title: "เดือน",
-                            className: "w-1",
-
-                        },
-                        {
-                            data: "route",
-                            title: "รอบที่รันโบนัส",
-                            className: "w-1",
-
-                        },
-                        {
-                            data: "bonus_total_usd",
-                            title: "ยอดที่ได้รับ USD",
-                            className: "w-1",
-
-                        },
-                        {
-                            data: "note",
-                            title: "Note",
-                            className: "w-1",
-
-                        },
+                    },
 
 
-                        {
-                            data: "status",
-                            title: "การชำระเงิน",
-                            className: "w-10",
+                    {
+                        data: "status",
+                        title: "การชำระเงิน",
+                        className: "w-10",
 
-                        },
-                        {
-                            data: "detail",
-                            title: "#",
-                            className: "w-10",
+                    },
+                    {
+                        data: "detail",
+                        title: "#",
+                        className: "w-10",
 
-                        },
+                    },
 
 
 
-                    ],
+                ],
 
 
 
-                });
-                $('#search-form').on('click', function(e) {
+            });
+            $('#search-form').on('click', function(e) {
                 table_order.draw();
                 e.preventDefault();
             });
 
-            });
-        </script>
+        });
+    </script>
 @endsection

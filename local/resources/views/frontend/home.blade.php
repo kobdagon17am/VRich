@@ -134,7 +134,7 @@
                                     <div class="flex-grow-1 ms-3 text-start">
                                         <div class="d-flex justify-content-between">
                                             <h5 class="mb-0">Income</h5>
-                                            <h5 class="text-p1 text-end mb-0 fw-bold">  {{ number_format(Auth::guard('c_user')->user()->bonus_total, 2) }} </h5>
+                                            {{-- <h5 class="text-p1 text-end mb-0 fw-bold">  {{ number_format(Auth::guard('c_user')->user()->bonus_total, 2) }} </h5> --}}
                                         </div>
                                         <p class="fs-12 text-secondary mb-0">Income</p>
                                     </div>
@@ -142,11 +142,12 @@
                             </button>
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
+                                <li><a class="dropdown-item" href="{{ route('bonus_cashback') }}">Bonus Cashback</a></li>
+                                {{-- <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
                                 </li>
-                                <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li>
+                                <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li> --}}
                                 {{-- <li><a class="dropdown-item" href="{{ route('bonus_team') }}">โบนัสบริหารทีม</a></li>
-                                <li><a class="dropdown-item" href="{{ route('bonus_discount') }}">โบนัสส่วนลด</a></li>
+
                                 <li><a class="dropdown-item" href="{{ route('bonus_matching') }}">โบนัส Matching</a></li>
                                 <li><a class="dropdown-item" href="{{ route('bonus_history') }}">ประวัติการโอนโบนัส</a></li> --}}
                             </ul>
@@ -677,7 +678,7 @@
                                 <div class="flex-grow-1 ms-3 text-start">
                                     <div class="d-flex justify-content-between">
                                         <h5 class="mb-0">Income</h5>
-                                        <h5 class="text-p1 text-end mb-0 fw-bold">  {{ number_format(Auth::guard('c_user')->user()->bonus_total, 2) }} </h5>
+                                        {{-- <h5 class="text-p1 text-end mb-0 fw-bold">  {{ number_format(Auth::guard('c_user')->user()->bonus_total, 2) }} </h5> --}}
                                     </div>
                                     <p class="fs-12 text-secondary mb-0">Bonus Management</p>
                                 </div>
@@ -685,11 +686,12 @@
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
+                            <li><a class="dropdown-item" href="{{ route('bonus_cashback') }}">Bonus Cashback</a></li>
+                            {{-- <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
                             </li>
-                            <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li>
+                            <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li> --}}
                             {{-- <li><a class="dropdown-item" href="{{ route('bonus_team') }}">โบนัสบริหารทีม</a></li>
-                            <li><a class="dropdown-item" href="{{ route('bonus_discount') }}">โบนัสส่วนลด</a></li>
+
                             <li><a class="dropdown-item" href="{{ route('bonus_matching') }}">โบนัส Matching</a></li>
                             <li><a class="dropdown-item" href="{{ route('bonus_history') }}">ประวัติการโอนโบนัส</a></li> --}}
                         </ul>
