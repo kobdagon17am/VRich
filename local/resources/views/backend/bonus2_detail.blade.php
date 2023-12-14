@@ -27,14 +27,14 @@
                 </div>
 
 
-                <div class="col-lg-1 mt-2">
+                {{-- <div class="col-lg-1 mt-2">
                     <label>รอบที่</label>
-                    <select class="form-control" id="route" id="route">
+                    <select class="form-control" id="route" >
                         <option selected value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                     </select>
-                </div>
+                </div> --}}
 
                 <div class="col-lg-1 mt-2">
                     <label>เดือน</label>
@@ -117,7 +117,7 @@
                         url: '{{ route('admin/datatable_casback_detail') }}',
                         data: function(d) {
                         d.username = $('#username').val();
-                        d.route = $('#route').val();
+                        d.route = 1;
                         d.month = $('#month').val();
                         d.year = $('#year').val();
                         // d.position = $('#position').val();

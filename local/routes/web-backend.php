@@ -244,6 +244,7 @@ Route::get('admin/Blank', function () {
     Route::post('admin/orders/view_detail_oeder_pdf/', 'Admin\OrderController@view_detail_oeder_pdf')->name('admin/orders/view_detail_oeder_pdf');
 
     Route::get('admin/bonus2', 'Admin\BonusController@bonus2')->name('admin/bonus2');
+
     Route::get('admin/view_cashback', 'Admin\ProductsController@view_cashback')->name('admin/view_cashback');
     Route::get('admin/add_cashback', 'Admin\ProductsController@add_cashback')->name('admin/add_cashback');
     Route::get('admin/delete_cashback', 'Admin\ProductsController@delete_cashback')->name('admin/delete_cashback');
@@ -254,6 +255,28 @@ Route::get('admin/Blank', function () {
     Route::get('admin/datatable_casback', 'Admin\BonusController@datatable_casback')->name('admin/datatable_casback');
 
     Route::get('admin/datatable_casback_detail', 'Admin\BonusController@datatable_casback_detail')->name('admin/datatable_casback_detail');
+
+
+    Route::get('admin/bonus3', 'Admin\Bonus3Controller@bonus3')->name('admin/bonus3');
+    Route::post('admin/run_bonus3', 'Admin\Bonus3Controller@run_bonus3')->name('admin/run_bonus3');
+
+
+    Route::get('admin/bonus7', 'Admin\Bonus7Controller@bonus7')->name('admin/bonus7');
+    Route::post('admin/run_bonus7', 'Admin\Bonus7Controller@run_bonus7')->name('admin/run_bonus7');
+
+    Route::get('admin/datatable_bonus7', 'Admin\Bonus7Controller@datatable_bonus7')->name('admin/datatable_bonus7');
+
+
+
+    Route::get('admin/pv_per_month', 'Admin\Pv_per_monthController@pv_per_month')->name('admin/pv_per_month');
+    Route::post('admin/run_pv_per_month', 'Admin\Pv_per_monthController@run_pv_per_month')->name('admin/run_pv_per_month');
+
+    Route::get('admin/datatable_pv_per_month', 'Admin\Pv_per_monthController@datatable_pv_per_month')->name('admin/datatable_pv_per_month');
+
+
+
+
+
 
 
 

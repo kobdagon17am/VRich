@@ -143,6 +143,8 @@
 
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li><a class="dropdown-item" href="{{ route('bonus_cashback') }}">Bonus Cashback</a></li>
+                                <li><a class="dropdown-item" href="{{ route('bonus7') }}">Pro Dealer</a></li>
+
                                 {{-- <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
                                 </li>
                                 <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li> --}}
@@ -461,7 +463,7 @@
                                             </div>
 
                                             <h6 class="text-p1 text-end mb-0 fw-bold">
-                                                 0</h6>
+                                                {{$member_d}}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -487,7 +489,7 @@
                                             </div>
 
                                             <h6 class="text-p1 text-end mb-0 fw-bold">
-                                                 0</h6>
+                                                 {{$member}}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -523,6 +525,8 @@
                                 </button>
 
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkTp">
+                                    <li><a class="dropdown-item"
+                                        href="{{ route('HistoryPT') }}"> History PT</a></li>
                                     {{-- <li><a class="dropdown-item"
                                             href="{{ route('jp_clarify') }}">{{ __('text.Clarify PV.') }}</a></li> --}}
                                     {{-- <li><a class="dropdown-item" href="{{ route('jp_transfer') }}">รับ-โอน PV.</a></li> --}}
@@ -547,9 +551,14 @@
                                             </div>
                                             {{-- <p class="fs-12 text-secondary mb-0">Reward Point  </p> --}}
                                             <h6 class="text-p1 text-end mb-0 fw-bold">
-                                                0 </h6>
+                                                {{ number_format(Auth::guard('c_user')->user()->reward) }} </h6>
                                         </div>
                                     </div>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkReward">
+                                <li><a class="dropdown-item"
+                                    href="{{ route('HistoryReward') }}"> History Reward</a></li>
+                                </ul>
 
 
                             </div>
@@ -622,6 +631,8 @@
                         </button>
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkTp">
+                            <li><a class="dropdown-item"
+                                href="{{ route('HistoryPT') }}"> History PT</a></li>
                             {{-- <li><a class="dropdown-item"
                                     href="{{ route('jp_clarify') }}">{{ __('text.Clarify PV.') }}</a></li> --}}
                             {{-- <li><a class="dropdown-item" href="{{ route('jp_transfer') }}">รับ-โอน PV.</a></li> --}}
@@ -687,6 +698,8 @@
 
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <li><a class="dropdown-item" href="{{ route('bonus_cashback') }}">Bonus Cashback</a></li>
+
+                            <li><a class="dropdown-item" href="{{ route('bonus7') }}">Pro Dealer</a></li>
                             {{-- <li><a class="dropdown-item" href="{{ route('bonus_all') }}">Marginal profit</a>
                             </li>
                             <li><a class="dropdown-item" href="{{ route('bonus_fastStart') }}">Profit margin for the whole team</a></li> --}}
@@ -715,7 +728,7 @@
                                     </div>
 
                                     <h6 class="text-p1 text-end mb-0 fw-bold">
-                                         0</h6>
+                                        {{$member_d}} </h6>
                                 </div>
                             </div>
                         </div>
@@ -741,7 +754,7 @@
                                     </div>
 
                                     <h6 class="text-p1 text-end mb-0 fw-bold">
-                                         0</h6>
+                                        {{$member}}</h6>
                                 </div>
                             </div>
                         </div>
@@ -767,9 +780,16 @@
                                     </div>
                                     {{-- <p class="fs-12 text-secondary mb-0">Reward Point  </p> --}}
                                     <h6 class="text-p1 text-end mb-0 fw-bold">
-                                        0 </h6>
+                                        {{ number_format(Auth::guard('c_user')->user()->reward) }} </h6>
                                 </div>
                             </div>
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLinkReward">
+
+                            <li><a class="dropdown-item"
+                                href="{{ route('HistoryReward') }}"> History Reward</a></li>
+                        </ul>
 
 
                     </div>

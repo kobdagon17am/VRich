@@ -24,14 +24,14 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use  Maatwebsite\Excel\Facades\Excel;
 
-class BonusController extends Controller
+class Bonus3Controller extends Controller
 {
     public function __construct()
     {
         $this->middleware('admin');
     }
 
-    public function bonus2()
+    public function bonus3()
     {
 
 
@@ -40,10 +40,10 @@ class BonusController extends Controller
         //     ->where('status', '=', 1)
         //     ->get();
 
-        return view('backend/bonus2');
+        return view('backend/bonus3');
     }
 
-    public function bonus2_detail($user_name)
+    public function bonus3_detail($user_name)
     {
 
 
@@ -81,7 +81,7 @@ class BonusController extends Controller
     }
 
 
-    public function run_bonus2(Request $rs)
+    public function run_bonus3(Request $rs)
     {
         $date_start = $rs->date_start.' 00:00:00';
         $date_end = $rs->date_end.' 23:59:59';
@@ -99,9 +99,10 @@ class BonusController extends Controller
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
         ->whereRaw(("case WHEN '{$date_start}' = '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) = '{$date_end}' else 1 END"))
         ->havingRaw('count(count_code) > 1 ')
-
         ->groupby('db_orders.code_order')
         ->get();
+
+
 
 
         if(count($db_orders)>0){
@@ -111,13 +112,19 @@ class BonusController extends Controller
         }
 
         $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
-        ->selectRaw('db_orders.code_order,db_orders.customers_user_name,customers.name,customers.last_name,customers.expire_date,customers.qualification_id')
+        ->selectRaw('db_orders.customers_user_name,customers.name,customers.last_name,customers.expire_date,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
         ->where('db_orders.type','=','other')
-
-        ->whereBetween('db_orders.created_at', [$date_start, $date_end])
+        ->where('customers.qualification_id','>=',2)
+        ->whereBetween('db_orders.created_at',[$date_start, $date_end])
         ->wherein('order_status_id_fk',[4,5,6,7])
+        ->groupby('db_orders.customers_user_name')
         ->get();
+
+        dd($order);
+
+
+
         if(count($order)== 0){
             DB::rollback();
             return redirect('admin/bonus2')->withError('ไม่มีสินค้าในวันที่เลือก');
@@ -224,7 +231,6 @@ class BonusController extends Controller
 
 
     }
-
 
 
 

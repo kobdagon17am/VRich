@@ -12,14 +12,14 @@
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">ระบบคอมมิสชั่น</li>
-            <li class="breadcrumb-item active" aria-current="page"><span>ระบบคำนวน Cash Back </span></li>
+            <li class="breadcrumb-item active" aria-current="page"><span>Pro Dealer 10,000 PT (ข้อ 7)</span></li>
         </ol>
     </nav>
 @endsection
 @section('content')
     <div class="col-lg-12 layout-spacing">
         <div class="statbox widget box box-shadow mb-4 mt-4">
-            <form method="post" action="{{ route('admin/run_bonus2') }}">
+            <form method="post" action="{{ route('admin/run_bonus7') }}">
                 @csrf
 
                 <div class="row mb-4 ml-2">
@@ -37,17 +37,6 @@
                             value="{{ date('Y-m-d') }}">
                     </div>
 
-                    <input type="hidden"  name="route"
-                    value="1">
-
-                    {{-- <div class="col-lg-1 mt-2">
-                        <label>รอบที่</label>
-                        <select class="form-control" name="route">
-                            <option selected value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div> --}}
 
                     <div class="col-lg-1 mt-2">
                         <label>เดือน</label>
@@ -93,14 +82,6 @@
                 </div>
 
 
-                <div class="col-lg-1 mt-2">
-                    <label>รอบที่</label>
-                    <select class="form-control" id="route" id="route">
-                        <option selected value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
 
                 <div class="col-lg-1 mt-2">
                     <label>เดือน</label>
@@ -181,10 +162,10 @@
                     'processing': "กำลังโหลดข้อมูล",
                 },
                 ajax: {
-                    url: '{{ route('admin/datatable_casback') }}',
+                    url: '{{ route('admin/datatable_bonus7') }}',
                     data: function(d) {
                         d.username = $('#username').val();
-                        d.route = 1;
+
                         d.month = $('#month').val();
                         d.year = $('#year').val();
                         // d.position = $('#position').val();
@@ -236,12 +217,22 @@
                         className: "w-1",
 
                     },
+
                     {
-                        data: "route",
-                        title: "รอบที่รันโบนัส",
+                        data: "pv",
+                        title: "PT",
                         className: "w-1",
 
                     },
+
+                    {
+                        data: "reth",
+                        title: "Reth",
+                        className: "w-1",
+
+                    },
+
+
                     {
                         data: "bonus_total_usd",
                         title: "ยอดที่ได้รับ USD",
@@ -259,12 +250,6 @@
                     {
                         data: "status",
                         title: "การชำระเงิน",
-                        className: "w-10",
-
-                    },
-                    {
-                        data: "detail",
-                        title: "#",
                         className: "w-10",
 
                     },

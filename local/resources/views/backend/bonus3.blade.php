@@ -12,14 +12,14 @@
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">ระบบคอมมิสชั่น</li>
-            <li class="breadcrumb-item active" aria-current="page"><span>ระบบคำนวน Cash Back </span></li>
+            <li class="breadcrumb-item active" aria-current="page"><span>โบนัสยอดรวมส่วนต่าง(ข้อ 3)</span></li>
         </ol>
     </nav>
 @endsection
 @section('content')
     <div class="col-lg-12 layout-spacing">
         <div class="statbox widget box box-shadow mb-4 mt-4">
-            <form method="post" action="{{ route('admin/run_bonus2') }}">
+            <form method="post" action="{{ route('admin/run_bonus3') }}">
                 @csrf
 
                 <div class="row mb-4 ml-2">
@@ -37,17 +37,14 @@
                             value="{{ date('Y-m-d') }}">
                     </div>
 
-                    <input type="hidden"  name="route"
-                    value="1">
-
-                    {{-- <div class="col-lg-1 mt-2">
+                    <div class="col-lg-1 mt-2">
                         <label>รอบที่</label>
                         <select class="form-control" name="route">
                             <option selected value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                         </select>
-                    </div> --}}
+                    </div>
 
                     <div class="col-lg-1 mt-2">
                         <label>เดือน</label>
@@ -184,7 +181,7 @@
                     url: '{{ route('admin/datatable_casback') }}',
                     data: function(d) {
                         d.username = $('#username').val();
-                        d.route = 1;
+                        d.route = $('#route').val();
                         d.month = $('#month').val();
                         d.year = $('#year').val();
                         // d.position = $('#position').val();

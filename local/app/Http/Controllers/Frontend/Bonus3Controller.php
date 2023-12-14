@@ -8,7 +8,7 @@ use DB;
 use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class BonusController extends Controller
+class Bonus3Controller extends Controller
 {
     public function __construct()
     {
@@ -131,7 +131,7 @@ class BonusController extends Controller
 
           $report_cashback = DB::table('report_cashback_orderlist')
           ->where('user_name', Auth::guard('c_user')->user()->user_name)
-        //   ->whereRaw(("case WHEN  '{$request->route}' != ''  THEN  route = '{$request->route}' else 1 END"))
+          ->whereRaw(("case WHEN  '{$request->route}' != ''  THEN  route = '{$request->route}' else 1 END"))
           ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
           ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
           ->orderByDesc('id');

@@ -161,6 +161,18 @@
                     <li>
                         <a href="{{ route('admin/bonus2') }}"> Cash Back (ระบบคำนวน) </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('admin/bonus3') }}"> โบนัสยอดรวมส่วนต่าง(ข้อ 3) </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('admin/pv_per_month') }}"> ตัดยอด PT รายเดือน (ข้อ 6) </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('admin/bonus7') }}"> Pro Dealer 10,000 PT (ข้อ 7) </a>
+                    </li>
                     {{-- <li>
                         <a href="#"> รายงานรายเดือน </a>
                     </li>

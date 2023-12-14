@@ -234,4 +234,25 @@ Route::get('SalepageSetting','Frontend\SalepageController@salepage_setting')->na
 Route::post('edit_SalePageSetting','Frontend\SalepageController@edit_SalePageSetting')->name('edit_SalePageSetting');
 
 Route::get('RegisterSuccess/{data?}','Frontend\RegisterUrlController@register_success')->name('RegisterSuccess');
+
+
+
+Route::get('HistoryPT', 'Frontend\HistoryPTController@index')->name('HistoryPT');
+
+Route::get('datatable_pv_per_month', 'Frontend\HistoryPTController@datatable_pv_per_month')->name('datatable_pv_per_month');
+
+
+Route::get('HistoryReward', 'Frontend\HistoryRewardController@index')->name('HistoryReward');
+
+Route::get('datatable_reward', 'Frontend\HistoryRewardController@datatable_reward')->name('datatable_reward');
+
+
+Route::get('bonus7', 'Frontend\Bonus7Controller@index')->name('bonus7');
+
+Route::get('datatable_bonus7', 'Frontend\Bonus7Controller@datatable_bonus7')->name('datatable_bonus7');
+
+
+
+
+
 // BEGIN eWallet withdraw
