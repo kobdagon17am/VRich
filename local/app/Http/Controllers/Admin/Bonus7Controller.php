@@ -55,7 +55,7 @@ class Bonus7Controller extends Controller
         $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-            ->where('db_orders.type', '=', 'other')
+            ->where('db_orders.type', '!=', 'send_stock')
             ->wheredate('customers.expire_date', '>=', $date_end)
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
@@ -68,14 +68,14 @@ class Bonus7Controller extends Controller
 
         if (count($db_orders) > 0) {
             DB::rollback();
-            return redirect('admin/pv_per_month')->withError('มีเลขออเดอซ้ำในระบบ');
+            return redirect('admin/bonus7')->withError('มีเลขออเดอซ้ำในระบบ');
         }
         $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,customers.reward,customers.name,customers.last_name,customers.expire_date,
             dataset_qualification.business_qualifications,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
             ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
-            ->where('db_orders.type', '=', 'other')
+            ->where('db_orders.type', '!=', 'send_stock')
             ->where('customers.qualification_id', '>=', 3)
             ->havingRaw('sum_pv_total >= 10000')
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])

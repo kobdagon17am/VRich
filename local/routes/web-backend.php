@@ -274,6 +274,16 @@ Route::get('admin/Blank', function () {
     Route::get('admin/datatable_pv_per_month', 'Admin\Pv_per_monthController@datatable_pv_per_month')->name('admin/datatable_pv_per_month');
 
 
+    Route::get('admin/bonus8', 'Admin\Bonus8Controller@bonus8')->name('admin/bonus8');
+    Route::post('admin/run_bonus8', 'Admin\Bonus8Controller@run_bonus8')->name('admin/run_bonus8');
+    Route::get('admin/datatable_bonus8', 'Admin\Bonus8Controller@datatable_bonus8')->name('admin/datatable_bonus8');
+
+
+    Route::get('admin/bonus4', 'Admin\Bonus4Controller@bonus4')->name('admin/bonus4');
+    Route::post('admin/run_bonus4', 'Admin\Bonus4Controller@run_bonus4')->name('admin/run_bonus4');
+    Route::get('admin/datatable_bonus4', 'Admin\Bonus4Controller@datatable_bonus4')->name('admin/datatable_bonus4');
+
+
 
 
 

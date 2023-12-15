@@ -24,25 +24,26 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use  Maatwebsite\Excel\Facades\Excel;
 
-class Pv_per_monthController extends Controller
+class Bonus8Controller extends Controller
 {
     public function __construct()
     {
         $this->middleware('admin');
     }
 
-    public function pv_per_month()
+    public function bonus8()
     {
+
 
         // $Shipping_type = Shipping_type::get();
         // $branch = DB::table('branch')
         //     ->where('status', '=', 1)
         //     ->get();
 
-        return view('backend/pv_per_month');
+        return view('backend/bonus8');
     }
 
-    public function run_pv_per_month(Request $rs)
+    public function run_bonus8(Request $rs)
     {
         $date_start = $rs->date_start . ' 00:00:00';
         $date_end = $rs->date_end . ' 23:59:59';
@@ -54,7 +55,7 @@ class Pv_per_monthController extends Controller
         $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-            ->where('db_orders.type', '=', 'other')
+            ->where('db_orders.type', '!=', 'send_stock')
             ->wheredate('customers.expire_date', '>=', $date_end)
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
@@ -67,47 +68,44 @@ class Pv_per_monthController extends Controller
 
         if (count($db_orders) > 0) {
             DB::rollback();
-            return redirect('admin/pv_per_month')->withError('มีเลขออเดอซ้ำในระบบ');
+            return redirect('admin/bonus8')->withError('มีเลขออเดอซ้ำในระบบ');
         }
-        $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
-            ->selectRaw('db_orders.customers_user_name,customers.reward,customers.name,customers.last_name,customers.expire_date,dataset_qualification.business_qualifications,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
-            ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-            ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
-            ->where('db_orders.type', '=', 'other')
-            ->where('customers.qualification_id', '>=', 2)
+
+        $total_price =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+            ->selectRaw('sum(db_orders.sum_price) sum_price')
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])
             ->wherein('order_status_id_fk', [4, 5, 6, 7])
-            ->groupby('db_orders.customers_user_name')
-            ->get();
+            ->groupby('db_orders.sum_price')
+            ->first();
 
 
-        if (count($order) == 0) {
+
+
+        if ($total_price->sum_price <= 0) {
             DB::rollback();
-            return redirect('admin/pv_per_month')->withError('ไม่มีสินค้าในวันที่เลือก');
+            return redirect('admin/bonus8')->withError('ไม่มีสินค้าในวันที่เลือก');
         }
 
         try {
             DB::BeginTransaction();
 
+            $get_member_data = DB::table('customers')
+            ->selectRaw('customers.user_name,customers.reward,customers.name,customers.last_name,customers.expire_date,
+            dataset_qualification.business_qualifications,customers.qualification_id')
+            ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+            ->where('customers.qualification_id', '>=', 7)
+            ->wheredate('customers.expire_date', '>=', $date_end)
+            ->get();
 
-            foreach ($order as $value) {
-                if ($value->qualification_id >= 3) {
-                    if ($value->sum_pv_total >= 100) {
-                        $reward = floor($value->sum_pv_total / 100);
-                    } else {
-                        $reward = 0;
-                    }
-                } else {
-                    $reward = 0;
-                }
-
+            foreach($get_member_data as $value){
                 $dataPrepare = [
-                    'user_name' => $value->customers_user_name,
+                    'user_name' => $value->user_name,
                     'name' => $value->name,
                     'last_name' => $value->last_name,
                     'qualification' =>  $value->business_qualifications,
-                    'pv' =>  $value->sum_pv_total,
-                    'reward' => $reward,
+                    'order_price_total' =>$total_price->sum_price,
+                    'reth' =>  0.01,
+                    'bonus_total_usd' => $total_price->sum_price*0.01,
                     'date_start' =>  $date_start,
                     'date_end' =>  $date_end,
                     'year' => $year,
@@ -115,46 +113,32 @@ class Pv_per_monthController extends Controller
                     'note' => $note,
                 ];
 
-                if ($value->reward) {
-                    $c_reward = $value->reward + $reward;
-                } else {
-                    $c_reward = $reward;
-                }
 
-
-                DB::table('customers')
-                    ->where('user_name', $value->customers_user_name)
-                    ->update(['pv' => 0, 'reward' => $c_reward]);
-
-
-                DB::table('pv_per_month')
-                    ->updateOrInsert(['user_name' => $value->customers_user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+                DB::table('report_bonus8')
+                    ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
             }
 
             DB::commit();
-            return redirect('admin/pv_per_month')->withSuccess('Success');
+            return redirect('admin/bonus8')->withSuccess('Success');
         } catch (Exception $e) {
             DB::rollback();
-            return redirect('admin/pv_per_month')->withError($e);
+            return redirect('admin/bonus8')->withError($e);
         }
     }
 
 
 
-
-    public function datatable_pv_per_month(Request $request)
+    public function datatable_bonus8(Request $request)
     {
 
 
 
-        $report_cashback = DB::table('pv_per_month')
+        $report_cashback = DB::table('report_bonus8')
 
             ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  user_name = '{$request->username}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
             ->orderByDesc('id');
-
-
 
 
 
@@ -188,13 +172,22 @@ class Pv_per_monthController extends Controller
                 return $row->year;
             })
 
-            ->addColumn('pv', function ($row) {
-                return $row->pv;
+            ->addColumn('order_price_total', function ($row) {
+                return $row->order_price_total;
             })
 
-            ->addColumn('reward', function ($row) {
-                return $row->reward;
+            ->addColumn('reth', function ($row) {
+                return $row->reth;
             })
+
+            ->addColumn('bonus_total_usd', function ($row) {
+                return $row->bonus_total_usd;
+            })
+
+            ->addColumn('status', function ($row) {
+                return $row->status;
+              })
+
 
 
             ->addColumn('note', function ($row) {
@@ -205,4 +198,5 @@ class Pv_per_monthController extends Controller
 
             ->make(true);
     }
+
 }

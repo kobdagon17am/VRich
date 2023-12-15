@@ -12,14 +12,14 @@
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">ระบบคอมมิสชั่น</li>
-            <li class="breadcrumb-item active" aria-current="page"><span>Pro Dealer 10,000 PT (ข้อ 7)</span></li>
+            <li class="breadcrumb-item active" aria-current="page"><span>โบนัส 1% ของกำไรของบริษัท (ข้อ 8)</span></li>
         </ol>
     </nav>
 @endsection
 @section('content')
     <div class="col-lg-12 layout-spacing">
         <div class="statbox widget box box-shadow mb-4 mt-4">
-            <form method="post" action="{{ route('admin/run_bonus7') }}">
+            <form method="post" action="{{ route('admin/run_bonus8') }}">
                 @csrf
 
                 <div class="row mb-4 ml-2">
@@ -112,7 +112,7 @@
 
 
             <div class="table-responsive mt-2 mb-2">
-                <h6>รายงาน Pro Dealer 10,000 PT (ข้อ 7)</h6>
+                <h6>รายงาน โบนัส 1% ของกำไรของบริษัท (ข้อ 8) </h6>
                 <table id="table_orders" class="table table-hover" style="width:100%">
 
                 </table>
@@ -162,7 +162,7 @@
                     'processing': "กำลังโหลดข้อมูล",
                 },
                 ajax: {
-                    url: '{{ route('admin/datatable_bonus7') }}',
+                    url: '{{ route('admin/datatable_bonus8') }}',
                     data: function(d) {
                         d.username = $('#username').val();
 
@@ -219,8 +219,8 @@
                     },
 
                     {
-                        data: "pv",
-                        title: "PT",
+                        data: "order_price_total",
+                        title: "ยอดรวมบริษัท",
                         className: "w-1",
 
                     },

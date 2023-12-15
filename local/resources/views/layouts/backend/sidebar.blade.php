@@ -167,12 +167,23 @@
                     </li>
 
                     <li>
+                        <a href="{{ route('admin/bonus4') }}"> โบนัสส่วนลดจากยอดขาย(ข้อ 4) </a>
+                    </li>
+
+                    <li>
                         <a href="{{ route('admin/pv_per_month') }}"> ตัดยอด PT รายเดือน (ข้อ 6) </a>
                     </li>
 
                     <li>
                         <a href="{{ route('admin/bonus7') }}"> Pro Dealer 10,000 PT (ข้อ 7) </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('admin/bonus8') }}"> โบนัส 1% ของกำไร (ข้อ 8) </a>
+                    </li>
+
+
+
                     {{-- <li>
                         <a href="#"> รายงานรายเดือน </a>
                     </li>
