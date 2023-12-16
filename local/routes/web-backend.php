@@ -284,6 +284,10 @@ Route::get('admin/Blank', function () {
     Route::get('admin/datatable_bonus4', 'Admin\Bonus4Controller@datatable_bonus4')->name('admin/datatable_bonus4');
 
 
+    Route::get('admin/datatable_bonus4_detail', 'Admin\Bonus4Controller@datatable_bonus4_detail')->name('admin/datatable_bonus4_detail');
+    Route::get('admin/bonus4_detail/{user_name}', 'Admin\Bonus4Controller@bonus4_detail')->name('admin/bonus4_detail');
+
+
 
 
 

@@ -12,75 +12,21 @@
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">ระบบคอมมิสชั่น</li>
-            <li class="breadcrumb-item active" aria-current="page"><span> ตัดยอด PT รายเดือน(ข้อ 6) </span></li>
+            <li class="breadcrumb-item active" aria-current="page"><span>โบนัสส่วนลดจากยอดขาย (ข้อ 4 รายละเอียด)</span></li>
         </ol>
     </nav>
 @endsection
 @section('content')
     <div class="col-lg-12 layout-spacing">
         <div class="statbox widget box box-shadow mb-4 mt-4">
-            <form method="post" action="{{ route('admin/run_pv_per_month') }}">
-                @csrf
 
-                <div class="row mb-4 ml-2">
-
-
-                    <div class="col-lg-2 mt-2">
-                        <label>วันที่เริ่มต้นคำนวน</label>
-                        <input type="date" class="form-control" name="date_start" placeholder="วันที่เริ่มต้น"
-                            value="{{ date('Y-m-d') }}">
-                    </div>
-
-                    <div class="col-lg-2 mt-2">
-                        <label>วันที่สิ้นสุดคำนวน</label>
-                        <input type="date" class="form-control" name="date_end" placeholder="วันที่สิ้นสุด"
-                            value="{{ date('Y-m-d') }}">
-                    </div>
-
-
-                    <div class="col-lg-1 mt-2">
-                        <label>เดือน</label>
-                        <input type="taxt" class="form-control" name="month" placeholder="month"
-                            value="{{ date('m') }}">
-                    </div>
-
-
-                    <div class="col-lg-1 mt-2">
-                        <label>ปี</label>
-                        <input type="taxt" class="form-control" name="year" placeholder=""
-                            value="{{ date('Y') }}">
-                    </div>
-
-                    <div class="col-lg-2 mt-2">
-                        <label>Note</label>
-                        <input type="taxt" class="form-control" name="note"
-                            placeholder="Bonus CashBack route 01 {{ date('Y-m-d') }}">
-                    </div>
-                    <div class="col-lg-2 mt-2">
-                        <div class="button-list mt-4">
-                            {{-- <button class="btn btn-sm btn-success btn-rounded" id="search-form" type="button">
-                                    <i class="las la-search font-20"></i>
-                                    ค้นหา</button> --}}
-                            <button class="btn  btn-sm btn-warning btn-rounded" type="submit"
-                                onclick="return confirm('Confirm Runbonus ?')"><i class="las la-plus-circle font-20"></i>
-                                คำนวน</button>
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-
-            </form>
 
 
             <div class="row mb-4 ml-2">
                 <div class="col-lg-1 mt-2">
                     <label>Username</label>
-                    <input type="taxt" class="form-control" id="username" placeholder="Username">
+                    <input type="taxt" class="form-control" id="username" value="{{$user_name}}" placeholder="Username">
                 </div>
-
 
 
 
@@ -110,10 +56,8 @@
 
             </div>
 
-
-
             <div class="table-responsive mt-2 mb-2">
-                <h6>รายงาน ตัดยอด PT รายเดือน(ข้อ 6)</h6>
+                <h6>รายงาน โบนัสส่วนลดจากยอดขาย</h6>
                 <table id="table_orders" class="table table-hover" style="width:100%">
 
                 </table>
@@ -163,10 +107,10 @@
                     'processing': "กำลังโหลดข้อมูล",
                 },
                 ajax: {
-                    url: '{{ route('admin/datatable_pv_per_month') }}',
+                    url: '{{ route('admin/datatable_bonus4_detail') }}',
                     data: function(d) {
                         d.username = $('#username').val();
-                        d.route = $('#route').val();
+
                         d.month = $('#month').val();
                         d.year = $('#year').val();
                         // d.position = $('#position').val();
@@ -219,22 +163,41 @@
 
                     },
 
+
+                    {
+                        data: "reth",
+                        title: "Reth ของลูกทีม",
+                        className: "w-1",
+
+                    },
+
+
+                    {
+                        data: "reth_introduce",
+                        title: "Reth ผู้แนะนำ",
+                        className: "w-1",
+
+                    },
+
+
+                    {
+                        data: "reth_resule",
+                        title: "Reth ที่ได้รับ",
+                        className: "w-1",
+
+                    },
+
                     {
                         data: "pv",
-                        title: "PT",
+                        title: "PT สังซื้อสินค้า",
                         className: "w-1",
 
                     },
 
-                    {
-                        data: "reward",
-                        title: "Reward",
-                        className: "w-1",
 
-                    },
                     {
-                        data: "note",
-                        title: "Note",
+                        data: "bonus_total",
+                        title: "ยอดที่ได้รับ USD",
                         className: "w-1",
 
                     },

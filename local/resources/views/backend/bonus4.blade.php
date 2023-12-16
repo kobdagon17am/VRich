@@ -218,12 +218,6 @@
 
                     },
 
-                    {
-                        data: "order_price_total",
-                        title: "ยอดรวมบริษัท",
-                        className: "w-1",
-
-                    },
 
                     {
                         data: "reth",
@@ -253,6 +247,13 @@
                         className: "w-10",
 
                     },
+                    {
+                        data: "detail",
+                        title: "#",
+                        className: "w-10",
+
+                    },
+
 
 
 
