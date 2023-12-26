@@ -89,11 +89,16 @@ class Bonus4Controller extends Controller
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
             ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
             ->where('db_orders.type', '!=', 'send_stock')
+            ->where('customers.introduce_id', '!=','AA')
+
             ->where('customers.qualification_id', '>=', 2)
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])
             ->wherein('order_status_id_fk', [4, 5, 6, 7])
             ->groupby('db_orders.customers_user_name')
             ->get();
+
+
+
 
 
         if (count($order) == 0) {
@@ -112,6 +117,8 @@ class Bonus4Controller extends Controller
                 ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
                 ->where('customers.user_name',$value->introduce_id)
                 ->first();
+
+
 
                 $reth_resule = $introduce_id->bonus4_reth -  $value->bonus4_reth;
                 if($reth_resule > 0){
@@ -145,23 +152,62 @@ class Bonus4Controller extends Controller
             DB::commit();
 
 
-            $report_bonus4_detail_all =  DB::table('report_bonus4_detail_all') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
-            ->selectRaw('id,introduce_id,count(report_bonus4_detail_all.introduce_id) as count_introduce_id')
+            $report_bonus4_detail_all_to_bonus4 =  DB::table('report_bonus4_detail_all') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+
             ->where('year',$year)
             ->where('month',$month)
-            ->havingRaw('count(count_introduce_id) = 1')
-
             ->groupby('report_bonus4_detail_all.introduce_id')
             ->get();
+
+
+
+
+            // $report_bonus4_detail_all =  DB::table('report_bonus4_detail_all') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+            // ->selectRaw('id,introduce_id,count(report_bonus4_detail_all.introduce_id) as count_introduce_id')
+            // ->where('year',$year)
+            // ->where('month',$month)
+            // ->havingRaw('count(count_introduce_id) = 1')
+
+            // ->groupby('report_bonus4_detail_all.introduce_id')
+            // ->get();
+
+            // $user_arr_id =array();
+
+            // foreach($report_bonus4_detail_all as $value){
+            //     $user_arr_id[] = $value->id;
+            // }
+
+
+            // if($user_arr_id){
+            //     $report_bonus4_detail_all =  DB::table('report_bonus4_detail_all') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+            //     ->where('year',$year)
+            //     ->where('month',$month)
+            //     ->wherein('id',$user_arr_id)
+            //     ->delete();
+            // }
+
+
+            $report_bonus4_detail_all =  DB::table('report_bonus4_detail_all') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+            ->selectRaw('id,introduce_id')
+            ->where('year',$year)
+            ->where('month',$month)
+            ->groupby('report_bonus4_detail_all.introduce_id')
+            ->get();
+
 
             $user_arr_id =array();
 
             foreach($report_bonus4_detail_all as $value){
-                $user_arr_id[] = $value->id;
+                        $customers = DB::table('customers')
+                        ->where('introduce_id', '=',  $value->introduce_id)
+                        ->count();
+                        if($customers<2){
+                            $user_arr_id[] = $value->id;
+                        }
+
             }
 
-
-            if($user_arr_id){
+             if($user_arr_id){
                 $report_bonus4_detail_all =  DB::table('report_bonus4_detail_all') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
                 ->where('year',$year)
                 ->where('month',$month)
@@ -177,6 +223,9 @@ class Bonus4Controller extends Controller
             ->groupby('report_bonus4_detail_all.introduce_id')
             ->get();
 
+            if(empty($report_bonus4_detail_all_to_bonus4)){
+                return redirect('admin/bonus4')->withError('ไม่มีไครได้รับโบนัสในรอบนี้');
+            }
 
 
             foreach( $report_bonus4_detail_all_to_bonus4 as $value){
