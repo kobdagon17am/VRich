@@ -9,11 +9,11 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-4 col-xxl-3 text-center">
-                                    <div class="ratio ratio-1x1">
+
                                         <div class="rounded-circle">
                                             @if(Auth::guard('c_user')->user()->profile_img)
 
-                                            <img src="{{asset('local/public/profile_customer/'.Auth::guard('c_user')->user()->profile_img)}}" class="mw-100"
+                                            <img src="{{asset('local/public/profile_customer/'.Auth::guard('c_user')->user()->profile_img)}}"   class="img-thumbnail"
                                                 alt="" />
                                             @else
                                             <img src="{{ asset('frontend/images/man.png') }}" class="mw-100"
@@ -23,7 +23,6 @@
 
                                         </div>
 
-                                    </div>
                                     <a href="{{route('editprofileimg')}}" type="button" class="btn btn-outline-primary btn-sm mt-2 rounded-pill" > Edit profile picture </a>
                                 </div>
                                 <div class="col-8 col-xxl-9">

@@ -237,9 +237,9 @@ Route::get('RegisterSuccess/{data?}','Frontend\RegisterUrlController@register_su
 
 
 
-Route::get('HistoryPT', 'Frontend\HistoryPTController@index')->name('HistoryPT');
+Route::get('HistoryPT', 'Frontend\HistoryPtController@index')->name('HistoryPT');
 
-Route::get('datatable_pv_per_month', 'Frontend\HistoryPTController@datatable_pv_per_month')->name('datatable_pv_per_month');
+Route::get('datatable_pv_per_month', 'Frontend\HistoryPtController@datatable_pv_per_month')->name('datatable_pv_per_month');
 
 
 Route::get('HistoryReward', 'Frontend\HistoryRewardController@index')->name('HistoryReward');

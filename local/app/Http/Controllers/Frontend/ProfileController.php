@@ -16,7 +16,7 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Ui\Presets\React;
 use DB;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
+
 
 class ProfileController extends Controller
 {
@@ -416,36 +416,38 @@ class ProfileController extends Controller
     public function editprofileimg()
     {
 
+
         return view('frontend/editprofileimg');
     }
 
     public function update_img_profile(Request $request)
     {
+
+
+
         try {
-            if ($request->imgBase64 != null) {
-                $photoBase64 = $request->imgBase64;
-                $imageBase = $photoBase64;
-                $image_array_1 = explode(";", $imageBase);
-                $image_array_2 = explode(",", $image_array_1[1]);
-                $imageBase = base64_decode($image_array_2[1]);
+            // dd($request->all());
 
-                if (!is_dir('local/public/profile_customer/' . date('Ym'))) {
-                    // dir doesn't exist, make it
-                    mkdir('local/public/profile_customer/' . date('Ym'));
-                }
+            if ($request->img) {
 
-                $imageName = 'local/public/profile_customer/' . date('Ym') . '/' . date('YmdHis') . '_' . Auth::guard('c_user')->user()->id . '.jpg';
-                $name = date('Ym') . '/' . date('YmdHis') . '_' . Auth::guard('c_user')->user()->id . '.jpg';
-                file_put_contents($imageName, $imageBase);
-            } elseif ($request->imgBase64 == null) {
-                return redirect('editprofileimg')->withError('Upload image Error');
-            }
-            $update = DB::table('customers')
+                $url = 'local/public/profile_customer/' . date('Ym');
+                $imageName = $request->img->extension();
+                $filenametostore =  date("YmdHis")  .'_'.  Auth::guard('c_user')->user()->id . "." . $imageName;
+                $request->img->move($url,  $filenametostore);
+                $name = date('Ym') . '/'. $filenametostore;
+                $update = DB::table('customers')
                 ->where('id', '=', Auth::guard('c_user')->user()->id)
                 ->update(['profile_img' => $name]);
-            return redirect('editprofileimg')->withSuccess('Upload image Success');
+            return redirect('home')->withSuccess('Upload image Success');
+
+
+            } else{
+
+                return redirect('home')->withError('Upload image Error');
+            }
+
         } catch (Exception $e) {
-            return redirect('editprofileimg')->withError('Upload image Error');
+            return redirect('home')->withError('Upload image Error');
 
         }
 

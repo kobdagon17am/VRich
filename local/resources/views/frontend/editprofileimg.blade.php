@@ -25,10 +25,11 @@
             <div class="col-md-12">
                 <div class="card card-box borderR10 mb-2 mb-md-0">
                     <div class="card-body">
-                        <h4 class="card-title">Upload Profile</h4>
+                        <h4 class="card-title">Upload Profileasas</h4>
                         <hr>
 
                         <div class="row ">
+                     
 
                             <div class="col-md-5 mb-4">
                                 <form action="{{route('update_img_profile')}}" method="POST" enctype="multipart/form-data" id="addemployee">
@@ -46,8 +47,8 @@
                                     <div class="card-body">
                                       <h5 class="card-title">Upload Profile</h5>
                                       <input type="file" name="img" class="input-image" id="img" style="display: none;">
-                                      <input type="hidden" name="imgBase64" value="">
-
+                                      {{-- <input type="hidden" name="imgBase64" id="imgBase64" > --}}
+ 
                                       <button type="button" class="btn btn-success rounded-pill"  onclick="document.getElementById('img').click()" >Choose File</button>
 
                                       <button type="submit" id="upload" class="btn btn-primary rounded-pill">Upload File</button>
@@ -148,7 +149,7 @@
         }).then(function (response) {
             //$('#div-image').css('background-image','url("' + response + '")');
             $('#div-image').attr('src',response);
-            $('input[name="imgBase64"]').val(response);
+            $('#imgBase64').val(response);
             $('#div-crop').hide();
             document.getElementById("upload").disabled = false;
         })

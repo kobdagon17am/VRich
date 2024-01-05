@@ -40,6 +40,7 @@ class Bonus3Controller extends Controller
         //     ->where('status', '=', 1)
         //     ->get();
 
+
         return view('backend/bonus3');
     }
 
@@ -83,6 +84,7 @@ class Bonus3Controller extends Controller
 
     public function run_bonus3(Request $rs)
     {
+
         $date_start = $rs->date_start.' 00:00:00';
         $date_end = $rs->date_end.' 23:59:59';
         $route =  $rs->route;
@@ -107,130 +109,173 @@ class Bonus3Controller extends Controller
 
         if(count($db_orders)>0){
             DB::rollback();
-            return redirect('admin/bonus2')->withError('มีเลขออเดอซ้ำในระบบ');
+            return redirect('admin/bonus3')->withError('มีเลขออเดอซ้ำในระบบ');
 
         }
+
+
+
+        $pv_allsale_permouth =  DB::table('customers')
+            ->where('pv_allsale_permouth', '>', 0)
+            ->update(['pv_allsale_permouth' => '0']);
+
+        $status_runbonus_allsale =  DB::table('customers')
+            ->where('status_runbonus_allsale', '=', 'success')
+            ->update(['status_runbonus_allsale' => 'pending']);
+
 
         $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
         ->selectRaw('db_orders.customers_user_name,customers.name,customers.last_name,customers.expire_date,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
         ->where('db_orders.type','=','other')
-        ->where('customers.qualification_id','>=',2)
+        // ->where('customers.qualification_id','>=',2)
         ->whereBetween('db_orders.created_at',[$date_start, $date_end])
         ->wherein('order_status_id_fk',[4,5,6,7])
         ->groupby('db_orders.customers_user_name')
         ->get();
 
-        dd($order);
-
 
 
         if(count($order)== 0){
             DB::rollback();
-            return redirect('admin/bonus2')->withError('ไม่มีสินค้าในวันที่เลือก');
+            return redirect('admin/bonus3')->withError('ไม่มีสินค้าในวันที่เลือก');
 
         }
-        $code_order = array();
-        foreach($order as $value){
-            $code_order[] = $value->code_order;
-        }
-        $db_order_products_list =  DB::table('db_order_products_list')
-        ->selectRaw('db_order_products_list.customers_username,customers.expire_date,customers.qualification_id,dataset_qualification.business_qualifications,
-        customers.name,customers.last_name,db_order_products_list.product_id_fk,db_order_products_list.product_name,sum(db_order_products_list.amt) as total_amt')
-        ->leftjoin('customers', 'db_order_products_list.customers_username', '=', 'customers.user_name')
-        ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
-        ->wherein('code_order',$code_order)
-        ->where('db_order_products_list.type','=','other')
-        ->groupby('product_id_fk')
-        ->get();
 
-        try {
-            DB::BeginTransaction();
-            foreach($db_order_products_list as $value){
 
-                $dataset_casback_product = DB::table('dataset_casback_product')
-                ->where('product_id', '=', $value->product_id_fk)
-                ->where('amt', '<=', $value->total_amt)
-                ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', [$value->total_amt])
+        foreach ($order as $value) {
+
+            $customer = DB::table('customers')->select('id', 'pv', 'user_name', 'introduce_id', 'status_runbonus_allsale')
+                ->where('status_customer', '!=', 'cancel')
+                ->where('user_name', '=', $value->customers_user_name)
                 ->first();
-                if($dataset_casback_product){
-                    $profit_usd = $dataset_casback_product->profit_usd;
-                }else{
-                    $profit_usd = 0;
+
+            if ($customer->status_runbonus_allsale == 'pending') {
+                $data = \App\Http\Controllers\Admin\Bonus3Controller::runbonus($value->customers_user_name, $value->sum_pv_total, $i = 0,$value->customers_user_name);
+                // dd($this->arr,$data);
+                // dd($data);
+                if ($data['status'] == 'success') {
+
+                    DB::table('customers')
+                        ->where('user_name', '=', $value->customers_user_name)
+                        ->update(['status_runbonus_allsale' => 'success']);
+                    // $resule = ['status' => 'success', 'message' => 'ไม่มี User นี้ในระบบ'];
+                    // return  $resule;
+
+                } else {
+                    dd($data, 'เกิดข้อผิดพลาด');
                 }
-
-
-
-                $dataPrepare = [
-                    'user_name' => $value->customers_username,
-                    'name'=>$value->name,
-                    'last_name' =>$value->last_name,
-                    'qualification' =>  $value->business_qualifications,
-                    'product_name' =>  $value->product_name,
-                    'product_id' =>  $value->product_id_fk,
-                    'amt' =>  $value->total_amt,
-                    'profit_usd' =>  $profit_usd,
-                    'bonus_total_usd' =>  $value->total_amt*$profit_usd,
-                    'date_start' =>  $date_start,
-                    'date_end' =>  $date_end,
-                    'year' => $year,
-                    'month' => $month,
-                    'route'=>$route,
-                    'note'=>$note,
-                ];
-
-
-                    DB::table('report_cashback_orderlist')
-                        ->updateOrInsert(['user_name' => $value->customers_username,'product_id'=>$value->product_id_fk, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
-
-
             }
+        }
 
-            $report_cashback_orderlist_rs =  DB::table('report_cashback_orderlist')
-            ->selectRaw('report_cashback_orderlist.user_name,name,last_name,qualification,sum(bonus_total_usd) as bonus_total_usd')
-            ->where('year',$year)
-            ->where('month',$month)
-            ->where('route',$route)
-            ->where('bonus_total_usd','>',0)
-            ->groupby('user_name')
+        // $user = DB::table('customers') //อัพ Pv ของตัวเอง
+        //     ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth')
+        //     ->where('status_customer', '!=', 'cancel')
+        //     ->where('status_runbonus_allsale', '=', 'success')
+        //     ->get();
+        // dd($user, 'success');
+
+
+        $customers_bonus3 = DB::table('customers') //อัพ Pv ของตัวเอง
+            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id')
+            ->where('qualification_id', '>=', '2')
+            ->where('pv_allsale_permouth', '>', '0')
+            ->where('status_customer', '!=', 'cancel')
+            // ->where('status_runbonus_allsale', '=', 'success')
             ->get();
 
 
+            foreach($customers_bonus3 as $value){
 
-            if(count($report_cashback_orderlist_rs)== 0){
-                DB::rollback();
-                return redirect('admin/bonus2')->withError('ไม่มีไครได้รับยอดเงินในรอบนี้');
-            }
-            foreach($report_cashback_orderlist_rs as $value){
+                $customer = DB::table('customers')->select('id', 'pv', 'user_name', 'introduce_id', 'status_runbonus_allsale')
+                ->where('status_customer', '!=', 'cancel')
+                ->where('user_name', '=', $value->customers_user_name)
+                ->first();
 
-                $dataPrepare = [
-                    'user_name' => $value->user_name,
-                    'name'=>$value->name,
-                    'last_name' =>$value->last_name,
-                    'qualification' =>  $value->qualification,
-                    'bonus_total_usd' =>  $value->bonus_total_usd,
-                    'date_start' =>  $date_start,
-                    'date_end' =>  $date_end,
-                    'year' => $year,
-                    'month' => $month,
-                    'route'=>$route,
-                    'note'=>$note,
-                ];
-
-                DB::table('report_cashback')
-                ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
 
             }
-            DB::commit();
-                return redirect('admin/bonus2')->withSuccess('Success');
-        }catch (Exception $e) {
-            DB::rollback();
-            return redirect('admin/bonus2')->withError($e);
-        }
 
 
 
     }
+
+
+    public function runbonus($customers_user_name, $pv, $i,$userbuy)
+    {
+
+
+        $user = DB::table('customers') //อัพ Pv ของตัวเอง
+            ->select('id', 'pv', 'user_name', 'introduce_id', 'status_customer', 'pv_allsale_permouth')
+            ->where('user_name', '=', $customers_user_name)
+            // ->where('status_runbonus_allsale_1', '=', 'pending')
+            ->first();
+
+        // if (empty($user)) {
+        //     DB::table('customers')
+        //     ->where('user_name', '=', $customers_user_name)
+        //     ->update(['status_runbonus_allsale_1' => 'success']);
+        //     $resule = ['status' => 'success', 'message' => 'ไม่มี User นี้ในระบบ'];
+        //     return  $resule;
+
+        // }
+
+        try {
+            DB::BeginTransaction();
+
+            if ($user) {
+                // if ($user->status_customer != 'cancel') {
+                    if ($user->pv_allsale_permouth) {
+                        $pv_allsale_permouth = $user->pv_allsale_permouth + $pv;
+                    } else {
+                        $pv_allsale_permouth = 0 + $pv;
+                    }
+
+                    // if($user->user_name == '0857072'){
+                    //     $this->arr['order'][] = $userbuy.' | '.$pv;
+                    // }
+
+                    DB::table('customers')
+                        ->where('user_name', '=', $user->user_name)
+                        ->update(['pv_allsale_permouth' => $pv_allsale_permouth]);
+                // }
+                //DB::rollback();
+                if ($user->introduce_id and $user->introduce_id != 'AA') {
+
+                    $i++;
+                    // $this->arr[$i] = $user->introduce_id;
+                    $data = \App\Http\Controllers\Admin\Bonus3Controller::runbonus($user->introduce_id, $pv, $i,$userbuy);
+                    if ($data['status'] == 'success') {
+                        DB::commit();
+                        $resule = ['status' => 'success', 'message' => 'สิ้นสุด'];
+                        return $resule;
+                    } else {
+
+                        \App\Http\Controllers\Admin\Bonus3Controller::runbonus($user->introduce_id, $pv, $i,$userbuy);
+                    }
+                } else {
+                    DB::commit();
+                    $resule = ['status' => 'success', 'message' => 'สิ้นสุด'];
+                    return $resule;
+                }
+            } else {
+                DB::commit();
+                $resule = ['status' => 'success', 'message' => 'สิ้นสุด'];
+                return $resule;
+            }
+        } catch (Exception $e) {
+            //DB::rollback();
+
+            $resule = [
+                'status' => 'fail',
+                'message' => 'Update PvPayment Fail',
+            ];
+            return $resule;
+        }
+    }
+
+
+
+
 
 
 

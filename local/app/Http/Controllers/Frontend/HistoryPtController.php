@@ -8,7 +8,7 @@ use DB;
 use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
-class HistoryPtController extends Controller
+class HistoryPTController extends Controller
 {
     public function __construct()
     {
