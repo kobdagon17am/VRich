@@ -344,7 +344,7 @@ class Bonus4Controller extends Controller
 
 
 
-        $report_cashback = DB::table('report_bonus4_detail_all')
+        $report_4 = DB::table('report_bonus4_detail_all')
             ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  introduce_id = '{$request->username}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
@@ -352,7 +352,7 @@ class Bonus4Controller extends Controller
 
 
 
-        $sQuery = Datatables::of($report_cashback);
+        $sQuery = Datatables::of($report_4);
         return $sQuery
 
 

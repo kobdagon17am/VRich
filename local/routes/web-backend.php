@@ -260,6 +260,14 @@ Route::get('admin/Blank', function () {
     Route::get('admin/bonus3', 'Admin\Bonus3Controller@bonus3')->name('admin/bonus3');
     Route::post('admin/run_bonus3', 'Admin\Bonus3Controller@run_bonus3')->name('admin/run_bonus3');
 
+    Route::get('admin/datatable_bonus3', 'Admin\Bonus3Controller@datatable_bonus3')->name('admin/datatable_bonus3');
+
+
+    Route::get('admin/datatable_bonus3_detail', 'Admin\Bonus3Controller@datatable_bonus3_detail')->name('admin/datatable_bonus3_detail');
+
+    Route::get('admin/datatable_bonus3_detail', 'Admin\Bonus3Controller@datatable_bonus3_detail')->name('admin/datatable_bonus3_detail');
+    Route::get('admin/bonus3_detail/{user_name}', 'Admin\Bonus3Controller@bonus3_detail')->name('admin/bonus3_detail');
+
 
     Route::get('admin/bonus7', 'Admin\Bonus7Controller@bonus7')->name('admin/bonus7');
     Route::post('admin/run_bonus7', 'Admin\Bonus7Controller@run_bonus7')->name('admin/run_bonus7');

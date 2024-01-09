@@ -53,8 +53,9 @@ class Bonus3Controller extends Controller
         //     ->where('status', '=', 1)
         //     ->get();
 
-        return view('backend/bonus2_detail',compact('user_name'));
+        return view('backend/bonus3_detail',compact('user_name'));
     }
+
 
     public function product_list_view(Request $request)
     {
@@ -142,7 +143,8 @@ class Bonus3Controller extends Controller
 
         }
 
-
+        try {
+            DB::BeginTransaction();
         foreach ($order as $value) {
 
             $customer = DB::table('customers')->select('id', 'pv', 'user_name', 'introduce_id', 'status_runbonus_allsale')
@@ -181,20 +183,96 @@ class Bonus3Controller extends Controller
             ->where('qualification_id', '>=', '2')
             ->where('pv_allsale_permouth', '>', '0')
             ->where('status_customer', '!=', 'cancel')
-            // ->where('status_runbonus_allsale', '=', 'success')
+            ->where('status_runbonus_allsale', '=', 'success')
             ->get();
+
 
 
             foreach($customers_bonus3 as $value){
 
-                $customer = DB::table('customers')->select('id', 'pv', 'user_name', 'introduce_id', 'status_runbonus_allsale')
-                ->where('status_customer', '!=', 'cancel')
-                ->where('user_name', '=', $value->customers_user_name)
-                ->first();
+                $customer = DB::table('customers')->select('customers.id', 'customers.pv','customers.user_name',
+                'customers.name','customers.last_name','customers.introduce_id','dataset_qualification.business_qualifications', 'customers.status_runbonus_allsale','customers.pv_allsale_permouth')
+                ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+                ->where('customers.status_customer', '!=', 'cancel')
+                ->where('customers.pv_allsale_permouth', '>', '0')
+                ->where('customers.introduce_id', '=', $value->user_name)
+                ->get();
 
+                foreach($customer as $c_value){
+                    $pv_total = $value->pv_allsale_permouth - $c_value->pv_allsale_permouth;
+
+                    if($pv_total > 0){
+                        $dataPrepare = [
+                            'user_name' => $c_value->user_name,
+                            'name' => $c_value->name,
+                            'last_name' => $c_value->last_name,
+                            'qualification' =>  $c_value->business_qualifications,
+                            'introduce_id' =>  $c_value->introduce_id,
+                            'pv'=>$c_value->pv_allsale_permouth,
+                            'pv_introduce'=>$value->pv_allsale_permouth,
+                            'reth'=> 0.5,
+                            'pv_total'=> $pv_total,
+                            'bonus_total_usd'=> $pv_total*0.5,
+                            'date_start' =>  $date_start,
+                            'date_end' =>  $date_end,
+                            'year' => $year,
+                            'month' => $month,
+                            'note' => $note,
+                        ];
+
+                        DB::table('report_bonus3_detail')
+                        ->updateOrInsert(['user_name' => $c_value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+                    }
+
+                }
 
             }
 
+
+            $report_bonus4_detail_all_to_bonus3 =  DB::table('report_bonus3_detail') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+            ->selectRaw('introduce_id,sum(report_bonus3_detail.bonus_total_usd) as bonus_total')
+            ->where('year',$year)
+            ->where('month',$month)
+            ->groupby('report_bonus3_detail.introduce_id')
+            ->get();
+
+
+
+
+
+            if(empty($report_bonus4_detail_all_to_bonus3)){
+                return redirect('admin/bonus3')->withError('ไม่มีไครได้รับโบนัสในรอบนี้');
+            }
+
+            foreach($report_bonus4_detail_all_to_bonus3 as $value){
+                $customers3 =  DB::table('customers')
+                ->selectRaw('customers.user_name,customers.name,customers.last_name,customers.expire_date,dataset_qualification.business_qualifications,customers.qualification_id,dataset_qualification.bonus4_reth')
+                ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+                ->where('customers.user_name',$value->introduce_id)
+                ->first();
+                $dataPrepare = [
+                    'user_name' => $customers3->user_name,
+                    'name' => $customers3->name,
+                    'last_name' => $customers3->last_name,
+                    'qualification' =>  $customers3->business_qualifications,
+                    'bonus_total_usd' =>  $value->bonus_total,
+                    'date_start' =>  $date_start,
+                    'date_end' =>  $date_end,
+                    'year' => $year,
+                    'month' => $month,
+                    'note' => $note,
+                ];
+
+                DB::table('report_bonus3')
+                ->updateOrInsert(['user_name' => $customers3->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+            }
+            DB::commit();
+            return redirect('admin/bonus3')->withSuccess('Success');
+
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect('admin/bonus3')->withError('Fail');
+        }
 
 
     }
@@ -273,26 +351,17 @@ class Bonus3Controller extends Controller
         }
     }
 
-
-
-
-
-
-
-    public function datatable_casback(Request $request)
+    public function datatable_bonus3(Request $request)
     {
 
 
 
-        $report_cashback = DB::table('report_cashback')
+        $report_cashback = DB::table('report_bonus3')
 
-        ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  user_name = '{$request->username}' else 1 END"))
-        ->whereRaw(("case WHEN  '{$request->route}' != ''  THEN  route = '{$request->route}' else 1 END"))
-        ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
-        ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
-        ->orderByDesc('id');
-
-
+            ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  user_name = '{$request->username}' else 1 END"))
+            ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
+            ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
+            ->orderByDesc('id');
 
 
 
@@ -300,141 +369,103 @@ class Bonus3Controller extends Controller
         return $sQuery
 
 
-          ->addColumn('user_name', function ($row) {
-            return $row->user_name;
-          })
-
-          ->addColumn('name', function ($row) {
-            return $row->name;
-          })
-
-          ->addColumn('last_name', function ($row) {
-            return $row->last_name;
-          })
-
-
-          ->addColumn('qualification', function ($row) {
-            return $row->qualification;
-          })
-
-          ->addColumn('date_start', function ($row) {
-            return $row->date_start;
-          })
-
-          ->addColumn('date_end', function ($row) {
-            return $row->date_end;
-          })
-
-          ->addColumn('year', function ($row) {
-            return $row->year;
-          })
-
-          ->addColumn('route', function ($row) {
-            return $row->route;
-          })
-
-          ->addColumn('status', function ($row) {
-            return $row->status;
-          })
-
-
-          ->addColumn('note', function ($row) {
-            return $row->note;
-          })
-          ->addColumn('detail', function ($row) {
-            $url = route('admin/bonus2_detail',['user_name'=>$row->user_name]);
-            $detail = '<a href="'.$url.'" target="_blank"> <i class="las la-search font-25 text-warning" ></i> </a>';
-            return $detail;
-          })
-
-
-
-          ->rawColumns(['detail'])
-
-          ->make(true);
-      }
-
-      public function datatable_casback_detail(Request $request)
-      {
-
-
-
-          $report_cashback = DB::table('report_cashback_orderlist')
-
-          ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  user_name = '{$request->username}' else 1 END"))
-          ->whereRaw(("case WHEN  '{$request->route}' != ''  THEN  route = '{$request->route}' else 1 END"))
-          ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
-          ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
-          ->orderByDesc('id');
-
-
-
-
-
-          $sQuery = Datatables::of($report_cashback);
-          return $sQuery
-
-
             ->addColumn('user_name', function ($row) {
-              return $row->user_name;
+                return $row->user_name;
             })
 
             ->addColumn('name', function ($row) {
-              return $row->name;
+                return $row->name;
             })
 
             ->addColumn('last_name', function ($row) {
-              return $row->last_name;
+                return $row->last_name;
             })
 
 
             ->addColumn('qualification', function ($row) {
-              return $row->qualification;
+                return $row->qualification;
             })
 
-            ->addColumn('date_start', function ($row) {
-              return $row->date_start;
+            ->addColumn('month', function ($row) {
+                return $row->month;
             })
 
-            ->addColumn('date_end', function ($row) {
-              return $row->date_end;
-            })
 
             ->addColumn('year', function ($row) {
-              return $row->year;
+                return $row->year;
             })
 
-
-
-
-            ->addColumn('route', function ($row) {
-              return $row->route;
+            ->addColumn('bonus_total_usd', function ($row) {
+                return $row->bonus_total_usd;
             })
 
+            ->addColumn('status', function ($row) {
+                return $row->status;
+              })
 
 
             ->addColumn('note', function ($row) {
-              return $row->note;
+                return $row->note;
             })
+
             ->addColumn('detail', function ($row) {
-              $url = route('admin/bonus2_detail',['user_name'=>$row->user_name]);
-              $detail = '<a href="'.$url.'" target="_blank"> <i class="las la-search font-25 text-warning" ></i> </a>';
-              return $detail;
-            })
+                $url = route('admin/bonus3_detail',['user_name'=>$row->user_name]);
+                $detail = '<a href="'.$url.'" target="_blank"> <i class="las la-search font-25 text-warning" ></i> </a>';
+                return $detail;
 
-
-
-            ->rawColumns(['detail'])
+              })
+              ->rawColumns(['detail'])
 
             ->make(true);
-        }
+    }
+
+
+    public function datatable_bonus3_detail(Request $request)
+    {
 
 
 
+        $report_3 = DB::table('report_bonus3_detail')
+            ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  introduce_id = '{$request->username}' else 1 END"))
+            ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
+            ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
+            ->orderByDesc('id');
 
 
 
+        $sQuery = Datatables::of($report_3);
+        return $sQuery
 
 
+            ->addColumn('user_name', function ($row) {
+                return $row->user_name;
+            })
+
+            ->addColumn('name', function ($row) {
+                return $row->name;
+            })
+
+            ->addColumn('last_name', function ($row) {
+                return $row->last_name;
+            })
+
+
+            ->addColumn('qualification', function ($row) {
+                return $row->qualification;
+            })
+
+            ->addColumn('month', function ($row) {
+                return $row->month;
+            })
+
+
+            ->addColumn('year', function ($row) {
+                return $row->year;
+            })
+
+
+
+            ->make(true);
+    }
 
 }
