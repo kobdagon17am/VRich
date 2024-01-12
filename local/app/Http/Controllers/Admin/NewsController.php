@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use DataTables;
+use Illuminate\Support\Str;
 
 class NewsController extends Controller
 {
@@ -29,9 +30,26 @@ class NewsController extends Controller
     return view('backend/news', compact('get_news'));
   }
 
+  public function view_news_edit($id)
+  {
+    // dd('111');
+
+    $get_news = DB::table('news')
+    ->select('news.*', 'news_images.news_image_url', 'news_images.news_image_name')
+    ->leftJoin('news_images', 'news_images.news_id_fk', '=', 'news.id')
+    ->where('news_images.news_image_orderby', '=', '1')
+    ->where('news.id','=',$id)
+    ->first();
+
+    return view('backend/news_edit', compact('get_news'));
+  }
+
+
+
+
+
   public function insert(Request $rs)
   {
-    dd($rs->all());
 
     $dataPrepare = [
       'news_title' => $rs->news_title,
@@ -164,11 +182,13 @@ class NewsController extends Controller
       })
 
       ->addColumn('news_detail', function ($row) {
-        return $row->news_detail;
+
+        return Str::limit($row->news_detail, 100);
+
       })
 
       ->addColumn('news_image', function ($row) {
-        $html = '<img src="' . asset($row->news_image_url . '' . $row->news_image_name) . '"
+        $html = '<img src="'.asset($row->news_image_url . '' . $row->news_image_name).'"
             alt="contact-img" title="contact-img" class=".avatar-xl mr-3" height="100"
             width="100" style="object-fit: cover;">';
 
@@ -199,14 +219,14 @@ class NewsController extends Controller
       })
 
       ->addColumn('action', function ($row) {
-
-        $html = '<a href="#!" onclick="edit(' . $row->id . ')" class="p-2">
+        $url = route('admin/view_news_edit',['id'=>$row->id]);
+        $html = '<a href="'.$url.'" class="p-2">
               <i class="lab la-whmcs font-25 text-warning"></i></a>';
         return $html;
       })
 
 
-      ->rawColumns(['news_image', 'news_status', 'action'])
+      ->rawColumns(['news_image', 'news_status', 'action','news_detail'])
 
       ->make(true);
   }

@@ -32,7 +32,7 @@
                                             $date = new DateTime();
                                             $date->setTimezone(new DateTimeZone('Asia/Bangkok'));
                                         @endphp
-                                        @if ($value->created_at >= $date->format('Y-m-d'))
+                                        {{-- @if ($value->created_at >= $date->format('Y-m-d')) --}}
                                             <div class="col-md-6">
                                                 <div class="card cardNewsH mb-3">
                                                     <div class="row g-0">
@@ -61,7 +61,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endif
+                                        {{-- @endif --}}
                                     @endforeach
                                 @endif
                                 <div class="row">

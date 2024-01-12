@@ -68,12 +68,22 @@ Route::get('admin/Blank', function () {
   Route::get('admin/News','Admin\NewsController@index')->name('admin/News');
   Route::post('admin/News_insert','Admin\NewsController@insert')->name('admin/News_insert');
   Route::get('admin/view_news','Admin\NewsController@view_news')->name('admin/view_news');
+
+  Route::get('admin/view_news_edit/{id}','Admin\NewsController@view_news_edit')->name('admin/view_news_edit');
+
+
   Route::post('admin/edit_news','Admin\NewsController@edit_news')->name('admin/edit_news');
   Route::get('admin/news_datatable','Admin\NewsController@news_datatable')->name('admin/news_datatable');
 
   Route::get('admin/Learning','Admin\LearningController@index')->name('admin/Learning');
   Route::post('admin/learning_insert','Admin\LearningController@insert')->name('admin/learning_insert');
   Route::get('admin/view_learning','Admin\LearningController@view_learning')->name('admin/view_learning');
+
+
+  Route::get('admin/view_learning_edit/{id}','Admin\LearningController@view_learning_edit')->name('admin/view_learning_edit');
+
+
+
   Route::post('admin/edit_learning','Admin\LearningController@edit_learning')->name('admin/edit_learning');
   Route::get('admin/learning_datatable','Admin\LearningController@learning_datatable')->name('admin/learning_datatable');
 

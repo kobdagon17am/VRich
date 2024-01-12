@@ -8,6 +8,9 @@
     <link href="{{ asset('backend/assets/css/forms/multiple-step.css') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/dropify/dropify.min.css') }}">
     <link href="{{ asset('backend/assets/css/pages/profile_edit.css') }}" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/editors/quill/quill.snow.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/editors/markdown/simplemde.min.css') }}">
 @endsection
 @section('page-header')
     <nav class="breadcrumb-one" aria-label="breadcrumb">
@@ -61,13 +64,13 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-lg-12 text-center">
                                                                         <label><b>หัวข้อข่าว:</b></label>
-                                                                        <input type="text" name="learning_title"
+                                                                        <input type="text" name="learning_name"
                                                                             class="form-control"
                                                                             placeholder="หัวข้อข่าว">
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
                                                                         <label><b>รายละเอียดอย่างย่อ:</b></label>
-                                                                        <input type="text" name="learning_name"
+                                                                        <input type="text" name="learning_title"
                                                                             class="form-control"
                                                                             placeholder="รายละเอียดอย่างย่อ">
                                                                     </div>
@@ -94,7 +97,21 @@
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
                                                                         <label><b>รายละเอียด:</b></label>
-                                                                        <textarea class="form-control" rows="9" name="learning_detail" placeholder="รายละเอียดสื่อการเรียบรู้"></textarea>
+                                                                        {{-- <textarea class="form-control" rows="9" name="learning_detail" placeholder="รายละเอียดสื่อการเรียบรู้"></textarea> --}}
+
+
+                                                                                <input name="learning_detail" type="hidden" id="add_learning_detailail">
+
+                                                                                <div class="form-group row">
+                                                                                    <div class="col-lg-12 col-sm-12">
+
+                                                                                        <div id="editor">
+
+
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
                                                                     </div>
                                                                     <div class="col-lg-6 mt-2 text-left">
                                                                         <label for="learning_image1"><b>รูปภาพ: กว้าง 1200 px สูง 800 px</b></label
@@ -119,7 +136,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="info-area col-md-12 text-center mt-4 ">
-                                                            <button type="submit" class="btn btn-info btn-rounded">
+                                                            <button onclick="submit_add()" class="btn btn-info btn-rounded">
                                                                 <i class="las la-save"></i> เพิ่มสื่อการเรียบรู้</button>
                                                         </div>
 
@@ -138,111 +155,7 @@
             </div>
 
 
-            <div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header ml-4">
-                            <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขสื่อการเรียบรู้</b></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="las la-times"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="modal-text">
-                            <div class="widget-content widget-content-area">
-                                <div class="form-group row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <div class="card multiple-form-one px-0 pb-0 mb-3">
-                                            <form method="post" action="{{ route('admin/edit_learning') }}"
-                                                enctype="multipart/form-data" id="msform">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col-md-12 mx-0">
-                                                        <div class="form-card">
-                                                            <div class="w-100">
-                                                                <div class="form-group row">
-                                                                    <div class="col-lg-12 text-center">
-                                                                        <input type="hidden" name="id"
-                                                                            id="id">
-                                                                        <label><b>หัวข้อข่าว:</b></label>
-                                                                        <input type="text" name="learning_title" id="learning_title"
-                                                                            class="form-control"
-                                                                            placeholder="หัวข้อข่าว">
-                                                                    </div>
-                                                                    <div class="col-lg-12 mt-2 text-left">
-                                                                        <label><b>รายละเอียดอย่างย่อ:</b></label>
-                                                                        <input type="text" name="learning_name" id="learning_name"
-                                                                            class="form-control"
-                                                                            placeholder="รายละเอียดอย่างย่อ">
-                                                                    </div>
-                                                                    <div class="col-lg-12 mt-2 text-center">
-                                                                    <span style="color:red">** Link Youtube เช่น
-                                                                        https://www.youtube.com<span style="color:blue">/embed/</span>zthvZvw-yJE <span style="color:blue">ต้องใช้ /embed/ เพราะเป็นข้อจำกัดของ Youtube </span>**</span>
-                                                                    </div>
-                                                                    <div class="col-lg-12 mt-2 text-left">
 
-                                                                        <label><b>URL Youtube 1:</b></label>
-                                                                        <input type="text" name="vdeo_url_1" id="vdeo_url_1"
-                                                                            class="form-control"
-                                                                            placeholder="URL">
-                                                                    </div>
-                                                                    <div class="col-lg-12 mt-2 text-left">
-
-                                                                        <label><b>URL Youtube 2:</b></label>
-                                                                        <input type="text" name="vdeo_url_2" id="vdeo_url_2"
-                                                                            class="form-control"
-                                                                            placeholder="URL">
-                                                                    </div>
-                                                                    <div class="col-lg-12 mt-2 text-left">
-
-                                                                        <label><b>URL Youtube 3:</b></label>
-                                                                        <input type="text" name="vdeo_url_3" id="vdeo_url_3"
-                                                                            class="form-control"
-                                                                            placeholder="URL">
-                                                                    </div>
-                                                                    <div class="col-lg-12 mt-2 text-left">
-                                                                        <label><b>รายละเอียด:</b></label>
-                                                                        <textarea class="form-control" rows="9" name="learning_detail" id="learning_detail" placeholder="รายละเอียดสื่อการเรียบรู้"></textarea>
-                                                                    </div>
-                                                                    <div class="col-lg-6 mt-2 text-left">
-                                                                        <label for="learning_image1"><b>รูปภาพ: สูง 500 px กว้าง 1300 px</b></label>
-                                                                        <div class="upload text-center img-thumbnail">
-                                                                            <input type="file"
-                                                                                name="learning_image1" id="learning_image1" class="dropify"
-                                                                                data-default-file="">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-6 mt-2 text-left">
-                                                                        <label><b>สถานะสื่อการเรียบรู้:</b></label>
-                                                                        <select class="form-control"
-                                                                            name="learning_status" id="learning_status">
-                                                                            <option value="1">เปิดใช้งาน</option>
-                                                                            <option value="0">ปิดใช้งาน</option>
-                                                                        </select>
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="info-area col-md-12 text-center mt-4 ">
-                                                            <button type="submit" class="btn btn-info btn-rounded">
-                                                                <i class="las la-save"></i> แก้ไขสื่อการเรียบรู้</button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="table-responsive mt-4 mb-2">
             <table id="basic-dt" class="table table-hover" style="width:100%">
@@ -267,7 +180,20 @@
     <!-- The following JS library files are loaded to use PDF Options-->
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/pdfmake.min.js') }}"></script>
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/vfs_fonts.js') }}"></script>
+
+    <script src="{{ asset('backend/plugins/editors/quill/quill.js') }}""></script>
+    <script src="{{ asset('backend/plugins/editors/markdown/simplemde.min.js') }}""></script>
+    <script src="{{ asset('backend/assets/js/forms/forms-text-editor.js') }}""></script>
     <script>
+
+    function submit_add(){
+            var editorValue = $("#editor .ql-editor").html();
+            $("#add_learning_detailail").val(editorValue);
+            $("#msform").submit();
+
+        }
+
+
         function edit(id) {
             $.ajax({
                     url: '{{ route('admin/view_learning') }}',

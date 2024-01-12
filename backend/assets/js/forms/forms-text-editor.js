@@ -8,3 +8,7 @@ new SimpleMDE({
 var quill = new Quill('#editor', {
     theme: 'snow'
 });
+
+// var editor = new Quill('#editor_edit', {
+//     theme: 'snow'
+// });

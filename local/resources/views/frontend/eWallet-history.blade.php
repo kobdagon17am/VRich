@@ -232,7 +232,7 @@
                         },
                         {
                             data: "tax_total",
-                            title: "Tax 3%",
+                            title: "Tax",
                             className: " w-10 text-end",
                         },
                         {

@@ -108,7 +108,7 @@ class ReportOrdersController extends Controller
 
             ->addColumn('address', function ($row) {
                 if($row->district){
-                    $address = $row->address.' ม.'.$row->moo.' ซอย.'.$row->soi.' ถนน.'.$row->road.' ต.'.$row->tambon.' อ.'.$row->province.' จ.'.$row->district.' '.$row->zipcode;
+                    $address = $row->address.' ม.'.$row->moo.' ซอย.'.$row->soi.' ถนน.'.$row->road.' อ.'.$row->province.' ต.'.$row->tambon.' จ.'.$row->district.' '.$row->zipcode;
                 }else{
                     $address = '';
                 }

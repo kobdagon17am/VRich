@@ -10,6 +10,10 @@
     <link href="{{ asset('backend/assets/css/pages/profile_edit.css') }}" rel="stylesheet" type="text/css" />
 
 
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/plugins/editors/quill/quill.snow.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/editors/markdown/simplemde.min.css') }}">
+
+
 @endsection
 @section('page-header')
     <nav class="breadcrumb-one" aria-label="breadcrumb">
@@ -63,13 +67,13 @@
                                                                 <div class="form-group row">
                                                                     <div class="col-lg-12 text-center">
                                                                         <label><b>หัวข้อข่าว:</b></label>
-                                                                        <input type="text" name="news_title"
+                                                                        <input type="text" name="news_name"
                                                                             class="form-control"
                                                                             placeholder="หัวข้อข่าว" required>
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
                                                                         <label><b>รายละเอียดอย่างย่อ:</b></label>
-                                                                        <input type="text" name="news_name"
+                                                                        <input type="text" name="news_title"
                                                                             class="form-control"
                                                                             placeholder="รายละเอียดอย่างย่อ" required>
                                                                     </div>
@@ -81,26 +85,18 @@
                                                                     </div> --}}
                                                                     <div class="col-lg-12 mt-2 text-left">
                                                                         <label><b>รายละเอียด:</b></label>
-                                                                        <textarea class="form-control" rows="9" name="news_detail" placeholder="รายละเอียดข่าวสาร"></textarea>
-                                                                    </div>
+                                                                       <input name="news_detail" type="hidden" id="add_news_detail">
 
-                                                                    <div class="col-lg-12 layout-spacing">
-                                                                        <div class="statbox widget box box-shadow mb-4">
+                                                                        <div class="form-group row">
+                                                                            <div class="col-lg-12 col-sm-12">
 
-                                                                            <div class="widget-content widget-content-area">
-                                                                                <div class="form-group row">
-                                                                                    <div class="col-lg-12 col-sm-12">
-                                                                                        <div id="editor">
-                                                                                            <p>Hello World!</p>
-                                                                                            <p>Some initial <strong>bold</strong> text</p>
-                                                                                            <p><br></p>
-                                                                                        </div>
-                                                                                    </div>
+                                                                                <div id="editor">
+
                                                                                 </div>
                                                                             </div>
-
                                                                         </div>
                                                                     </div>
+
 
 
 
@@ -127,7 +123,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="info-area col-md-12 text-center mt-4 ">
-                                                            <button type="submit" class="btn btn-info btn-rounded">
+                                                            <button onclick="submit_add()" class="btn btn-info btn-rounded">
                                                                 <i class="las la-save"></i> เพิ่มข่าวสาร</button>
                                                         </div>
 
@@ -146,92 +142,7 @@
             </div>
 
 
-            <div class="modal fade bd-example-modal-lg" id="edit" tabindex="-1" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header ml-4">
-                            <h5 class="modal-title" id="myLargeModalLabel"><b>แก้ไขข่าวสาร</b></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <i class="las la-times"></i>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="modal-text">
-                            <div class="widget-content widget-content-area">
-                                <div class="form-group row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <div class="card multiple-form-one px-0 pb-0 mb-3">
-                                            <form method="post" action="{{ route('admin/edit_news') }}"
-                                                enctype="multipart/form-data" id="msform">
-                                                @csrf
-                                                <div class="row">
-                                                    <div class="col-md-12 mx-0">
-                                                        <div class="form-card">
-                                                            <div class="w-100">
-                                                                <div class="form-group row">
-                                                                    <div class="col-lg-12 text-center">
-                                                                        <input type="hidden" name="id"
-                                                                            id="id">
-                                                                        <label><b>หัวข้อข่าว:</b></label>
-                                                                        <input type="text" name="news_title" id="news_title"
-                                                                            class="form-control"
-                                                                            placeholder="หัวข้อข่าว">
-                                                                    </div>
-                                                                    <div class="col-lg-12 mt-2 text-left">
-                                                                        <label><b>รายละเอียดอย่างย่อ:</b></label>
-                                                                        <input type="text" name="news_name" id="news_name"
-                                                                            class="form-control"
-                                                                            placeholder="รายละเอียดอย่างย่อ">
-                                                                    </div>
-                                                                    {{-- <div class="col-lg-6 mt-2 text-left">
-                                                                        <label><b>URL:</b></label>
-                                                                        <input type="text" name="news_url" id="news_url"
-                                                                            class="form-control"
-                                                                            placeholder="URL">
-                                                                    </div> --}}
-                                                                    <div class="col-lg-12 mt-2 text-left">
-                                                                        <label><b>รายละเอียด:</b></label>
-                                                                        <textarea class="form-control" rows="9" name="news_detail" id="news_detail" placeholder="รายละเอียดข่าวสาร"></textarea>
-                                                                    </div>
-                                                                    <div class="col-lg-6 mt-2 text-left">
-                                                                        <label for="news_image1"><b>รูปภาพ: สูง 500 px กว้าง 1300 px</b></label>
-                                                                        <div class="upload text-center img-thumbnail">
-                                                                            <input type="file"
-                                                                                name="news_image1" id="news_image1" class="dropify"
-                                                                                data-default-file="">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-lg-6 mt-2 text-left">
-                                                                        <label><b>สถานะข่าวสาร:</b></label>
-                                                                        <select class="form-control"
-                                                                            name="news_status" id="news_status">
-                                                                            <option value="1">เปิดใช้งาน</option>
-                                                                            <option value="0">ปิดใช้งาน</option>
-                                                                        </select>
-                                                                    </div>
 
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div class="info-area col-md-12 text-center mt-4 ">
-                                                            <button type="submit" class="btn btn-info btn-rounded">
-                                                                <i class="las la-save"></i> แก้ไขข่าวสาร</button>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="table-responsive mt-4 mb-2">
             <table id="basic-dt" class="table table-hover" style="width:100%">
@@ -256,6 +167,31 @@
     <!-- The following JS library files are loaded to use PDF Options-->
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/pdfmake.min.js') }}"></script>
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/vfs_fonts.js') }}"></script>
+
+    <script src="{{ asset('backend/plugins/editors/quill/quill.js') }}""></script>
+    <script src="{{ asset('backend/plugins/editors/markdown/simplemde.min.js') }}""></script>
+    <script src="{{ asset('backend/assets/js/forms/forms-text-editor.js') }}""></script>
+
+    <script>
+        // รองรับการโหลดโค้ดตอนที่หน้าเว็บโหลดเสร็จ
+
+
+        function submit_add(){
+            var editorValue = $("#editor .ql-editor").html();
+            $("#add_news_detail").val(editorValue);
+            $("#msform").submit();
+
+        }
+
+
+        function submit_edit(){
+            var editorValue = $("#editor_edit .ql-editor").html();
+            $("#edit_news_detail").val(editorValue);
+            $("#msform_edit").submit();
+
+        }
+    </script>
+
     <script>
         function edit(id) {
             $.ajax({

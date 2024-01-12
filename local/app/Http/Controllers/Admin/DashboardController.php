@@ -15,8 +15,19 @@ public function __construct()
   public function index()
   {
 
+    $customers_count = DB::table('customers')
+    ->count();
 
-    return  view('backend.dashboard');
+    $date_start = date('Y-m-d 00:00:00');
+    $date_end = date('Y-m-d 23:59:59');
+    $orders_count = DB::table('db_orders')
+
+    ->where('db_orders.order_status_id_fk', '=', '5')
+    ->where('db_orders.sent_stock_type', '=', 'send')
+    ->whereDate('db_orders.created_at', '>=', date('Y-m-d', strtotime($date_start)))
+    ->whereDate('db_orders.created_at', '<=', date('Y-m-d', strtotime($date_end)))
+    ->count();
+    return  view('backend.dashboard',compact('customers_count','orders_count'));
 
   }
 }

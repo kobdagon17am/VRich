@@ -27,20 +27,20 @@
                                                 <i class="las la-shopping-cart"></i>
                                             </span>
                                         </div>
-                                        <h5 class="font-size-14 mb-0">รายการสั่งซื้อทั้งหมด</h5>
+                                        <h5 class="font-size-14 mb-0">รายการสั่งซื้อวันนี้</h5>
                                     </div>
                                     <div class="text-muted mt-3">
-                                        <h5 class="mb-2">1,452 รายการ
-                                            <i class="las la-angle-up text-success-teal"></i>
+                                        <h5 class="mb-2">{{number_format($orders_count)}} รายการ
+                                            {{-- <i class="las la-angle-up text-success-teal"></i> --}}
                                         </h5>
-                                        <div class="d-flex">
+                                        {{-- <div class="d-flex">
                                             <span class="badge badge-success-teal font-size-12"> + 0.2% </span>
                                             <span class="ml-2 text-truncate">เทียบจากเดือนที่แล้ว</span>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
+                            {{-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
                                 <div class="widget">
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="mr-3">
@@ -60,7 +60,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
                                 <div class="widget">
                                     <div class="d-flex align-items-center mb-3">
@@ -72,17 +72,17 @@
                                         <h5 class="font-size-14 mb-0">จำนวนสมาชิกทั้งหมด</h5>
                                     </div>
                                     <div class="text-muted mt-3">
-                                        <h5 class="mb-2">9,887 คน
-                                            <i class="las la-angle-up text-success-teal"></i>
+                                        <h5 class="mb-2">{{number_format($customers_count)}} คน
+                                            {{-- <i class="las la-angle-up text-success-teal"></i> --}}
                                         </h5>
-                                        <div class="d-flex">
+                                        {{-- <div class="d-flex">
                                             <span class="badge badge-success-teal font-size-12"> + 25% </span>
                                             <span class="ml-2 text-truncate">เทียบจากเดือนที่แล้ว</span>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
+                            {{-- <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12 mb-2">
                                 <div class="widget">
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="mr-3">
@@ -102,11 +102,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
-                    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                    {{-- <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                         <div class="widget widget-chart-one">
                             <div class="widget-heading">
                                 <div>
@@ -170,11 +170,11 @@
                                 </div>
 
                             </div>
-                            
-                        </div>
-                    </div>
 
-                    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                        </div>
+                    </div> --}}
+
+                    {{-- <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                         <div class="widget dashboard-table">
                             <div class="widget-heading">
                                 <h5 class="">TOPS 10 of the month</h5>
@@ -184,7 +184,7 @@
                                         <a class="dropdown-item" data-value="Mail" href="javascript:void(0);">โบนัส</a>
                                         <a class="dropdown-item" data-value="Print" href="javascript:void(0);">การแนะนำ</a>
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                             <div class="widget-content">
                                 <div class="table-responsive">
@@ -217,13 +217,13 @@
                                                 <td><span class="text-success">Diamond</span></td>
                                                 <td><span class="text-warning">$ 50,000</span></td>
                                             </tr>
-                                        
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
 
                 </div>

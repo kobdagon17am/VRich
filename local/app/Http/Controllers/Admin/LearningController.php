@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use DataTables;
+use Illuminate\Support\Str;
 
 class learningController extends Controller
 {
@@ -28,6 +29,22 @@ class learningController extends Controller
     return view('backend/learning', compact('get_learning'));
   }
 
+  public function view_learning_edit($id)
+  {
+    // dd('111');
+
+    $get_learning = DB::table('learning')
+    ->select('learning.*', 'learning_images.learning_image_url', 'learning_images.learning_image_name')
+    ->leftJoin('learning_images', 'learning_images.learning_id_fk', '=', 'learning.id')
+    ->where('learning_images.learning_image_orderby', '=', '1')
+    ->where('learning.id','=',$id)
+    ->first();
+    return view('backend/learning_edit', compact('get_learning'));
+  }
+
+
+
+
   public function insert(Request $rs)
   {
 
@@ -41,7 +58,6 @@ class learningController extends Controller
       'learning_status' => $rs->learning_status,
     ];
 
-    // dd($dataPrepare);
 
     try {
       DB::BeginTransaction();
@@ -142,6 +158,8 @@ class learningController extends Controller
     return $data;
   }
 
+
+
   public function learning_datatable(Request $rs)
   {
 
@@ -166,7 +184,8 @@ class learningController extends Controller
       })
 
       ->addColumn('learning_detail', function ($row) {
-        return $row->learning_detail;
+
+        return Str::limit($row->learning_detail, 100);
       })
 
       ->addColumn('learning_image', function ($row) {
@@ -202,13 +221,16 @@ class learningController extends Controller
 
       ->addColumn('action', function ($row) {
 
-        $html = '<a href="#!" onclick="edit(' . $row->id . ')" class="p-2">
+        $url = route('admin/view_learning_edit',['id'=>$row->id]);
+        $html = '<a href="'.$url.'" class="p-2">
               <i class="lab la-whmcs font-25 text-warning"></i></a>';
         return $html;
+
+
       })
 
 
-      ->rawColumns(['learning_image', 'learning_status', 'action'])
+      ->rawColumns(['learning_image', 'learning_status', 'action','learning_detail'])
 
       ->make(true);
   }

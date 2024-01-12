@@ -195,7 +195,7 @@
 
 
                     {
-                        data: "bonus_total",
+                        data: "bonus_total_usd",
                         title: "ยอดที่ได้รับ USD",
                         className: "w-1",
 
