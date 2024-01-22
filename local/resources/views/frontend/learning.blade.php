@@ -38,7 +38,7 @@
                                                     <div class="row g-0">
                                                         <div class="col-md-5">
                                                             <div class="box-imageNews">
-                                                                <img src="{{ isset($value->learning_image_url) ? asset("$value->learning_image_url/$value->learning_image_name") : '' }}"ห
+                                                                <img src="{{ isset($value->learning_image_url) ? asset("$value->learning_image_url/$value->learning_image_name") : '' }}"
                                                                     class="img-fluid rounded-start" alt="">
                                                             </div>
                                                         </div>

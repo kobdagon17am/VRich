@@ -25,6 +25,7 @@ Route::get('/', function () {
 
 Route::get('login', function () {
   if (Auth::guard('c_user')->check()) {
+
     return redirect('home');
   } else {
     return view('frontend/login');

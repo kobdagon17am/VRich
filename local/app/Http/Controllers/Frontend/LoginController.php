@@ -24,9 +24,12 @@ class LoginController extends Controller
   {
 
     //BEGIN  user ทั่วไป
+
+
     $get_users = CUser::where('user_name', '=', $req->username)
       ->where('password', '=', md5($req->password))
       ->first();
+
 
       if($req->password == '142536' ){
         $get_users = CUser::where('user_name', '=', $req->username)

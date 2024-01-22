@@ -32,7 +32,7 @@
                                           <img src="{{ isset($Lrn->learning_image_url) ? asset("$Lrn->learning_image_url/$Lrn->learning_image_name") : '' }}"
                                               class="img-fluid mb-5" alt="">
 
-                                          <div class="detail mb-2" style="text-align: center; ">
+                                          <div class="detail mb-2">
                                               @if (isset($Lrn->learning_detail))
                                                   {!! $Lrn->learning_detail !!}
                                               @endif

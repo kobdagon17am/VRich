@@ -35,8 +35,12 @@
                                  <div class="detail" style="text-align: center">
                                     <img src="{{ isset($News->news_image_url) ? asset("$News->news_image_url/$News->news_image_name") : '' }}"
                                     class="img-fluid mb-5" alt="" >
-                                    <p>{!! $News->news_detail !!}</p>
 
+
+                                 </div>
+
+                                 <div>
+                                    {!! $News->news_detail !!}
                                  </div>
                              </div>
                          </div>
