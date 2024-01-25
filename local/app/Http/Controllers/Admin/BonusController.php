@@ -106,7 +106,7 @@ class BonusController extends Controller
        $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
         ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-        ->where('db_orders.type','=','other')
+        ->wherein('db_orders.type',['other','promotion'])
         // ->wheredate('customers.expire_date','>=',$date_end)
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
@@ -114,8 +114,6 @@ class BonusController extends Controller
         ->havingRaw('count(count_code) > 1 ')
         ->groupby('db_orders.code_order')
         ->get();
-
-
 
 
         if(count($db_orders)>0){
@@ -127,9 +125,8 @@ class BonusController extends Controller
         $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
         ->selectRaw('db_orders.code_order,db_orders.customers_user_name,customers.name,customers.last_name,customers.expire_date,customers.qualification_id')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-        ->where('db_orders.type','=','other')
-        //  ->where('db_orders.customers_user_name','=','VR2300032')
-
+        ->whereIn('db_orders.type',['other','promotion'])
+        // ->where('db_orders.customers_user_name','=','VR2400008')
         ->whereBetween('db_orders.created_at', [$date_start, $date_end])
         ->get();
 
@@ -144,14 +141,35 @@ class BonusController extends Controller
             $code_order[] = $value->code_order;
         }
 
+
         $db_order_products_list =  DB::table('db_order_products_list')
-        ->selectRaw('db_order_products_list.customers_username,customers.expire_date,customers.qualification_id,dataset_qualification.business_qualifications,
-        customers.name,customers.last_name,db_order_products_list.product_id_fk,db_order_products_list.product_name,sum(db_order_products_list.amt) as total_amt')
-        ->leftjoin('customers', 'db_order_products_list.customers_username', '=', 'customers.user_name')
-        ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
-        ->wherein('code_order',$code_order)
-        ->where('db_order_products_list.type','=','other')
-        ->groupby('db_order_products_list.product_id_fk','db_order_products_list.customers_username')
+        ->selectRaw('
+            db_order_products_list.customers_username,
+            customers.expire_date,
+            customers.qualification_id,
+            dataset_qualification.business_qualifications,
+            customers.name,
+            customers.last_name,
+            db_order_products_list.product_id_fk,
+            db_order_products_list.product_name,
+            SUM(
+                CASE
+                    WHEN db_order_products_list.type = "other" THEN db_order_products_list.amt
+                    WHEN db_order_products_list.type = "promotion" THEN db_order_products_list.amt_pro
+                    ELSE 0
+                END
+            ) as total_amt,
+            CASE
+            WHEN db_order_products_list.type = "other" THEN db_order_products_list.product_id_fk
+            WHEN db_order_products_list.type = "promotion" THEN db_order_products_list.product_id_fk_promotion
+            ELSE 0
+        END as product_id_fk'
+        )
+        ->leftJoin('customers', 'db_order_products_list.customers_username', '=', 'customers.user_name')
+        ->leftJoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+        ->whereIn('db_order_products_list.code_order', $code_order)
+        ->whereIn('db_order_products_list.type',['other', 'promotion'])
+        ->groupBy('db_order_products_list.product_id_fk', 'db_order_products_list.customers_username')
         ->get();
 
 
