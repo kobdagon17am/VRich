@@ -180,7 +180,7 @@
                 },
                 {
                     data: "pv_total",
-                    title: "PV",
+                    title: "PT",
                     className: "w-10 text-end",
 
                 },

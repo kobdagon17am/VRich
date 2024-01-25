@@ -97,15 +97,13 @@ class Bonus3Controller extends Controller
         ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
         ->where('db_orders.type','=','other')
-        ->wheredate('customers.expire_date','>=',$date_end)
+        // ->wheredate('customers.expire_date','>=',$date_end)
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
         ->whereRaw(("case WHEN '{$date_start}' = '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) = '{$date_end}' else 1 END"))
         ->havingRaw('count(count_code) > 1 ')
         ->groupby('db_orders.code_order')
         ->get();
-
-
 
 
         if(count($db_orders)>0){
@@ -123,6 +121,11 @@ class Bonus3Controller extends Controller
         $status_runbonus_allsale =  DB::table('customers')
             ->where('status_runbonus_allsale', '=', 'success')
             ->update(['status_runbonus_allsale' => 'pending']);
+
+
+        $reth_bonus_3 =  DB::table('customers')
+            ->where('reth_bonus_3', '>', 0)
+            ->update(['reth_bonus_3' => 0]);
 
 
         $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
@@ -179,29 +182,61 @@ class Bonus3Controller extends Controller
 
 
         $customers_bonus3 = DB::table('customers') //อัพ Pv ของตัวเอง
-            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id')
+            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','customers.reth_bonus_3')
             ->where('qualification_id', '>=', '2')
             ->where('pv_allsale_permouth', '>', '0')
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
             ->get();
 
-
-
             foreach($customers_bonus3 as $value){
 
+                $dataset_casback_product = DB::table('dataset_casback_product')
+                ->where('product_id', '=',8)
+                ->where('amt', '<=', $value->pv_allsale_permouth)
+                ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', 1000)
+                ->first();
+
+
+
+                if($dataset_casback_product){
+                    $price_usd = $dataset_casback_product->price_usd;
+                }else{
+                    $price_usd = 0;
+                }
+                DB::table('customers')
+                ->where('user_name', '=', $value->user_name)
+                ->update(['reth_bonus_3' => $price_usd]);
+
+            }
+
+            $customers_bonus3_run = DB::table('customers') //อัพ Pv ของตัวเอง
+            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','customers.reth_bonus_3')
+            ->where('qualification_id', '>=', '2')
+            ->where('reth_bonus_3', '>', '0')
+            ->where('status_customer', '!=', 'cancel')
+            ->where('status_runbonus_allsale', '=', 'success')
+            ->get();
+
+
+            foreach($customers_bonus3_run as $value){
+
                 $customer = DB::table('customers')->select('customers.id', 'customers.pv','customers.user_name',
-                'customers.name','customers.last_name','customers.introduce_id','dataset_qualification.business_qualifications', 'customers.status_runbonus_allsale','customers.pv_allsale_permouth')
+                'customers.name','customers.last_name','customers.introduce_id','dataset_qualification.business_qualifications', 'customers.status_runbonus_allsale','customers.pv_allsale_permouth','customers.reth_bonus_3')
                 ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
                 ->where('customers.status_customer', '!=', 'cancel')
-                ->where('customers.pv_allsale_permouth', '>', '0')
+                ->where('customers.reth_bonus_3', '>', '0')
                 ->where('customers.introduce_id', '=', $value->user_name)
                 ->get();
 
-                foreach($customer as $c_value){
-                    $pv_total = $value->pv_allsale_permouth - $c_value->pv_allsale_permouth;
 
-                    if($pv_total > 0){
+
+                foreach($customer as $c_value){
+
+
+                    $reth_total = $value->reth_bonus_3 - $c_value->reth_bonus_3;
+
+                    if($reth_total > 0){
                         $dataPrepare = [
                             'user_name' => $c_value->user_name,
                             'name' => $c_value->name,
@@ -210,9 +245,10 @@ class Bonus3Controller extends Controller
                             'introduce_id' =>  $c_value->introduce_id,
                             'pv'=>$c_value->pv_allsale_permouth,
                             'pv_introduce'=>$value->pv_allsale_permouth,
-                            'reth'=> 0.5,
-                            'pv_total'=> $pv_total,
-                            'bonus_total_usd'=> $pv_total*0.5,
+                            'reth_head'=> $value->reth_bonus_3,
+                            'reth_introduce'=> $c_value->reth_bonus_3,
+                            'reth_total'=> $reth_total,
+                            'bonus_total_usd'=> $reth_total*$reth_total,
                             'date_start' =>  $date_start,
                             'date_end' =>  $date_end,
                             'year' => $year,

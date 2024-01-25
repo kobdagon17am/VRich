@@ -56,7 +56,7 @@ class Bonus8Controller extends Controller
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
             ->where('db_orders.type', '!=', 'send_stock')
-            ->wheredate('customers.expire_date', '>=', $date_end)
+            // ->wheredate('customers.expire_date', '>=', $date_end)
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
             ->whereRaw(("case WHEN '{$date_start}' = '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) = '{$date_end}' else 1 END"))
@@ -94,7 +94,7 @@ class Bonus8Controller extends Controller
             dataset_qualification.business_qualifications,customers.qualification_id')
             ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
             ->where('customers.qualification_id', '>=', 7)
-            ->wheredate('customers.expire_date', '>=', $date_end)
+            // ->wheredate('customers.expire_date', '>=', $date_end)
             ->get();
 
             foreach($get_member_data as $value){

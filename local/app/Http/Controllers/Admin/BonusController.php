@@ -90,18 +90,32 @@ class BonusController extends Controller
         $year =  $rs->year;
         $note =  $rs->note;
 
+        $report_cashback_orderlist_rs_delete =  DB::table('report_cashback_orderlist')
+        ->where('year',$year)
+        ->where('month',$month)
+        ->where('route',$route)
+        ->delete();
+
+
+        $report_cashback_delete =  DB::table('report_cashback')
+        ->where('year',$year)
+        ->where('month',$month)
+        ->where('route',$route)
+        ->delete();
+
        $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
         ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
         ->where('db_orders.type','=','other')
-        ->wheredate('customers.expire_date','>=',$date_end)
+        // ->wheredate('customers.expire_date','>=',$date_end)
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
         ->whereRaw(("case WHEN '{$date_start}' = '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) = '{$date_end}' else 1 END"))
         ->havingRaw('count(count_code) > 1 ')
-
         ->groupby('db_orders.code_order')
         ->get();
+
+
 
 
         if(count($db_orders)>0){
@@ -114,10 +128,12 @@ class BonusController extends Controller
         ->selectRaw('db_orders.code_order,db_orders.customers_user_name,customers.name,customers.last_name,customers.expire_date,customers.qualification_id')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
         ->where('db_orders.type','=','other')
+        //  ->where('db_orders.customers_user_name','=','VR2300032')
 
         ->whereBetween('db_orders.created_at', [$date_start, $date_end])
-        ->wherein('order_status_id_fk',[4,5,6,7])
         ->get();
+
+
         if(count($order)== 0){
             DB::rollback();
             return redirect('admin/bonus2')->withError('ไม่มีสินค้าในวันที่เลือก');
@@ -127,6 +143,7 @@ class BonusController extends Controller
         foreach($order as $value){
             $code_order[] = $value->code_order;
         }
+
         $db_order_products_list =  DB::table('db_order_products_list')
         ->selectRaw('db_order_products_list.customers_username,customers.expire_date,customers.qualification_id,dataset_qualification.business_qualifications,
         customers.name,customers.last_name,db_order_products_list.product_id_fk,db_order_products_list.product_name,sum(db_order_products_list.amt) as total_amt')
@@ -134,8 +151,9 @@ class BonusController extends Controller
         ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=','customers.qualification_id')
         ->wherein('code_order',$code_order)
         ->where('db_order_products_list.type','=','other')
-        ->groupby('product_id_fk')
+        ->groupby('db_order_products_list.product_id_fk','db_order_products_list.customers_username')
         ->get();
+
 
         try {
             DB::BeginTransaction();
@@ -146,6 +164,7 @@ class BonusController extends Controller
                 ->where('amt', '<=', $value->total_amt)
                 ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', [$value->total_amt])
                 ->first();
+
                 if($dataset_casback_product){
                     $profit_usd = $dataset_casback_product->profit_usd;
                 }else{
@@ -173,6 +192,8 @@ class BonusController extends Controller
                 ];
 
 
+
+
                     DB::table('report_cashback_orderlist')
                         ->updateOrInsert(['user_name' => $value->customers_username,'product_id'=>$value->product_id_fk, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
 
@@ -187,8 +208,6 @@ class BonusController extends Controller
             ->where('bonus_total_usd','>',0)
             ->groupby('user_name')
             ->get();
-
-
 
             if(count($report_cashback_orderlist_rs)== 0){
                 DB::rollback();

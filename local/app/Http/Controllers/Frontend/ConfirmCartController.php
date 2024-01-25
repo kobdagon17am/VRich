@@ -380,6 +380,7 @@ class ConfirmCartController extends Controller
 
                         'type' => 'promotion',
                         'amt_out_stock' =>  $value['quantity']* $product_data->pack_qty,
+                        'amt_pro' =>  $value['quantity']* $product_data->pack_qty,
                     ];
 
                 }else{
