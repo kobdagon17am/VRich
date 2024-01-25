@@ -152,6 +152,7 @@ class BonusController extends Controller
             customers.last_name,
             db_order_products_list.product_id_fk,
             db_order_products_list.product_name,
+            db_order_products_list.type,
             SUM(
                 CASE
                     WHEN db_order_products_list.type = "other" THEN db_order_products_list.amt
@@ -169,51 +170,97 @@ class BonusController extends Controller
         ->leftJoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
         ->whereIn('db_order_products_list.code_order', $code_order)
         ->whereIn('db_order_products_list.type',['other', 'promotion'])
-        ->groupBy('db_order_products_list.product_id_fk', 'db_order_products_list.customers_username')
+        ->groupBy('db_order_products_list.product_id_fk', 'db_order_products_list.customers_username','db_order_products_list.type')
         ->get();
 
 
         try {
             DB::BeginTransaction();
             foreach($db_order_products_list as $value){
+                if($value->type == 'promotion'){
+                    if($value->total_amt >= 2500){
+                        $dataset_casback_product = DB::table('dataset_casback_product')
+                        ->where('product_id', '=', $value->product_id_fk)
+                        ->where('amt', '<=', $value->total_amt)
+                        ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', [$value->total_amt])
+                        ->first();
 
-                $dataset_casback_product = DB::table('dataset_casback_product')
-                ->where('product_id', '=', $value->product_id_fk)
-                ->where('amt', '<=', $value->total_amt)
-                ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', [$value->total_amt])
-                ->first();
+                        $dataset_casback_product_pro = DB::table('dataset_casback_product')
+                        ->where('product_id', '=', $value->product_id_fk)
+                        ->where('amt', '<=', 1000)
+                        ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', 1000)
+                        ->first();
 
-                if($dataset_casback_product){
-                    $profit_usd = $dataset_casback_product->profit_usd;
+
+                        if($dataset_casback_product){
+                            $profit_usd = $dataset_casback_product_pro->price_usd - $dataset_casback_product->price_usd;
+                        }else{
+                            $profit_usd = 0;
+                        }
+
+
+                        $dataPrepare = [
+                            'user_name' => $value->customers_username,
+                            'name'=>$value->name,
+                            'last_name' =>$value->last_name,
+                            'qualification' =>  $value->business_qualifications,
+                            'product_name' =>  $value->product_name,
+                            'product_id' =>  $value->product_id_fk,
+                            'amt' =>  $value->total_amt,
+                            'profit_usd' =>  $profit_usd,
+                            'bonus_total_usd' =>  $value->total_amt*$profit_usd,
+                            'date_start' =>  $date_start,
+                            'date_end' =>  $date_end,
+                            'year' => $year,
+                            'month' => $month,
+                            'route'=>$route,
+                            'type'=>$value->type,
+                            'note'=>$note,
+                        ];
+
+                            DB::table('report_cashback_orderlist')
+                                ->updateOrInsert(['user_name' => $value->customers_username,'product_id'=>$value->product_id_fk,'type'=>$value->type, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
+
+                    }
+
                 }else{
-                    $profit_usd = 0;
+                    $dataset_casback_product = DB::table('dataset_casback_product')
+                    ->where('product_id', '=', $value->product_id_fk)
+                    ->where('amt', '<=', $value->total_amt)
+                    ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', [$value->total_amt])
+                    ->first();
+
+                    if($dataset_casback_product){
+                        $profit_usd = $dataset_casback_product->profit_usd;
+                    }else{
+                        $profit_usd = 0;
+                    }
+
+
+                    $dataPrepare = [
+                        'user_name' => $value->customers_username,
+                        'name'=>$value->name,
+                        'last_name' =>$value->last_name,
+                        'qualification' =>  $value->business_qualifications,
+                        'product_name' =>  $value->product_name,
+                        'product_id' =>  $value->product_id_fk,
+                        'amt' =>  $value->total_amt,
+                        'profit_usd' =>  $profit_usd,
+                        'bonus_total_usd' =>  $value->total_amt*$profit_usd,
+                        'date_start' =>  $date_start,
+                        'date_end' =>  $date_end,
+                        'year' => $year,
+                        'month' => $month,
+                        'route'=>$route,
+                        'type'=>$value->type,
+                        'note'=>$note,
+                    ];
+
+
+                        DB::table('report_cashback_orderlist')
+                            ->updateOrInsert(['user_name' => $value->customers_username,'product_id'=>$value->product_id_fk,'type'=>$value->type, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
+
                 }
-
-
-
-                $dataPrepare = [
-                    'user_name' => $value->customers_username,
-                    'name'=>$value->name,
-                    'last_name' =>$value->last_name,
-                    'qualification' =>  $value->business_qualifications,
-                    'product_name' =>  $value->product_name,
-                    'product_id' =>  $value->product_id_fk,
-                    'amt' =>  $value->total_amt,
-                    'profit_usd' =>  $profit_usd,
-                    'bonus_total_usd' =>  $value->total_amt*$profit_usd,
-                    'date_start' =>  $date_start,
-                    'date_end' =>  $date_end,
-                    'year' => $year,
-                    'month' => $month,
-                    'route'=>$route,
-                    'note'=>$note,
-                ];
-
-
-
-
-                    DB::table('report_cashback_orderlist')
-                        ->updateOrInsert(['user_name' => $value->customers_username,'product_id'=>$value->product_id_fk, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
 
 
             }

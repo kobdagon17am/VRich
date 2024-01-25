@@ -93,6 +93,18 @@ class Bonus3Controller extends Controller
         $year =  $rs->year;
         $note =  $rs->note;
 
+
+        $report_bonus3_detail_delete =  DB::table('report_bonus3_detail')
+        ->where('year',$year)
+        ->where('month',$month)
+        ->delete();
+
+
+        $report_bonus3_delete =  DB::table('report_bonus3')
+        ->where('year',$year)
+        ->where('month',$month)
+        ->delete();
+
        $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
         ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
@@ -109,9 +121,7 @@ class Bonus3Controller extends Controller
         if(count($db_orders)>0){
             DB::rollback();
             return redirect('admin/bonus3')->withError('มีเลขออเดอซ้ำในระบบ');
-
         }
-
 
 
         $pv_allsale_permouth =  DB::table('customers')
@@ -185,16 +195,20 @@ class Bonus3Controller extends Controller
             ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','customers.reth_bonus_3')
             ->where('qualification_id', '>=', '2')
             ->where('pv_allsale_permouth', '>', '0')
+
+            ->where('customers', '=', 'VR2300032')
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
             ->get();
 
+            dd();
+
             foreach($customers_bonus3 as $value){
 
                 $dataset_casback_product = DB::table('dataset_casback_product')
-                ->where('product_id', '=',8)
+                // ->where('product_id', '=',8)
                 ->where('amt', '<=', $value->pv_allsale_permouth)
-                ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)', 1000)
+                ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)',[$value->pv_allsale_permouth])
                 ->first();
 
 

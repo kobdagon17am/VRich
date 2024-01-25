@@ -185,6 +185,13 @@
 
                         },
 
+                        {
+                            data: "type",
+                            title: "Type",
+                            className: "w-1",
+
+                        },
+
 
 
                         {
