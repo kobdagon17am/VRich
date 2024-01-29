@@ -192,24 +192,24 @@ class Bonus3Controller extends Controller
 
 
         $customers_bonus3 = DB::table('customers') //อัพ Pv ของตัวเอง
-            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','customers.reth_bonus_3')
+            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','reth_bonus_3')
             ->where('qualification_id', '>=', '2')
             ->where('pv_allsale_permouth', '>', '0')
 
-            ->where('customers', '=', 'VR2300032')
+            // ->where('user_name', '=', 'VR2300032')
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
             ->get();
 
-            dd();
 
             foreach($customers_bonus3 as $value){
 
                 $dataset_casback_product = DB::table('dataset_casback_product')
-                // ->where('product_id', '=',8)
+                ->where('product_id', '=',8)
                 ->where('amt', '<=', $value->pv_allsale_permouth)
                 ->whereRaw('amt = (SELECT MAX(amt) FROM dataset_casback_product WHERE amt <= ?)',[$value->pv_allsale_permouth])
                 ->first();
+
 
 
 
@@ -227,6 +227,7 @@ class Bonus3Controller extends Controller
             $customers_bonus3_run = DB::table('customers') //อัพ Pv ของตัวเอง
             ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','customers.reth_bonus_3')
             ->where('qualification_id', '>=', '2')
+            ->where('user_name', '=', 'VR2300032')
             ->where('reth_bonus_3', '>', '0')
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
@@ -248,9 +249,12 @@ class Bonus3Controller extends Controller
                 foreach($customer as $c_value){
 
 
+
                     $reth_total = $value->reth_bonus_3 - $c_value->reth_bonus_3;
 
-                    if($reth_total > 0){
+
+
+                    if($reth_total < 0){
                         $dataPrepare = [
                             'user_name' => $c_value->user_name,
                             'name' => $c_value->name,
@@ -261,8 +265,8 @@ class Bonus3Controller extends Controller
                             'pv_introduce'=>$value->pv_allsale_permouth,
                             'reth_head'=> $value->reth_bonus_3,
                             'reth_introduce'=> $c_value->reth_bonus_3,
-                            'reth_total'=> $reth_total,
-                            'bonus_total_usd'=> $reth_total*$reth_total,
+                            'reth_total'=> $reth_total*-1,
+                            'bonus_total_usd'=> $c_value->pv_allsale_permouth*($reth_total*-1),
                             'date_start' =>  $date_start,
                             'date_end' =>  $date_end,
                             'year' => $year,
@@ -285,10 +289,6 @@ class Bonus3Controller extends Controller
             ->where('month',$month)
             ->groupby('report_bonus3_detail.introduce_id')
             ->get();
-
-
-
-
 
             if(empty($report_bonus4_detail_all_to_bonus3)){
                 return redirect('admin/bonus3')->withError('ไม่มีไครได้รับโบนัสในรอบนี้');

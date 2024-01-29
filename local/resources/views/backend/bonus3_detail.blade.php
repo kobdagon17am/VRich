@@ -164,31 +164,33 @@
                     },
 
 
+
                     {
-                        data: "reth",
-                        title: "Reth",
+                        data: "reth_introduce",
+                        title: "Reth ผู้แนะนำ",
                         className: "w-1",
 
                     },
 
 
                     {
-                        data: "pv_introduce",
-                        title: "PT รวมผู้แนะนำ",
+                        data: "reth_head",
+                        title: "Reth สมาชิก",
                         className: "w-1",
 
                     },
+
+                    {
+                        data: "reth_total",
+                        title: "Reth ส่วนต่าง",
+                        className: "w-1",
+
+                    },
+
 
                     {
                         data: "pv",
                         title: "PT รวมใต้สายงาน",
-                        className: "w-1",
-
-                    },
-
-                    {
-                        data: "pv_total",
-                        title: "PT ส่วนต่าง",
                         className: "w-1",
 
                     },
