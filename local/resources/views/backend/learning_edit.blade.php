@@ -177,7 +177,7 @@
                         // If all required fields are filled, proceed with form submission
                         if (requiredFieldsFilled) {
                             var editorValue = $("#editor .ql-editor").html();
-                            $("#add_learning_detailail").val(editorValue);
+                            $("#edit_learning_detailail").val(editorValue);
                             $("#msform_edit").submit();
                         } else {
                             // Optionally, you can show an alert or perform any other action

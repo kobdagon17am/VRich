@@ -65,14 +65,14 @@
                                                         <div class="form-card">
                                                             <div class="w-100">
                                                                 <div class="form-group row">
-                                                                    <div class="col-lg-12 text-center">
-                                                                        <label><b>หัวข้อข่าว:</b></label>
+                                                                    <div class="col-lg-12 text-left">
+                                                                        <label><b>หัวข้อข่าว*</b></label>
                                                                         <input type="text" name="news_name"
                                                                             class="form-control"
                                                                             placeholder="หัวข้อข่าว" required>
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
-                                                                        <label><b>รายละเอียดอย่างย่อ:</b></label>
+                                                                        <label><b>รายละเอียดอย่างย่อ*</b></label>
                                                                         <input type="text" name="news_title"
                                                                             class="form-control"
                                                                             placeholder="รายละเอียดอย่างย่อ" required>
@@ -176,20 +176,32 @@
         // รองรับการโหลดโค้ดตอนที่หน้าเว็บโหลดเสร็จ
 
 
-        function submit_add(){
-            var editorValue = $("#editor .ql-editor").html();
-            $("#add_news_detail").val(editorValue);
-            $("#msform").submit();
+        function submit_add() {
+            // Check if required fields are filled
+            var requiredFieldsFilled = true;
 
+            // Check each required input field
+            $("#msform :input[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    // Mark the field as not filled
+                    requiredFieldsFilled = false;
+                    // Optionally, you can highlight the field or show an error message
+                    // For example: $(this).addClass('error');
+                }
+            });
+
+            // If all required fields are filled, proceed with form submission
+            if (requiredFieldsFilled) {
+                var editorValue = $("#editor .ql-editor").html();
+                $("#add_news_detail").val(editorValue);
+                $("#msform").submit();
+            } else {
+                // Optionally, you can show an alert or perform any other action
+                alert("Please fill in all required fields.");
+            }
         }
 
 
-        function submit_edit(){
-            var editorValue = $("#editor_edit .ql-editor").html();
-            $("#edit_news_detail").val(editorValue);
-            $("#msform_edit").submit();
-
-        }
     </script>
 
     <script>
@@ -274,13 +286,13 @@
                     },
 
                     {
-                        data: "news_title",
+                        data: "news_name",
                         title: "หัวข้อข่าว",
                         className: "w-10",
                     },
 
                     {
-                        data: "news_name",
+                        data: "news_title",
                         title: "รายละเอียดอย่างย่อ",
                         className: "w-10 ",
                     },
