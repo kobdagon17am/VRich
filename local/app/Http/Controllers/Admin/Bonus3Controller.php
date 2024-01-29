@@ -194,14 +194,10 @@ class Bonus3Controller extends Controller
             ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','reth_bonus_3')
             ->where('qualification_id', '>=', '2')
             ->where('pv_allsale_permouth', '>', '0')
-            ->where('user_name', '=', 'VR2300032')
 
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
             ->get();
-
-
-
 
 
             foreach($customers_bonus3 as $value){
@@ -229,6 +225,7 @@ class Bonus3Controller extends Controller
             $customers_bonus3_run = DB::table('customers') //อัพ Pv ของตัวเอง
             ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','reth_bonus_3')
             ->where('qualification_id', '>=', '2')
+
             ->where('reth_bonus_3', '>', '0')
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
@@ -241,9 +238,10 @@ class Bonus3Controller extends Controller
                 'customers.name','customers.last_name','customers.introduce_id','dataset_qualification.business_qualifications', 'customers.status_runbonus_allsale','customers.pv_allsale_permouth','customers.reth_bonus_3')
                 ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
                 ->where('customers.status_customer', '!=', 'cancel')
-                ->where('customers.reth_bonus_3', '>', '0')
+                // ->where('customers.reth_bonus_3', '>', '0')
                 ->where('customers.introduce_id', '=', $value->user_name)
                 ->get();
+
 
 
                 foreach($customer as $c_value){
