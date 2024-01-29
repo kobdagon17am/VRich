@@ -62,16 +62,16 @@
                                                         <div class="form-card">
                                                             <div class="w-100">
                                                                 <div class="form-group row">
-                                                                    <div class="col-lg-12 text-center">
-                                                                        <label><b>หัวข้อข่าว:</b></label>
+                                                                    <div class="col-lg-12 text-left">
+                                                                        <label><b>หัวข้อข่าว *</b></label>
                                                                         <input type="text" name="learning_name"
-                                                                            class="form-control"
+                                                                            class="form-control" required
                                                                             placeholder="หัวข้อข่าว">
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
-                                                                        <label><b>รายละเอียดอย่างย่อ:</b></label>
+                                                                        <label><b>รายละเอียดอย่างย่อ *</b></label>
                                                                         <input type="text" name="learning_title"
-                                                                            class="form-control"
+                                                                            class="form-control" required
                                                                             placeholder="รายละเอียดอย่างย่อ">
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
@@ -114,11 +114,9 @@
                                                                                 </div>
                                                                     </div>
                                                                     <div class="col-lg-6 mt-2 text-left">
-                                                                        <label for="learning_image1"><b>รูปภาพ: กว้าง 1200 px สูง 800 px</b></label
+                                                                        <label for="learning_image1"><b>รูปภาพ*: กว้าง 1200 px สูง 800 px</b></label>
                                                                         <div class="upload text-center img-thumbnail">
-                                                                            <input type="file"
-                                                                                name="learning_image1" class="dropify"
-                                                                                data-default-file="">
+                                                                            <input type="file" name="learning_image1" class="dropify" data-default-file="" required>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-12 mt-2 text-left">
@@ -187,9 +185,29 @@
     <script>
 
     function submit_add(){
-            var editorValue = $("#editor .ql-editor").html();
-            $("#add_learning_detailail").val(editorValue);
-            $("#msform").submit();
+
+                        // Check if required fields are filled
+                var requiredFieldsFilled = true;
+
+            // Check each required input field
+            $("#msform :input[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    // Mark the field as not filled
+                    requiredFieldsFilled = false;
+                    // Optionally, you can highlight the field or show an error message
+                    // For example: $(this).addClass('error');
+                }
+            });
+
+            // If all required fields are filled, proceed with form submission
+            if (requiredFieldsFilled) {
+                var editorValue = $("#editor .ql-editor").html();
+                $("#add_learning_detailail").val(editorValue);
+                $("#msform").submit();
+            } else {
+                // Optionally, you can show an alert or perform any other action
+                alert("Please fill in all required fields.");
+            }
 
         }
 
@@ -277,13 +295,13 @@
                     },
 
                     {
-                        data: "learning_title",
+                        data: "learning_name",
                         title: "หัวข้อข่าว",
                         className: "w-10",
                     },
 
                     {
-                        data: "learning_name",
+                        data: "learning_title",
                         title: "รายละเอียดอย่างย่อ",
                         className: "w-10 ",
                     },

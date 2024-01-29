@@ -22,6 +22,7 @@ class LearningController extends Controller
         ->select('learning.*', 'learning_images.learning_image_url','learning_images.learning_image_name')
         ->leftjoin('learning_images', 'learning_images.learning_id_fk', '=', 'learning.id')
         ->where('learning.learning_status','=',1)
+        ->where('learning_images.learning_image_orderby', '=', '1')
         // ->orderby('id','DESC')
         ->paginate(6);
 

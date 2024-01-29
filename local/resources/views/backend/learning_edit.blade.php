@@ -35,19 +35,19 @@
                             <div class="form-card">
                                 <div class="w-100">
                                     <div class="form-group row">
-                                        <div class="col-lg-12 text-center">
+                                        <div class="col-lg-12 text-left">
                                             <input type="hidden" name="id" value="{{$get_learning->id}}"
                                                 id="id">
-                                            <label><b>หัวข้อข่าว:</b></label>
+                                            <label><b>หัวข้อข่าว *</b></label>
                                             <input type="text" name="learning_name" id="learning_name"
                                                 class="form-control"  value="{{$get_learning->learning_name}}"
-                                                placeholder="หัวข้อข่าว">
+                                                placeholder="หัวข้อข่าว" required>
                                         </div>
                                         <div class="col-lg-12 mt-2 text-left">
-                                            <label><b>รายละเอียดอย่างย่อ:</b></label>
+                                            <label><b>รายละเอียดอย่างย่อ *</b></label>
                                             <input type="text" name="learning_title" id="learning_title"
                                                 class="form-control"  value="{{$get_learning->learning_title}}"
-                                                placeholder="รายละเอียดอย่างย่อ">
+                                                placeholder="รายละเอียดอย่างย่อ" required>
                                         </div>
                                         <div class="col-lg-12 mt-2 text-center">
                                         <span style="color:red">** Link Youtube เช่น
@@ -160,9 +160,30 @@
     <script src="{{ asset('backend/assets/js/forms/forms-text-editor.js') }}""></script>
     <script>
             function submit_edit(){
-            var editorValue = $("#editor .ql-editor").html();
-            $("#edit_learning_detailail").val(editorValue);
-            $("#msform_edit").submit();
+
+                        // Check if required fields are filled
+                        var requiredFieldsFilled = true;
+
+                        // Check each required input field
+                        $("#msform_edit :input[required]").each(function () {
+                            if ($(this).val().trim() === '') {
+                                // Mark the field as not filled
+                                requiredFieldsFilled = false;
+                                // Optionally, you can highlight the field or show an error message
+                                // For example: $(this).addClass('error');
+                            }
+                        });
+
+                        // If all required fields are filled, proceed with form submission
+                        if (requiredFieldsFilled) {
+                            var editorValue = $("#editor .ql-editor").html();
+                            $("#add_learning_detailail").val(editorValue);
+                            $("#msform_edit").submit();
+                        } else {
+                            // Optionally, you can show an alert or perform any other action
+                            alert("Please fill in all required fields.");
+                        }
+
 
         }
 
