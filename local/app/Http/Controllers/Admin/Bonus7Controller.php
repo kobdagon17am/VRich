@@ -51,6 +51,10 @@ class Bonus7Controller extends Controller
         $year =  $rs->year;
         $note =  $rs->note;
 
+        $report_bonus7_detail_delete =  DB::table('report_bonus7')
+        ->where('year',$year)
+        ->where('month',$month)
+        ->delete();
 
         $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
@@ -76,15 +80,13 @@ class Bonus7Controller extends Controller
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
             ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
             ->where('db_orders.type', '!=', 'send_stock')
-            ->where('customers.qualification_id', '>=', 3)
+
+            ->where('customers.qualification_id', '>=', 6)
             ->havingRaw('sum_pv_total >= 10000')
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])
             ->wherein('order_status_id_fk', [4, 5, 6, 7])
             ->groupby('db_orders.customers_user_name')
             ->get();
-
-
-
 
         if (count($order) == 0) {
             DB::rollback();
@@ -96,15 +98,21 @@ class Bonus7Controller extends Controller
 
 
             foreach ($order as $value) {
-                if ($value->qualification_id >= 3) {
-                    if ($value->sum_pv_total >= 10000) {
-                        $bonus_total_usd = $value->sum_pv_total * 0.07;
+                $customers_bonus7_check = DB::table('customers') //อัพ Pv ของตัวเอง
+                ->where('introduce_id',$value->customers_user_name)
+                ->count();
+
+                if( $customers_bonus7_check >= 2){
+                    if ($value->qualification_id >= 3) {
+                        if ($value->sum_pv_total >= 10000) {
+                            $bonus_total_usd = $value->sum_pv_total * 0.07;
+                        } else {
+                            $bonus_total_usd = 0;
+                        }
                     } else {
                         $bonus_total_usd = 0;
                     }
-                } else {
-                    $bonus_total_usd = 0;
-                }
+
 
                 $dataPrepare = [
                     'user_name' => $value->customers_user_name,
@@ -113,8 +121,7 @@ class Bonus7Controller extends Controller
                     'qualification' =>  $value->business_qualifications,
                     'pv' =>  $value->sum_pv_total,
                     'reth' =>  0.07,
-                    'bonus_total_usd' =>   $bonus_total_usd,
-
+                    'bonus_total_usd' => $bonus_total_usd,
                     'date_start' =>  $date_start,
                     'date_end' =>  $date_end,
                     'year' => $year,
@@ -122,9 +129,12 @@ class Bonus7Controller extends Controller
                     'note' => $note,
                 ];
 
-
                 DB::table('report_bonus7')
                     ->updateOrInsert(['user_name' => $value->customers_user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+
+                }
+
+
             }
 
             DB::commit();

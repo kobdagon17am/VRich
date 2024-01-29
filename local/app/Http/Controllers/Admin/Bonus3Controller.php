@@ -108,7 +108,7 @@ class Bonus3Controller extends Controller
        $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
         ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-        ->where('db_orders.type','=','other')
+        ->whereIn('db_orders.type',['other','promotion'])
         // ->wheredate('customers.expire_date','>=',$date_end)
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
         ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))

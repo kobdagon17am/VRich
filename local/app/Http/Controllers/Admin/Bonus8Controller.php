@@ -45,6 +45,7 @@ class Bonus8Controller extends Controller
 
     public function run_bonus8(Request $rs)
     {
+
         $date_start = $rs->date_start . ' 00:00:00';
         $date_end = $rs->date_end . ' 23:59:59';
         $month =  $rs->month;
@@ -73,12 +74,10 @@ class Bonus8Controller extends Controller
 
         $total_price =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('sum(db_orders.sum_price) sum_price')
+            ->where('db_orders.type', '!=', 'send_stock')
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])
             ->wherein('order_status_id_fk', [4, 5, 6, 7])
-            ->groupby('db_orders.sum_price')
             ->first();
-
-
 
 
         if ($total_price->sum_price <= 0) {

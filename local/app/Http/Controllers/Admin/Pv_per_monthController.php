@@ -54,7 +54,7 @@ class Pv_per_monthController extends Controller
         $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-            ->where('db_orders.type', '=', 'other')
+            ->whereIn('db_orders.type',['other','promotion'])
             ->wheredate('customers.expire_date', '>=', $date_end)
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
@@ -73,8 +73,8 @@ class Pv_per_monthController extends Controller
             ->selectRaw('db_orders.customers_user_name,customers.reward,customers.name,customers.last_name,customers.expire_date,dataset_qualification.business_qualifications,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
             ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
-            ->where('db_orders.type', '=', 'other')
-            ->where('customers.qualification_id', '>=', 2)
+            ->whereIn('db_orders.type',['other','promotion'])
+            ->where('customers.qualification_id', '>=', 3)
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])
             ->wherein('order_status_id_fk', [4, 5, 6, 7])
             ->groupby('db_orders.customers_user_name')
@@ -138,8 +138,6 @@ class Pv_per_monthController extends Controller
             return redirect('admin/pv_per_month')->withError($e);
         }
     }
-
-
 
 
     public function datatable_pv_per_month(Request $request)
