@@ -141,13 +141,12 @@ class Bonus3Controller extends Controller
         $order =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
         ->selectRaw('db_orders.customers_user_name,customers.name,customers.last_name,customers.expire_date,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
         ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-        ->where('db_orders.type','=','other')
-        // ->where('customers.qualification_id','>=',2)
+        ->whereIn('db_orders.type',['other','promotion'])
+
         ->whereBetween('db_orders.created_at',[$date_start, $date_end])
         ->wherein('order_status_id_fk',[4,5,6,7])
         ->groupby('db_orders.customers_user_name')
         ->get();
-
 
 
         if(count($order)== 0){
@@ -195,11 +194,14 @@ class Bonus3Controller extends Controller
             ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','reth_bonus_3')
             ->where('qualification_id', '>=', '2')
             ->where('pv_allsale_permouth', '>', '0')
+            ->where('user_name', '=', 'VR2300032')
 
-            // ->where('user_name', '=', 'VR2300032')
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
             ->get();
+
+
+
 
 
             foreach($customers_bonus3 as $value){
@@ -211,13 +213,13 @@ class Bonus3Controller extends Controller
                 ->first();
 
 
-
-
                 if($dataset_casback_product){
                     $price_usd = $dataset_casback_product->price_usd;
                 }else{
                     $price_usd = 0;
                 }
+
+
                 DB::table('customers')
                 ->where('user_name', '=', $value->user_name)
                 ->update(['reth_bonus_3' => $price_usd]);
@@ -225,9 +227,8 @@ class Bonus3Controller extends Controller
             }
 
             $customers_bonus3_run = DB::table('customers') //อัพ Pv ของตัวเอง
-            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','customers.reth_bonus_3')
+            ->select('id', 'pv', 'user_name', 'introduce_id','pv_allsale_permouth','qualification_id','reth_bonus_3')
             ->where('qualification_id', '>=', '2')
-            ->where('user_name', '=', 'VR2300032')
             ->where('reth_bonus_3', '>', '0')
             ->where('status_customer', '!=', 'cancel')
             ->where('status_runbonus_allsale', '=', 'success')
@@ -243,7 +244,6 @@ class Bonus3Controller extends Controller
                 ->where('customers.reth_bonus_3', '>', '0')
                 ->where('customers.introduce_id', '=', $value->user_name)
                 ->get();
-
 
 
                 foreach($customer as $c_value){
@@ -330,7 +330,6 @@ class Bonus3Controller extends Controller
 
     public function runbonus($customers_user_name, $pv, $i,$userbuy)
     {
-
 
         $user = DB::table('customers') //อัพ Pv ของตัวเอง
             ->select('id', 'pv', 'user_name', 'introduce_id', 'status_customer', 'pv_allsale_permouth')

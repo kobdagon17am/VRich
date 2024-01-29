@@ -632,6 +632,11 @@
                              title: '<center>Lv.<br>(Sponsor)</center>',
                              className: 'text-center'
                          },
+                         {
+                             data: 'pv_allsale_permouth',
+                             title: '<center>PT Group</center>',
+                             className: 'text-center'
+                         },
 
 
                          {

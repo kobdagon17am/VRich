@@ -166,23 +166,22 @@
 
 
                     {
-                        data: "reth_introduce",
-                        title: "Reth ผู้แนะนำ",
+                        data: "reth_head",
+                        title: "RATE ผู้แนะนำ",
                         className: "w-1",
 
                     },
 
 
                     {
-                        data: "reth_head",
-                        title: "Reth สมาชิก",
+                        data: "reth_introduce",
+                        title: "RATE สมาชิก",
                         className: "w-1",
-
                     },
 
                     {
                         data: "reth_total",
-                        title: "Reth ส่วนต่าง",
+                        title: "RATE ส่วนต่าง",
                         className: "w-1",
 
                     },

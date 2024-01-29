@@ -218,6 +218,8 @@ class BonusController extends Controller
                             'note'=>$note,
                         ];
 
+
+
                             DB::table('report_cashback_orderlist')
                                 ->updateOrInsert(['user_name' => $value->customers_username,'product_id'=>$value->product_id_fk,'type'=>$value->type, 'year' => $year,'month'=>$month,'route'=>$route],$dataPrepare);
 
