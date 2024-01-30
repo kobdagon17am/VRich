@@ -53,6 +53,12 @@ class Bonus8Controller extends Controller
         $note =  $rs->note;
 
 
+        $report_bonus8 =  DB::table('report_bonus7')
+        ->where('year',$year)
+        ->where('month',$month)
+        ->delete();
+
+
         $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
@@ -104,6 +110,7 @@ class Bonus8Controller extends Controller
                     'qualification' =>  $value->business_qualifications,
                     'order_price_total' =>$total_price->sum_price,
                     'reth' =>  0.01,
+
                     'bonus_total_usd' => $total_price->sum_price*0.01,
                     'date_start' =>  $date_start,
                     'date_end' =>  $date_end,

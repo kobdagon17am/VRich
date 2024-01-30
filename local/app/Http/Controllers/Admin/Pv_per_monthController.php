@@ -51,10 +51,21 @@ class Pv_per_monthController extends Controller
         $note =  $rs->note;
 
 
+        $reward_pv_detail =  DB::table('reward_pv_detail')
+            ->where('year', $year)
+            ->where('month', $month)
+            ->delete();
+
+        $pv_per_month =  DB::table('pv_per_month')
+            ->where('year', $year)
+            ->where('month', $month)
+            ->delete();
+
+
         $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
-            ->whereIn('db_orders.type',['other','promotion'])
+            ->whereIn('db_orders.type', ['other','promotion'])
             ->wheredate('customers.expire_date', '>=', $date_end)
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' = ''  THEN  date(db_orders.created_at) = '{$date_start}' else 1 END"))
             ->whereRaw(("case WHEN '{$date_start}' != '' and '{$date_end}' != ''  THEN  date(db_orders.created_at) >= '{$date_start}' and date(db_orders.created_at) <= '{$date_end}'else 1 END"))
@@ -73,7 +84,7 @@ class Pv_per_monthController extends Controller
             ->selectRaw('db_orders.customers_user_name,customers.reward,customers.name,customers.last_name,customers.expire_date,dataset_qualification.business_qualifications,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
             ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
-            ->whereIn('db_orders.type',['other','promotion'])
+            ->whereIn('db_orders.type', ['other','promotion'])
             ->where('customers.qualification_id', '>=', 3)
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])
             ->wherein('order_status_id_fk', [4, 5, 6, 7])
@@ -91,22 +102,75 @@ class Pv_per_monthController extends Controller
 
 
             foreach ($order as $value) {
-                if ($value->qualification_id >= 3) {
-                    if ($value->sum_pv_total >= 100) {
-                        $reward = floor($value->sum_pv_total / 100);
-                    } else {
-                        $reward = 0;
+
+
+                $customers_introduce = DB::table('customers') //อัพ Pv ของตัวเอง
+                    ->selectRaw('user_name,introduce_id')
+                     ->where('introduce_id', '=', $value->customers_user_name)
+                    ->get();
+                $sum_introduce_pv_total = array();
+
+                foreach ($customers_introduce as $value_introduce) {
+                    $sum_introduce_pv =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+                        ->selectRaw('db_orders.customers_user_name,customers.name,customers.last_name,dataset_qualification.business_qualifications,customers.qualification_id,sum(db_orders.pv_total) sum_pv_total')
+                        ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
+                        ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
+                        ->whereIn('db_orders.type', ['other','promotion'])
+                        ->where('db_orders.customers_user_name', '=', $value_introduce->user_name)
+                        ->whereBetween('db_orders.created_at', [$date_start, $date_end])
+                        ->wherein('order_status_id_fk', [4, 5, 6, 7])
+                        ->groupby('db_orders.customers_user_name')
+                        ->get();
+
+                    if ($sum_introduce_pv) {
+                        $dataPrepare = [
+                            'pv_per_month_user_name' => $value->customers_user_name,
+                            'user_name' => $sum_introduce_pv->customers_user_name,
+                            'name' => $sum_introduce_pv->name,
+                            'last_name' => $sum_introduce_pv->last_name,
+                            'qualification' =>  $sum_introduce_pv->business_qualifications,
+                            'pv' => $sum_introduce_pv->sum_pv_total,
+                            'date_start' =>  $date_start,
+                            'date_end' =>  $date_end,
+                            'year' => $year,
+                            'month' => $month,
+                            'note' => $note,
+                        ];
+                        DB::table('reward_pv_detail')
+                            ->updateOrInsert(['pv_per_month_user_name' => $value->customers_user_name, 'user_name' => $sum_introduce_pv->customers_user_name, 'year' => $year, 'month' => $month], $dataPrepare);
                     }
+
+
+                    if ($sum_introduce_pv) {
+                        $sum_introduce_pv_total[] = $sum_introduce_pv->sum_pv_total;
+                    } else {
+                        $sum_introduce_pv_total[] = 0;
+                    }
+                }
+
+                if ($sum_introduce_pv_total) {
+                    $sum_pv_total_introduce = array_sum($sum_introduce_pv_total);
+                    unset($sum_introduce_pv_total);
+                } else {
+                    $sum_pv_total_introduce = 0;
+                    unset($sum_introduce_pv_total);
+                }
+
+
+                if (($value->sum_pv_total + $sum_pv_total_introduce) >= 100) {
+                    $reward = floor(($value->sum_pv_total + $sum_pv_total_introduce) / 100);
                 } else {
                     $reward = 0;
                 }
+
 
                 $dataPrepare = [
                     'user_name' => $value->customers_user_name,
                     'name' => $value->name,
                     'last_name' => $value->last_name,
                     'qualification' =>  $value->business_qualifications,
-                    'pv' =>  $value->sum_pv_total,
+                    'pv' => $value->sum_pv_total,
+                    'pv_sum_upline' => $sum_pv_total_introduce,
                     'reward' => $reward,
                     'date_start' =>  $date_start,
                     'date_end' =>  $date_end,
@@ -115,23 +179,24 @@ class Pv_per_monthController extends Controller
                     'note' => $note,
                 ];
 
-                if ($value->reward) {
-                    $c_reward = $value->reward + $reward;
-                } else {
-                    $c_reward = $reward;
-                }
-
-
-                DB::table('customers')
-                    ->where('user_name', $value->customers_user_name)
-                    ->update(['pv' => 0, 'reward' => $c_reward]);
-
 
                 DB::table('pv_per_month')
                     ->updateOrInsert(['user_name' => $value->customers_user_name, 'year' => $year, 'month' => $month], $dataPrepare);
             }
 
+            $pv_per_month =  DB::table('pv_per_month') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
+                ->selectRaw('user_name,sum(pv_per_month.reward) sum_reward')
+                ->groupby('pv_per_month.user_name')
+                ->get();
+
+            foreach ($pv_per_month as $pv_per_month_value) {
+                DB::table('customers')
+                    ->where('user_name', $pv_per_month_value->user_name)
+                    ->update(['pv' => 0, 'reward' => $pv_per_month_value->sum_reward]);
+            }
+
             DB::commit();
+
             return redirect('admin/pv_per_month')->withSuccess('Success');
         } catch (Exception $e) {
             DB::rollback();

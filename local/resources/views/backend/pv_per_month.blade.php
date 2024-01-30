@@ -221,7 +221,14 @@
 
                     {
                         data: "pv",
-                        title: "PT",
+                        title: "PT ส่วนตัว",
+                        className: "w-1",
+
+                    },
+
+                    {
+                        data: "pv_sum_upline",
+                        title: "PT ลูกทีมสายตรง",
                         className: "w-1",
 
                     },
