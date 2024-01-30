@@ -85,7 +85,7 @@ class Pv_per_monthController extends Controller
             ->leftjoin('customers', 'db_orders.customers_user_name', '=', 'customers.user_name')
             ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
             ->whereIn('db_orders.type', ['other','promotion'])
-            ->where('customers.qualification_id', '>=', 3)
+            // ->where('customers.qualification_id', '>=', 3)
             ->whereBetween('db_orders.created_at', [$date_start, $date_end])
             ->wherein('order_status_id_fk', [4, 5, 6, 7])
             ->groupby('db_orders.customers_user_name')
@@ -120,7 +120,7 @@ class Pv_per_monthController extends Controller
                         ->whereBetween('db_orders.created_at', [$date_start, $date_end])
                         ->wherein('order_status_id_fk', [4, 5, 6, 7])
                         ->groupby('db_orders.customers_user_name')
-                        ->get();
+                        ->first();
 
                     if ($sum_introduce_pv) {
                         $dataPrepare = [
@@ -163,6 +163,11 @@ class Pv_per_monthController extends Controller
                     $reward = 0;
                 }
 
+                if(  $value->qualification_id >= 3){
+                    $reward = $reward;
+                }else{
+                    $reward = 0;
+                }
 
                 $dataPrepare = [
                     'user_name' => $value->customers_user_name,
