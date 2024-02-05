@@ -297,6 +297,11 @@ Route::get('admin/Blank', function () {
     Route::get('admin/datatable_bonus8', 'Admin\Bonus8Controller@datatable_bonus8')->name('admin/datatable_bonus8');
 
 
+    Route::get('admin/Position', 'Admin\PositionController@index')->name('admin/Position');
+    Route::post('admin/run_position', 'Admin\PositionController@run_position')->name('admin/run_position');
+    Route::get('admin/datatable_position_pending', 'Admin\PositionController@datatable_position_pending')->name('admin/datatable_position_pending');
+
+
     Route::get('admin/bonus4', 'Admin\Bonus4Controller@bonus4')->name('admin/bonus4');
     Route::post('admin/run_bonus4', 'Admin\Bonus4Controller@run_bonus4')->name('admin/run_bonus4');
     Route::get('admin/datatable_bonus4', 'Admin\Bonus4Controller@datatable_bonus4')->name('admin/datatable_bonus4');

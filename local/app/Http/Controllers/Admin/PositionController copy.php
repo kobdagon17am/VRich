@@ -24,14 +24,14 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use  Maatwebsite\Excel\Facades\Excel;
 
-class Bonus7Controller extends Controller
+class PositionController extends Controller
 {
     public function __construct()
     {
         $this->middleware('admin');
     }
 
-    public function bonus7()
+    public function index()
     {
 
 
@@ -40,10 +40,12 @@ class Bonus7Controller extends Controller
         //     ->where('status', '=', 1)
         //     ->get();
 
-        return view('backend/bonus7');
+
+        return view('backend/Position');
     }
 
-    public function run_bonus7(Request $rs)
+
+    public function run_position(Request $rs)
     {
         $date_start = $rs->date_start . ' 00:00:00';
         $date_end = $rs->date_end . ' 23:59:59';
@@ -51,7 +53,7 @@ class Bonus7Controller extends Controller
         $year =  $rs->year;
         $note =  $rs->note;
 
-        $report_bonus7_detail_delete =  DB::table('report_bonus7')
+        $log_up_vl_delete =  DB::table('log_up_vl')
         ->where('year',$year)
         ->where('month',$month)
         ->delete();
@@ -65,9 +67,7 @@ class Bonus7Controller extends Controller
         ->update(['status_runbonus_allsale' => 'pending']);
 
 
-       $reth_bonus_3 =  DB::table('customers')
-        ->where('reth_bonus_3', '>', 0)
-        ->update(['reth_bonus_3' => 0]);
+
 
         $db_orders =  DB::table('db_orders') //รายชื่อคนที่มีรายการแจงโบนัสข้อ
             ->selectRaw('db_orders.customers_user_name,code_order,count(code_order) as count_code')
@@ -115,7 +115,7 @@ class Bonus7Controller extends Controller
                     ->first();
 
                 if ($customer->status_runbonus_allsale == 'pending') {
-                    $data = \App\Http\Controllers\Admin\Bonus7Controller::runbonus($value->customers_user_name, $value->sum_pv_total, $i = 0,$value->customers_user_name);
+                    $data = \App\Http\Controllers\Admin\PositionController::runbonus($value->customers_user_name, $value->sum_pv_total, $i = 0,$value->customers_user_name);
                     // dd($this->arr,$data);
                     // dd($data);
                     if ($data['status'] == 'success') {
@@ -133,39 +133,31 @@ class Bonus7Controller extends Controller
             }
 
 
-            $customers_bonus7_check = DB::table('customers') //อัพ Pv ของตัวเอง
-            ->select('customers.*','dataset_qualification.business_qualifications')
-            ->where('customers.pv_allsale_permouth','>=',10000)
-            ->where('customers.qualification_id','>=',6)
-            ->leftjoin('dataset_qualification', 'dataset_qualification.code', '=', 'customers.qualification_id')
-            ->get();
-
-
-            foreach ($customers_bonus7_check as $value) {
+            // $customer_all = DB::table('customers')->select('id', 'pv', 'user_name', 'introduce_id', 'status_runbonus_allsale','qualification_id')
+            // ->where('user_name', '=', $value->customers_user_name)
+            // ->get();
 
 
 
-                $bonus_total_usd = $value->pv_allsale_permouth*0.07;
 
-                $dataPrepare = [
-                    'user_name' => $value->user_name,
-                    'name' => $value->name,
-                    'last_name' => $value->last_name,
-                    'qualification' =>  $value->business_qualifications,
-                    'pv' =>  $value->pv_allsale_permouth,
-                    'reth' =>  0.07,
-                    'bonus_total_usd' => $bonus_total_usd,
-                    'date_start' =>  $date_start,
-                    'date_end' =>  $date_end,
-                    'year' => $year,
-                    'month' => $month,
-                    'note' => $note,
-                ];
+            // //CHAIRMAN
 
-                DB::table('report_bonus7')
-                    ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+            // ROYAL CROWN DIAMOND
+            // CROWN DIAMOND
+            // MASTER DEALER
+            // PRO DEALER
+            // ULTIMATE DEALER
+            // EXCLUSIVE DEALER
+            // DEALER
+            // SUPERVISOR
+            // DISTRIBUTOR
 
-            }
+
+
+
+
+
+
 
             DB::commit();
             return redirect('admin/bonus7')->withSuccess('Success');
@@ -248,17 +240,24 @@ class Bonus7Controller extends Controller
     }
 
 
-    public function datatable_bonus7(Request $request)
+
+    public function datatable_bonus8(Request $request)
     {
 
-        $report_cashback = DB::table('report_bonus7')
+
+
+        $report_cashback = DB::table('report_bonus8')
+
             ->whereRaw(("case WHEN  '{$request->username}' != ''  THEN  user_name = '{$request->username}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->month}' != ''  THEN  month = '{$request->month}' else 1 END"))
             ->whereRaw(("case WHEN  '{$request->year}' != ''  THEN  year = '{$request->year}' else 1 END"))
             ->orderByDesc('id');
 
+
+
         $sQuery = Datatables::of($report_cashback);
         return $sQuery
+
 
             ->addColumn('user_name', function ($row) {
                 return $row->user_name;
@@ -286,8 +285,8 @@ class Bonus7Controller extends Controller
                 return $row->year;
             })
 
-            ->addColumn('pv', function ($row) {
-                return $row->pv;
+            ->addColumn('order_price_total', function ($row) {
+                return $row->order_price_total;
             })
 
             ->addColumn('reth', function ($row) {
@@ -308,8 +307,9 @@ class Bonus7Controller extends Controller
                 return $row->note;
             })
 
+
+
             ->make(true);
     }
-
 
 }

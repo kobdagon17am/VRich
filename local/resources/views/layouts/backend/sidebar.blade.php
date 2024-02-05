@@ -182,6 +182,9 @@
                         <a href="{{ route('admin/bonus8') }}"> โบนัส 1% ของกำไร (ข้อ 8) </a>
                     </li>
 
+                    <li>
+                        <a href="{{ route('admin/Position') }}">  คำนวนปรับตำแหน่งรายเดือน </a>
+                    </li>
 
 
                     {{-- <li>

@@ -40,6 +40,8 @@ Route::get('logout', function () {
 })->name('logout');
 
 
+Route::get('RunDealer', 'Frontend\FC\RunDealerController@RunDealer')->name('RunDealer');
+
 Route::get('lang/change', 'Frontend\HomeController@change')->name('changeLang');
 
 Route::post('login', 'Frontend\LoginController@login')->name('login');

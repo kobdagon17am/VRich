@@ -24,15 +24,25 @@ class HomeController extends Controller
 
   public function index()
   {
+
+    $year  =  date('Y');
+    $month =  date('m');
+
+    $dealer_log =    DB::table('dealer_log')
+    ->where('user_name','=',Auth::guard('c_user')->user()->user_name)
+    ->where('year','=',$year)
+    ->where('month','=',$month)
+    ->count();
+
+    if($dealer_log == 0){
+        App\Http\Controllers\Frontend\FC\RunDealerController::RunDealer(Auth::guard('c_user')->user()->user_name);
+    }
+
     $member =    DB::table('customers')
     ->where('customers.introduce_id','=',Auth::guard('c_user')->user()->user_name)
     ->count();
 
-    $member_d =    DB::table('customers')
-    ->where('customers.introduce_id','=',Auth::guard('c_user')->user()->user_name)
-    ->where('customers.qualification_id','=',3)
-    ->count();
-
+    $member_d = Auth::guard('c_user')->user()->dealer;
 
     $News = DB::table('news')
     ->select('news.*', 'news_images.news_image_url','news_images.news_image_name')

@@ -11,31 +11,20 @@
 @section('page-header')
     <nav class="breadcrumb-one" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">ระบบคอมมิสชั่น</li>
-            <li class="breadcrumb-item active" aria-current="page"><span>โบนัส 1% ของกำไรของบริษัท (ข้อ 8)</span></li>
+            <li class="breadcrumb-item">ระบบคำนวนตำแหน่ง</li>
+            <li class="breadcrumb-item active" aria-current="page"><span>ระบบคำนวนตำแหน่ง</span></li>
         </ol>
     </nav>
 @endsection
 @section('content')
     <div class="col-lg-12 layout-spacing">
         <div class="statbox widget box box-shadow mb-4 mt-4">
-            <form method="post" action="{{ route('admin/run_bonus8') }}">
+            <form method="post" action="{{ route('admin/run_position') }}">
                 @csrf
 
                 <div class="row mb-4 ml-2">
 
 
-                    <div class="col-lg-2 mt-2">
-                        <label>วันที่เริ่มต้นคำนวน</label>
-                        <input type="date" class="form-control" name="date_start" placeholder="วันที่เริ่มต้น"
-                            value="{{ date('Y-m-d') }}">
-                    </div>
-
-                    <div class="col-lg-2 mt-2">
-                        <label>วันที่สิ้นสุดคำนวน</label>
-                        <input type="date" class="form-control" name="date_end" placeholder="วันที่สิ้นสุด"
-                            value="{{ date('Y-m-d') }}">
-                    </div>
 
 
                     <div class="col-lg-1 mt-2">
@@ -112,7 +101,7 @@
 
 
             <div class="table-responsive mt-2 mb-2">
-                <h6>รายงาน โบนัส 1% ของกำไรของบริษัท (ข้อ 8) </h6>
+                <h6>รายงานตำแหน่งทั้งหมดที่มีการปรับ(รออนุมัติ)</h6>
                 <table id="table_orders" class="table table-hover" style="width:100%">
 
                 </table>
@@ -162,18 +151,15 @@
                     'processing': "กำลังโหลดข้อมูล",
                 },
                 ajax: {
-                    url: '{{ route('admin/datatable_bonus8') }}',
+                    url: '{{ route('admin/datatable_position_pending') }}',
                     data: function(d) {
                         d.username = $('#username').val();
-
                         d.month = $('#month').val();
                         d.year = $('#year').val();
                         // d.position = $('#position').val();
                         // d.type = $('#type').val();
-
                     },
                 },
-
 
                 columns: [
                     // {
@@ -183,7 +169,7 @@
                     // },
                     {
                         data: "user_name",
-                        title: "user_name",
+                        title: "UserName",
                         className: "w-10",
                     },
                     {
@@ -199,11 +185,39 @@
                     },
 
                     {
-                        data: "qualification",
-                        title: "ตำแหน่ง",
+                        data: "old_lavel_name",
+                        title: "ตำแหน่งเดิม",
                         className: "w-1",
                     },
 
+                    {
+                        data: "new_lavel_name",
+                        title: "ตำแหน่งไหม่",
+                        className: "w-1",
+                    },
+
+                    {
+                        data: "pt_customer",
+                        title: "PT ส่วนตัว",
+                        className: "w-1",
+                    },
+
+                    {
+                        data: "pt_customer_group",
+                        title: "PT กลุ่ม",
+                        className: "w-1",
+                    },
+                    {
+                        data: "pt_permouth_max",
+                        title: "PT ผั่งแข็ง",
+                        className: "w-1",
+                    },
+
+                    {
+                        data: "pt_permouth_low",
+                        title: "PT ฝั่งอ่อน",
+                        className: "w-1",
+                    },
 
 
                     {
@@ -218,60 +232,10 @@
 
                     },
 
-                    {
-                        data: "order_price_total",
-                        title: "ยอดรวมบริษัท",
-                        className: "w-1",
-
-                    },
-
-                    {
-                        data: "order_price_total_onepercen",
-                        title: "ยอดรวมบริษัท(1%)",
-                        className: "w-1",
-
-                    },
-
-
-
-                    {
-                        data: "order_price_avg",
-                        title: "ยอดรวมที่เฉลียแล้ว",
-                        className: "w-1",
-
-                    },
-
-                    {
-                        data: "reth",
-                        title: "Rath ส่วนตัว",
-                        className: "w-1",
-
-                    },
-
-                    {
-                        data: "reth_all",
-                        title: "Rath รวมทั้งองกร",
-                        className: "w-1",
-
-                    },
-
-                    {
-                        data: "bonus_total_usd",
-                        title: "ยอดที่ได้รับ USD",
-                        className: "w-1",
-
-                    },
-                    {
-                        data: "note",
-                        title: "Note",
-                        className: "w-1",
-
-                    },
-
 
                     {
                         data: "status",
-                        title: "การชำระเงิน",
+                        title: "Status",
                         className: "w-10",
 
                     },
