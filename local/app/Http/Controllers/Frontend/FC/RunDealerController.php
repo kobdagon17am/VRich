@@ -52,6 +52,7 @@ class RunDealerController extends Controller
 
             DB::table('dealer_log')
                 ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+                self::$arr = array();
         }
 
         DB::commit();
@@ -72,6 +73,7 @@ class RunDealerController extends Controller
 
         $customers_all =  DB::table('customers')
         ->select('id', 'pv', 'user_name', 'introduce_id', 'qualification_id')
+        //  ->where('user_name','VR2300032')
         ->orderby('id')
         ->get();
        // dd($customers_all);
@@ -87,10 +89,14 @@ class RunDealerController extends Controller
             $i++;
             $data =  \App\Http\Controllers\Frontend\FC\RunDealerController::all_upline($value->user_name);
 
-
+            if(@$data['username']){
+                $dealer =  count($data['username']);
+            }else{
+                $dealer = 0;
+            }
             DB::table('customers')
             ->where('user_name', '=', $value->user_name)
-            ->update(['dealer' => count($data['username'])]);
+            ->update(['dealer' =>$dealer]);
 
 
             $dataPrepare = [
@@ -98,11 +104,13 @@ class RunDealerController extends Controller
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
-                'dealer' => count($data['username']),
+                'dealer' => $dealer,
             ];
 
             DB::table('dealer_log')
                 ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+                self::$arr = array();
+
         }
 
         DB::commit();
@@ -119,7 +127,7 @@ class RunDealerController extends Controller
 
     public static function all_upline($user_name){
         $introduce = self::tree($user_name)->flatten();
-        $data = ['status'=>'success','username'=>self::$arr['username'],'name'=>self::$arr['name']];
+        $data = ['status'=>'success','username'=>@self::$arr['username'],'name'=>@self::$arr['name']];
         return $data;
     }
 
@@ -180,9 +188,8 @@ class RunDealerController extends Controller
 
                 self::$arr['username'][] = $introduce->user_name;
                 self::$arr['name'][$introduce->user_name] = $introduce->name.' '.$introduce->last_name.'('.$introduce->qualification_id.')' ;
-                self::formatTree($introduce->children, $num,$i);
-
             }
+            self::formatTree($introduce->children, $num,$i);
 
         } else {
 

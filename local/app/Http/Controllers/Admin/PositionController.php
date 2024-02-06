@@ -55,13 +55,14 @@ class PositionController extends Controller
         $year =  $rs->year;
         $note =  $rs->note;
 
-        // $log_up_vl_delete =  DB::table('log_up_vl')
-        // ->where('year',$year)
-        // ->where('month',$month)
-        // ->delete();
+        $log_up_vl_delete =  DB::table('log_up_vl')
+        ->where('year',$year)
+        ->where('month',$month)
+        ->delete();
 
         $customers_all =  DB::table('customers')
         ->select('id', 'pv', 'user_name', 'introduce_id', 'qualification_id','dealer','pv_allsale_permouth')
+        // ->where('user_name', '=', 'VR2300032')
         ->where('status_customer', '!=', 'cancel')
         ->orderby('id')
         ->get();
@@ -81,6 +82,11 @@ class PositionController extends Controller
                 ->where('status_customer', '!=', 'cancel')
                 ->orderByDesc('pv_allsale_permouth') // เรียงลำดับตาม 'pv_allsale_permouth' จากมากไปน้อย
                 ->first();
+
+                $count_check = DB::table('customers')
+                ->where('introduce_id', '=', $value->user_name)
+                ->where('status_customer', '!=', 'cancel')
+                ->count();
 
                 if($pt_permouth_max){
                     $pt_permouth_max_customers = $pt_permouth_max->pv_allsale_permouth;
@@ -107,9 +113,9 @@ class PositionController extends Controller
 
             $pv_allsale_permouth = $value->pv_allsale_permouth ?? 0;
 
+// dd($value->qualification_id,$value->dealer,$pt_permouth_max_customers,$pt_permouth_low);
 
-
-                if($value->qualification_id < 10  and $value->dealer >= 18 and $pt_permouth_max_customers >= 300000 and $pt_permouth_low >= 150000){  // CHAIRMAN
+                if($count_check>= 2 and $value->qualification_id < 10  and $value->dealer >= 18 and $pv_allsale_permouth >= 300000 and ( $pt_permouth_max_customers >= 150000 || $pt_permouth_low >= 150000 )){  // CHAIRMAN
 
                     // $update_position = DB::table('customers')
                     // ->where('user_name', $value->user_name)
@@ -126,7 +132,7 @@ class PositionController extends Controller
                         ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
 
 
-                }elseif($value->qualification_id < 9  and $value->dealer >= 10 and $pt_permouth_max_customers >= 100000 and $pt_permouth_low >= 50000){ // ROYAL CROWN DIAMOND
+                }elseif($count_check>= 2 and $value->qualification_id < 9  and $value->dealer >= 10 and $pv_allsale_permouth >= 100000 and   ( $pt_permouth_max_customers >= 50000 || $pt_permouth_low >= 50000 ) ){ // ROYAL CROWN DIAMOND
 
 
                     // $update_position = DB::table('customers')
@@ -144,11 +150,12 @@ class PositionController extends Controller
                         ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
 
 
-                }elseif($value->qualification_id < 8  and $value->dealer >= 8 and $pt_permouth_max_customers >= 60000 and $pt_permouth_low >= 30000){ // CROWN DIAMOND
+                }elseif($count_check>= 2 and $value->qualification_id < 8  and $value->dealer >= 8 and $pv_allsale_permouth >= 60000 and ( $pt_permouth_max_customers >= 30000 || $pt_permouth_low >= 30000 ) ){ // CROWN DIAMOND
 
                     // $update_position = DB::table('customers')
                     // ->where('user_name', $value->user_name)
                     // ->update(['qualification_id' => '8']);
+
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
@@ -161,7 +168,7 @@ class PositionController extends Controller
                         ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
 
 
-                }elseif($value->qualification_id < 7  and $value->dealer >= 6 and $pt_permouth_max_customers >= 30000 and $pt_permouth_low >= 15000){ // MASTER DEALER
+                }elseif($count_check>= 2 and $value->qualification_id < 7  and $value->dealer >= 6 and $pv_allsale_permouth >= 30000 and ( $pt_permouth_max_customers >= 15000 || $pt_permouth_low >= 15000 ) ){ // MASTER DEALER
                     // $update_position = DB::table('customers')
                     // ->where('user_name', $value->user_name)
                     // ->update(['qualification_id' => '7']);
@@ -176,7 +183,7 @@ class PositionController extends Controller
                     DB::table('log_up_vl')
                         ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
 
-                }elseif($value->qualification_id < 6  and $value->dealer >= 4 and $pt_permouth_max_customers >= 10000  and $pt_permouth_low >= 5000){ // PRO DEALER
+                }elseif( $count_check>= 2 and $value->qualification_id < 6  and $value->dealer >= 4 and $pv_allsale_permouth >= 10000  and ( $pt_permouth_max_customers >= 5000 || $pt_permouth_low >= 5000 )   ){ // PRO DEALER
                     // $update_position = DB::table('customers')
                     // ->where('user_name', $value->user_name)
                     // ->update(['qualification_id' => '6']);
@@ -191,7 +198,7 @@ class PositionController extends Controller
                     DB::table('log_up_vl')
                         ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
 
-                }elseif($value->qualification_id < 5  and $value->dealer >= 3 and $pt_permouth_max_customers >= 5000 and $pt_permouth_low >= 2500){ // ULTIMATE DEALER
+                }elseif($count_check >= 2 and $value->qualification_id < 5  and $value->dealer >= 3 and $pv_allsale_permouth >= 5000  and ( $pt_permouth_max_customers >= 2500 || $pt_permouth_low >= 2500 ) ){ // ULTIMATE DEALER
                     // $update_position = DB::table('customers')
                     // ->where('user_name', $value->user_name)
                     // ->update(['qualification_id' => '5']);
@@ -207,7 +214,7 @@ class PositionController extends Controller
                         ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
 
 
-                }elseif($value->qualification_id < 4  and $value->dealer >= 2 and $pt_permouth_max_customers >= 3000 and $pt_permouth_low >= 1500){// EXCLUSIVE DEALER
+                }elseif($count_check>= 2 and $value->qualification_id < 4  and $value->dealer >= 2 and $pv_allsale_permouth >= 3000 and ( $pt_permouth_max_customers >= 1500 || $pt_permouth_low >= 1500 ) ){// EXCLUSIVE DEALER
                     // $update_position = DB::table('customers')
                     // ->where('user_name', $value->user_name)
                     // ->update(['qualification_id' => '4']);
@@ -272,6 +279,8 @@ class PositionController extends Controller
 
 
                 }else{
+
+
                     if(($value->qualification_id == null || $value->qualification_id == 0) and $value->pv >= 10  ){
                         // $update_position = DB::table('customers')
                         // ->where('user_name', $value->user_name)
@@ -304,6 +313,69 @@ class PositionController extends Controller
         }
     }
 
+
+
+    public function run_position_success(Request $request){
+
+        $log_up_vl = DB::table('log_up_vl')
+        ->select('log_up_vl.*', 'old_lavel.business_qualifications as old_lavel_name', 'new_lavel.business_qualifications as new_lavel_name', 'customers.name', 'customers.last_name')
+        ->leftJoin('dataset_qualification as old_lavel', 'old_lavel.code', '=', 'log_up_vl.old_lavel')
+        ->leftJoin('dataset_qualification as new_lavel', 'new_lavel.code', '=', 'log_up_vl.new_lavel')
+        ->leftJoin('customers', 'customers.user_name', '=', 'log_up_vl.user_name')
+        ->where('log_up_vl.status', 'pending')
+        ->orderByDesc('id')->get();
+
+
+        if(count($log_up_vl) == 0){
+            return redirect('admin/Position')->withError('ไม่พบรายการ');
+
+        }else{
+            foreach($log_up_vl as $value){
+
+                    $update_position = DB::table('customers')
+                    ->where('user_name', $value->user_name)
+                    ->update(['qualification_id' => $value->new_lavel]);
+
+                    $update_position = DB::table('log_up_vl')
+                    ->where('id', $value->id)
+                    ->update(['status' => 'success','active_date'=>now()]);
+
+            }
+            return redirect('admin/Position')->withSuccess('Success');
+        }
+
+
+
+    }
+
+    public function run_reset(Request $request){
+
+        try {
+            DB::BeginTransaction();
+
+        DB::table('customers')
+        ->where('pv','>',0)
+        ->update(['pv' =>0]);
+
+        DB::table('customers')
+        ->where('pv_allsale_permouth','>',0)
+        ->update(['pv_allsale_permouth' =>0]);
+
+        DB::table('customers')
+        ->where('reth_bonus_3','>',0)
+        ->update(['reth_bonus_3' =>0]);
+
+        DB::table('customers')
+        ->where('pv_group','>',0)
+        ->update(['pv_group' =>0]);
+
+        return redirect('admin/Position')->withSuccess('Success');
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect('admin/Position')->withError($e);
+        }
+
+    }
 
 
     public function datatable_position_pending(Request $request)
@@ -349,6 +421,52 @@ class PositionController extends Controller
 
             ->make(true);
     }
+
+    public function datatable_position(Request $request)
+    {
+
+
+
+
+        $log_up_vl = DB::table('log_up_vl')
+        ->select('log_up_vl.*', 'old_lavel.business_qualifications as old_lavel_name', 'new_lavel.business_qualifications as new_lavel_name', 'customers.name', 'customers.last_name')
+        ->leftJoin('dataset_qualification as old_lavel', 'old_lavel.code', '=', 'log_up_vl.old_lavel')
+        ->leftJoin('dataset_qualification as new_lavel', 'new_lavel.code', '=', 'log_up_vl.new_lavel')
+        ->leftJoin('customers', 'customers.user_name', '=', 'log_up_vl.user_name')
+        ->where('log_up_vl.status', 'success')
+        ->when($request->username, fn ($query) => $query->where('log_up_vl.user_name', $request->username))
+        // ->when($request->month, fn ($query) => $query->where('log_up_vl.month', $request->month))
+        // ->when($request->year, fn ($query) => $query->where('log_up_vl.year', $request->year))
+        ->orderByDesc('id');
+
+
+
+        $sQuery = Datatables::of($log_up_vl);
+        return $sQuery
+
+
+            // ->addColumn('user_name', function ($row) {
+            //     return $row->user_name;
+            // })
+
+            // ->addColumn('name', function ($row) {
+            //     return $row->name;
+            // })
+
+            ->addColumn('name', function ($row) {
+                return $row->name;
+            })
+
+            ->addColumn('last_name', function ($row) {
+                return $row->last_name;
+            })
+
+
+
+            ->make(true);
+    }
+
+
 
 
 

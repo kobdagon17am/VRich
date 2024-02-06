@@ -299,7 +299,16 @@ Route::get('admin/Blank', function () {
 
     Route::get('admin/Position', 'Admin\PositionController@index')->name('admin/Position');
     Route::post('admin/run_position', 'Admin\PositionController@run_position')->name('admin/run_position');
+    Route::post('admin/run_position_success', 'Admin\PositionController@run_position_success')->name('admin/run_position_success');
+
+    Route::post('admin/run_reset', 'Admin\PositionController@run_reset')->name('admin/run_reset');
+
+
+
+
+
     Route::get('admin/datatable_position_pending', 'Admin\PositionController@datatable_position_pending')->name('admin/datatable_position_pending');
+    Route::get('admin/datatable_position', 'Admin\PositionController@datatable_position')->name('admin/datatable_position');
 
 
     Route::get('admin/bonus4', 'Admin\Bonus4Controller@bonus4')->name('admin/bonus4');

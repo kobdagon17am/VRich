@@ -184,6 +184,9 @@ class Pv_per_monthController extends Controller
                     'note' => $note,
                 ];
 
+                DB::table('customers')
+                ->where('user_name', $value->customers_user_name)
+                ->update(['pv' =>$value->sum_pv_total]);
 
                 DB::table('pv_per_month')
                     ->updateOrInsert(['user_name' => $value->customers_user_name, 'year' => $year, 'month' => $month], $dataPrepare);
@@ -197,7 +200,7 @@ class Pv_per_monthController extends Controller
             foreach ($pv_per_month as $pv_per_month_value) {
                 DB::table('customers')
                     ->where('user_name', $pv_per_month_value->user_name)
-                    ->update(['pv' => 0, 'reward' => $pv_per_month_value->sum_reward]);
+                    ->update(['reward' => $pv_per_month_value->sum_reward]);
             }
 
             DB::commit();

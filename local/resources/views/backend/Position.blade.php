@@ -27,7 +27,7 @@
 
 
 
-                    <div class="col-lg-1 mt-2">
+                    <div class="col-lg-2 mt-2">
                         <label>เดือน</label>
                         <input type="taxt" class="form-control" name="month" placeholder="month"
                             value="{{ date('m') }}">
@@ -65,7 +65,7 @@
 
 
             <div class="row mb-4 ml-2">
-                <div class="col-lg-1 mt-2">
+                <div class="col-lg-2 mt-2">
                     <label>Username</label>
                     <input type="taxt" class="form-control" id="username" placeholder="Username">
                 </div>
@@ -101,8 +101,42 @@
 
 
             <div class="table-responsive mt-2 mb-2">
-                <h6>รายงานตำแหน่งทั้งหมดที่มีการปรับ(รออนุมัติ)</h6>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h6>รายงานตำแหน่งทั้งหมดที่มีการปรับ(รออนุมัติ)</h6>
+                    </div>
+                    <div class="col-lg-6 text-right button-list">
+                        <form method="post" id="myForm" action="{{ route('admin/run_position_success') }}">
+                            @csrf
+
+                        <button class="btn btn-sm btn-primary btn-rounded"  onclick="return confirm('ยืนยันการอัพตำแหน่ง ?') ? document.forms['myForm'].submit() : false;" type="button"> อนุมัติการขึ้นตำแหน่งทั้งหมด </button>
+                        </form>
+
+                    </div>
+                </div>
                 <table id="table_orders" class="table table-hover" style="width:100%">
+
+                </table>
+            </div>
+
+            <div class="table-responsive mt-4 mb-2">
+
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h6>รายงานการปรับตำแหน่ง(สำเร็จ)</h6>
+                    </div>
+                    <div class="col-lg-6 text-right button-list">
+
+                        <form method="post" id="myForm2" class="mt-2" action="{{ route('admin/run_reset') }}">
+                            @csrf
+
+                        <button class="btn btn-sm btn-danger btn-rounded"  onclick="return confirm('เริ่มต้นรีเซต PT และคะแนนใต้สายงานสำหรับเดือนใหม่ ?') ? document.forms['myForm2'].submit() : false;" type="button"> เริ่มต้นรีเซต PT และคะแนนใต้สายงานสำหรับเดือนใหม่ </button>
+                        </form>
+                    </div>
+                </div>
+                <table id="table_position" class="table table-hover" style="width:100%">
 
                 </table>
             </div>
@@ -195,6 +229,12 @@
                         title: "ตำแหน่งไหม่",
                         className: "w-1",
                     },
+                    {
+                    data: "dealer",
+                    title: "Dealer ขึ้นไป(คน)",
+                    className: "w-1",
+                },
+
 
                     {
                         data: "pt_customer",
@@ -254,4 +294,141 @@
 
         });
     </script>
+
+<script>
+    $(function() {
+        table_order = $('#table_position').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['excel'],
+            searching: false,
+            ordering: false,
+            lengthChange: false,
+            responsive: true,
+            paging: true,
+            processing: true,
+            serverSide: true,
+            "language": {
+                "lengthMenu": "แสดง _MENU_ แถว",
+                "zeroRecords": "ไม่พบข้อมูล",
+                "info": "แสดงหน้า _PAGE_ จาก _PAGES_ หน้า",
+                "search": "ค้นหา",
+                "infoEmpty": "",
+                "infoFiltered": "",
+                "paginate": {
+                    "first": "หน้าแรก",
+                    "previous": "ย้อนกลับ",
+                    "next": "ถัดไป",
+                    "last": "หน้าสุดท้าย"
+                },
+                'processing': "กำลังโหลดข้อมูล",
+            },
+            ajax: {
+                url: '{{ route('admin/datatable_position') }}',
+                data: function(d) {
+                    d.username = $('#username').val();
+                    d.month = $('#month').val();
+                    d.year = $('#year').val();
+                    // d.position = $('#position').val();
+                    // d.type = $('#type').val();
+                },
+            },
+
+            columns: [
+                // {
+                //     data: "id",
+                //     title: "ลำดับ",
+                //     className: "w-10 text-center",
+                // },
+                {
+                    data: "user_name",
+                    title: "UserName",
+                    className: "w-10",
+                },
+                {
+                    data: "name",
+                    title: "ชื่อ",
+                    className: "w-10",
+                },
+
+                {
+                    data: "last_name",
+                    title: "นามสกุล",
+                    className: "w-10",
+                },
+
+                {
+                    data: "old_lavel_name",
+                    title: "ตำแหน่งเดิม",
+                    className: "w-1",
+                },
+
+                {
+                    data: "new_lavel_name",
+                    title: "ตำแหน่งไหม่",
+                    className: "w-1",
+                },
+                {
+                    data: "dealer",
+                    title: "Dealer ขึ้นไป(คน)",
+                    className: "w-1",
+                },
+
+                {
+                    data: "pt_customer",
+                    title: "PT ส่วนตัว",
+                    className: "w-1",
+                },
+
+                {
+                    data: "pt_customer_group",
+                    title: "PT กลุ่ม",
+                    className: "w-1",
+                },
+                {
+                    data: "pt_permouth_max",
+                    title: "PT ผั่งแข็ง",
+                    className: "w-1",
+                },
+
+                {
+                    data: "pt_permouth_low",
+                    title: "PT ฝั่งอ่อน",
+                    className: "w-1",
+                },
+
+
+                {
+                    data: "year",
+                    title: "ปี",
+                    className: "w-1",
+                },
+                {
+                    data: "month",
+                    title: "เดือน",
+                    className: "w-1",
+
+                },
+
+
+                {
+                    data: "status",
+                    title: "Status",
+                    className: "w-10",
+
+                },
+
+
+
+            ],
+
+
+
+        });
+        $('#search-form').on('click', function(e) {
+            table_order.draw();
+            e.preventDefault();
+        });
+
+    });
+</script>
 @endsection
