@@ -35,11 +35,15 @@ class RunDealerController extends Controller
         foreach($customers_all as $value){
             $i++;
             $data =  \App\Http\Controllers\Frontend\FC\RunDealerController::all_upline($value->user_name);
-
+            if(@$data['username']){
+                $dealer =  count($data['username']);
+            }else{
+                $dealer = 0;
+            }
 
             DB::table('customers')
             ->where('user_name', '=', $value->user_name)
-            ->update(['dealer' => count($data['username'])]);
+            ->update(['dealer' => $dealer]);
 
 
             $dataPrepare = [
@@ -47,7 +51,7 @@ class RunDealerController extends Controller
                 'year' => $year,
                 'month' => $month,
                 'day' => $day,
-                'dealer' => count($data['username']),
+                'dealer' => $dealer,
             ];
 
             DB::table('dealer_log')

@@ -153,7 +153,7 @@ class Bonus7Controller extends Controller
                     'last_name' => $value->last_name,
                     'qualification' =>  $value->business_qualifications,
                     'pv' =>  $value->pv_allsale_permouth,
-                    'reth' =>  0.07,
+                    'reth' =>  0.03,
                     'bonus_total_usd' => $bonus_total_usd,
                     'date_start' =>  $date_start,
                     'date_end' =>  $date_end,
