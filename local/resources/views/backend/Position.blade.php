@@ -248,16 +248,21 @@
                         className: "w-1",
                     },
                     {
-                        data: "pt_permouth_max",
-                        title: "PT ผั่งแข็ง",
-                        className: "w-1",
+                    data: "pv_allsale_permouth_5000",
+                    title: "PT กลุ่ม (Limit 5000 PT)",
+                    className: "w-1",
                     },
+                    // {
+                    //     data: "pt_permouth_max",
+                    //     title: "PT ผั่งแข็ง",
+                    //     className: "w-1",
+                    // },
 
-                    {
-                        data: "pt_permouth_low",
-                        title: "PT ฝั่งอ่อน",
-                        className: "w-1",
-                    },
+                    // {
+                    //     data: "pt_permouth_low",
+                    //     title: "PT ฝั่งอ่อน",
+                    //     className: "w-1",
+                    // },
 
 
                     {
@@ -384,17 +389,25 @@
                     title: "PT กลุ่ม",
                     className: "w-1",
                 },
+
                 {
-                    data: "pt_permouth_max",
-                    title: "PT ผั่งแข็ง",
+                    data: "pv_allsale_permouth_5000",
+                    title: "PT กลุ่ม (Limit 5000 PT)",
                     className: "w-1",
                 },
 
-                {
-                    data: "pt_permouth_low",
-                    title: "PT ฝั่งอ่อน",
-                    className: "w-1",
-                },
+
+                // {
+                //     data: "pt_permouth_max",
+                //     title: "PT ผั่งแข็ง",
+                //     className: "w-1",
+                // },
+
+                // {
+                //     data: "pt_permouth_low",
+                //     title: "PT ฝั่งอ่อน",
+                //     className: "w-1",
+                // },
 
 
                 {

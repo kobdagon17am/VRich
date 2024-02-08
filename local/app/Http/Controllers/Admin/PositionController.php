@@ -158,7 +158,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>10,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>10,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -176,7 +176,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>9,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>9,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -194,7 +194,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>8,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>8,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -210,7 +210,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>7,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>7,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -225,7 +225,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>6,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>6,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -240,7 +240,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>5,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>5,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -256,7 +256,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>4,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>4,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -272,7 +272,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>3,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>3,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -288,7 +288,7 @@ class PositionController extends Controller
 
                 $dataPrepare = [
                     'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                    'new_lavel' =>2,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                    'new_lavel' =>2,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                     'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                     'status' => 'pending'
                 ];
@@ -304,7 +304,7 @@ class PositionController extends Controller
 
                     $dataPrepare = [
                         'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                        'new_lavel' =>1,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                        'new_lavel' =>1,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                         'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                         'status' => 'pending'
                     ];
@@ -323,7 +323,7 @@ class PositionController extends Controller
 
                         $dataPrepare = [
                             'user_name' => $value->user_name,'introduce_id' => $value->introduce_id, 'old_lavel' =>$value->qualification_id,
-                            'new_lavel' =>1,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,
+                            'new_lavel' =>1,'pt_customer' => $value->pv, 'pt_customer_group' => $pv_allsale_permouth,'pv_allsale_permouth_5000' => $pv_allsale_permouth_5000,
                             'pt_permouth_max' => $pt_permouth_max_customers, 'pt_permouth_low' => $pt_permouth_low, 'dealer'=>$value->dealer,
                             'status' => 'pending'
                         ];
