@@ -155,8 +155,6 @@
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/pdfmake.min.js') }}"></script>
     <script src="{{ asset('backend/plugins/table/datatable/button-ext/vfs_fonts.js') }}"></script>
 
-
-
     <script>
         $(function() {
             table_order = $('#table_orders').DataTable({
@@ -249,7 +247,7 @@
                     },
                     {
                     data: "pv_allsale_permouth_5000",
-                    title: "PT กลุ่ม (Limit 5000 PT)",
+                    title: "PT กลุ่ม (Limit Max PT)",
                     className: "w-1",
                     },
                     // {

@@ -141,29 +141,57 @@ class Bonus7Controller extends Controller
             ->get();
 
 
+
             foreach ($customers_bonus7_check as $value) {
 
+                $pv_allsale_permouth_per_c = DB::table('customers')
+                ->selectRaw('user_name,introduce_id,pv_allsale_permouth as pv_allsale_permouth_per_c')
+                ->where('introduce_id', '=', $value->user_name)
+                ->where('status_customer', '!=', 'cancel')
+                ->groupby('user_name')
+                ->get();
+
+                $pv_allsale_permouth_array = array();
+                foreach ($pv_allsale_permouth_per_c as $allsale_value) {
+                    $pv_allsale_permouth_check = $allsale_value->pv_allsale_permouth_per_c ?? 0;
+
+                    if ($pv_allsale_permouth_check <= 5000) {
+                        $pv_allsale_permouth_array[] = $pv_allsale_permouth_check;
+                    } else {
+                        $pv_allsale_permouth_array[] =  5000;
+                    }
+                }
+
+                if ($pv_allsale_permouth_array) {
+                    $pv_allsale_permouth_5000 = array_sum($pv_allsale_permouth_array);
+                } else {
+                    $pv_allsale_permouth_5000 = 0;
+                }
+
+                if ($pv_allsale_permouth_5000 >= 10000) {
+                    $bonus_total_usd = $value->pv_allsale_permouth*0.03;
+
+                    $dataPrepare = [
+                        'user_name' => $value->user_name,
+                        'name' => $value->name,
+                        'last_name' => $value->last_name,
+                        'qualification' =>  $value->business_qualifications,
+                        'pv' =>  $value->pv_allsale_permouth,
+                        'reth' =>  0.03,
+                        'bonus_total_usd' => $bonus_total_usd,
+                        'date_start' =>  $date_start,
+                        'date_end' =>  $date_end,
+                        'year' => $year,
+                        'month' => $month,
+                        'note' => $note,
+                    ];
+
+                    DB::table('report_bonus7')
+                        ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
+
+                }
 
 
-                $bonus_total_usd = $value->pv_allsale_permouth*0.07;
-
-                $dataPrepare = [
-                    'user_name' => $value->user_name,
-                    'name' => $value->name,
-                    'last_name' => $value->last_name,
-                    'qualification' =>  $value->business_qualifications,
-                    'pv' =>  $value->pv_allsale_permouth,
-                    'reth' =>  0.03,
-                    'bonus_total_usd' => $bonus_total_usd,
-                    'date_start' =>  $date_start,
-                    'date_end' =>  $date_end,
-                    'year' => $year,
-                    'month' => $month,
-                    'note' => $note,
-                ];
-
-                DB::table('report_bonus7')
-                    ->updateOrInsert(['user_name' => $value->user_name, 'year' => $year, 'month' => $month], $dataPrepare);
 
             }
 

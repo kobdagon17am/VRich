@@ -196,7 +196,7 @@ class Bonus3Controller extends Controller
             ->where('pv_allsale_permouth', '>', '0')
 
             ->where('status_customer', '!=', 'cancel')
-            ->where('status_runbonus_allsale', '=', 'success')
+            // ->where('status_runbonus_allsale', '=', 'success')
             ->get();
 
 
@@ -228,7 +228,7 @@ class Bonus3Controller extends Controller
 
             ->where('reth_bonus_3', '>', '0')
             ->where('status_customer', '!=', 'cancel')
-            ->where('status_runbonus_allsale', '=', 'success')
+            // ->where('status_runbonus_allsale', '=', 'success')
             ->get();
 
 
