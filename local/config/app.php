@@ -178,7 +178,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         'Collective\Html\HtmlServiceProvider',
         Darryldecode\Cart\CartServiceProvider::class,
-        Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
         Webklex\PDFMerger\Providers\PDFMergerServiceProvider::class,
 
 
@@ -237,7 +237,7 @@ return [
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
-        'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
+        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDFMerger' => Webklex\PDFMerger\Facades\PDFMergerFacade::class,
 
